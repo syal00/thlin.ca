@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NewsPostController as AdminNewsPostController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\PortfolioItemController as AdminPortfolioItemController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PageController;
@@ -40,5 +41,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('careers', AdminCareerController::class)->except(['show']);
         Route::resource('board', AdminBoardMemberController::class)->except(['show'])->parameters(['board' => 'boardMember']);
         Route::resource('portfolio', AdminPortfolioItemController::class)->except(['show'])->parameters(['portfolio' => 'portfolioItem']);
+        Route::resource('users', AdminUserController::class)->except(['show']);
     });
 });

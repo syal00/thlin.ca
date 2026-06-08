@@ -18,6 +18,7 @@
                     <a href="{{ route('admin.careers.index') }}">Careers</a>
                     <a href="{{ route('admin.board.index') }}">Board</a>
                     <a href="{{ route('admin.portfolio.index') }}">Portfolio</a>
+                    <a href="{{ route('admin.users.index') }}">Users</a>
                     <a href="{{ route('home') }}" target="_blank" rel="noopener">View site</a>
                     <form action="{{ route('admin.logout') }}" method="post" class="admin-logout">
                         @csrf
@@ -32,6 +33,16 @@
         @if (session('status'))
             <div class="alert alert-success">{{ session('status') }}</div>
         @endif
+
+        @auth
+        @if ($errors->any())
+            <div class="alert alert-error">
+                @foreach ($errors->all() as $error)
+                    <p style="margin: 0;">{{ $error }}</p>
+                @endforeach
+            </div>
+        @endif
+        @endauth
 
         @yield('content')
     </div>

@@ -8,6 +8,7 @@ use App\Models\Career;
 use App\Models\NewsPost;
 use App\Models\Page;
 use App\Models\PortfolioItem;
+use App\Models\User;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
@@ -20,6 +21,7 @@ class DashboardController extends Controller
             'careerCount' => Career::count(),
             'boardCount' => BoardMember::count(),
             'portfolioCount' => PortfolioItem::count(),
+            'userCount' => User::count(),
         ]);
     }
 }

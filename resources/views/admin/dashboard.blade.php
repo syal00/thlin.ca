@@ -11,6 +11,7 @@
             <li><strong>{{ $careerCount }}</strong> job postings</li>
             <li><strong>{{ $boardCount }}</strong> board members</li>
             <li><strong>{{ $portfolioCount }}</strong> portfolio items</li>
+            <li><strong>{{ $userCount }}</strong> admin users</li>
         </ul>
     </div>
 @endsection
