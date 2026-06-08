@@ -7,8 +7,12 @@
     @include('partials.page-header', ['page' => $page])
 
     <section class="page-content">
-        <div class="container prose">
-            {!! $page->body !!}
-        </div>
+        <div
+            class="container prose"
+            data-editable="true"
+            data-model="page"
+            data-id="{{ $page->id }}"
+            data-field="body"
+        >{!! $page->body !!}</div>
     </section>
 @endsection

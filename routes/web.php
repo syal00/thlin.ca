@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\BoardMemberController as AdminBoardMemberController;
 use App\Http\Controllers\Admin\CareerController as AdminCareerController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\InlineEditController;
 use App\Http\Controllers\Admin\NewsPostController as AdminNewsPostController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\PortfolioItemController as AdminPortfolioItemController;
@@ -32,6 +33,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::post('logout', [AdminAuthController::class, 'logout'])->name('logout');
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::view('inline-editing', 'admin.inline-editing')->name('inline-editing');
+        Route::patch('inline-update', [InlineEditController::class, 'update'])->name('inline-update');
+        Route::post('inline-upload-image', [InlineEditController::class, 'uploadImage'])->name('inline-upload-image');
 
         Route::get('pages', [AdminPageController::class, 'index'])->name('pages.index');
         Route::get('pages/{page}/edit', [AdminPageController::class, 'edit'])->name('pages.edit');

@@ -6,9 +6,13 @@
     @include('partials.page-header', ['page' => $page])
 
     <section class="page-content">
-        <div class="container prose">
-            {!! $page->body !!}
-        </div>
+        <div
+            class="container prose"
+            data-editable="true"
+            data-model="page"
+            data-id="{{ $page->id }}"
+            data-field="body"
+        >{!! $page->body !!}</div>
     </section>
 
     @if ($featured->isNotEmpty())
@@ -17,9 +21,38 @@
                 <h2>Highlighted Projects</h2>
                 <div class="card-grid">
                     @foreach ($featured as $item)
-                        <a href="{{ $item->url }}" class="card" target="_blank" rel="noopener">
-                            <h3>{{ $item->title }}</h3>
-                            <p>{{ $item->excerpt }}</p>
+                        <a href="{{ $item->url }}" class="card portfolio-card" target="_blank" rel="noopener">
+                            @if ($item->image)
+                                <img
+                                    src="{{ asset('storage/'.$item->image) }}"
+                                    alt="{{ $item->title }}"
+                                    class="portfolio-card__image"
+                                    data-editable-image="true"
+                                    data-model="portfolio"
+                                    data-id="{{ $item->id }}"
+                                    data-field="image"
+                                >
+                            @else
+                                <div
+                                    class="portfolio-image-placeholder"
+                                    data-editable-image="true"
+                                    data-model="portfolio"
+                                    data-id="{{ $item->id }}"
+                                    data-field="image"
+                                >Click to add image</div>
+                            @endif
+                            <h3
+                                data-editable="true"
+                                data-model="portfolio"
+                                data-id="{{ $item->id }}"
+                                data-field="title"
+                            >{{ $item->title }}</h3>
+                            <p
+                                data-editable="true"
+                                data-model="portfolio"
+                                data-id="{{ $item->id }}"
+                                data-field="excerpt"
+                            >{{ $item->excerpt }}</p>
                         </a>
                     @endforeach
                 </div>
@@ -34,8 +67,37 @@
                 <ul class="project-list">
                     @foreach ($past as $item)
                         <li>
-                            <a href="{{ $item->url }}" target="_blank" rel="noopener"><strong>{{ $item->title }}</strong></a>
-                            <p>{{ $item->excerpt }}</p>
+                            @if ($item->image)
+                                <img
+                                    src="{{ asset('storage/'.$item->image) }}"
+                                    alt="{{ $item->title }}"
+                                    class="portfolio-card__image"
+                                    data-editable-image="true"
+                                    data-model="portfolio"
+                                    data-id="{{ $item->id }}"
+                                    data-field="image"
+                                >
+                            @else
+                                <div
+                                    class="portfolio-image-placeholder"
+                                    data-editable-image="true"
+                                    data-model="portfolio"
+                                    data-id="{{ $item->id }}"
+                                    data-field="image"
+                                >Click to add image</div>
+                            @endif
+                            <a href="{{ $item->url }}" target="_blank" rel="noopener"><strong
+                                data-editable="true"
+                                data-model="portfolio"
+                                data-id="{{ $item->id }}"
+                                data-field="title"
+                            >{{ $item->title }}</strong></a>
+                            <p
+                                data-editable="true"
+                                data-model="portfolio"
+                                data-id="{{ $item->id }}"
+                                data-field="excerpt"
+                            >{{ $item->excerpt }}</p>
                         </li>
                     @endforeach
                 </ul>

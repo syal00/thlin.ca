@@ -6,8 +6,18 @@
 @section('hero')
     <div class="hero">
         <div class="container">
-            <h1>{{ $thlin['tagline'] }}</h1>
-            <p>Founded in 2001, we're an award-winning digital health non-profit committed to connecting patients and caregivers to services, health and social services providers to other providers and health system planners to information. We're driven by an unrelenting commitment to simplifying system navigation by building useful and usable online tools. Becoming healthier is challenging; finding care shouldn't be.</p>
+            <h1
+                data-editable="true"
+                data-model="page"
+                data-id="{{ $page->id }}"
+                data-field="title"
+            >{{ $page->title }}</h1>
+            <p
+                data-editable="true"
+                data-model="page"
+                data-id="{{ $page->id }}"
+                data-field="excerpt"
+            >{{ $page->excerpt }}</p>
             <form class="search-bar" action="{{ route('search') }}" method="get" role="search">
                 <label for="search-query" class="visually-hidden">Search site</label>
                 <input type="search" id="search-query" name="q" placeholder="Search the site" value="{{ request('q') }}">
@@ -75,9 +85,38 @@
         <section class="section section-alt">
             <div class="container card-grid">
                 @foreach ($featuredPortfolio as $item)
-                    <a href="{{ $item->url }}" class="card" target="_blank" rel="noopener">
-                        <h3>{{ $item->title }}</h3>
-                        <p>{{ $item->excerpt }}</p>
+                    <a href="{{ $item->url }}" class="card portfolio-card" target="_blank" rel="noopener">
+                        @if ($item->image)
+                            <img
+                                src="{{ asset('storage/'.$item->image) }}"
+                                alt="{{ $item->title }}"
+                                class="portfolio-card__image"
+                                data-editable-image="true"
+                                data-model="portfolio"
+                                data-id="{{ $item->id }}"
+                                data-field="image"
+                            >
+                        @else
+                            <div
+                                class="portfolio-image-placeholder"
+                                data-editable-image="true"
+                                data-model="portfolio"
+                                data-id="{{ $item->id }}"
+                                data-field="image"
+                            >Click to add image</div>
+                        @endif
+                        <h3
+                            data-editable="true"
+                            data-model="portfolio"
+                            data-id="{{ $item->id }}"
+                            data-field="title"
+                        >{{ $item->title }}</h3>
+                        <p
+                            data-editable="true"
+                            data-model="portfolio"
+                            data-id="{{ $item->id }}"
+                            data-field="excerpt"
+                        >{{ $item->excerpt }}</p>
                     </a>
                 @endforeach
             </div>

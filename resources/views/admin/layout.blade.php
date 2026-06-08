@@ -13,6 +13,7 @@
             @auth
                 <nav class="admin-nav">
                     <a href="{{ route('admin.dashboard') }}">Dashboard</a>
+                    <a href="{{ route('admin.inline-editing') }}">Inline Editing</a>
                     <a href="{{ route('admin.pages.index') }}">Pages</a>
                     <a href="{{ route('admin.news.index') }}">News</a>
                     <a href="{{ route('admin.careers.index') }}">Careers</a>
