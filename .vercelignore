@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+node_modules
+tests
+.git
+.idea
+.vscode
+storage/logs
+storage/framework/cache
+storage/framework/sessions
+storage/framework/views
+storage/pail
+vendor
