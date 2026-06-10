@@ -1,6 +1,241 @@
 /* =========================================================
-   Modern THLIN Home Page - MediCare Pro inspired
-   Add this at the bottom of public/css/thlin.css
+   THLIN Modern Website Styles
+   Path: public/css/thlin.css
+   Fixed version: header container issue removed
+========================================================= */
+
+:root {
+    --thlin-blue: #185FA5;
+    --thlin-blue-dark: #124a84;
+    --thlin-green: #3B6D11;
+    --thlin-orange: #BA7517;
+    --thlin-bg: #f7f9fc;
+    --thlin-white: #ffffff;
+    --thlin-text: #1f2937;
+    --thlin-muted: #5f6f82;
+    --thlin-border: #e4edf7;
+    --thlin-shadow: 0 16px 45px rgba(18, 74, 132, 0.08);
+    --thlin-shadow-hover: 0 24px 60px rgba(18, 74, 132, 0.14);
+}
+
+/* =========================================================
+   Base
+========================================================= */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--thlin-text);
+    background: var(--thlin-bg);
+    line-height: 1.6;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    color: var(--thlin-blue);
+}
+
+.container {
+    width: min(1120px, calc(100% - 2rem));
+    margin: 0 auto;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+}
+
+.skip-link {
+    position: absolute;
+    top: -60px;
+    left: 1rem;
+    background: var(--thlin-white);
+    color: var(--thlin-blue-dark);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    z-index: 9999;
+    font-weight: 700;
+}
+
+.skip-link:focus {
+    top: 1rem;
+}
+
+/* =========================================================
+   Buttons
+========================================================= */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.85rem 1.25rem;
+    border-radius: 12px;
+    border: 2px solid transparent;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.btn-primary {
+    background: var(--thlin-blue);
+    color: var(--thlin-white);
+}
+
+.btn-primary:hover {
+    background: var(--thlin-blue-dark);
+    color: var(--thlin-white);
+}
+
+.btn-light {
+    background: var(--thlin-white);
+    color: var(--thlin-blue-dark);
+    border-color: var(--thlin-white);
+}
+
+.btn-light:hover {
+    background: #eef6ff;
+    color: var(--thlin-blue-dark);
+}
+
+.btn-outline-light {
+    color: var(--thlin-white);
+    border-color: rgba(255, 255, 255, 0.8);
+    background: transparent;
+}
+
+.btn-outline-light:hover {
+    background: var(--thlin-white);
+    color: var(--thlin-blue-dark);
+}
+
+/* =========================================================
+   Header / Navigation
+   IMPORTANT:
+   Do NOT style .site-header .container as flex.
+   It breaks the hero because the hero is inside the header.
+========================================================= */
+
+.site-header {
+    background: var(--thlin-blue);
+    color: var(--thlin-white);
+    position: relative;
+    z-index: 50;
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 1rem 0;
+}
+
+.brand,
+.logo,
+.site-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--thlin-white);
+    text-decoration: none;
+    font-weight: 800;
+}
+
+.brand img,
+.logo img,
+.site-logo img {
+    max-height: 48px;
+}
+
+.site-nav ul,
+.nav-menu {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+.site-nav li,
+.nav-menu li {
+    position: relative;
+}
+
+.site-nav a,
+.nav-menu a {
+    color: var(--thlin-white);
+    text-decoration: none;
+    font-weight: 650;
+}
+
+.site-nav a:hover,
+.nav-menu a:hover {
+    text-decoration: underline;
+}
+
+.site-nav ul ul,
+.nav-menu ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 230px;
+    background: var(--thlin-white);
+    padding: 0.75rem;
+    border-radius: 14px;
+    box-shadow: 0 20px 45px rgba(18, 74, 132, 0.18);
+    list-style: none;
+    z-index: 100;
+}
+
+.site-nav li:hover > ul,
+.nav-menu li:hover > ul {
+    display: block;
+}
+
+.site-nav ul ul a,
+.nav-menu ul a {
+    display: block;
+    color: var(--thlin-blue-dark);
+    padding: 0.55rem 0.7rem;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+.site-nav ul ul a:hover,
+.nav-menu ul a:hover {
+    background: var(--thlin-bg);
+}
+
+/* Mobile menu button if your header has one */
+.menu-toggle,
+.nav-toggle {
+    display: none;
+}
+
+/* =========================================================
+   Home Hero
 ========================================================= */
 
 .home-hero {
@@ -50,6 +285,7 @@
     line-height: 1.05;
     letter-spacing: -0.05em;
     max-width: 11ch;
+    font-weight: 800;
 }
 
 .home-hero__lead {
@@ -66,28 +302,6 @@
     flex-wrap: wrap;
     gap: 0.9rem;
     margin-top: 1.8rem;
-}
-
-.btn-light {
-    background: var(--thlin-white);
-    color: var(--thlin-blue-dark);
-    border-color: var(--thlin-white);
-}
-
-.btn-light:hover {
-    background: #eef6ff;
-    color: var(--thlin-blue-dark);
-}
-
-.btn-outline-light {
-    color: var(--thlin-white);
-    border-color: rgba(255, 255, 255, 0.8);
-    background: transparent;
-}
-
-.btn-outline-light:hover {
-    background: var(--thlin-white);
-    color: var(--thlin-blue-dark);
 }
 
 .trust-pills {
@@ -148,7 +362,7 @@
     content: "✓";
     position: absolute;
     left: 0;
-    top: 0;
+    top: 0.15rem;
     width: 1.15rem;
     height: 1.15rem;
     border-radius: 50%;
@@ -194,6 +408,10 @@
     background: #9f6011;
 }
 
+/* =========================================================
+   Sections
+========================================================= */
+
 .home-section {
     padding: 5rem 0;
     background: var(--thlin-white);
@@ -225,35 +443,27 @@
     font-size: 1.08rem;
 }
 
-.access-grid,
-.services-grid,
-.modern-stat-grid,
-.portfolio-grid-modern {
-    display: grid;
-    gap: 1.3rem;
-}
+/* =========================================================
+   Quick Access Cards
+========================================================= */
 
 .access-grid {
+    display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-.access-card,
-.service-card,
-.modern-stat,
-.portfolio-card-modern,
-.info-card {
-    background: var(--thlin-white);
-    border: 1px solid #e4edf7;
-    border-radius: 24px;
-    box-shadow: 0 16px 45px rgba(18, 74, 132, 0.08);
+    gap: 1.3rem;
 }
 
 .access-card {
     position: relative;
     overflow: hidden;
+    display: block;
     padding: 1.45rem;
     text-decoration: none;
     color: var(--thlin-text);
+    background: var(--thlin-white);
+    border: 1px solid var(--thlin-border);
+    border-radius: 24px;
+    box-shadow: var(--thlin-shadow);
     transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
 }
 
@@ -265,20 +475,21 @@
     background: var(--thlin-blue);
 }
 
-.access-card:nth-child(2)::before,
-.modern-stat:nth-child(2n)::before {
+.access-card:nth-child(2)::before {
     background: var(--thlin-green);
 }
 
-.access-card:nth-child(3)::before,
-.modern-stat:nth-child(3n)::before {
+.access-card:nth-child(3)::before {
     background: var(--thlin-orange);
 }
 
-.access-card:hover,
-.portfolio-card-modern:hover {
+.access-card:nth-child(4)::before {
+    background: var(--thlin-blue-dark);
+}
+
+.access-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 24px 60px rgba(18, 74, 132, 0.14);
+    box-shadow: var(--thlin-shadow-hover);
     border-color: rgba(24, 95, 165, 0.28);
 }
 
@@ -294,27 +505,26 @@
     font-weight: 900;
 }
 
-.access-card h3,
-.service-card h3,
-.portfolio-card-modern h3 {
+.access-card h3 {
     margin: 0 0 0.7rem;
     color: var(--thlin-blue-dark);
     font-size: 1.22rem;
 }
 
-.access-card p,
-.service-card p,
-.portfolio-card-modern p {
+.access-card p {
     margin: 0 0 1rem;
     color: var(--thlin-muted);
     font-size: 0.98rem;
 }
 
-.access-card strong,
-.portfolio-card-modern strong {
+.access-card strong {
     color: var(--thlin-blue);
     font-size: 0.95rem;
 }
+
+/* =========================================================
+   About Section
+========================================================= */
 
 .about-grid {
     display: grid;
@@ -333,7 +543,11 @@
 
 .info-card {
     padding: 2rem;
+    background: var(--thlin-white);
+    border: 1px solid var(--thlin-border);
     border-top: 6px solid var(--thlin-green);
+    border-radius: 24px;
+    box-shadow: var(--thlin-shadow);
 }
 
 .info-card__label {
@@ -350,6 +564,10 @@
     margin: 0 0 0.8rem;
     color: var(--thlin-blue-dark);
     font-size: 1.8rem;
+}
+
+.info-card p {
+    color: var(--thlin-muted);
 }
 
 .info-list {
@@ -379,14 +597,24 @@
     font-size: 0.95rem;
 }
 
+/* =========================================================
+   Stats
+========================================================= */
+
 .modern-stat-grid {
+    display: grid;
     grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 1.3rem;
 }
 
 .modern-stat {
     position: relative;
     overflow: hidden;
     padding: 1.6rem;
+    background: var(--thlin-white);
+    border: 1px solid var(--thlin-border);
+    border-radius: 24px;
+    box-shadow: var(--thlin-shadow);
 }
 
 .modern-stat::before {
@@ -395,6 +623,14 @@
     inset: 0 0 auto;
     height: 5px;
     background: var(--thlin-blue);
+}
+
+.modern-stat:nth-child(2n)::before {
+    background: var(--thlin-green);
+}
+
+.modern-stat:nth-child(3n)::before {
+    background: var(--thlin-orange);
 }
 
 .modern-stat strong {
@@ -412,18 +648,28 @@
     font-weight: 650;
 }
 
+/* =========================================================
+   Services
+========================================================= */
+
 .services-grid {
+    display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.3rem;
 }
 
 .service-card {
     padding: 1.6rem;
+    background: var(--thlin-white);
+    border: 1px solid var(--thlin-border);
+    border-radius: 24px;
+    box-shadow: var(--thlin-shadow);
     transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
 .service-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 24px 60px rgba(18, 74, 132, 0.13);
+    box-shadow: var(--thlin-shadow-hover);
 }
 
 .service-card > span {
@@ -432,8 +678,7 @@
     height: 54px;
     margin-bottom: 1.1rem;
     border-radius: 18px;
-    background:
-        linear-gradient(135deg, rgba(24, 95, 165, 0.16), rgba(59, 109, 17, 0.12));
+    background: linear-gradient(135deg, rgba(24, 95, 165, 0.16), rgba(59, 109, 17, 0.12));
     position: relative;
 }
 
@@ -445,15 +690,42 @@
     background: var(--thlin-blue);
 }
 
+.service-card h3 {
+    margin: 0 0 0.7rem;
+    color: var(--thlin-blue-dark);
+    font-size: 1.22rem;
+}
+
+.service-card p {
+    margin: 0;
+    color: var(--thlin-muted);
+    font-size: 0.98rem;
+}
+
+/* =========================================================
+   Portfolio
+========================================================= */
+
 .portfolio-grid-modern {
+    display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.3rem;
 }
 
 .portfolio-card-modern {
     overflow: hidden;
     text-decoration: none;
     color: inherit;
+    background: var(--thlin-white);
+    border: 1px solid var(--thlin-border);
+    border-radius: 24px;
+    box-shadow: var(--thlin-shadow);
     transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.portfolio-card-modern:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--thlin-shadow-hover);
 }
 
 .portfolio-card-modern img,
@@ -467,8 +739,7 @@
 .portfolio-image-placeholder {
     display: grid;
     place-items: center;
-    background:
-        linear-gradient(135deg, rgba(24, 95, 165, 0.12), rgba(59, 109, 17, 0.12));
+    background: linear-gradient(135deg, rgba(24, 95, 165, 0.12), rgba(59, 109, 17, 0.12));
     color: var(--thlin-blue-dark);
     font-weight: 800;
 }
@@ -476,6 +747,27 @@
 .portfolio-card-modern__body {
     padding: 1.35rem;
 }
+
+.portfolio-card-modern h3 {
+    margin: 0 0 0.7rem;
+    color: var(--thlin-blue-dark);
+    font-size: 1.22rem;
+}
+
+.portfolio-card-modern p {
+    margin: 0 0 1rem;
+    color: var(--thlin-muted);
+    font-size: 0.98rem;
+}
+
+.portfolio-card-modern strong {
+    color: var(--thlin-blue);
+    font-size: 0.95rem;
+}
+
+/* =========================================================
+   CTA
+========================================================= */
 
 .home-cta {
     background:
@@ -504,21 +796,29 @@
     font-size: 1.08rem;
 }
 
+/* =========================================================
+   Accessibility / Focus
+========================================================= */
+
 :where(.access-card, .portfolio-card-modern, .btn, .hero-search input, .hero-search button):focus-visible {
     outline: 3px solid rgba(186, 117, 23, 0.55);
     outline-offset: 4px;
 }
 
-@media (max-width: 1050px) {
-    .access-grid,
-    .services-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+/* =========================================================
+   Responsive
+========================================================= */
 
+@media (max-width: 1050px) {
     .home-hero__grid,
     .about-grid,
     .home-cta__inner {
         grid-template-columns: 1fr;
+    }
+
+    .access-grid,
+    .services-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .home-hero h1 {
@@ -527,6 +827,34 @@
 
     .home-cta__actions {
         justify-content: flex-start;
+    }
+}
+
+@media (max-width: 900px) {
+    .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .site-nav ul,
+    .nav-menu {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.7rem;
+    }
+
+    .site-nav ul ul,
+    .nav-menu ul {
+        position: static;
+        display: block;
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow: none;
+        padding: 0.5rem 0 0.5rem 1rem;
+    }
+
+    .site-nav ul ul a,
+    .nav-menu ul a {
+        color: var(--thlin-white);
     }
 }
 
@@ -568,7 +896,8 @@
         width: 100%;
         text-align: center;
     }
-}
-body {
-    outline: 8px solid red !important;
+
+    .home-hero h1 {
+        font-size: 2.4rem;
+    }
 }

@@ -34,7 +34,7 @@ class PageController extends Controller
         return match ($page->template) {
             'portfolio' => view('pages.portfolio', array_merge($data, [
                 'featured' => PortfolioItem::featured()->ordered()->get(),
-                'past' => PortfolioItem::where('featured', false)->ordered()->get(),
+                 'past' => PortfolioItem::query()->where('featured', '=', false)->ordered()->get(),
             ])),
 
             'board' => view('pages.board', array_merge($data, [
