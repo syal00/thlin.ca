@@ -5,8 +5,8 @@
 @section('content')
     @include('partials.page-header', ['page' => $page])
 
-    <section class="page-content">
-        <div class="container prose">
+    <section class="section">
+        <div class="container prose mb-5">
             {!! $page->body !!}
         </div>
         <div class="container">
@@ -18,7 +18,7 @@
                             <p class="news-meta">{{ $post->published_at->format('F j, Y') }}@if ($post->location) &middot; {{ $post->location }}@endif</p>
                         @endif
                         <p>{{ $post->excerpt }}</p>
-                        <a href="{{ $post->url() }}">Read more</a>
+                        <a href="{{ $post->url() }}" class="link-action">Read more <i class="bi bi-arrow-right"></i></a>
                     </li>
                 @empty
                     <li><p>No news posts yet.</p></li>

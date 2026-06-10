@@ -1,0 +1,210 @@
+// main: ../main.scss
+/*--------------------------------------------------------------
+# Departments Section
+--------------------------------------------------------------*/
+.departments {
+  .dept-card {
+    background: var(--surface-color);
+    border: 1px solid color-mix(in srgb, var(--default-color) 12%, transparent);
+    border-radius: 8px;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+
+    &:hover {
+      border-color: color-mix(in srgb, var(--accent-color) 40%, transparent);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
+
+      .dept-card-media img {
+        transform: scale(1.04);
+      }
+
+      .dept-icon-box {
+        background: var(--accent-color);
+        color: var(--contrast-color);
+        border-color: var(--accent-color);
+      }
+
+      .dept-link-btn {
+        color: var(--accent-color);
+
+        i {
+          transform: translateX(4px);
+        }
+      }
+    }
+  }
+
+  .dept-card-media {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+    border-bottom: 1px solid color-mix(in srgb, var(--default-color) 10%, transparent);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+  }
+
+  .dept-tag {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    border-radius: 12px;
+    background: var(--surface-color);
+    color: var(--heading-color);
+    border: 1px solid color-mix(in srgb, var(--default-color) 12%, transparent);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  .dept-card-body {
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dept-card-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .dept-icon-box {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--accent-color) 10%, transparent);
+    color: var(--accent-color);
+    border: 1px solid color-mix(in srgb, var(--accent-color) 20%, transparent);
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+
+    i {
+      font-size: 18px;
+    }
+  }
+
+  .dept-card-title {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin: 0 0 2px;
+    color: var(--heading-color);
+  }
+
+  .dept-card-meta {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: color-mix(in srgb, var(--default-color) 60%, transparent);
+  }
+
+  .dept-card-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: color-mix(in srgb, var(--default-color) 75%, transparent);
+    margin: 0 0 16px;
+  }
+
+  .dept-feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--heading-color);
+      font-weight: 500;
+
+      i {
+        font-size: 11px;
+        width: 18px;
+        height: 18px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: color-mix(in srgb, var(--accent-color) 10%, transparent);
+        color: var(--accent-color);
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  .dept-card-foot {
+    padding: 16px 24px;
+    border-top: 1px solid color-mix(in srgb, var(--default-color) 10%, transparent);
+    background: color-mix(in srgb, var(--default-color) 3%, transparent);
+  }
+
+  .dept-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--heading-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color) 20%, transparent);
+      border-radius: 4px;
+    }
+
+    i {
+      font-size: 12px;
+      transition: transform 0.2s ease;
+    }
+
+    &:hover {
+      color: var(--accent-color);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .dept-card-media {
+      height: 200px;
+    }
+
+    .dept-card-body {
+      padding: 20px;
+    }
+
+    .dept-card-foot {
+      padding: 14px 20px;
+    }
+
+    .dept-card-title {
+      font-size: 18px;
+    }
+  }
+}

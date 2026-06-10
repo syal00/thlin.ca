@@ -1,0 +1,257 @@
+// main: ../main.scss
+/*--------------------------------------------------------------
+# Faq Section
+--------------------------------------------------------------*/
+.faq {
+  .faq-sidebar {
+    background-color: var(--surface-color);
+    border: 1px solid color-mix(in srgb, var(--default-color) 12%, transparent);
+    border-radius: 8px;
+    padding: 32px;
+    height: 100%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 100px;
+
+    .sidebar-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border-radius: 12px;
+      background: color-mix(in srgb, var(--accent-color) 10%, transparent);
+      color: var(--accent-color);
+      border: 1px solid color-mix(in srgb, var(--accent-color) 25%, transparent);
+      margin-bottom: 16px;
+    }
+
+    .sidebar-title {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+
+    .sidebar-desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: color-mix(in srgb, var(--default-color) 75%, transparent);
+      margin-bottom: 24px;
+    }
+
+    .sidebar-divider {
+      height: 1px;
+      background: color-mix(in srgb, var(--default-color) 10%, transparent);
+      margin: 24px 0;
+    }
+
+    .sidebar-meta {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 24px 0;
+
+      li {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 14px;
+        color: color-mix(in srgb, var(--default-color) 80%, transparent);
+        padding: 8px 0;
+
+        i {
+          font-size: 16px;
+          color: var(--accent-color);
+          width: 20px;
+          flex-shrink: 0;
+        }
+      }
+    }
+
+    .sidebar-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      width: 100%;
+      height: 40px;
+      padding: 0 16px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--contrast-color);
+      background: var(--accent-color);
+      border-radius: 6px;
+      border: 1px solid var(--accent-color);
+      transition: all 0.2s ease;
+
+      i {
+        font-size: 14px;
+        transition: transform 0.2s ease;
+      }
+
+      &:hover {
+        background: color-mix(in srgb, var(--accent-color) 88%, transparent);
+        color: var(--contrast-color);
+
+        i {
+          transform: translate(2px, -2px);
+        }
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color) 25%, transparent);
+      }
+    }
+
+    @media (max-width: 992px) {
+      position: static;
+      padding: 24px;
+    }
+  }
+
+  .faq-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .faq-item {
+      background-color: var(--surface-color);
+      position: relative;
+      padding: 24px 56px 24px 24px;
+      border: 1px solid color-mix(in srgb, var(--default-color) 12%, transparent);
+      border-radius: 8px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s ease;
+      cursor: pointer;
+
+      &:hover {
+        border-color: color-mix(in srgb, var(--default-color) 22%, transparent);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+      }
+
+      .faq-meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 8px;
+
+        .faq-index {
+          font-size: 12px;
+          font-weight: 600;
+          letter-spacing: 0.05em;
+          color: color-mix(in srgb, var(--default-color) 55%, transparent);
+        }
+
+        .faq-tag {
+          display: inline-flex;
+          align-items: center;
+          padding: 2px 10px;
+          font-size: 11px;
+          font-weight: 500;
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+          border-radius: 12px;
+          background: color-mix(in srgb, var(--default-color) 6%, transparent);
+          color: color-mix(in srgb, var(--default-color) 75%, transparent);
+          border: 1px solid color-mix(in srgb, var(--default-color) 12%, transparent);
+        }
+      }
+
+      h3 {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 1.5;
+        letter-spacing: -0.01em;
+        margin: 0;
+        transition: color 0.2s ease;
+        cursor: pointer;
+      }
+
+      .faq-content {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 0.3s ease, opacity 0.2s ease, padding 0.2s ease;
+        visibility: hidden;
+        opacity: 0;
+
+        p {
+          margin-bottom: 0;
+          overflow: hidden;
+          font-size: 14px;
+          line-height: 1.7;
+          color: color-mix(in srgb, var(--default-color) 75%, transparent);
+        }
+      }
+
+      .faq-toggle {
+        position: absolute;
+        top: 24px;
+        right: 24px;
+        width: 28px;
+        height: 28px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        line-height: 1;
+        border-radius: 6px;
+        background: color-mix(in srgb, var(--default-color) 6%, transparent);
+        color: color-mix(in srgb, var(--default-color) 70%, transparent);
+        transition: all 0.2s ease;
+        cursor: pointer;
+      }
+
+      &:hover .faq-toggle {
+        background: color-mix(in srgb, var(--accent-color) 12%, transparent);
+        color: var(--accent-color);
+      }
+    }
+
+    .faq-active {
+      border-color: color-mix(in srgb, var(--accent-color) 45%, transparent);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06), 0 0 0 3px color-mix(in srgb, var(--accent-color) 8%, transparent);
+
+      h3 {
+        color: var(--heading-color);
+      }
+
+      .faq-meta .faq-tag {
+        background: color-mix(in srgb, var(--accent-color) 10%, transparent);
+        color: var(--accent-color);
+        border-color: color-mix(in srgb, var(--accent-color) 30%, transparent);
+      }
+
+      .faq-content {
+        grid-template-rows: 1fr;
+        visibility: visible;
+        opacity: 1;
+        padding-top: 16px;
+        margin-top: 4px;
+        border-top: 1px solid color-mix(in srgb, var(--default-color) 8%, transparent);
+      }
+
+      .faq-toggle {
+        transform: rotate(180deg);
+        background: var(--accent-color);
+        color: var(--contrast-color);
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .faq-container {
+      .faq-item {
+        padding: 20px 52px 20px 20px;
+
+        .faq-toggle {
+          top: 20px;
+          right: 20px;
+        }
+      }
+    }
+  }
+}

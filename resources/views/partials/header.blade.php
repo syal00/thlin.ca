@@ -1,20 +1,18 @@
-<header class="site-header">
-    <div class="container header-inner">
-        <a href="{{ route('home') }}" class="brand">
-            <span class="brand-mark" aria-hidden="true">THL</span>
-            <span>{{ $thlin['name'] }}</span>
+<header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+
+        <a href="{{ route('home') }}" class="logo d-flex align-items-center me-auto me-xl-0">
+            <i class="bi bi-heart-pulse"></i>
+            <h1 class="sitename">{{ $thlin['name'] }}</h1>
         </a>
 
-        <button type="button" class="nav-toggle" data-nav-toggle aria-expanded="false" aria-controls="main-navigation">
-            Menu
-        </button>
-
-        <nav class="main-nav" id="main-navigation" data-main-nav aria-label="Main navigation">
+        <nav id="navmenu" class="navmenu">
             <ul>
+                <li><a href="{{ route('home') }}" @if (request()->routeIs('home')) class="active" @endif>Home</a></li>
                 @foreach ($navigation as $groupKey => $group)
-                    <li>
-                        <a href="#" aria-haspopup="true">{{ $group['label'] }}</a>
-                        <ul class="submenu">
+                    <li class="dropdown">
+                        <a href="#"><span>{{ $group['label'] }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                        <ul>
                             @foreach ($group['items'] as $slug => $label)
                                 <li>
                                     <a href="{{ route('pages.show', ['section' => $groupKey, 'page' => $slug]) }}">{{ $label }}</a>
@@ -23,12 +21,12 @@
                         </ul>
                     </li>
                 @endforeach
-                <li><a href="{{ route('contact') }}">Contact</a></li>
+                <li><a href="{{ route('contact') }}" @if (request()->routeIs('contact')) class="active" @endif>Contact</a></li>
             </ul>
+            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
-    </div>
 
-    @hasSection('hero')
-        @yield('hero')
-    @endif
+        <a class="btn-getstarted" href="{{ route('search') }}">Search</a>
+
+    </div>
 </header>
