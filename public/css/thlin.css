@@ -1303,3 +1303,299 @@ a {
     background: #ffffff;
     color: var(--thlin-blue-dark);
 }
+/* =========================================================
+   Patient Portal Page Design
+========================================================= */
+
+.patient-hero {
+    background:
+        radial-gradient(circle at 90% 20%, rgba(24, 95, 165, 0.12), transparent 30%),
+        linear-gradient(180deg, #f7f9fc 0%, #ffffff 100%);
+    padding: 5rem 0 4rem;
+}
+
+.patient-hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.patient-hero h1 {
+    margin: 0 0 1rem;
+    color: var(--thlin-blue-dark);
+    font-size: clamp(3rem, 6vw, 5.4rem);
+    line-height: 1.02;
+    letter-spacing: -0.055em;
+    max-width: 780px;
+}
+
+.patient-lead {
+    max-width: 680px;
+    color: var(--thlin-muted);
+    font-size: 1.25rem;
+    line-height: 1.75;
+    margin: 0;
+}
+
+.patient-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 2rem;
+}
+
+.btn-soft {
+    background: #edf6ff;
+    color: var(--thlin-blue-dark);
+    border-color: #dbe7f3;
+}
+
+.btn-soft:hover {
+    background: #ffffff;
+    color: var(--thlin-blue);
+    box-shadow: var(--shadow);
+}
+
+.patient-hero-card {
+    background: #ffffff;
+    border: 1px solid var(--thlin-border);
+    border-radius: 28px;
+    padding: 2rem;
+    box-shadow: 0 24px 70px rgba(18, 74, 132, 0.12);
+}
+
+.patient-card-icon {
+    width: 56px;
+    height: 56px;
+    display: grid;
+    place-items: center;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--thlin-green), var(--thlin-blue));
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+}
+
+.patient-hero-card h2 {
+    margin: 0 0 0.8rem;
+    color: var(--thlin-blue-dark);
+    font-size: 2rem;
+    line-height: 1.2;
+}
+
+.patient-hero-card p {
+    color: var(--thlin-muted);
+    line-height: 1.75;
+}
+
+.patient-hero-card ul {
+    list-style: none;
+    margin: 1.4rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.8rem;
+}
+
+.patient-hero-card li {
+    position: relative;
+    padding-left: 1.8rem;
+    color: var(--thlin-text);
+    font-weight: 700;
+}
+
+.patient-hero-card li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 0.1rem;
+    width: 1.15rem;
+    height: 1.15rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: rgba(59, 109, 17, 0.12);
+    color: var(--thlin-green);
+    font-size: 0.75rem;
+    font-weight: 900;
+}
+
+.patient-section {
+    background: #ffffff;
+    padding: 4rem 0;
+}
+
+.patient-content-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 2rem;
+    align-items: start;
+}
+
+.patient-main-card {
+    background: #ffffff;
+    border: 1px solid var(--thlin-border);
+    border-radius: 28px;
+    padding: 3rem;
+    box-shadow: var(--shadow);
+}
+
+.patient-main-card h2 {
+    position: relative;
+    color: var(--thlin-blue-dark);
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    line-height: 1.25;
+    margin: 2.5rem 0 1rem;
+    padding-left: 1rem;
+}
+
+.patient-main-card h2:first-child {
+    margin-top: 0;
+}
+
+.patient-main-card h2::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.25rem;
+    width: 5px;
+    height: 1.5rem;
+    border-radius: 999px;
+    background: var(--thlin-blue);
+}
+
+.patient-main-card p {
+    color: var(--thlin-text);
+    font-size: 1.06rem;
+    line-height: 1.85;
+    margin: 0 0 1.35rem;
+}
+
+.patient-main-card blockquote {
+    margin: 2rem 0;
+    padding: 1.5rem 1.75rem;
+    background: var(--thlin-bg);
+    border-left: 5px solid var(--thlin-green);
+    border-radius: 18px;
+    color: var(--thlin-text);
+    line-height: 1.8;
+}
+
+.patient-side-card {
+    position: sticky;
+    top: 2rem;
+    background: var(--thlin-blue-dark);
+    color: #ffffff;
+    border-radius: 24px;
+    padding: 1.6rem;
+    box-shadow: var(--shadow);
+}
+
+.patient-side-card h2 {
+    margin: 0 0 1rem;
+    color: #ffffff;
+    font-size: 1.2rem;
+}
+
+.patient-side-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.7rem;
+}
+
+.patient-side-card a {
+    display: block;
+    color: rgba(255, 255, 255, 0.88);
+    text-decoration: none;
+    font-weight: 700;
+    padding: 0.65rem 0.75rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.patient-side-card a:hover {
+    background: #ffffff;
+    color: var(--thlin-blue-dark);
+}
+
+.patient-feature-section {
+    background: var(--thlin-bg);
+    padding: 5rem 0;
+}
+
+.patient-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.3rem;
+}
+
+.patient-feature-card {
+    background: #ffffff;
+    border: 1px solid var(--thlin-border);
+    border-radius: 24px;
+    padding: 1.6rem;
+    box-shadow: var(--shadow);
+}
+
+.patient-feature-card span {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: rgba(24, 95, 165, 0.1);
+    color: var(--thlin-blue);
+    font-weight: 900;
+    margin-bottom: 1rem;
+}
+
+.patient-feature-card h3 {
+    color: var(--thlin-blue-dark);
+    margin: 0 0 0.7rem;
+}
+
+.patient-feature-card p {
+    color: var(--thlin-muted);
+    margin: 0;
+}
+
+@media (max-width: 1000px) {
+    .patient-hero-grid,
+    .patient-content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .patient-side-card {
+        position: static;
+    }
+
+    .patient-feature-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 650px) {
+    .patient-hero {
+        padding: 3rem 0;
+    }
+
+    .patient-hero h1 {
+        font-size: 2.8rem;
+    }
+
+    .patient-main-card {
+        padding: 1.5rem;
+        border-radius: 20px;
+    }
+
+    .patient-actions {
+        flex-direction: column;
+    }
+
+    .patient-actions .btn {
+        width: 100%;
+    }
+}
