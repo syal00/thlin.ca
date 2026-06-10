@@ -1,10 +1,10 @@
-@if ($page->slug === 'patient-portals')
-    @extends('layouts.app')
+@extends('layouts.app')
 
-    @section('title', $page->title.' - '.$thlin['name'])
-    @section('meta_description', $page->excerpt)
+@section('title', $page->title.' - '.$thlin['name'])
+@section('meta_description', $page->excerpt)
 
-    @section('content')
+@section('content')
+    @if ($page->slug === 'patient-portals')
         <section class="patient-hero">
             <div class="container patient-hero-grid">
                 <div>
@@ -99,25 +99,35 @@
                 </div>
             </div>
         </section>
-    @endsection
+    @else
+        <section class="page-content-section">
+            <div class="container page-content-card">
+                <h1
+                    data-editable="true"
+                    data-model="page"
+                    data-id="{{ $page->id }}"
+                    data-field="title"
+                >{{ $page->title }}</h1>
 
-    @php return; @endphp
-@endif
-@extends('layouts.app')
+                @if ($page->excerpt)
+                    <p
+                        class="page-excerpt"
+                        data-editable="true"
+                        data-model="page"
+                        data-id="{{ $page->id }}"
+                        data-field="excerpt"
+                    >{{ $page->excerpt }}</p>
+                @endif
 
-@section('title', $page->title.' - '.$thlin['name'])
-@section('meta_description', $page->meta_description ?? $page->excerpt)
-
-@section('content')
-    @include('partials.page-header', ['page' => $page])
-
-    <section class="page-content">
-        <div
-            class="container prose"
-            data-editable="true"
-            data-model="page"
-            data-id="{{ $page->id }}"
-            data-field="body"
-        >{!! $page->body !!}</div>
-    </section>
+                <div
+                    data-editable="true"
+                    data-model="page"
+                    data-id="{{ $page->id }}"
+                    data-field="body"
+                >
+                    {!! $page->body !!}
+                </div>
+            </div>
+        </section>
+    @endif
 @endsection
