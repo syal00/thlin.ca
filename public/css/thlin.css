@@ -1112,3 +1112,158 @@ a {
         padding: 1rem 0;
     }
 }
+
+/* =========================================================
+   Professional Inner Pages Design
+   Applies to pages except home page
+========================================================= */
+
+.site-header.is-inner-header ~ main#main-content {
+    background: linear-gradient(180deg, #f7f9fc 0%, #ffffff 100%);
+    padding: 4rem 0 5rem;
+}
+
+/* Main content card */
+.site-header.is-inner-header ~ main#main-content > .container {
+    background: #ffffff;
+    border: 1px solid #e4edf7;
+    border-radius: 28px;
+    padding: 3.5rem;
+    box-shadow: 0 18px 50px rgba(18, 74, 132, 0.08);
+}
+
+/* Page title */
+.site-header.is-inner-header ~ main#main-content h1 {
+    color: #124a84;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+    margin: 0 0 1rem;
+    max-width: 900px;
+}
+
+/* Intro paragraph after title */
+.site-header.is-inner-header ~ main#main-content h1 + p {
+    color: #5f6f82;
+    font-size: 1.2rem;
+    line-height: 1.75;
+    max-width: 850px;
+    margin-bottom: 3rem;
+}
+
+/* Section headings */
+.site-header.is-inner-header ~ main#main-content h2 {
+    position: relative;
+    color: #124a84;
+    font-size: clamp(1.55rem, 3vw, 2.15rem);
+    line-height: 1.25;
+    margin: 3rem 0 1rem;
+    padding-left: 1.2rem;
+}
+
+.site-header.is-inner-header ~ main#main-content h2::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.2rem;
+    width: 5px;
+    height: 1.6rem;
+    border-radius: 999px;
+    background: #185FA5;
+}
+
+/* Paragraphs */
+.site-header.is-inner-header ~ main#main-content p {
+    color: #1f2937;
+    font-size: 1.06rem;
+    line-height: 1.85;
+    max-width: 1000px;
+    margin: 0 0 1.35rem;
+}
+
+/* Quote / testimonial */
+.site-header.is-inner-header ~ main#main-content blockquote,
+.site-header.is-inner-header ~ main#main-content p:has(+ p em) {
+    background: #f7f9fc;
+    border-left: 5px solid #3B6D11;
+    border-radius: 18px;
+    padding: 1.4rem 1.6rem;
+    margin: 2rem 0;
+}
+
+/* Italic citation */
+.site-header.is-inner-header ~ main#main-content em {
+    color: #124a84;
+    font-weight: 600;
+}
+
+/* Lists */
+.site-header.is-inner-header ~ main#main-content ul,
+.site-header.is-inner-header ~ main#main-content ol {
+    margin: 1.2rem 0 1.8rem;
+    padding-left: 1.4rem;
+}
+
+.site-header.is-inner-header ~ main#main-content li {
+    margin-bottom: 0.65rem;
+    line-height: 1.7;
+}
+
+/* Links */
+.site-header.is-inner-header ~ main#main-content a {
+    color: #185FA5;
+    font-weight: 700;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+.site-header.is-inner-header ~ main#main-content a:hover {
+    color: #124a84;
+}
+
+/* Add subtle separator between content blocks */
+.site-header.is-inner-header ~ main#main-content h2:not(:first-of-type) {
+    padding-top: 1.25rem;
+    border-top: 1px solid #e4edf7;
+}
+
+/* Better inner page header spacing */
+.site-header.is-inner-header {
+    background: #ffffff;
+    border-bottom: 1px solid #e4edf7;
+    box-shadow: 0 8px 24px rgba(18, 74, 132, 0.06);
+}
+
+.site-header.is-inner-header .header-inner {
+    min-height: 82px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .site-header.is-inner-header ~ main#main-content {
+        padding: 2rem 0 3rem;
+    }
+
+    .site-header.is-inner-header ~ main#main-content > .container {
+        padding: 2rem 1.25rem;
+        border-radius: 20px;
+    }
+
+    .site-header.is-inner-header ~ main#main-content h1 {
+        font-size: 2.25rem;
+    }
+
+    .site-header.is-inner-header ~ main#main-content h1 + p {
+        font-size: 1.05rem;
+        margin-bottom: 2rem;
+    }
+
+    .site-header.is-inner-header ~ main#main-content h2 {
+        font-size: 1.45rem;
+        margin-top: 2.2rem;
+    }
+
+    .site-header.is-inner-header ~ main#main-content p {
+        font-size: 1rem;
+    }
+}
