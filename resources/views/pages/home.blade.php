@@ -31,9 +31,8 @@
         Contact Us
     </a>
 </div>
-
-                <div class="hero-tags">
-    <span>Patient Portal</span>
+<div class="hero-tags">
+    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}">Patient Portal</a>
     <span>Community service navigation</span>
     <span>Ontario care network support</span>
 </div>

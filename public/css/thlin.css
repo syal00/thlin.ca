@@ -1288,3 +1288,18 @@ a {
     background: transparent;
     box-shadow: none;
 }
+.hero-tags a {
+    padding: 0.55rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    background: rgba(255, 255, 255, 0.11);
+    color: #ffffff;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.hero-tags a:hover {
+    background: #ffffff;
+    color: var(--thlin-blue-dark);
+}
