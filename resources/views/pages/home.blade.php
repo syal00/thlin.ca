@@ -33,10 +33,10 @@
 </div>
 
                 <div class="hero-tags">
-                    <span>Trusted health information</span>
-                    <span>Community service navigation</span>
-                    <span>Ontario care network support</span>
-                </div>
+    <span>Patient Portal</span>
+    <span>Community service navigation</span>
+    <span>Ontario care network support</span>
+</div>
             </div>
 
             <div class="hero-card">
