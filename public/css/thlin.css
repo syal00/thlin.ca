@@ -1288,3 +1288,18 @@ a {
     background: transparent;
     box-shadow: none;
 }
+
+/* Hero Search Button */
+
+.btn-search {
+    background: var(--thlin-orange);
+    color: #ffffff;
+    border-color: var(--thlin-orange);
+}
+
+.btn-search:hover {
+    background: #9f6011;
+    border-color: #9f6011;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
