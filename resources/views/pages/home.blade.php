@@ -27,13 +27,8 @@
     <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="btn btn-light">
         Explore thehealthline.ca
     </a>
-
     <a href="{{ route('contact') }}" class="btn btn-outline-light">
         Contact Us
-    </a>
-
-    <a href="{{ route('search') }}" class="btn btn-search">
-        Search
     </a>
 </div>
 
