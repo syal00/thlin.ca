@@ -9,10 +9,6 @@
                     <span class="logo-text">thehealthline.ca Information Network</span>
                 </a>
 
-                <button class="menu-toggle" type="button" aria-label="Toggle navigation">
-                    Menu
-                </button>
-
                 <nav class="site-nav" aria-label="Main navigation">
                     <ul>
                         <li><a href="{{ route('home') }}">Home</a></li>
