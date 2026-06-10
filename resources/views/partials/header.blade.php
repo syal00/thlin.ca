@@ -37,7 +37,7 @@
                         <li>
                             <a href="#">About</a>
                             <ul>
-                                <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'about-us']) }}">About Us</a></li>
+                                <a href="{{ route('pages.show', ['section' => 'about', 'page' => 'us']) }}">About Us</a>
                                 <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'news']) }}">News</a></li>
                                 <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'annual-reports']) }}">Annual Reports</a></li>
                                 <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'board-of-directors']) }}">Board of Directors</a></li>
