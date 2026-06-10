@@ -17,11 +17,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/search', [SearchController::class, 'index'])->name('search');
-
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+
 Route::get('/about/news/{news}', [NewsController::class, 'show'])->name('news.show');
-Route::get('/{section}/{page}', [PageController::class, 'show'])
+
+Route::get('/{section}/{page:slug}', [PageController::class, 'show'])
     ->whereIn('section', ['products', 'partners', 'about'])
     ->name('pages.show');
 

@@ -28,13 +28,12 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('contact') }}" class="contact-form">
+                   <form method="POST" action="{{ route('contact.send') }}" class="contact-form">
                         @csrf
 
                         <div class="form-group">
                             <label for="name">Name <span>*</span></label>
-                            <input id="name" type="text" name="name" value="{{ old('name') }}" required>
-
+                            <input id="name" type="text" name="name" value="{{ old('name') }}" placeholder="Enter your full name" required>
                             @error('name')
                                 <small>{{ $message }}</small>
                             @enderror
@@ -42,8 +41,7 @@
 
                         <div class="form-group">
                             <label for="email">Email Address <span>*</span></label>
-                            <input id="email" type="email" name="email" value="{{ old('email') }}" required>
-
+                           <input id="email" type="email" name="email" value="{{ old('email') }}" placeholder="Enter your email address" required>
                             @error('email')
                                 <small>{{ $message }}</small>
                             @enderror
@@ -51,8 +49,7 @@
 
                         <div class="form-group">
                             <label for="organization">Organization</label>
-                            <input id="organization" type="text" name="organization" value="{{ old('organization') }}">
-
+                           <input id="organization" type="text" name="organization" value="{{ old('organization') }}" placeholder="Enter your organization name">
                             @error('organization')
                                 <small>{{ $message }}</small>
                             @enderror
@@ -60,8 +57,7 @@
 
                         <div class="form-group">
                             <label for="message">Message <span>*</span></label>
-                            <textarea id="message" name="message" rows="6" required>{{ old('message') }}</textarea>
-
+                            <textarea id="message" name="message" rows="6" placeholder="Write your message here..." required>{{ old('message') }}</textarea>
                             @error('message')
                                 <small>{{ $message }}</small>
                             @enderror
