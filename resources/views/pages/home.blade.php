@@ -23,15 +23,19 @@
                     data-id="{{ $page->id }}"
                     data-field="excerpt"
                 >{{ $page->excerpt }}</p>
+<div class="hero-actions">
+    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="btn btn-light">
+        Explore thehealthline.ca
+    </a>
 
-                <div class="hero-actions">
-                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="btn btn-light">
-                        Explore thehealthline.ca
-                    </a>
-                    <a href="{{ route('contact') }}" class="btn btn-outline-light">
-                        Contact Us
-                    </a>
-                </div>
+    <a href="{{ route('contact') }}" class="btn btn-outline-light">
+        Contact Us
+    </a>
+
+    <a href="{{ route('search') }}" class="btn btn-search">
+        Search
+    </a>
+</div>
 
                 <div class="hero-tags">
                     <span>Trusted health information</span>
