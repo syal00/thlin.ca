@@ -1,0 +1,1 @@
+<img src="{{ asset('images/patient-care.jpg') }}" alt="Caregiver helping a patient">
