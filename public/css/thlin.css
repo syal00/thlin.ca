@@ -1042,3 +1042,150 @@ a {
         padding-top: 12rem;
     }
 }
+/* =========================================================
+   Hero professional layout adjustment
+========================================================= */
+
+.home-hero {
+    min-height: 820px;
+    padding-top: 9rem;
+    padding-bottom: 5rem;
+    display: flex;
+    align-items: center;
+}
+
+.home-hero__grid {
+    grid-template-columns: 1fr 0.82fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.home-hero h1 {
+    font-size: clamp(3.2rem, 5.3vw, 5.6rem);
+    line-height: 0.98;
+    max-width: 720px;
+    margin-bottom: 1.5rem;
+}
+
+.home-hero__lead {
+    max-width: 680px;
+    font-size: 1.13rem;
+    line-height: 1.8;
+}
+
+.home-hero__actions {
+    margin-top: 2rem;
+}
+
+.trust-pills {
+    margin-top: 1.5rem;
+    max-width: 620px;
+}
+
+.home-hero__panel {
+    max-width: 520px;
+    margin-left: auto;
+    padding: 2.3rem;
+    border-radius: 28px;
+}
+
+.home-hero__panel h2 {
+    font-size: 2rem;
+    line-height: 1.15;
+    margin-top: 1rem;
+}
+
+.hero-search {
+    margin-top: 1.6rem;
+}
+
+/* Better floating navbar alignment */
+
+.nav-wrapper {
+    top: 1.6rem;
+}
+
+.header-inner {
+    min-height: 82px;
+    padding: 0 1.7rem;
+    border-radius: 12px;
+}
+
+.logo-text {
+    font-size: 1rem;
+}
+
+.site-nav > ul {
+    gap: 1.35rem;
+}
+
+.site-nav a {
+    font-size: 0.95rem;
+}
+
+.nav-cta {
+    min-width: 125px;
+    padding: 0.8rem 1.1rem;
+}
+
+/* Make hero card icon cleaner */
+
+.home-hero__panel::before {
+    content: "+";
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--thlin-green), var(--thlin-blue));
+    color: #ffffff;
+    font-size: 1.6rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+}
+
+.home-hero__panel .hero-checklist {
+    margin-top: 1.4rem;
+}
+
+/* Responsive fix */
+
+@media (max-width: 1050px) {
+    .home-hero {
+        min-height: auto;
+        padding-top: 11rem;
+    }
+
+    .home-hero__grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+
+    .home-hero__panel {
+        max-width: 100%;
+        margin-left: 0;
+    }
+
+    .home-hero h1 {
+        font-size: clamp(2.8rem, 9vw, 4.8rem);
+    }
+}
+
+@media (max-width: 650px) {
+    .home-hero {
+        padding-top: 13rem;
+        padding-bottom: 3.5rem;
+    }
+
+    .home-hero h1 {
+        font-size: 2.8rem;
+    }
+
+    .home-hero__lead {
+        font-size: 1rem;
+    }
+
+    .home-hero__panel {
+        padding: 1.5rem;
+    }
+}
