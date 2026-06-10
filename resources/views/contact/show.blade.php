@@ -1,55 +1,106 @@
 @extends('layouts.app')
 
 @section('title', 'Contact - '.$thlin['name'])
+@section('meta_description', 'Contact thehealthline.ca Information Network.')
 
 @section('content')
-    <div class="page-header">
+    <section class="contact-page">
         <div class="container">
-            <h1>{{ $page->title }}</h1>
-        </div>
-    </div>
+            <div class="contact-hero">
+                <span class="section-kicker blue">Contact THLIN</span>
 
-    <section class="page-content">
-        <div class="container">
-            @if (session('status'))
-                <div class="alert alert-success" role="status">{{ session('status') }}</div>
-            @endif
+                <h1>Let’s Connect</h1>
 
-            <div class="contact-layout">
-                <div class="prose">
-                    {!! $page->body !!}
-                </div>
-
-                <form class="contact-form admin-card" method="post" action="{{ route('contact.store') }}">
-                    @csrf
-                    <div class="form-group">
-                        <label for="name">Name <span aria-hidden="true">*</span></label>
-                        <input type="text" id="name" name="name" value="{{ old('name') }}" required>
-                        @error('name')<span class="field-error">{{ $message }}</span>@enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email Address <span aria-hidden="true">*</span></label>
-                        <input type="email" id="email" name="email" value="{{ old('email') }}" required>
-                        @error('email')<span class="field-error">{{ $message }}</span>@enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="organization">Organization</label>
-                        <input type="text" id="organization" name="organization" value="{{ old('organization') }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message <span aria-hidden="true">*</span></label>
-                        <textarea id="message" name="message" rows="6" required>{{ old('message') }}</textarea>
-                        @error('message')<span class="field-error">{{ $message }}</span>@enderror
-                    </div>
-                    <button type="submit" class="btn btn-primary">Send message</button>
-                </form>
+                <p>
+                    We work with partners to improve information systems and connect people across Ontario
+                    to trusted health and community services.
+                </p>
             </div>
 
-            <div class="contact-details" style="margin-top: 2rem;">
-                <h2>Head Office</h2>
-                <p><strong>Address:</strong> {{ $thlin['address'] }}</p>
-                <p><strong>Phone:</strong> <a href="tel:{{ preg_replace('/\D/', '', $thlin['contact_phone']) }}">{{ $thlin['contact_phone'] }}</a></p>
-                <p><strong>Email:</strong> <a href="mailto:{{ $thlin['contact_email'] }}">{{ $thlin['contact_email'] }}</a></p>
+            <div class="contact-grid">
+                <div class="contact-form-card">
+                    <h2>Send us a message</h2>
+                    <p>Tell us how we can help. We’ll get back to you as soon as possible.</p>
+
+                    @if (session('success'))
+                        <div class="contact-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    <form method="POST" action="{{ route('contact') }}" class="contact-form">
+                        @csrf
+
+                        <div class="form-group">
+                            <label for="name">Name <span>*</span></label>
+                            <input id="name" type="text" name="name" value="{{ old('name') }}" required>
+
+                            @error('name')
+                                <small>{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address <span>*</span></label>
+                            <input id="email" type="email" name="email" value="{{ old('email') }}" required>
+
+                            @error('email')
+                                <small>{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="organization">Organization</label>
+                            <input id="organization" type="text" name="organization" value="{{ old('organization') }}">
+
+                            @error('organization')
+                                <small>{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message <span>*</span></label>
+                            <textarea id="message" name="message" rows="6" required>{{ old('message') }}</textarea>
+
+                            @error('message')
+                                <small>{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <button type="submit" class="contact-submit">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+
+                <aside class="contact-info-panel">
+                    <div class="contact-info-icon">+</div>
+
+                    <h2>Head Office</h2>
+
+                    <div class="contact-info-item">
+                        <span>Address</span>
+                        <p>201 King St, London, ON N6C 1C9</p>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <span>Phone</span>
+                        <a href="tel:5196605910">519-660-5910</a>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <span>Email</span>
+                        <a href="mailto:admin@thehealthline.ca">admin@thehealthline.ca</a>
+                    </div>
+
+                    <div class="contact-note">
+                        <strong>Working with THLIN?</strong>
+                        <p>
+                            Contact us about partnerships, digital tools, service directories,
+                            portals, and information management support.
+                        </p>
+                    </div>
+                </aside>
             </div>
         </div>
     </section>
