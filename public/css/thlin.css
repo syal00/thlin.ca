@@ -1034,3 +1034,81 @@ a {
         align-items: flex-start;
     }
 }
+
+/* =========================================================
+   Header behavior fix
+   Floating navbar only on home page
+   Normal navbar on other pages
+========================================================= */
+
+/* Default inner page header */
+.site-header.is-inner-header {
+    background: #ffffff;
+    border-bottom: 1px solid #e4edf7;
+    box-shadow: 0 8px 24px rgba(18, 74, 132, 0.06);
+}
+
+.site-header.is-inner-header .nav-wrapper {
+    position: static;
+    top: auto;
+    left: auto;
+    right: auto;
+    padding: 0;
+}
+
+.site-header.is-inner-header .header-inner {
+    min-height: 78px;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    background: #ffffff;
+}
+
+.site-header.is-inner-header + main,
+.site-header.is-inner-header ~ main {
+    padding-top: 0;
+}
+
+/* Inner page content spacing */
+.site-header.is-inner-header ~ main#main-content {
+    padding-top: 3rem;
+}
+
+/* Keep floating navbar only on home page */
+.site-header.is-home-header {
+    position: relative;
+    background: var(--thlin-blue-dark);
+}
+
+.site-header.is-home-header .nav-wrapper {
+    position: absolute;
+    top: 1.5rem;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+.site-header.is-home-header .header-inner {
+    min-height: 76px;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 0 1.5rem;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.16);
+}
+
+/* Fix inner pages so title is not hidden */
+.site-header.is-inner-header .container {
+    width: min(1120px, calc(100% - 2rem));
+}
+
+/* Inner page nav should not cover content */
+.site-header.is-inner-header .site-nav > ul > li > ul {
+    margin-top: 0.75rem;
+}
+
+/* Mobile */
+@media (max-width: 1100px) {
+    .site-header.is-inner-header .header-inner {
+        padding: 1rem 0;
+    }
+}
