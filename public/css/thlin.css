@@ -901,3 +901,124 @@ a {
         font-size: 2.4rem;
     }
 }
+/* Header final fix */
+
+.site-header {
+    background: var(--thlin-blue);
+}
+
+.header-inner {
+    min-height: 82px;
+}
+
+.site-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 800;
+}
+
+.logo-mark {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #ffffff;
+    color: var(--thlin-blue);
+    font-weight: 900;
+}
+
+.logo-text {
+    color: #ffffff;
+    font-size: 1rem;
+}
+
+.site-nav > ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1.8rem;
+    margin: 0;
+    padding: 0;
+}
+
+.site-nav li {
+    list-style: none;
+    position: relative;
+}
+
+.site-nav a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.site-nav > ul > li > ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 240px;
+    padding: 0.8rem;
+    margin: 0;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 20px 45px rgba(18, 74, 132, 0.18);
+    z-index: 999;
+}
+
+.site-nav > ul > li:hover > ul {
+    display: block;
+}
+
+.site-nav > ul > li > ul a {
+    display: block;
+    color: var(--thlin-blue-dark);
+    padding: 0.6rem 0.75rem;
+    border-radius: 8px;
+}
+
+.site-nav > ul > li > ul a:hover {
+    background: var(--thlin-bg);
+}
+
+.menu-toggle {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .header-inner {
+        align-items: flex-start;
+    }
+
+    .menu-toggle {
+        display: inline-flex;
+        background: #ffffff;
+        color: var(--thlin-blue-dark);
+        border: 0;
+        border-radius: 8px;
+        padding: 0.5rem 0.8rem;
+        font-weight: 700;
+    }
+
+    .site-nav > ul {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
+    }
+
+    .site-nav > ul > li > ul {
+        position: static;
+        display: block;
+        box-shadow: none;
+        background: rgba(255, 255, 255, 0.08);
+        margin-top: 0.5rem;
+    }
+
+    .site-nav > ul > li > ul a {
+        color: #ffffff;
+    }
+}

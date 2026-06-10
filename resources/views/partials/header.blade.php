@@ -1,31 +1,57 @@
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
 <header class="site-header">
-    <div class="container header-inner">
-        <a href="{{ route('home') }}" class="brand">
-            <span class="brand-mark" aria-hidden="true">THL</span>
-            <span>{{ $thlin['name'] }}</span>
-        </a>
+    <div class="container">
+        <div class="header-inner">
+            <a href="{{ route('home') }}" class="site-logo" aria-label="THLIN home">
+                <span class="logo-mark">THL</span>
+                <span class="logo-text">thehealthline.ca Information Network</span>
+            </a>
 
-        <button type="button" class="nav-toggle" data-nav-toggle aria-expanded="false" aria-controls="main-navigation">
-            Menu
-        </button>
+            <button class="menu-toggle" type="button" aria-label="Toggle menu">
+                Menu
+            </button>
 
-        <nav class="main-nav" id="main-navigation" data-main-nav aria-label="Main navigation">
-            <ul>
-                @foreach ($navigation as $groupKey => $group)
+            <nav class="site-nav" aria-label="Main navigation">
+                <ul>
                     <li>
-                        <a href="#" aria-haspopup="true">{{ $group['label'] }}</a>
-                        <ul class="submenu">
-                            @foreach ($group['items'] as $slug => $label)
-                                <li>
-                                    <a href="{{ route('pages.show', ['section' => $groupKey, 'page' => $slug]) }}">{{ $label }}</a>
-                                </li>
-                            @endforeach
+                        <a href="#">Products &amp; Services</a>
+                        <ul>
+                            <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}">thehealthline.ca</a></li>
+                            <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}">Patient Portals</a></li>
+                            <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'provider-portals']) }}">Provider Portals</a></li>
+                            <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'support-training']) }}">Support &amp; Training</a></li>
+                            <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'information-management']) }}">Information Management</a></li>
+                            <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'portfolio']) }}">Portfolio</a></li>
+                            <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'resources']) }}">Resources</a></li>
                         </ul>
                     </li>
-                @endforeach
-                <li><a href="{{ route('contact') }}">Contact</a></li>
-            </ul>
-        </nav>
+
+                    <li>
+                        <a href="#">Partners</a>
+                        <ul>
+                            <li><a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'health-care']) }}">Health Care</a></li>
+                            <li><a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'municipalities']) }}">Municipalities</a></li>
+                            <li><a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'social-services']) }}">Social Services</a></li>
+                            <li><a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'oht']) }}">Ontario Health Teams</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#">About</a>
+                        <ul>
+                            <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'news']) }}">News</a></li>
+                            <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'about-us']) }}">About Us</a></li>
+                            <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'annual-reports']) }}">Annual Reports</a></li>
+                            <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'board-of-directors']) }}">Board of Directors</a></li>
+                            <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'careers']) }}">Careers</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="{{ route('contact') }}">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
     </div>
 
     @hasSection('hero')
