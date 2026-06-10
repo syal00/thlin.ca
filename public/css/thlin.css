@@ -1267,3 +1267,24 @@ a {
         font-size: 1rem;
     }
 }
+
+/* =========================================================
+   Fix empty buttons/links on inner pages
+========================================================= */
+
+.site-header.is-inner-header ~ main#main-content a:empty,
+.site-header.is-inner-header ~ main#main-content .btn:empty,
+.site-header.is-inner-header ~ main#main-content button:empty {
+    display: none !important;
+}
+
+/* Inner page buttons should not become huge empty pills */
+.site-header.is-inner-header ~ main#main-content .btn {
+    width: auto;
+    min-width: auto;
+    min-height: auto;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
