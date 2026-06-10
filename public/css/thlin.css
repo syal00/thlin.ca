@@ -1907,3 +1907,127 @@ a {
         border-radius: 20px;
     }
 }
+/* =========================================================
+   Patient Portal Final Professional Polish
+========================================================= */
+
+/* Reduce top empty space */
+.patient-hero {
+    padding: 3.5rem 0 3rem !important;
+}
+
+/* Better hero spacing */
+.patient-hero-grid {
+    grid-template-columns: minmax(0, 1.05fr) 420px !important;
+    gap: 4rem !important;
+    align-items: center !important;
+}
+
+/* Make action links look like real buttons */
+.patient-actions {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 2rem;
+}
+
+.patient-actions a,
+.patient-actions .btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    min-height: 54px;
+    min-width: 180px;
+    padding: 0.9rem 1.35rem !important;
+    border-radius: 999px !important;
+    text-decoration: none !important;
+    font-weight: 900 !important;
+    line-height: 1;
+}
+
+.patient-actions .btn-primary,
+.patient-actions a:first-child {
+    background: var(--thlin-blue) !important;
+    color: #ffffff !important;
+    border: 2px solid var(--thlin-blue) !important;
+}
+
+.patient-actions .btn-soft,
+.patient-actions a:nth-child(2) {
+    background: #edf6ff !important;
+    color: var(--thlin-blue-dark) !important;
+    border: 2px solid #dbe7f3 !important;
+}
+
+.patient-actions .btn-primary:hover,
+.patient-actions a:first-child:hover {
+    background: var(--thlin-blue-dark) !important;
+    border-color: var(--thlin-blue-dark) !important;
+}
+
+.patient-actions .btn-soft:hover,
+.patient-actions a:nth-child(2):hover {
+    background: #ffffff !important;
+    color: var(--thlin-blue) !important;
+    box-shadow: var(--shadow);
+}
+
+/* Make hero card more polished */
+.patient-hero-card {
+    max-width: 420px;
+    margin-left: auto;
+    padding: 2.3rem !important;
+}
+
+/* Improve content + side card alignment */
+.patient-section {
+    padding-top: 3.5rem !important;
+}
+
+.patient-content-grid {
+    grid-template-columns: minmax(0, 1fr) 300px !important;
+    gap: 2.2rem !important;
+}
+
+.patient-side-card {
+    opacity: 1 !important;
+}
+
+.patient-side-card h2,
+.patient-side-card a {
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
+
+.patient-side-card a {
+    background: rgba(255, 255, 255, 0.16) !important;
+}
+
+.patient-side-card a:hover {
+    background: #ffffff !important;
+    color: var(--thlin-blue-dark) !important;
+}
+
+/* Mobile */
+@media (max-width: 1000px) {
+    .patient-hero-grid,
+    .patient-content-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .patient-hero-card {
+        max-width: 100%;
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 650px) {
+    .patient-actions {
+        flex-direction: column;
+    }
+
+    .patient-actions a,
+    .patient-actions .btn {
+        width: 100%;
+    }
+}
