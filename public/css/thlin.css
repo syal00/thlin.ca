@@ -1,3 +1,9 @@
+/* =========================================================
+   THLIN Modern Website Styles
+   Path: public/css/thlin.css
+   Home page + header + footer only
+========================================================= */
+
 :root {
     --thlin-blue: #185FA5;
     --thlin-blue-dark: #124a84;
@@ -68,6 +74,10 @@ a {
     top: 1rem;
 }
 
+/* =========================================================
+   Buttons
+========================================================= */
+
 .btn {
     display: inline-flex;
     align-items: center;
@@ -80,6 +90,7 @@ a {
     text-decoration: none;
     cursor: pointer;
     transition: 0.2s ease;
+    font-family: inherit;
 }
 
 .btn-primary {
@@ -104,7 +115,7 @@ a {
 
 .btn-outline-light {
     background: transparent;
-    border-color: rgba(255,255,255,0.75);
+    border-color: rgba(255, 255, 255, 0.75);
     color: white;
 }
 
@@ -113,7 +124,9 @@ a {
     color: var(--thlin-blue-dark);
 }
 
-/* Header */
+/* =========================================================
+   Header / Floating Navbar
+========================================================= */
 
 .site-header {
     position: relative;
@@ -137,7 +150,7 @@ a {
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
-    box-shadow: 0 18px 45px rgba(0,0,0,0.16);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.16);
 }
 
 .site-logo {
@@ -165,6 +178,7 @@ a {
 .logo-text {
     font-size: 1rem;
     color: var(--thlin-blue-dark);
+    font-weight: 900;
 }
 
 .site-nav > ul {
@@ -240,7 +254,9 @@ a {
     color: white;
 }
 
-/* Hero */
+/* =========================================================
+   Home Hero
+========================================================= */
 
 .home-hero {
     min-height: 760px;
@@ -249,8 +265,30 @@ a {
     align-items: center;
     color: white;
     background:
-        radial-gradient(circle at 92% 82%, rgba(255,255,255,0.12) 0 18%, transparent 19%),
+        radial-gradient(circle at 92% 82%, rgba(255, 255, 255, 0.12) 0 18%, transparent 19%),
         linear-gradient(135deg, var(--thlin-blue) 0%, var(--thlin-blue-dark) 100%);
+}
+
+.home-hero.has-hero-image {
+    position: relative;
+    overflow: hidden;
+    background:
+        linear-gradient(135deg, rgba(24, 95, 165, 0.92), rgba(18, 74, 132, 0.95));
+}
+
+.hero-bg-image {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg, rgba(18, 74, 132, 0.96) 0%, rgba(18, 74, 132, 0.88) 45%, rgba(18, 74, 132, 0.72) 100%),
+        url("/images/hero-healthcare.jpg") center / cover no-repeat;
+    opacity: 0.55;
+    z-index: 0;
+}
+
+.home-hero .container {
+    position: relative;
+    z-index: 2;
 }
 
 .hero-grid {
@@ -297,7 +335,7 @@ a {
 .hero-lead {
     max-width: 660px;
     margin: 0;
-    color: rgba(255,255,255,0.92);
+    color: rgba(255, 255, 255, 0.92);
     font-size: 1.08rem;
     line-height: 1.75;
 }
@@ -307,6 +345,37 @@ a {
     flex-wrap: wrap;
     gap: 0.9rem;
     margin-top: 1.8rem;
+}
+
+.hero-actions .btn {
+    min-width: 230px;
+    min-height: 58px;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 900;
+}
+
+.hero-actions .btn-light {
+    background: #ffffff;
+    color: var(--thlin-blue-dark);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.hero-actions .btn-light:hover {
+    transform: translateY(-2px);
+    background: #f0f7ff;
+    color: var(--thlin-blue-dark);
+}
+
+.hero-actions .btn-outline-light {
+    border: 2px solid rgba(255, 255, 255, 0.75);
+    color: #ffffff;
+}
+
+.hero-actions .btn-outline-light:hover {
+    background: #ffffff;
+    color: var(--thlin-blue-dark);
+    transform: translateY(-2px);
 }
 
 .hero-tags {
@@ -319,8 +388,8 @@ a {
 .hero-tags span {
     padding: 0.55rem 0.85rem;
     border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.24);
-    background: rgba(255,255,255,0.11);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    background: rgba(255, 255, 255, 0.11);
     color: white;
     font-size: 0.88rem;
     font-weight: 700;
@@ -333,7 +402,9 @@ a {
     background: white;
     color: var(--thlin-text);
     border-radius: 26px;
-    box-shadow: 0 28px 70px rgba(0,0,0,0.18);
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.18);
+    position: relative;
+    z-index: 3;
 }
 
 .hero-card-icon {
@@ -385,7 +456,7 @@ a {
     border-radius: 50%;
     display: grid;
     place-items: center;
-    background: rgba(59,109,17,0.12);
+    background: rgba(59, 109, 17, 0.12);
     color: var(--thlin-green);
     font-size: 0.75rem;
     font-weight: 900;
@@ -421,7 +492,13 @@ a {
     cursor: pointer;
 }
 
-/* Sections */
+.hero-search button:hover {
+    background: #9f6011;
+}
+
+/* =========================================================
+   Home Sections
+========================================================= */
 
 .home-section {
     padding: 5rem 0;
@@ -454,7 +531,9 @@ a {
     font-size: 1.08rem;
 }
 
-/* Quick cards */
+/* =========================================================
+   Quick Access Cards
+========================================================= */
 
 .quick-grid {
     display: grid;
@@ -478,6 +557,7 @@ a {
 
 .quick-card:hover {
     transform: translateY(-6px);
+    box-shadow: 0 24px 60px rgba(18, 74, 132, 0.16);
 }
 
 .quick-card::before {
@@ -496,6 +576,10 @@ a {
     background: var(--thlin-orange);
 }
 
+.quick-card:nth-child(4)::before {
+    background: var(--thlin-blue-dark);
+}
+
 .quick-card span {
     display: inline-grid;
     place-items: center;
@@ -503,7 +587,7 @@ a {
     height: 42px;
     margin-bottom: 1rem;
     border-radius: 14px;
-    background: rgba(24,95,165,0.1);
+    background: rgba(24, 95, 165, 0.1);
     color: var(--thlin-blue);
     font-weight: 900;
 }
@@ -517,7 +601,13 @@ a {
     color: var(--thlin-muted);
 }
 
-/* About */
+.quick-card strong {
+    color: var(--thlin-blue);
+}
+
+/* =========================================================
+   About
+========================================================= */
 
 .split-grid {
     display: grid;
@@ -577,7 +667,9 @@ a {
     color: var(--thlin-muted);
 }
 
-/* Stats */
+/* =========================================================
+   Stats
+========================================================= */
 
 .stats-grid,
 .service-grid,
@@ -608,6 +700,14 @@ a {
     background: var(--thlin-blue);
 }
 
+.stat-card:nth-child(2n)::before {
+    background: var(--thlin-green);
+}
+
+.stat-card:nth-child(3n)::before {
+    background: var(--thlin-orange);
+}
+
 .stat-card strong {
     display: block;
     color: var(--thlin-blue-dark);
@@ -622,7 +722,9 @@ a {
     font-weight: 700;
 }
 
-/* Services */
+/* =========================================================
+   Services
+========================================================= */
 
 .service-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -634,6 +736,12 @@ a {
     border: 1px solid var(--thlin-border);
     border-radius: 24px;
     box-shadow: var(--shadow);
+    transition: 0.2s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 24px 60px rgba(18, 74, 132, 0.16);
 }
 
 .service-card > span {
@@ -642,14 +750,25 @@ a {
     height: 54px;
     margin-bottom: 1.1rem;
     border-radius: 18px;
-    background: linear-gradient(135deg, rgba(24,95,165,0.16), rgba(59,109,17,0.12));
+    background: linear-gradient(135deg, rgba(24, 95, 165, 0.16), rgba(59, 109, 17, 0.12));
+    position: relative;
+}
+
+.service-card > span::after {
+    content: "";
+    position: absolute;
+    inset: 14px;
+    border-radius: 10px;
+    background: var(--thlin-blue);
 }
 
 .service-card h3 {
     color: var(--thlin-blue-dark);
 }
 
-/* Portfolio */
+/* =========================================================
+   Portfolio
+========================================================= */
 
 .portfolio-grid {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -663,6 +782,12 @@ a {
     box-shadow: var(--shadow);
     text-decoration: none;
     color: inherit;
+    transition: 0.2s ease;
+}
+
+.portfolio-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px rgba(18, 74, 132, 0.16);
 }
 
 .portfolio-card img,
@@ -672,7 +797,7 @@ a {
     object-fit: cover;
     display: grid;
     place-items: center;
-    background: linear-gradient(135deg, rgba(24,95,165,0.12), rgba(59,109,17,0.12));
+    background: linear-gradient(135deg, rgba(24, 95, 165, 0.12), rgba(59, 109, 17, 0.12));
 }
 
 .portfolio-card-body {
@@ -683,7 +808,9 @@ a {
     color: var(--thlin-blue-dark);
 }
 
-/* CTA */
+/* =========================================================
+   CTA
+========================================================= */
 
 .home-cta {
     padding: 4.5rem 0;
@@ -704,7 +831,7 @@ a {
 
 .home-cta p {
     max-width: 720px;
-    color: rgba(255,255,255,0.9);
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .cta-actions {
@@ -712,71 +839,8 @@ a {
     gap: 0.9rem;
 }
 
-/* Responsive */
-
-@media (max-width: 1100px) {
-    .hero-grid,
-    .split-grid,
-    .cta-inner {
-        grid-template-columns: 1fr;
-    }
-
-    .hero-card {
-        max-width: 100%;
-        margin-left: 0;
-    }
-
-    .quick-grid,
-    .service-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .header-inner {
-        flex-wrap: wrap;
-        padding: 1rem 1.25rem;
-    }
-
-    .site-nav {
-        width: 100%;
-    }
-
-    .site-nav > ul {
-        flex-wrap: wrap;
-    }
-}
-
-@media (max-width: 700px) {
-    .home-hero {
-        min-height: auto;
-        padding-top: 12rem;
-        padding-bottom: 3.5rem;
-    }
-
-    .hero-content h1 {
-        font-size: 2.8rem;
-    }
-
-    .hero-search {
-        grid-template-columns: 1fr;
-    }
-
-    .quick-grid,
-    .service-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .hero-actions,
-    .cta-actions {
-        flex-direction: column;
-    }
-
-    .btn,
-    .nav-cta {
-        width: 100%;
-    }
-}
 /* =========================================================
-   Professional Footer
+   Footer
 ========================================================= */
 
 .site-footer {
@@ -878,194 +942,95 @@ a {
     text-decoration: underline;
 }
 
-@media (max-width: 900px) {
+/* =========================================================
+   Focus
+========================================================= */
+
+:where(.quick-card, .portfolio-card, .btn, .hero-search input, .hero-search button, .site-nav a, .nav-cta):focus-visible {
+    outline: 3px solid rgba(186, 117, 23, 0.55);
+    outline-offset: 4px;
+}
+
+/* =========================================================
+   Responsive
+========================================================= */
+
+@media (max-width: 1100px) {
+    .hero-grid,
+    .split-grid,
+    .cta-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-card {
+        max-width: 100%;
+        margin-left: 0;
+    }
+
+    .quick-grid,
+    .service-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .header-inner {
+        flex-wrap: wrap;
+        padding: 1rem 1.25rem;
+    }
+
+    .site-nav {
+        width: 100%;
+    }
+
+    .site-nav > ul {
+        flex-wrap: wrap;
+    }
+
     .footer-grid {
         grid-template-columns: 1fr 1fr;
     }
-
-    .footer-bottom-inner {
-        flex-direction: column;
-        align-items: flex-start;
-    }
 }
 
-@media (max-width: 600px) {
-    .site-footer {
-        padding-top: 3rem;
+@media (max-width: 700px) {
+    .home-hero {
+        min-height: auto;
+        padding-top: 12rem;
+        padding-bottom: 3.5rem;
+    }
+
+    .hero-content h1 {
+        font-size: 2.8rem;
+    }
+
+    .hero-search {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-search button {
+        width: 100%;
+    }
+
+    .quick-grid,
+    .service-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-actions,
+    .cta-actions {
+        flex-direction: column;
+    }
+
+    .btn,
+    .nav-cta {
+        width: 100%;
     }
 
     .footer-grid {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-}
 
-/* =========================================================
-   Professional Inner Content Pages
-   For pages like Products & Services / thehealthline.ca
-========================================================= */
-
-main#main-content {
-    background: #f7f9fc;
-}
-
-/* Generic page content wrapper */
-main#main-content > .container {
-    background: #ffffff;
-    margin-top: 2rem;
-    margin-bottom: 4rem;
-    padding: 3.5rem;
-    border-radius: 28px;
-    box-shadow: 0 18px 50px rgba(18, 74, 132, 0.08);
-    border: 1px solid #e4edf7;
-}
-
-/* Page title */
-main#main-content h1 {
-    color: #124a84;
-    font-size: clamp(2.4rem, 5vw, 4rem);
-    line-height: 1.05;
-    letter-spacing: -0.04em;
-    margin: 0 0 1.5rem;
-    max-width: 900px;
-}
-
-/* Section headings */
-main#main-content h2 {
-    color: #124a84;
-    font-size: clamp(1.55rem, 3vw, 2.15rem);
-    line-height: 1.2;
-    margin: 3rem 0 1rem;
-    padding-left: 1rem;
-    border-left: 5px solid #185FA5;
-}
-
-/* Smaller headings */
-main#main-content h3 {
-    color: #185FA5;
-    font-size: 1.35rem;
-    margin: 2rem 0 0.8rem;
-}
-
-/* Paragraphs */
-main#main-content p {
-    color: #1f2937;
-    font-size: 1.06rem;
-    line-height: 1.85;
-    max-width: 980px;
-    margin: 0 0 1.3rem;
-}
-
-/* Quotes */
-main#main-content blockquote {
-    margin: 2rem 0;
-    padding: 1.5rem 1.75rem;
-    background: #f7f9fc;
-    border-left: 5px solid #3B6D11;
-    border-radius: 16px;
-    color: #1f2937;
-    font-size: 1.08rem;
-    line-height: 1.8;
-}
-
-/* Lists */
-main#main-content ul,
-main#main-content ol {
-    margin: 1.2rem 0 1.8rem;
-    padding-left: 1.4rem;
-}
-
-main#main-content li {
-    margin-bottom: 0.65rem;
-    line-height: 1.7;
-}
-
-/* Links */
-main#main-content a {
-    color: #185FA5;
-    font-weight: 700;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 3px;
-}
-
-main#main-content a:hover {
-    color: #124a84;
-}
-
-/* Make content sections feel like cards */
-main#main-content h2 + p {
-    background: #ffffff;
-}
-
-/* Professional button style fix */
-.btn,
-button,
-input[type="submit"] {
-    font-family: inherit;
-}
-
-/* Hero button improvement */
-.hero-actions .btn,
-.home-hero__actions .btn {
-    min-width: 230px;
-    min-height: 58px;
-    border-radius: 999px;
-    font-size: 1rem;
-    font-weight: 900;
-    letter-spacing: 0.01em;
-}
-
-.hero-actions .btn-light,
-.home-hero__actions .btn-light {
-    background: #ffffff;
-    color: #124a84;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-}
-
-.hero-actions .btn-light:hover,
-.home-hero__actions .btn-light:hover {
-    transform: translateY(-2px);
-    background: #f0f7ff;
-    color: #124a84;
-}
-
-.hero-actions .btn-outline-light,
-.home-hero__actions .btn-outline-light {
-    border: 2px solid rgba(255, 255, 255, 0.75);
-    color: #ffffff;
-}
-
-.hero-actions .btn-outline-light:hover,
-.home-hero__actions .btn-outline-light:hover {
-    background: #ffffff;
-    color: #124a84;
-    transform: translateY(-2px);
-}
-
-/* Mobile content pages */
-@media (max-width: 768px) {
-    main#main-content > .container {
-        padding: 2rem 1.25rem;
-        margin-top: 1rem;
-        border-radius: 18px;
-    }
-
-    main#main-content h1 {
-        font-size: 2.3rem;
-    }
-
-    main#main-content h2 {
-        font-size: 1.5rem;
-        margin-top: 2.2rem;
-    }
-
-    main#main-content p {
-        font-size: 1rem;
-    }
-
-    .hero-actions .btn,
-    .home-hero__actions .btn {
-        width: 100%;
-        min-width: 0;
+    .footer-bottom-inner {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
