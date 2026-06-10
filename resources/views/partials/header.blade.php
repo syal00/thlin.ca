@@ -1,6 +1,6 @@
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
-<header class="site-header">
+<header class="site-header {{ request()->routeIs('home') ? 'is-home-header' : 'is-inner-header' }}">
     <div class="nav-wrapper">
         <div class="container">
             <div class="header-inner">
