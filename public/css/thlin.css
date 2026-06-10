@@ -899,3 +899,173 @@ a {
         gap: 2rem;
     }
 }
+
+/* =========================================================
+   Professional Inner Content Pages
+   For pages like Products & Services / thehealthline.ca
+========================================================= */
+
+main#main-content {
+    background: #f7f9fc;
+}
+
+/* Generic page content wrapper */
+main#main-content > .container {
+    background: #ffffff;
+    margin-top: 2rem;
+    margin-bottom: 4rem;
+    padding: 3.5rem;
+    border-radius: 28px;
+    box-shadow: 0 18px 50px rgba(18, 74, 132, 0.08);
+    border: 1px solid #e4edf7;
+}
+
+/* Page title */
+main#main-content h1 {
+    color: #124a84;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    margin: 0 0 1.5rem;
+    max-width: 900px;
+}
+
+/* Section headings */
+main#main-content h2 {
+    color: #124a84;
+    font-size: clamp(1.55rem, 3vw, 2.15rem);
+    line-height: 1.2;
+    margin: 3rem 0 1rem;
+    padding-left: 1rem;
+    border-left: 5px solid #185FA5;
+}
+
+/* Smaller headings */
+main#main-content h3 {
+    color: #185FA5;
+    font-size: 1.35rem;
+    margin: 2rem 0 0.8rem;
+}
+
+/* Paragraphs */
+main#main-content p {
+    color: #1f2937;
+    font-size: 1.06rem;
+    line-height: 1.85;
+    max-width: 980px;
+    margin: 0 0 1.3rem;
+}
+
+/* Quotes */
+main#main-content blockquote {
+    margin: 2rem 0;
+    padding: 1.5rem 1.75rem;
+    background: #f7f9fc;
+    border-left: 5px solid #3B6D11;
+    border-radius: 16px;
+    color: #1f2937;
+    font-size: 1.08rem;
+    line-height: 1.8;
+}
+
+/* Lists */
+main#main-content ul,
+main#main-content ol {
+    margin: 1.2rem 0 1.8rem;
+    padding-left: 1.4rem;
+}
+
+main#main-content li {
+    margin-bottom: 0.65rem;
+    line-height: 1.7;
+}
+
+/* Links */
+main#main-content a {
+    color: #185FA5;
+    font-weight: 700;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+main#main-content a:hover {
+    color: #124a84;
+}
+
+/* Make content sections feel like cards */
+main#main-content h2 + p {
+    background: #ffffff;
+}
+
+/* Professional button style fix */
+.btn,
+button,
+input[type="submit"] {
+    font-family: inherit;
+}
+
+/* Hero button improvement */
+.hero-actions .btn,
+.home-hero__actions .btn {
+    min-width: 230px;
+    min-height: 58px;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: 0.01em;
+}
+
+.hero-actions .btn-light,
+.home-hero__actions .btn-light {
+    background: #ffffff;
+    color: #124a84;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.hero-actions .btn-light:hover,
+.home-hero__actions .btn-light:hover {
+    transform: translateY(-2px);
+    background: #f0f7ff;
+    color: #124a84;
+}
+
+.hero-actions .btn-outline-light,
+.home-hero__actions .btn-outline-light {
+    border: 2px solid rgba(255, 255, 255, 0.75);
+    color: #ffffff;
+}
+
+.hero-actions .btn-outline-light:hover,
+.home-hero__actions .btn-outline-light:hover {
+    background: #ffffff;
+    color: #124a84;
+    transform: translateY(-2px);
+}
+
+/* Mobile content pages */
+@media (max-width: 768px) {
+    main#main-content > .container {
+        padding: 2rem 1.25rem;
+        margin-top: 1rem;
+        border-radius: 18px;
+    }
+
+    main#main-content h1 {
+        font-size: 2.3rem;
+    }
+
+    main#main-content h2 {
+        font-size: 1.5rem;
+        margin-top: 2.2rem;
+    }
+
+    main#main-content p {
+        font-size: 1rem;
+    }
+
+    .hero-actions .btn,
+    .home-hero__actions .btn {
+        width: 100%;
+        min-width: 0;
+    }
+}
