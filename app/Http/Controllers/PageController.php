@@ -14,8 +14,13 @@ class PageController extends Controller
 {
     public function home(): View
     {
-        $page = Page::published()->where('slug', 'home')->firstOrFail();
-        $featuredPortfolio = PortfolioItem::featured()->ordered()->get();
+        $page = Page::published()
+            ->where('slug', 'home')
+            ->firstOrFail();
+
+        $featuredPortfolio = PortfolioItem::featured()
+            ->ordered()
+            ->get();
 
         return view('pages.home', compact('page', 'featuredPortfolio'));
     }
@@ -31,16 +36,20 @@ class PageController extends Controller
                 'featured' => PortfolioItem::featured()->ordered()->get(),
                 'past' => PortfolioItem::where('featured', false)->ordered()->get(),
             ])),
+
             'board' => view('pages.board', array_merge($data, [
                 'members' => BoardMember::ordered()->get(),
             ])),
+
             'news' => view('pages.news', array_merge($data, [
                 'posts' => NewsPost::published()->orderByDesc('published_at')->get(),
             ])),
+
             'careers' => view('pages.careers', array_merge($data, [
                 'jobs' => Career::active()->orderByDesc('posted_at')->get(),
             ])),
+
             default => view('pages.show', $data),
         };
     }
-}
+    }
