@@ -6,7 +6,7 @@
 @section('content')
     @include('partials.page-header', ['page' => $page])
 
-    <section class="page-content">
+    <section class="section">
         <div
             class="container prose"
             data-editable="true"

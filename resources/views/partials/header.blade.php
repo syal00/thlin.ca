@@ -1,59 +1,32 @@
-<a href="#main-content" class="skip-link">Skip to main content</a>
+<header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
-<header class="site-header">
-    <div class="container">
-        <div class="site-header__inner">
-            <a href="{{ route('home') }}" class="site-logo" aria-label="THLIN home">
-                <span class="site-logo__mark">THL</span>
-                <span class="site-logo__text">thehealthline.ca Information Network</span>
-            </a>
+        <a href="{{ route('home') }}" class="logo d-flex align-items-center me-auto me-xl-0">
+            <i class="bi bi-heart-pulse"></i>
+            <h1 class="sitename">{{ $thlin['name'] }}</h1>
+        </a>
 
-            <input type="checkbox" id="site-menu-toggle" class="site-menu-checkbox" aria-hidden="true">
-            <label for="site-menu-toggle" class="site-menu-button">Menu</label>
-
-            <nav class="site-nav" aria-label="Main navigation">
-                <ul>
-                    <li>
-                        <a href="#">Products &amp; Services</a>
+        <nav id="navmenu" class="navmenu">
+            <ul>
+                <li><a href="{{ route('home') }}" @if (request()->routeIs('home')) class="active" @endif>Home</a></li>
+                @foreach ($navigation as $groupKey => $group)
+                    <li class="dropdown">
+                        <a href="#"><span>{{ $group['label'] }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                         <ul>
-                            <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}">thehealthline.ca</a></li>
-                            <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}">Patient Portals</a></li>
-                            <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'provider-portals']) }}">Provider Portals</a></li>
-                            <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'support-training']) }}">Support &amp; Training</a></li>
-                            <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'information-management']) }}">Information Management</a></li>
-                            <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'portfolio']) }}">Portfolio</a></li>
-                            <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'resources']) }}">Resources</a></li>
+                            @foreach ($group['items'] as $slug => $label)
+                                <li>
+                                    <a href="{{ route('pages.show', ['section' => $groupKey, 'page' => $slug]) }}">{{ $label }}</a>
+                                </li>
+                            @endforeach
                         </ul>
                     </li>
+                @endforeach
+                <li><a href="{{ route('contact') }}" @if (request()->routeIs('contact')) class="active" @endif>Contact</a></li>
+            </ul>
+            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
 
-                    <li>
-                        <a href="#">Partners</a>
-                        <ul>
-                            <li><a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'health-care']) }}">Health Care</a></li>
-                            <li><a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'municipalities']) }}">Municipalities</a></li>
-                            <li><a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'social-services']) }}">Social Services</a></li>
-                            <li><a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'oht']) }}">Ontario Health Teams</a></li>
-                        </ul>
-                    </li>
+        <a class="btn-getstarted" href="{{ route('search') }}">Search</a>
 
-                    <li>
-                        <a href="#">About</a>
-                        <ul>
-                            <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'news']) }}">News</a></li>
-                            <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'about-us']) }}">About Us</a></li>
-                            <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'annual-reports']) }}">Annual Reports</a></li>
-                            <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'board-of-directors']) }}">Board of Directors</a></li>
-                            <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'careers']) }}">Careers</a></li>
-                        </ul>
-                    </li>
-
-                    <li><a href="{{ route('contact') }}">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
     </div>
-
-    @hasSection('hero')
-        @yield('hero')
-    @endif
 </header>

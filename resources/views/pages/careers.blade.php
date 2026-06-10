@@ -5,8 +5,8 @@
 @section('content')
     @include('partials.page-header', ['page' => $page])
 
-    <section class="page-content">
-        <div class="container prose">
+    <section class="section">
+        <div class="container prose mb-5">
             {!! $page->body !!}
         </div>
         <div class="container">

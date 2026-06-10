@@ -4,12 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Admin') - {{ config('thlin.name') }}</title>
-    <link rel="stylesheet" href="{{ asset('css/thlin.css') }}">
+    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/thlin-overrides.css') }}" rel="stylesheet">
 </head>
 <body class="admin-body">
     <header class="admin-header">
         <div class="container">
-            <strong>THLIN Admin</strong>
+            <strong><i class="bi bi-gear"></i> THLIN Admin</strong>
             @auth
                 <nav class="admin-nav">
                     <a href="{{ route('admin.dashboard') }}">Dashboard</a>

@@ -3,21 +3,30 @@
 @section('title', $post->title.' - '.$thlin['name'])
 
 @section('content')
-    <div class="page-header">
-        <div class="container">
+    <div class="page-title light-background">
+        <div class="breadcrumbs">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="bi bi-house"></i> Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'news']) }}">News</a></li>
+                    <li class="breadcrumb-item active current">{{ $post->title }}</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="title-wrapper">
             <h1>{{ $post->title }}</h1>
             @if ($post->published_at)
-                <p class="page-lead">{{ $post->published_at->format('F j, Y') }}@if ($post->location) &middot; {{ $post->location }}@endif</p>
+                <p>{{ $post->published_at->format('F j, Y') }}@if ($post->location) &middot; {{ $post->location }}@endif</p>
             @endif
         </div>
     </div>
 
-    <section class="page-content">
+    <section class="section">
         <div class="container prose">
             {!! $post->body !!}
         </div>
-        <div class="container" style="margin-top: 2rem;">
-            <a href="{{ route('pages.show', ['section' => 'about', 'page' => 'news']) }}">&larr; Back to News</a>
+        <div class="container mt-4">
+            <a href="{{ route('pages.show', ['section' => 'about', 'page' => 'news']) }}" class="link-action"><i class="bi bi-arrow-left"></i> Back to News</a>
         </div>
     </section>
 @endsection

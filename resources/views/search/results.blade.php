@@ -3,17 +3,27 @@
 @section('title', 'Search'.($query ? ': '.$query : '').' - '.$thlin['name'])
 
 @section('content')
-    <div class="page-header">
-        <div class="container">
+    <div class="page-title light-background">
+        <div class="breadcrumbs">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="bi bi-house"></i> Home</a></li>
+                    <li class="breadcrumb-item active current">Search</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="title-wrapper">
             <h1>Search</h1>
-            <form class="search-bar" action="{{ route('search') }}" method="get" role="search" style="margin: 1.5rem auto 0; max-width: 520px;">
-                <input type="search" name="q" value="{{ $query }}" placeholder="Search the site" aria-label="Search query">
-                <button type="submit">Search</button>
+            <form class="thlin-search-form mx-auto" action="{{ route('search') }}" method="get" role="search" style="max-width: 520px;">
+                <div class="input-group">
+                    <input type="search" name="q" class="form-control" value="{{ $query }}" placeholder="Search the site" aria-label="Search query">
+                    <button type="submit" class="btn btn-solid">Search</button>
+                </div>
             </form>
         </div>
     </div>
 
-    <section class="page-content">
+    <section class="section">
         <div class="container">
             @if ($query === '')
                 <p>Enter a search term to find pages across the site.</p>

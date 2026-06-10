@@ -5,18 +5,22 @@
 @section('content')
     @include('partials.page-header', ['page' => $page])
 
-    <section class="page-content">
-        <div class="container prose">
+    <section class="section">
+        <div class="container prose mb-5">
             {!! $page->body !!}
         </div>
-        <div class="container board-grid">
-            @foreach ($members as $member)
-                <article class="board-card">
-                    <h2>{{ $member->name }}</h2>
-                    <p class="board-role">{{ $member->role }}</p>
-                    <p>{{ $member->bio }}</p>
-                </article>
-            @endforeach
+        <div class="container">
+            <div class="row gy-4">
+                @foreach ($members as $member)
+                    <div class="col-lg-6">
+                        <article class="board-card h-100">
+                            <h2>{{ $member->name }}</h2>
+                            <p class="board-role">{{ $member->role }}</p>
+                            <p>{{ $member->bio }}</p>
+                        </article>
+                    </div>
+                @endforeach
+            </div>
         </div>
     </section>
 @endsection
