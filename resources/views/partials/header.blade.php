@@ -6,7 +6,7 @@
             <div class="header-inner">
                 <a href="{{ route('home') }}" class="site-logo" aria-label="THLIN home">
                     <span class="logo-icon">THL</span>
-                    <span class="logo-text">thehealthline.ca Information Network</span>
+                    <span class="logo-text">THLIN</span>
                 </a>
 
                 <nav class="site-nav" aria-label="Main navigation">
