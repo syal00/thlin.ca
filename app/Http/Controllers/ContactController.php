@@ -1,43 +1,90 @@
-<?php
+@extends('layouts.app')
 
-namespace App\Http\Controllers;
+@section('title', 'Contact - '.$thlin['name'])
+@section('meta_description', 'Contact thehealthline.ca Information Network.')
 
-use App\Models\Page;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\View\View;
+@section('content')
+    <section class="contact-page">
+        <div class="container">
+            <div class="contact-hero">
+                <span class="section-kicker blue">Contact THLIN</span>
+                <h1>Let’s Connect</h1>
+                <p>
+                    We work with partners to improve information systems and connect people across Ontario
+                    to trusted health and community services.
+                </p>
+            </div>
 
-class ContactController extends Controller
-{
-    public function show(): View
-    {
-        $page = Page::published()->where('slug', 'contact')->firstOrFail();
+            <div class="contact-grid">
+                <div class="contact-form-card">
+                    <h2>Send us a message</h2>
+                    <p>Tell us how we can help. We’ll get back to you as soon as possible.</p>
 
-        return view('contact.show', compact('page'));
-    }
+                    <form method="POST" action="{{ route('contact') }}" class="contact-form">
+                        @csrf
 
-    public function store(Request $request): RedirectResponse
-    {
-        $data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255'],
-            'organization' => ['nullable', 'string', 'max:255'],
-            'message' => ['required', 'string', 'max:5000'],
-        ]);
+                        <div class="form-group">
+                            <label for="name">Name <span>*</span></label>
+                            <input id="name" type="text" name="name" value="{{ old('name') }}" required>
+                            @error('name')
+                                <small>{{ $message }}</small>
+                            @enderror
+                        </div>
 
-        $to = config('thlin.contact_email');
+                        <div class="form-group">
+                            <label for="email">Email Address <span>*</span></label>
+                            <input id="email" type="email" name="email" value="{{ old('email') }}" required>
+                            @error('email')
+                                <small>{{ $message }}</small>
+                            @enderror
+                        </div>
 
-        try {
-            Mail::raw(
-                "Name: {$data['name']}\nEmail: {$data['email']}\nOrganization: ".($data['organization'] ?? '—')."\n\n{$data['message']}",
-                fn ($message) => $message->to($to)->replyTo($data['email'])->subject('THLIN website contact: '.$data['name'])
-            );
-        } catch (\Throwable) {
-            // Log-only fallback when mail is not configured locally
-            logger()->info('Contact form submission', $data);
-        }
+                        <div class="form-group">
+                            <label for="organization">Organization</label>
+                            <input id="organization" type="text" name="organization" value="{{ old('organization') }}">
+                            @error('organization')
+                                <small>{{ $message }}</small>
+                            @enderror
+                        </div>
 
-        return redirect()->route('contact')->with('status', 'Thank you for your message. We will be in touch soon.');
-    }
-}
+                        <div class="form-group">
+                            <label for="message">Message <span>*</span></label>
+                            <textarea id="message" name="message" rows="6" required>{{ old('message') }}</textarea>
+                            @error('message')
+                                <small>{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <button type="submit" class="contact-submit">Send Message</button>
+                    </form>
+                </div>
+
+                <aside class="contact-info-panel">
+                    <div class="contact-info-icon">+</div>
+
+                    <h2>Head Office</h2>
+
+                    <div class="contact-info-item">
+                        <span>Address</span>
+                        <p>201 King St, London, ON N6C 1C9</p>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <span>Phone</span>
+                        <a href="tel:5196605910">519-660-5910</a>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <span>Email</span>
+                        <a href="mailto:admin@thehealthline.ca">admin@thehealthline.ca</a>
+                    </div>
+
+                    <div class="contact-note">
+                        <strong>Working with THLIN?</strong>
+                        <p>Contact us about partnerships, digital tools, service directories, portals, and information management support.</p>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+@endsection
