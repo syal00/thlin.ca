@@ -9,12 +9,12 @@ class ContactController extends Controller
 {
     public function index(): View
     {
-        return view('pages.contact');
+        return view('contact.show');
     }
 
     public function send(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
             'organization' => ['nullable', 'string', 'max:255'],
