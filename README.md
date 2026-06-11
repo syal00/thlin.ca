@@ -29,6 +29,32 @@ php artisan migrate --seed
 
 Manage **pages**, **news**, **careers**, **board members**, and **portfolio items** without editing code.
 
+## CMS features
+
+- Controlled editing for built-in pages
+- Custom page creation with draft/publish workflow
+- TinyMCE WYSIWYG editor for page content
+- Image upload inside page content
+- Internal and external links in page content
+- PDF upload for Annual Reports
+- Uploaded Files library with copy-link support
+- Optional Resources navigation dropdown for custom pages
+- Public search includes published custom pages
+
+After CMS changes, run:
+
+```bash
+php artisan migrate
+php artisan storage:link
+php artisan view:clear
+php artisan cache:clear
+php artisan config:clear
+```
+
+TinyMCE currently uses `no-api-key` for local testing. For production, create a free TinyMCE API key and replace `no-api-key` in the TinyMCE script URL inside the page form partial.
+
+**Vercel upload warning:** Uploaded files are not persistent on Vercel serverless storage. Use Cloudinary, AWS S3, or Supabase Storage for real production uploads.
+
 ## URL map
 
 | Section | Example URLs |
@@ -40,10 +66,12 @@ Manage **pages**, **news**, **careers**, **board members**, and **portfolio item
 | News article | `/about/news/sean-wong` |
 | Contact | `/contact` |
 | Search | `/search?q=…` |
+| Custom pages | `/annual-reports`, `/privacy-policy`, … |
 
 ## Database tables
 
-- `pages` — static page content (slug, title, body, template)
+- `pages` — static page content (slug, title, body, template, CMS fields)
+- `media_files` — uploaded PDF files for Annual Reports and resources
 - `news_posts` — news articles
 - `careers` — job postings
 - `board_members` — board of directors
@@ -68,7 +96,7 @@ Requires `pdo_sqlsrv`. Then run `php artisan migrate --seed`.
 
 ```
 app/Http/Controllers/     Public + Admin
-app/Models/               Page, NewsPost, Career, BoardMember, PortfolioItem
+app/Models/               Page, MediaFile, NewsPost, Career, BoardMember, PortfolioItem
 app/Services/SiteSearch.php
 config/thlin.php          Site settings & navigation
 config/admin.php          Default admin credentials

@@ -8,6 +8,7 @@ use App\Models\NewsPost;
 use App\Models\Page;
 use App\Models\PortfolioItem;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class SiteSearch
 {
@@ -21,12 +22,12 @@ class SiteSearch
 
         $results = collect();
 
-        foreach (Page::search($term)->limit(20)->get() as $page) {
+        foreach (Page::search($term)->with('parent')->limit(20)->get() as $page) {
             $results->push([
                 'type' => 'Page',
                 'title' => $page->title,
-                'excerpt' => $page->excerpt,
-                'url' => $page->url(),
+                'excerpt' => $page->excerpt ?: Str::limit(strip_tags($page->body ?? ''), 160),
+                'url' => url($page->full_url),
             ]);
         }
 

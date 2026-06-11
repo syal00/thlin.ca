@@ -18,6 +18,9 @@
                 <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'about-us']) }}">About</a></li>
                 <li><a href="{{ route('contact') }}">Contact</a></li>
                 <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}">thehealthline.ca</a></li>
+                @if (app()->environment('local'))
+                    <li><a href="{{ route('admin.login') }}">CMS Login</a></li>
+                @endif
             </ul>
         </div>
 

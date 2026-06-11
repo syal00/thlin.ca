@@ -25,6 +25,14 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
+        if (! $this->app->runningInConsole()) {
+            $forwardedHost = request()->headers->get('X-Forwarded-Host');
+            if ($forwardedHost) {
+                $scheme = request()->headers->get('X-Forwarded-Proto', 'https');
+                URL::forceRootUrl($scheme.'://'.trim(explode(',', $forwardedHost)[0]));
+            }
+        }
+
         View::share('thlin', config('thlin'));
         View::share('navigation', config('thlin.navigation'));
     }

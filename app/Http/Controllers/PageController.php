@@ -27,7 +27,7 @@ class PageController extends Controller
 
     public function show(Request $request, string $section, Page $page): View
     {
-        abort_unless($page->is_published && $page->section === $section, 404);
+        abort_unless($page->status === 'published' && $page->section === $section, 404);
 
         $data = compact('page', 'section');
 
@@ -52,4 +52,4 @@ class PageController extends Controller
             default => view('pages.show', $data),
         };
     }
-    }
+}

@@ -1,5 +1,29 @@
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
+@php
+    $navParents = \App\Models\Page::whereIn('slug', [
+        'home',
+        'products-services',
+        'products',
+        'partners',
+        'about',
+        'careers',
+        'board',
+        'portfolio',
+        'contact',
+        'news',
+    ])->published()->get()->keyBy('slug');
+
+    $navChildren = \App\Models\Page::custom()
+        ->published()
+        ->where('show_in_navigation', true)
+        ->whereNotNull('parent_id')
+        ->orderBy('sort_order')
+        ->orderBy('title')
+        ->get()
+        ->groupBy('parent_id');
+@endphp
+
 <header class="site-header {{ request()->routeIs('home') ? 'is-home-header' : 'is-inner-header' }}">
     <div class="nav-wrapper">
         <div class="container">
@@ -21,6 +45,7 @@
                                 <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'provider-portals']) }}">Provider Portals</a></li>
                                 <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'support-training']) }}">Support &amp; Training</a></li>
                                 <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'portfolio']) }}">Portfolio</a></li>
+                                @include('partials.nav-cms-children', ['parentSlugs' => ['products-services', 'products', 'portfolio']])
                             </ul>
                         </li>
 
@@ -31,6 +56,7 @@
                                 <li><a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'municipalities']) }}">Municipalities</a></li>
                                 <li><a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'social-services']) }}">Social Services</a></li>
                                 <li><a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'oht']) }}">Ontario Health Teams</a></li>
+                                @include('partials.nav-cms-children', ['parentSlugs' => ['partners']])
                             </ul>
                         </li>
 
@@ -42,10 +68,30 @@
                                 <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'annual-reports']) }}">Annual Reports</a></li>
                                 <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'board-of-directors']) }}">Board of Directors</a></li>
                                 <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'careers']) }}">Careers</a></li>
+                                @include('partials.nav-cms-children', ['parentSlugs' => ['about', 'careers', 'news', 'board']])
                             </ul>
                         </li>
 
                         <li><a href="{{ route('contact') }}">Contact</a></li>
+
+                        @php
+                            $resourcePages = \App\Models\Page::navigationItems()->get();
+                        @endphp
+
+                        @if ($resourcePages->count())
+                            <li>
+                                <a href="#">Resources</a>
+                                <ul>
+                                    @foreach ($resourcePages as $resourcePage)
+                                        <li>
+                                            <a href="{{ $resourcePage->url() }}">
+                                                {{ $resourcePage->menu_label }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </li>
+                        @endif
                     </ul>
                 </nav>
 

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Admin') - {{ config('thlin.name') }}</title>
     <link rel="stylesheet" href="{{ asset('css/thlin.css') }}">
+    @stack('head')
 </head>
 <body class="admin-body">
     <header class="admin-header">
@@ -15,6 +16,7 @@
                     <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                     <a href="{{ route('admin.inline-editing') }}">Inline Editing</a>
                     <a href="{{ route('admin.pages.index') }}">Pages</a>
+                    <a href="{{ route('admin.media.index') }}">Uploaded Files</a>
                     <a href="{{ route('admin.news.index') }}">News</a>
                     <a href="{{ route('admin.careers.index') }}">Careers</a>
                     <a href="{{ route('admin.board.index') }}">Board</a>
@@ -35,6 +37,14 @@
             <div class="alert alert-success">{{ session('status') }}</div>
         @endif
 
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-error">{{ session('error') }}</div>
+        @endif
+
         @auth
         @if ($errors->any())
             <div class="alert alert-error">
@@ -47,5 +57,7 @@
 
         @yield('content')
     </div>
+
+    @stack('scripts')
 </body>
 </html>
