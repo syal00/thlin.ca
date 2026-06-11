@@ -23,6 +23,10 @@ Route::get('/search', [SearchController::class, 'index'])->name('search');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
+Route::get('/about', function () {
+    return redirect('/');
+})->name('about');
+
 Route::get('/about/news/{news}', [NewsController::class, 'show'])->name('news.show');
 
 Route::prefix('admin')->name('admin.')->group(function () {
