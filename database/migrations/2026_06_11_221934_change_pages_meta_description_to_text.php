@@ -10,6 +10,8 @@ return new class extends Migration
     {
         if (Schema::getConnection()->getDriverName() === 'pgsql') {
             DB::statement('ALTER TABLE pages ALTER COLUMN meta_description TYPE TEXT');
+        } elseif (Schema::getConnection()->getDriverName() === 'sqlite') {
+            // SQLite stores strings as TEXT already; no alter needed for tests.
         } else {
             DB::statement('ALTER TABLE pages MODIFY meta_description TEXT NULL');
         }
