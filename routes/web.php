@@ -22,6 +22,10 @@ Route::post('/contact', [ContactController::class, 'send'])->name('contact.send'
 
 Route::get('/about/news/{news}', [NewsController::class, 'show'])->name('news.show');
 
+Route::get('/about', function () {
+    return redirect('/');
+})->name('about');
+
 Route::get('/{section}/{page:slug}', [PageController::class, 'show'])
     ->whereIn('section', ['products', 'partners', 'about'])
     ->name('pages.show');
