@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Page;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class PageSeeder extends Seeder
 {
@@ -39,7 +40,7 @@ class PageSeeder extends Seeder
             Page::updateOrCreate(
                 ['slug' => $data['slug']],
                 array_merge([
-                    'meta_description' => $data['excerpt'] ?? null,
+                    'meta_description' => isset($data['excerpt']) ? Str::limit($data['excerpt'], 255) : null,
                     'body' => $body,
                     'template' => $data['template'] ?? 'standard',
                     'sort_order' => $index,
