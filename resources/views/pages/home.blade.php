@@ -4,10 +4,10 @@
 @section('meta_description', $page->excerpt)
 
 @section('hero')
-    <section class="home-hero">
+    <section class="home-hero home-hero--video">
         <div class="container hero-grid">
             <div class="hero-content">
-                <span class="section-kicker">THLIN</span>
+                <span class="section-kicker hero-kicker">THLIN</span>
 
                 <h1
                     data-editable="true"
@@ -23,19 +23,19 @@
                     data-id="{{ $page->id }}"
                     data-field="excerpt"
                 >{{ $page->excerpt }}</p>
-<div class="hero-actions">
-    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="btn btn-light">
-        Explore thehealthline.ca
-    </a>
-    <a href="{{ route('contact') }}" class="btn btn-outline-light">
-        Contact Us
-    </a>
-</div>
-<div class="hero-tags">
-    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}">Patient Portal</a>
-    <span>Community service navigation</span>
-    <span>Ontario care network support</span>
-</div>
+                <div class="hero-actions">
+                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="btn btn-light">
+                        Explore thehealthline.ca
+                    </a>
+                    <a href="{{ route('contact') }}" class="btn btn-outline-light">
+                        Contact Us
+                    </a>
+                </div>
+                <div class="hero-tags">
+                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}">Patient Portal</a>
+                    <span>Community service navigation</span>
+                    <span>Ontario care network support</span>
+                </div>
             </div>
 
             <div class="hero-card">
