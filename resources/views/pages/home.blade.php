@@ -6,9 +6,8 @@
 @section('hero')
     <section class="home-hero">
         <div class="hero-video-bg" aria-hidden="true">
-            <video autoplay muted loop playsinline poster="{{ asset('images/poster.jpg') }}">
+            <video autoplay muted loop playsinline poster="{{ asset('images/hero-doctors.jpg') }}">
                 <source src="{{ asset('videos/background.mp4') }}" type="video/mp4">
-                <source src="{{ asset('videos/background.webm') }}" type="video/webm">
             </video>
             <div class="hero-video-overlay"></div>
         </div>
@@ -24,7 +23,7 @@
 
         <div class="hero-inner">
             <div class="hero-grid">
-                <div class="hero-content">
+                <div class="hero-content home-hero-enter">
                     <span class="section-kicker">THLIN</span>
 
                     <h1 @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'title', 'type' => 'text'])>{{ $page->title }}</h1>
@@ -63,7 +62,7 @@
 
     <section class="home-section home-section-help section-alt">
         <div class="section-container">
-            <div class="stats-card" aria-label="THLIN impact statistics">
+            <div class="stats-card reveal-on-scroll" aria-label="THLIN impact statistics">
                 @foreach ($homeStats as $stat)
                     <div class="stat-item">
                         <span class="stat-number">{{ $stat['value'] }}</span>
@@ -72,35 +71,35 @@
                 @endforeach
             </div>
 
-            <div class="section-heading">
+            <div class="section-heading reveal-on-scroll">
                 <span class="section-kicker blue">Quick Access</span>
                 <h2>How can we help you?</h2>
                 <p>Choose the path that best matches your needs and quickly access THLIN information, tools, and services.</p>
             </div>
 
             <div class="help-grid">
-                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="help-card">
+                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="help-card reveal-on-scroll" data-reveal-delay="0ms">
                     <span>01</span>
                     <h3>Patients &amp; Families</h3>
                     <p>Find trusted health and community service information that is easier to understand and access.</p>
                     <strong>Find services</strong>
                 </a>
 
-                <a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'health-care']) }}" class="help-card">
+                <a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'health-care']) }}" class="help-card reveal-on-scroll" data-reveal-delay="80ms">
                     <span>02</span>
                     <h3>Health &amp; Social Service Providers</h3>
                     <p>Connect people to programs, resources, and local service information.</p>
                     <strong>Support navigation</strong>
                 </a>
 
-                <a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'ontario-health-teams']) }}" class="help-card">
+                <a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'ontario-health-teams']) }}" class="help-card reveal-on-scroll" data-reveal-delay="160ms">
                     <span>03</span>
                     <h3>Partner Organizations</h3>
                     <p>Work with THLIN to build digital tools that support better access to information.</p>
                     <strong>Partner with us</strong>
                 </a>
 
-                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}" class="help-card">
+                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}" class="help-card reveal-on-scroll" data-reveal-delay="240ms">
                     <span>04</span>
                     <h3>Community Members</h3>
                     <p>Explore online tools designed to make health and community information easier to find.</p>
@@ -112,7 +111,7 @@
 
     <section class="home-section section-light">
         <div class="section-container split-grid">
-            <div>
+            <div class="reveal-on-scroll">
                 <span class="section-kicker blue">About THLIN</span>
                 <h2>Making health and community information easier to access.</h2>
                 <p>
@@ -128,7 +127,7 @@
                 </a>
             </div>
 
-            <div class="info-panel">
+            <div class="info-panel reveal-on-scroll" data-reveal-delay="120ms">
                 <span>thehealthline.ca</span>
                 <h3>Ontario’s health service directory</h3>
                 <p>A trusted online directory helping people find home care, community support, health care, and social service resources.</p>
@@ -153,32 +152,32 @@
 
     <section class="home-section section-alt">
         <div class="section-container">
-            <div class="section-heading">
+            <div class="section-heading reveal-on-scroll">
                 <span class="section-kicker blue">Products &amp; Services</span>
                 <h2>Digital tools built for easier system navigation.</h2>
                 <p>We help organizations present information clearly and build online tools that are practical, accessible, and easy to maintain.</p>
             </div>
 
             <div class="service-grid">
-                <div class="service-card">
+                <div class="service-card reveal-on-scroll">
                     <span></span>
                     <h3>Digital service directories</h3>
                     <p>Organized directories that help people find health, social, and community services faster.</p>
                 </div>
 
-                <div class="service-card">
+                <div class="service-card reveal-on-scroll">
                     <span></span>
                     <h3>Community information tools</h3>
                     <p>Searchable online tools designed around real user needs and local community resources.</p>
                 </div>
 
-                <div class="service-card">
+                <div class="service-card reveal-on-scroll">
                     <span></span>
                     <h3>Website and portal development</h3>
                     <p>Professional websites and portals that support content management and partner communication.</p>
                 </div>
 
-                <div class="service-card">
+                <div class="service-card reveal-on-scroll">
                     <span></span>
                     <h3>Data and content support</h3>
                     <p>Support for keeping information accurate, structured, searchable, and useful for users.</p>
@@ -190,7 +189,7 @@
     @if ($featuredPortfolio->isNotEmpty())
         <section class="home-section section-light">
             <div class="section-container">
-                <div class="section-heading">
+                <div class="section-heading reveal-on-scroll">
                     <span class="section-kicker blue">Who We Support</span>
                     <h2>Projects that support better access to information.</h2>
                     <p>Explore examples of THLIN’s digital work with healthcare and community partners.</p>
@@ -207,7 +206,7 @@
 
     <section class="home-cta-premium">
         <div class="section-container">
-            <div class="cta-box">
+            <div class="cta-box reveal-on-scroll">
                 <div>
                     <span class="section-kicker">Get Started</span>
                     <h2>Ready to connect with THLIN?</h2>

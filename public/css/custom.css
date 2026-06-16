@@ -762,3 +762,51 @@
 .has-page-hero .job-list {
     margin-top: 2rem;
 }
+
+/* =========================================================
+   Homepage scroll + hero entrance animations
+========================================================= */
+
+@media (prefers-reduced-motion: no-preference) {
+    .is-home-page .home-hero-enter,
+    .is-home-page .hero-card.home-hero-enter {
+        animation: home-hero-enter 0.85s ease both;
+    }
+
+    .is-home-page .hero-card.home-hero-enter {
+        animation-delay: 0.12s;
+    }
+
+    .is-home-page .reveal-on-scroll {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+            opacity 0.65s ease,
+            transform 0.65s ease;
+        transition-delay: var(--reveal-delay, 0ms);
+    }
+
+    .is-home-page .reveal-on-scroll.is-revealed {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes home-hero-enter {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .is-home-page .reveal-on-scroll {
+        opacity: 1;
+        transform: none;
+    }
+}

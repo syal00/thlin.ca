@@ -1,7 +1,7 @@
 @php
     /** @var \App\Models\PortfolioItem $item */
 @endphp
-<article class="portfolio-card">
+<article class="portfolio-card reveal-on-scroll">
     @if ($item->url)
         <a href="{{ $item->url }}" class="portfolio-card-media" target="_blank" rel="noopener">
     @endif
