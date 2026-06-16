@@ -21,7 +21,7 @@ For Vercel deployment, application data must be split into two persistent servic
    - media usage references
    - audit logs
 
-2. Object storage for uploaded file bodies:
+2. Vercel Blob for uploaded file bodies:
    - images
    - PDFs
    - documents
@@ -36,7 +36,7 @@ Vercel Functions should be treated as stateless:
 - Do not use `database/database.sqlite` as a writable production database.
 - Do not use `storage/app/public` as persistent upload storage.
 - Do not rely on files created at runtime surviving redeploys or function invocations.
-- Use `/tmp` only for temporary processing, such as image resizing before upload to object storage.
+- Use `/tmp` only for temporary processing, such as image resizing before upload to Vercel Blob.
 
 ## Target Environment Variables
 
@@ -46,17 +46,14 @@ Production/preview should eventually provide:
 DB_CONNECTION=pgsql
 DATABASE_URL=postgres://...
 
-FILESYSTEM_DISK=s3
-AWS_ACCESS_KEY_ID=...
-AWS_SECRET_ACCESS_KEY=...
-AWS_DEFAULT_REGION=...
-AWS_BUCKET=...
-AWS_ENDPOINT=...
-AWS_URL=...
-AWS_USE_PATH_STYLE_ENDPOINT=true
+BLOB_READ_WRITE_TOKEN=vercel_blob_rw_...
 ```
 
-If Vercel Blob is selected instead of S3/R2, the upload implementation will need a Vercel Blob client rather than Laravel's default S3 disk.
+Vercel Blob is the selected storage target for production and preview uploads. The upload implementation should write files to Vercel Blob and persist the returned Blob URL/path metadata in PostgreSQL.
+
+Because this is a Laravel/PHP project, the implementation should verify the best supported Blob upload path before coding. If the official Vercel Blob SDK is only available for JavaScript in the target runtime, use the Vercel Blob HTTP API from Laravel instead of Laravel's default filesystem disk abstraction.
+
+Local development may keep using Laravel's `public` disk for convenience, or it may use Vercel Blob when `BLOB_READ_WRITE_TOKEN` is configured.
 
 ## Current Code Paths To Change Later
 
@@ -81,7 +78,7 @@ Phase 1 is complete when the team agrees to the following:
 
 - Vercel remains the Laravel hosting target.
 - PostgreSQL will be used for production/preview structured data.
-- Uploaded files will use object storage, not Vercel local filesystem storage.
+- Uploaded files will use Vercel Blob, not Vercel local filesystem storage.
 - SQLite is limited to local development and tests.
 - Later database migrations will be designed around page revisions, media metadata, media usage tracking, permissions, and audit logs.
 
@@ -94,4 +91,7 @@ Recommended next tasks:
 1. Select a Postgres provider, such as Neon, Supabase, Railway, or another managed Postgres service.
 2. Add `DB_CONNECTION=pgsql` and `DATABASE_URL` to Vercel environment variables.
 3. Run Laravel migrations against the selected Postgres database.
-4. Deploy and confirm that pages load from Postgres.
+4. Create or connect a Vercel Blob store for the project.
+5. Add `BLOB_READ_WRITE_TOKEN` to Vercel environment variables.
+6. Deploy and confirm that pages load from Postgres.
+7. In the following storage phase, update admin uploads to write to Vercel Blob and save Blob metadata in `media_files`.
