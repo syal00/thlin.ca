@@ -27,19 +27,11 @@
                 <div class="hero-content">
                     <span class="section-kicker">THLIN</span>
 
-                    <h1
-                        data-editable="true"
-                        data-model="page"
-                        data-id="{{ $page->id }}"
-                        data-field="title"
-                    >{{ $page->title }}</h1>
+                    <h1 @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'title', 'type' => 'text'])>{{ $page->title }}</h1>
 
                     <p
                         class="hero-lead"
-                        data-editable="true"
-                        data-model="page"
-                        data-id="{{ $page->id }}"
-                        data-field="excerpt"
+                        @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'excerpt', 'type' => 'textarea'])
                     >{{ $page->excerpt }}</p>
 
                     <div class="hero-actions">
@@ -206,44 +198,7 @@
 
                 <div class="portfolio-grid">
                     @foreach ($featuredPortfolio as $item)
-                        <a href="{{ $item->url }}" class="portfolio-card" target="_blank" rel="noopener">
-                            @if ($item->image)
-                                <img
-                                    src="{{ $item->imageUrl() }}"
-                                    alt="{{ $item->title }}"
-                                    data-editable-image="true"
-                                    data-model="portfolio"
-                                    data-id="{{ $item->id }}"
-                                    data-field="image"
-                                >
-                            @else
-                                <div
-                                    class="portfolio-placeholder"
-                                    data-editable-image="true"
-                                    data-model="portfolio"
-                                    data-id="{{ $item->id }}"
-                                    data-field="image"
-                                >Click to add image</div>
-                            @endif
-
-                            <div class="portfolio-card-body">
-                                <h3
-                                    data-editable="true"
-                                    data-model="portfolio"
-                                    data-id="{{ $item->id }}"
-                                    data-field="title"
-                                >{{ $item->title }}</h3>
-
-                                <p
-                                    data-editable="true"
-                                    data-model="portfolio"
-                                    data-id="{{ $item->id }}"
-                                    data-field="excerpt"
-                                >{{ $item->excerpt }}</p>
-
-                                <strong>View project</strong>
-                            </div>
-                        </a>
+                        @include('partials.portfolio-card', ['item' => $item])
                     @endforeach
                 </div>
             </div>

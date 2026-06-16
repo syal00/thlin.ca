@@ -2,14 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Page;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\View;
+use Illuminate\View\View as ViewResponse;
 
 class ContactController extends Controller
 {
-    public function index(): View
+    public function index(): ViewResponse
     {
-        return view('contact.show');
+        $page = Page::published()->where('slug', 'contact')->first();
+
+        if ($page) {
+            View::share('cmsPage', $page);
+        }
+
+        return view('contact.show', compact('page'));
     }
 
     public function send(Request $request)

@@ -12,13 +12,12 @@
 @section('content')
     <section class="home-section section-light">
         <div class="section-container">
-            <div
-                class="content-shell cms-content"
-                data-editable="true"
-                data-model="page"
-                data-id="{{ $page->id }}"
-                data-field="body"
-            >{!! $page->body !!}</div>
+            <div class="content-shell">
+                <div class="cms-content">@include('partials.cms-body', ['html' => $page->body])</div>
+                @auth
+                    <p class="cms-inline-edit-note">Full page content is edited in the CMS panel using <a href="{{ route('admin.pages.edit', $page) }}">Edit This Page in CMS</a>.</p>
+                @endauth
+            </div>
         </div>
     </section>
 
@@ -32,41 +31,7 @@
 
                 <div class="portfolio-grid">
                     @foreach ($featured as $item)
-                        <a href="{{ $item->url }}" class="portfolio-card" target="_blank" rel="noopener">
-                            @if ($item->image)
-                                <img
-                                    src="{{ $item->imageUrl() }}"
-                                    alt="{{ $item->title }}"
-                                    data-editable-image="true"
-                                    data-model="portfolio"
-                                    data-id="{{ $item->id }}"
-                                    data-field="image"
-                                >
-                            @else
-                                <div
-                                    class="portfolio-placeholder"
-                                    data-editable-image="true"
-                                    data-model="portfolio"
-                                    data-id="{{ $item->id }}"
-                                    data-field="image"
-                                >Click to add image</div>
-                            @endif
-                            <div class="portfolio-card-body">
-                                <h3
-                                    data-editable="true"
-                                    data-model="portfolio"
-                                    data-id="{{ $item->id }}"
-                                    data-field="title"
-                                >{{ $item->title }}</h3>
-                                <p
-                                    data-editable="true"
-                                    data-model="portfolio"
-                                    data-id="{{ $item->id }}"
-                                    data-field="excerpt"
-                                >{{ $item->excerpt }}</p>
-                                <strong>View project</strong>
-                            </div>
-                        </a>
+                        @include('partials.portfolio-card', ['item' => $item])
                     @endforeach
                 </div>
             </div>
@@ -103,18 +68,12 @@
                                 >Image</div>
                             @endif
                             <div>
-                                <a href="{{ $item->url }}" target="_blank" rel="noopener"><strong
-                                    data-editable="true"
-                                    data-model="portfolio"
-                                    data-id="{{ $item->id }}"
-                                    data-field="title"
-                                >{{ $item->title }}</strong></a>
-                                <p
-                                    data-editable="true"
-                                    data-model="portfolio"
-                                    data-id="{{ $item->id }}"
-                                    data-field="excerpt"
-                                >{{ $item->excerpt }}</p>
+                                <h3>
+                                    <a href="{{ $item->url }}" target="_blank" rel="noopener">
+                                        <span @include('partials.inline-edit-attrs', ['model' => 'portfolio', 'id' => $item->id, 'field' => 'title', 'type' => 'text'])>{{ $item->title }}</span>
+                                    </a>
+                                </h3>
+                                <p @include('partials.inline-edit-attrs', ['model' => 'portfolio', 'id' => $item->id, 'field' => 'excerpt', 'type' => 'textarea'])>{{ $item->excerpt }}</p>
                             </div>
                         </li>
                     @endforeach

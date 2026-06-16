@@ -29,14 +29,8 @@
             <div class="section-container">
                 <div class="patient-content-grid">
                     <div class="content-shell patient-main-card">
-                        <div
-                            class="cms-content"
-                            data-editable="true"
-                            data-model="page"
-                            data-id="{{ $page->id }}"
-                            data-field="body"
-                        >
-                            {!! $page->body !!}
+                        <div class="cms-content">
+                            @include('partials.cms-body', ['html' => $page->body])
                         </div>
                     </div>
 
@@ -88,15 +82,12 @@
         <section class="home-section section-light">
             <div class="section-container">
                 <div class="content-shell">
-                    <article
-                        class="cms-content"
-                        data-editable="true"
-                        data-model="page"
-                        data-id="{{ $page->id }}"
-                        data-field="body"
-                    >
-                        {!! $page->body !!}
+                    <article class="cms-content">
+                        @include('partials.cms-body', ['html' => $page->body])
                     </article>
+                    @auth
+                        <p class="cms-inline-edit-note">Full page content is edited in the CMS panel using <a href="{{ route('admin.pages.edit', $page) }}">Edit This Page in CMS</a>.</p>
+                    @endauth
                 </div>
             </div>
         </section>

@@ -31,15 +31,31 @@ Manage **pages**, **news**, **careers**, **board members**, and **portfolio item
 
 ## CMS features
 
-- Controlled editing for built-in pages
-- Custom page creation with draft/publish workflow
-- TinyMCE WYSIWYG editor for page content
-- Image upload inside page content
-- Internal and external links in page content
-- PDF upload for Annual Reports
-- Uploaded Files library with copy-link support
-- Optional Resources navigation dropdown for custom pages
-- Public search includes published custom pages
+The admin CMS supports:
+
+- **Built-in page editing** — edit protected layout pages without deleting them
+- **Custom page creation** — add new pages with draft/publish workflow
+- **Parent/child pages** — attach custom pages under landing pages such as `/products-services` or `/about`
+- **Correct URL generation** — CMS previews and Quick Internal Links use each page's `full_url`
+- **TinyMCE WYSIWYG editor** — headings, lists, links, tables, images, and code view
+- **Image upload in TinyMCE** — uploads to `storage/app/public/uploads/images`
+- **Uploaded Files library** — PDF upload for Annual Reports with copy-link support
+- **Navigation control** — show/hide custom child pages in dropdown menus
+- **Search** — published built-in and custom pages, news, careers, board, and portfolio
+- **Inline editing** — preserved on the public site for logged-in admins
+
+### Page URL rules
+
+| Type | Example |
+|------|---------|
+| Built-in home | `/` |
+| Built-in contact | `/contact` |
+| Built-in landing | `/products-services`, `/partners`, `/about` |
+| Built-in section page | `/products/healthline`, `/about/us` |
+| Custom page (no parent) | `/privacy-policy` |
+| Custom child page | `/products-services/testing`, `/about/annual-reports` |
+
+### CMS commands
 
 After CMS changes, run:
 
@@ -48,12 +64,26 @@ php artisan migrate
 php artisan storage:link
 php artisan view:clear
 php artisan cache:clear
+php artisan route:clear
 php artisan config:clear
 ```
 
-TinyMCE currently uses `no-api-key` for local testing. For production, create a free TinyMCE API key and replace `no-api-key` in the TinyMCE script URL inside the page form partial.
+### TinyMCE
 
-**Vercel upload warning:** Uploaded files are not persistent on Vercel serverless storage. Use Cloudinary, AWS S3, or Supabase Storage for real production uploads.
+TinyMCE is **self-hosted** from `public/vendor/tinymce` (free, permanent — no API key or domain whitelist).
+
+After `npm install`, assets copy automatically. To refresh manually:
+
+```bash
+npm install
+node scripts/copy-tinymce.cjs
+```
+
+Optional: set `TINYMCE_SELF_HOSTED=false` and `TINYMCE_API_KEY` in `.env` to use Tiny Cloud instead.
+
+### Upload storage
+
+**Vercel warning:** Uploaded files are not persistent on Vercel serverless storage. Use Cloudinary, AWS S3, or Supabase Storage for real production uploads.
 
 ## URL map
 
@@ -66,7 +96,7 @@ TinyMCE currently uses `no-api-key` for local testing. For production, create a 
 | News article | `/about/news/sean-wong` |
 | Contact | `/contact` |
 | Search | `/search?q=…` |
-| Custom pages | `/annual-reports`, `/privacy-policy`, … |
+| Custom pages | `/privacy-policy`, `/products-services/testing`, `/about/annual-reports` |
 
 ## Database tables
 

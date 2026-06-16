@@ -91,7 +91,7 @@
                                 <ul>
                                     @foreach ($resourcePages as $resourcePage)
                                         <li>
-                                            <a href="{{ $resourcePage->url() }}">
+                                            <a href="{{ $resourcePage->full_url }}">
                                                 {{ $resourcePage->menu_label }}
                                             </a>
                                         </li>

@@ -8,15 +8,18 @@ use App\Models\NewsPost;
 use App\Models\Page;
 use App\Models\PortfolioItem;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\View;
+use Illuminate\View\View as ViewResponse;
 
 class PageController extends Controller
 {
-    public function home(): View
+    public function home(): ViewResponse
     {
         $page = Page::published()
             ->where('slug', 'home')
             ->firstOrFail();
+
+        View::share('cmsPage', $page);
 
         $featuredPortfolio = PortfolioItem::featured()
             ->ordered()
@@ -25,9 +28,11 @@ class PageController extends Controller
         return view('pages.home', compact('page', 'featuredPortfolio'));
     }
 
-    public function show(Request $request, string $section, Page $page): View
+    public function show(Request $request, string $section, Page $page): ViewResponse
     {
         abort_unless($page->status === 'published' && $page->section === $section, 404);
+
+        View::share('cmsPage', $page);
 
         $data = compact('page', 'section');
 

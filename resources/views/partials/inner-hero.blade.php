@@ -36,8 +36,8 @@
     }
 
     if (isset($page) && ($editable ?? true)) {
-        $resolvedTitleField = $titleField ?? ($page->hero_title ? 'hero_title' : 'title');
-        $resolvedSubtitleField = $subtitleField ?? ($page->hero_subtitle ? 'hero_subtitle' : 'excerpt');
+        $resolvedTitleField = $titleField ?? 'hero_title';
+        $resolvedSubtitleField = $subtitleField ?? 'hero_subtitle';
     }
 @endphp
 
@@ -63,20 +63,10 @@
             <span class="section-eyebrow">{{ $eyebrowLabel }}</span>
 
             @if (isset($page) && ($editable ?? true))
-                <h1
-                    data-editable="true"
-                    data-model="page"
-                    data-id="{{ $page->id }}"
-                    data-field="{{ $resolvedTitleField ?? ($titleField ?? 'title') }}"
-                >{{ $heroTitle }}</h1>
+                <h1 @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => $resolvedTitleField ?? 'hero_title', 'type' => 'text'])>{{ $heroTitle }}</h1>
 
-                @if ($heroSubtitle)
-                    <p
-                        data-editable="true"
-                        data-model="page"
-                        data-id="{{ $page->id }}"
-                        data-field="{{ $resolvedSubtitleField ?? ($subtitleField ?? 'excerpt') }}"
-                    >{{ $heroSubtitle }}</p>
+                @if ($page->hero_subtitle || $page->excerpt || auth()->check())
+                    <p @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => $resolvedSubtitleField ?? 'hero_subtitle', 'type' => 'textarea'])>{{ $page->hero_subtitle ?: ($page->excerpt ?? '') }}</p>
                 @endif
             @else
                 <h1>{{ $heroTitle }}</h1>

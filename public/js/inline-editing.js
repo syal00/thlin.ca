@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    const toggleBtn = editBar.querySelector('[data-edit-toggle]');
+    const enableBtn = editBar.querySelector('[data-edit-enable]');
+    const disableBtn = editBar.querySelector('[data-edit-disable]');
     const toast = editBar.querySelector('[data-inline-toast]');
     const imageInput = document.querySelector('[data-inline-image-input]');
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
@@ -16,41 +17,72 @@ document.addEventListener('DOMContentLoaded', () => {
     let toolbar = null;
     let pendingImageElement = null;
 
-    toggleBtn?.addEventListener('click', () => {
-        editMode = !editMode;
-        toggleBtn.textContent = editMode ? 'Editing ON' : 'Enable Edit Mode';
-        toggleBtn.classList.toggle('is-active', editMode);
-        document.body.classList.toggle('inline-edit-mode', editMode);
+    const editableSelector = '[data-editable="true"], [data-inline-edit="true"]';
+    const imageSelector = '[data-editable-image="true"]';
 
+    enableBtn?.addEventListener('click', () => setEditMode(true));
+    disableBtn?.addEventListener('click', () => setEditMode(false));
+
+    document.addEventListener('click', (event) => {
         if (!editMode) {
-            cancelEditing();
+            return;
         }
-    });
 
-    document.querySelectorAll('[data-editable="true"]').forEach((element) => {
-        element.addEventListener('click', (event) => {
-            if (!editMode || element === activeElement) {
+        const editable = event.target.closest(editableSelector);
+        if (editable) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (editable === activeElement) {
                 return;
             }
 
+            startTextEditing(editable);
+            return;
+        }
+
+        const imageTarget = event.target.closest(imageSelector);
+        if (imageTarget) {
             event.preventDefault();
             event.stopPropagation();
-            startTextEditing(element);
-        });
-    });
-
-    document.querySelectorAll('[data-editable-image="true"]').forEach((element) => {
-        element.addEventListener('click', (event) => {
-            if (!editMode) {
-                return;
-            }
-
-            event.preventDefault();
-            event.stopPropagation();
-            pendingImageElement = element;
+            pendingImageElement = imageTarget;
             imageInput.value = '';
             imageInput.click();
-        });
+            return;
+        }
+
+        if (activeElement && toolbar && !toolbar.contains(event.target) && !activeElement.contains(event.target)) {
+            cancelEditing();
+        }
+    }, true);
+
+    document.addEventListener('click', (event) => {
+        if (!editMode) {
+            return;
+        }
+
+        const link = event.target.closest('a');
+        if (link && !event.target.closest(editableSelector) && !event.target.closest(imageSelector)) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    }, true);
+
+    document.addEventListener('keydown', (event) => {
+        if (!activeElement) {
+            return;
+        }
+
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            cancelEditing();
+            return;
+        }
+
+        if (event.key === 'Enter' && activeElement.dataset.type !== 'textarea' && !event.shiftKey) {
+            event.preventDefault();
+            saveEditing();
+        }
     });
 
     imageInput?.addEventListener('change', async () => {
@@ -85,10 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 element.src = data.url;
             } else {
                 element.innerHTML = `<img src="${data.url}" alt="" data-editable-image="true" data-model="${element.dataset.model}" data-id="${element.dataset.id}" data-field="${element.dataset.field}">`;
-                const img = element.querySelector('img');
-                if (img) {
-                    bindImageElement(img);
-                }
             }
 
             showToast('Image updated successfully.', 'success');
@@ -100,37 +128,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    document.addEventListener('click', (event) => {
-        if (!activeElement || !toolbar) {
-            return;
+    function setEditMode(enabled) {
+        editMode = enabled;
+        document.body.classList.toggle('inline-edit-enabled', enabled);
+        document.body.classList.toggle('inline-edit-mode', enabled);
+
+        if (enableBtn) {
+            enableBtn.hidden = enabled;
         }
 
-        if (toolbar.contains(event.target) || activeElement.contains(event.target)) {
-            return;
+        if (disableBtn) {
+            disableBtn.hidden = !enabled;
         }
 
-        cancelEditing();
-    });
-
-    function bindImageElement(element) {
-        element.addEventListener('click', (event) => {
-            if (!editMode) {
-                return;
-            }
-
-            event.preventDefault();
-            event.stopPropagation();
-            pendingImageElement = element;
-            imageInput.value = '';
-            imageInput.click();
-        });
+        if (!enabled) {
+            cancelEditing();
+            localStorage.removeItem('inlineEditMode');
+        }
     }
 
     function startTextEditing(element) {
         cancelEditing();
 
         activeElement = element;
-        originalValue = element.dataset.field === 'body' ? element.innerHTML : element.textContent.trim();
+        originalValue = isRichField(element) ? element.innerHTML.trim() : element.textContent.trim();
         element.setAttribute('contenteditable', 'true');
         element.classList.add('inline-editing-active');
         element.focus();
@@ -138,8 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
         toolbar = document.createElement('div');
         toolbar.className = 'inline-edit-toolbar';
         toolbar.innerHTML = `
-            <button type="button" class="inline-edit-toolbar__btn inline-edit-toolbar__btn--save" data-inline-save>Save</button>
-            <button type="button" class="inline-edit-toolbar__btn inline-edit-toolbar__btn--cancel" data-inline-cancel>Cancel</button>
+            <button type="button" class="save" data-inline-save>Save</button>
+            <button type="button" class="cancel" data-inline-cancel>Cancel</button>
         `;
 
         document.body.appendChild(toolbar);
@@ -154,9 +175,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const value = activeElement.dataset.field === 'body'
+        const value = isRichField(activeElement)
             ? activeElement.innerHTML.trim()
             : activeElement.textContent.trim();
+
+        if (value === '' && originalValue !== '' && !window.confirm('Save empty text? This will remove the current content.')) {
+            return;
+        }
 
         try {
             const response = await fetch(routes.update, {
@@ -192,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (activeElement.dataset.field === 'body') {
+        if (isRichField(activeElement)) {
             activeElement.innerHTML = originalValue;
         } else {
             activeElement.textContent = originalValue;
@@ -214,10 +239,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function isRichField(element) {
+        return element.dataset.field === 'body' || element.dataset.type === 'textarea';
+    }
+
     function positionToolbar(element, bar) {
         const rect = element.getBoundingClientRect();
+        bar.style.position = 'absolute';
         bar.style.top = `${window.scrollY + rect.bottom + 8}px`;
-        bar.style.left = `${window.scrollX + rect.left}px`;
+        bar.style.left = `${Math.max(12, window.scrollX + rect.left)}px`;
     }
 
     function showToast(message, type) {
@@ -232,6 +262,16 @@ document.addEventListener('DOMContentLoaded', () => {
         window.clearTimeout(showToast.timer);
         showToast.timer = window.setTimeout(() => {
             toast.hidden = true;
-        }, 3000);
+        }, 3200);
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (urlParams.get('edit') === '1') {
+        localStorage.setItem('inlineEditMode', 'enabled');
+    }
+
+    if (urlParams.get('edit') === '1' || localStorage.getItem('inlineEditMode') === 'enabled') {
+        setEditMode(true);
     }
 });

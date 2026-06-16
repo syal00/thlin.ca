@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\EditorUploadController;
 use App\Http\Controllers\Admin\InlineEditController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\NewsPostController as AdminNewsPostController;
-use App\Http\Controllers\Admin\PageController as AdminPageController;
+use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\PortfolioItemController as AdminPortfolioItemController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\ContactController;
@@ -64,6 +64,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 });
 
+// Custom child pages (e.g. /products-services/testing) must be registered before
+// section routes because both use two URL segments. Built-in section pages are
+// handled inside CustomPageController::showChild when no custom child matches.
 Route::get('/{parentSlug}/{childSlug}', [CustomPageController::class, 'showChild'])
     ->where('parentSlug', '[a-z0-9\-]+')
     ->where('childSlug', '[a-z0-9\-]+')

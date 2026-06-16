@@ -22,6 +22,10 @@ class DashboardController extends Controller
             'boardCount' => BoardMember::count(),
             'portfolioCount' => PortfolioItem::count(),
             'userCount' => User::count(),
+            'recentPages' => Page::query()
+                ->orderByDesc('updated_at')
+                ->limit(8)
+                ->get(),
         ]);
     }
 }

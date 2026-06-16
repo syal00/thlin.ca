@@ -24,7 +24,7 @@
         <div class="section-container">
             <div class="content-shell">
                 <article class="cms-content">
-                    {!! $post->body !!}
+                    @include('partials.cms-body', ['html' => $post->body])
                 </article>
 
                 <p class="back-link">

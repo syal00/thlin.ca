@@ -11,7 +11,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
-class PageController extends Controller
+class AdminPageController extends Controller
 {
     public function index(): View
     {
@@ -39,22 +39,19 @@ class PageController extends Controller
             'template' => 'standard',
         ]);
 
-        $publishedPages = Page::published()
-            ->orderBy('title')
-            ->get();
-
-        $parentPages = Page::published()
-            ->orderBy('title')
-            ->get();
-
-        return view('admin.pages.create', compact('page', 'publishedPages', 'parentPages'));
+        return view('admin.pages.create', [
+            'page' => $page,
+            'publishedPages' => $this->publishedPagesForLinks(),
+            'parentPages' => $this->parentPageOptions(),
+            'parentPageGroups' => $this->parentPageGroups(),
+        ]);
     }
 
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:pages,slug'],
+            'slug' => ['required', 'string', 'max:255', 'unique:pages,slug'],
             'parent_id' => ['nullable', 'exists:pages,id'],
             'hero_title' => ['nullable', 'string', 'max:255'],
             'hero_subtitle' => ['nullable', 'string', 'max:500'],
@@ -64,10 +61,10 @@ class PageController extends Controller
             'navigation_label' => ['nullable', 'string', 'max:255'],
             'sort_order' => ['nullable', 'integer'],
             'action' => ['nullable', 'string'],
-        ]);
+        ], $this->validationMessages());
 
-        $slug = $validated['slug'] ?? null;
-        $validated['slug'] = $slug ? Str::slug($slug) : Str::slug($validated['title']);
+        $slug = $validated['slug'];
+        $validated['slug'] = Str::slug($slug);
         $validated['page_type'] = 'custom';
         $validated['section'] = 'custom';
         $validated['template'] = 'standard';
@@ -87,17 +84,14 @@ class PageController extends Controller
 
     public function edit(Page $page): View
     {
-        $publishedPages = Page::published()
-            ->where('id', '!=', $page->id)
-            ->orderBy('title')
-            ->get();
+        $page->load('parent');
 
-        $parentPages = Page::published()
-            ->where('id', '!=', $page->id)
-            ->orderBy('title')
-            ->get();
-
-        return view('admin.pages.edit', compact('page', 'publishedPages', 'parentPages'));
+        return view('admin.pages.edit', [
+            'page' => $page,
+            'publishedPages' => $this->publishedPagesForLinks($page),
+            'parentPages' => $this->parentPageOptions($page),
+            'parentPageGroups' => $this->parentPageGroups($page, $page),
+        ]);
     }
 
     public function update(Request $request, Page $page): RedirectResponse
@@ -128,42 +122,48 @@ class PageController extends Controller
             $rules['excerpt'] = ['nullable', 'string'];
         }
 
-        $validated = $request->validate($rules);
+        $validated = $request->validate($rules, $this->validationMessages());
 
         if ($page->isBuiltIn()) {
             $validated['page_type'] = 'built_in';
             $validated['status'] = 'published';
             $validated['is_published'] = true;
+            $validated['parent_id'] = null;
         }
 
         if ($page->isCustom()) {
             if ((int) $request->input('parent_id') === $page->id) {
                 throw ValidationException::withMessages([
-                    'parent_id' => 'A page cannot be its own parent.',
+                    'parent_id' => 'A page cannot be placed inside itself.',
                 ]);
             }
 
             $validated['slug'] = Str::slug($validated['slug']);
             $validated['parent_id'] = $this->resolveParentId($request->input('parent_id'), $page);
 
-            if ($request->input('action') === 'publish') {
+            $action = $request->input('action');
+
+            if ($action === 'publish') {
                 $validated['status'] = 'published';
                 $validated['is_published'] = true;
                 $validated['published_at'] = $page->published_at ?? now();
-            }
-
-            if ($request->input('action') === 'draft') {
+            } elseif ($action === 'draft') {
                 $validated['status'] = 'draft';
                 $validated['is_published'] = false;
-            }
-
-            if (! $request->filled('action')) {
+            } else {
                 $validated['status'] = $page->status;
                 $validated['is_published'] = $page->status === 'published';
             }
 
             $validated['show_in_navigation'] = $request->boolean('show_in_navigation');
-            $validated['sort_order'] = $validated['sort_order'] ?? 0;
+            $validated['sort_order'] = array_key_exists('sort_order', $validated)
+                ? ($validated['sort_order'] ?? 0)
+                : ($page->sort_order ?? 0);
+            $validated['navigation_label'] = $request->input('navigation_label');
+        }
+
+        if (array_key_exists('body', $validated) && blank($validated['body']) && filled($page->body)) {
+            unset($validated['body']);
         }
 
         $page->update($validated);
@@ -215,6 +215,61 @@ class PageController extends Controller
         return back()->with('success', 'Page moved to draft.');
     }
 
+    private function publishedPagesForLinks(?Page $exclude = null)
+    {
+        return Page::published()
+            ->with('parent')
+            ->when($exclude, fn ($query) => $query->where('id', '!=', $exclude->id))
+            ->orderBy('title')
+            ->get();
+    }
+
+    private function parentPageOptions(?Page $exclude = null)
+    {
+        return Page::parentCandidates()
+            ->when($exclude, fn ($query) => $query->where('id', '!=', $exclude->id))
+            ->get();
+    }
+
+    /** @return array{main: \Illuminate\Support\Collection, other: \Illuminate\Support\Collection, custom: \Illuminate\Support\Collection, current: \Illuminate\Support\Collection} */
+    private function parentPageGroups(?Page $exclude = null, ?Page $editing = null): array
+    {
+        $pages = $this->parentPageOptions($exclude);
+        $mainSlugs = ['products-services', 'partners', 'about', 'contact'];
+        $otherSlugs = ['careers', 'board', 'news', 'portfolio'];
+
+        $groups = [
+            'main' => $pages->filter(fn (Page $page) => in_array($page->slug, $mainSlugs, true))->values(),
+            'other' => $pages->filter(fn (Page $page) => in_array($page->slug, $otherSlugs, true))->values(),
+            'custom' => $pages->filter(fn (Page $page) => $page->isCustom())->values(),
+            'current' => collect(),
+        ];
+
+        if ($editing?->parent_id) {
+            $currentParent = $editing->relationLoaded('parent')
+                ? $editing->parent
+                : $editing->parent()->first();
+            $listedIds = $groups['main']->merge($groups['other'])->merge($groups['custom'])->pluck('id');
+
+            if ($currentParent && ! $listedIds->contains($currentParent->id)) {
+                $groups['current'] = collect([$currentParent]);
+            }
+        }
+
+        return $groups;
+    }
+
+    /** @return array<string, string> */
+    private function validationMessages(): array
+    {
+        return [
+            'title.required' => 'Please enter a page name.',
+            'slug.required' => 'Please enter a page link.',
+            'slug.unique' => 'This page link is already used. Please choose another one.',
+            'parent_id.exists' => 'Please choose a valid section for this page.',
+        ];
+    }
+
     private function resolveParentId(mixed $parentId, ?Page $page = null): ?int
     {
         if (! $parentId) {
@@ -225,15 +280,15 @@ class PageController extends Controller
 
         if ($page && $parentId === $page->id) {
             throw ValidationException::withMessages([
-                'parent_id' => 'A page cannot be its own parent.',
+                'parent_id' => 'A page cannot be placed inside itself.',
             ]);
         }
 
-        $parent = Page::published()->find($parentId);
+        $parent = Page::parentCandidates()->find($parentId);
 
         if (! $parent) {
             throw ValidationException::withMessages([
-                'parent_id' => 'Please choose a published parent page.',
+                'parent_id' => 'Please choose a valid parent page.',
             ]);
         }
 

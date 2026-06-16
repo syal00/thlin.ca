@@ -11,16 +11,19 @@
         <div class="section-container">
             <div class="content-shell">
                 @if ($page->body)
-                    <div class="cms-content">{!! $page->body !!}</div>
+                    <div class="cms-content">@include('partials.cms-body', ['html' => $page->body])</div>
                 @endif
 
                 <div class="job-list">
                     @forelse ($jobs as $job)
                         <article class="job-card" id="{{ $job->slug }}">
-                            <h2>{{ $job->title }}</h2>
+                            <h2 @include('partials.inline-edit-attrs', ['model' => 'career', 'id' => $job->id, 'field' => 'title', 'type' => 'text'])>{{ $job->title }}</h2>
                             <p class="job-meta">
-                                @if ($job->location){{ $job->location }}@endif
-                                @if ($job->employment_type) &middot; {{ $job->employment_type }}@endif
+                                <span @include('partials.inline-edit-attrs', ['model' => 'career', 'id' => $job->id, 'field' => 'location', 'type' => 'text'])>{{ $job->location ?: 'Location TBD' }}</span>
+                                @if ($job->employment_type)
+                                    <span aria-hidden="true"> &middot; </span>
+                                    <span @include('partials.inline-edit-attrs', ['model' => 'career', 'id' => $job->id, 'field' => 'employment_type', 'type' => 'text'])>{{ $job->employment_type }}</span>
+                                @endif
                             </p>
                             @if ($job->posted_at || $job->closes_at)
                                 <p class="job-meta">
@@ -28,7 +31,7 @@
                                     @if ($job->closes_at) &middot; Closes {{ $job->closes_at->format('F j, Y') }}@endif
                                 </p>
                             @endif
-                            <div class="cms-content">{!! $job->body !!}</div>
+                            <div class="cms-content">@include('partials.cms-body', ['html' => $job->body])</div>
                         </article>
                     @empty
                         <article class="job-card">

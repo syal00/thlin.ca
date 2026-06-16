@@ -11,7 +11,7 @@
         <div class="section-container">
             <div class="content-shell">
                 @if ($page->body)
-                    <div class="cms-content">{!! $page->body !!}</div>
+                    <div class="cms-content">@include('partials.cms-body', ['html' => $page->body])</div>
                 @endif
 
                 <div class="board-grid">
@@ -20,9 +20,9 @@
                             @if ($member->photoUrl())
                                 <img src="{{ $member->photoUrl() }}" alt="{{ $member->name }}" class="board-photo">
                             @endif
-                            <h2>{{ $member->name }}</h2>
-                            <p class="board-role">{{ $member->role }}</p>
-                            <p>{{ $member->bio }}</p>
+                            <h2 @include('partials.inline-edit-attrs', ['model' => 'board', 'id' => $member->id, 'field' => 'name', 'type' => 'text'])>{{ $member->name }}</h2>
+                            <p class="board-role" @include('partials.inline-edit-attrs', ['model' => 'board', 'id' => $member->id, 'field' => 'role', 'type' => 'text'])>{{ $member->role }}</p>
+                            <p @include('partials.inline-edit-attrs', ['model' => 'board', 'id' => $member->id, 'field' => 'bio', 'type' => 'textarea'])>{{ $member->bio }}</p>
                         </article>
                     @endforeach
                 </div>

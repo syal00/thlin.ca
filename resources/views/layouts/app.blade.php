@@ -17,7 +17,8 @@
 <body @class([
     'has-inline-edit-bar' => auth()->check(),
     'is-home-page' => request()->routeIs('home'),
-    'has-page-hero' => ! request()->routeIs('home'),
+    'is-custom-page' => request()->routeIs('custom-pages.*'),
+    'has-page-hero' => ! request()->routeIs('home') && ! request()->routeIs('custom-pages.*'),
 ])>
 
     <div class="site-wrapper">
@@ -45,7 +46,7 @@
                 uploadImage: @json(route('admin.inline-upload-image')),
             };
         </script>
-        <script src="{{ asset('js/inline-editing.js') }}" defer></script>
+        <script src="{{ asset('js/inline-edit.js') }}?v={{ @filemtime(public_path('js/inline-edit.js')) ?: '1' }}" defer></script>
     @endauth
     @stack('scripts')
 </body>

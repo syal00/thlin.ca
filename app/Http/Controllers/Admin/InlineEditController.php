@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class InlineEditController extends Controller
 {
@@ -23,22 +24,26 @@ class InlineEditController extends Controller
         'board' => BoardMember::class,
     ];
 
+    /** @var array<string, list<string>> */
     private const ALLOWED_FIELDS = [
-        'title',
-        'heading',
-        'body',
-        'description',
-        'content',
-        'name',
-        'position',
-        'excerpt',
-        'role',
-        'bio',
+        'page' => ['title', 'hero_title', 'hero_subtitle', 'excerpt'],
+        'news' => ['title', 'excerpt'],
+        'portfolio' => ['title', 'excerpt'],
+        'career' => ['title', 'location', 'employment_type'],
+        'board' => ['name', 'role', 'bio'],
     ];
 
     private const IMAGE_FIELDS = [
-        'image',
-        'photo',
+        'portfolio' => ['image'],
+    ];
+
+    /** @var array<string, string> */
+    private const FIELD_ALIASES = [
+        'heading' => 'title',
+        'description' => 'excerpt',
+        'content' => 'body',
+        'position' => 'role',
+        'name' => 'name',
     ];
 
     public function update(Request $request): JsonResponse
@@ -47,28 +52,37 @@ class InlineEditController extends Controller
             'model' => ['required', 'string'],
             'id' => ['required', 'integer'],
             'field' => ['required', 'string'],
-            'value' => ['required', 'string'],
+            'value' => ['nullable', 'string'],
         ]);
 
-        $modelClass = self::MODELS[$validated['model']] ?? null;
+        $modelKey = $this->normalizeModelKey($validated['model']);
+        $modelClass = self::MODELS[$modelKey] ?? null;
+
         if (! $modelClass) {
-            return response()->json(['success' => false, 'message' => 'Invalid model.'], 422);
+            return response()->json(['success' => false, 'message' => 'Invalid model.'], 403);
         }
 
-        $field = $this->resolveField($validated['model'], $validated['field']);
-        if (! in_array($field, self::ALLOWED_FIELDS, true)) {
-            return response()->json(['success' => false, 'message' => 'Invalid field.'], 422);
+        $field = $this->resolveField($modelKey, $validated['field']);
+
+        if (! $this->isAllowedField($modelKey, $field)) {
+            return response()->json(['success' => false, 'message' => 'This field cannot be edited inline.'], 403);
         }
 
         /** @var Model|null $record */
         $record = $modelClass::query()->find($validated['id']);
+
         if (! $record) {
             return response()->json(['success' => false, 'message' => 'Record not found.'], 404);
         }
 
-        $record->update([$field => $validated['value']]);
+        $value = $this->sanitizeValue($modelKey, $field, (string) ($validated['value'] ?? ''));
 
-        return response()->json(['success' => true]);
+        $record->update([$field => $value === '' ? null : $value]);
+
+        return response()->json([
+            'success' => true,
+            'value' => $value,
+        ]);
     }
 
     public function uploadImage(Request $request): JsonResponse
@@ -80,17 +94,22 @@ class InlineEditController extends Controller
             'image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
 
-        $modelClass = self::MODELS[$validated['model']] ?? null;
+        $modelKey = $this->normalizeModelKey($validated['model']);
+        $modelClass = self::MODELS[$modelKey] ?? null;
+
         if (! $modelClass) {
-            return response()->json(['success' => false, 'message' => 'Invalid model.'], 422);
+            return response()->json(['success' => false, 'message' => 'Invalid model.'], 403);
         }
 
-        if (! in_array($validated['field'], self::IMAGE_FIELDS, true)) {
-            return response()->json(['success' => false, 'message' => 'Invalid field.'], 422);
+        $allowedImages = self::IMAGE_FIELDS[$modelKey] ?? [];
+
+        if (! in_array($validated['field'], $allowedImages, true)) {
+            return response()->json(['success' => false, 'message' => 'Invalid image field.'], 403);
         }
 
         /** @var Model|null $record */
         $record = $modelClass::query()->find($validated['id']);
+
         if (! $record) {
             return response()->json(['success' => false, 'message' => 'Record not found.'], 404);
         }
@@ -104,24 +123,46 @@ class InlineEditController extends Controller
         ]);
     }
 
-    private function resolveField(string $model, string $field): string
+    private function normalizeModelKey(string $model): string
     {
-        if ($field === 'description' && in_array($model, ['portfolio', 'news', 'page'], true)) {
+        return Str::of($model)->lower()->trim()->toString();
+    }
+
+    private function resolveField(string $modelKey, string $field): string
+    {
+        $field = Str::of($field)->snake()->toString();
+
+        if ($field === 'description' && in_array($modelKey, ['portfolio', 'news', 'page'], true)) {
             return 'excerpt';
         }
 
-        if ($field === 'heading') {
-            return 'title';
-        }
-
-        if ($field === 'content') {
-            return 'body';
-        }
-
-        if ($field === 'position' && $model === 'board') {
+        if ($field === 'position' && $modelKey === 'board') {
             return 'role';
         }
 
-        return $field;
+        return self::FIELD_ALIASES[$field] ?? $field;
+    }
+
+    private function isAllowedField(string $modelKey, string $field): bool
+    {
+        return in_array($field, self::ALLOWED_FIELDS[$modelKey] ?? [], true);
+    }
+
+    private function sanitizeValue(string $modelKey, string $field, string $value): string
+    {
+        $value = trim($value);
+
+        if ($value === '') {
+            return '';
+        }
+
+        $value = preg_replace('/<script\b[^>]*>.*?<\/script>/is', '', $value) ?? $value;
+        $value = preg_replace('/<style\b[^>]*>.*?<\/style>/is', '', $value) ?? $value;
+
+        if (in_array($field, ['bio'], true)) {
+            return strip_tags($value, '<p><br><strong><em><u><ul><ol><li><a>');
+        }
+
+        return strip_tags($value);
     }
 }

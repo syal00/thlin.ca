@@ -22,7 +22,7 @@
         ];
 
         if (isset($page) && $page->parent) {
-            $breadcrumbs[] = ['label' => $page->parent->title, 'url' => $page->parent->url()];
+            $breadcrumbs[] = ['label' => $page->parent->menu_label, 'url' => url($page->parent->full_url)];
         } elseif (isset($page) && $page->section && ! in_array($page->section, ['home', 'contact'], true)) {
             $landingSlug = $sectionLandingSlugs[$page->section] ?? $page->section;
             $label = $sectionLabels[$page->section] ?? ucfirst($page->section);
@@ -36,8 +36,8 @@
     }
 
     if (isset($page) && ($editable ?? true)) {
-        $resolvedTitleField = $titleField ?? ($page->hero_title ? 'hero_title' : 'title');
-        $resolvedSubtitleField = $subtitleField ?? ($page->hero_subtitle ? 'hero_subtitle' : 'excerpt');
+        $resolvedTitleField = $titleField ?? 'hero_title';
+        $resolvedSubtitleField = $subtitleField ?? 'hero_subtitle';
     }
 @endphp
 
@@ -61,21 +61,13 @@
             <span class="section-kicker">{{ $eyebrowLabel }}</span>
 
             @if (isset($page) && ($editable ?? true))
-                <h1
-                    data-editable="true"
-                    data-model="page"
-                    data-id="{{ $page->id }}"
-                    data-field="{{ $resolvedTitleField ?? ($titleField ?? 'title') }}"
-                >{{ $heroTitle }}</h1>
+                <h1 @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => $resolvedTitleField ?? 'hero_title', 'type' => 'text'])>{{ $heroTitle }}</h1>
 
-                @if ($heroSubtitle)
+                @if ($page->hero_subtitle || $page->excerpt || auth()->check())
                     <p
                         class="hero-lead"
-                        data-editable="true"
-                        data-model="page"
-                        data-id="{{ $page->id }}"
-                        data-field="{{ $resolvedSubtitleField ?? ($subtitleField ?? 'excerpt') }}"
-                    >{{ $heroSubtitle }}</p>
+                        @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => $resolvedSubtitleField ?? 'hero_subtitle', 'type' => 'textarea'])
+                    >{{ $page->hero_subtitle ?: ($page->excerpt ?? '') }}</p>
                 @endif
             @else
                 <h1>{{ $heroTitle }}</h1>

@@ -11,17 +11,21 @@
         <div class="section-container">
             <div class="content-shell">
                 @if ($page->body)
-                    <div class="cms-content">{!! $page->body !!}</div>
+                    <div class="cms-content">@include('partials.cms-body', ['html' => $page->body])</div>
                 @endif
 
                 <ul class="news-list">
                     @forelse ($posts as $post)
                         <li class="news-item">
-                            <h2><a href="{{ $post->url() }}">{{ $post->title }}</a></h2>
+                            <h2>
+                                <a href="{{ $post->url() }}">
+                                    <span @include('partials.inline-edit-attrs', ['model' => 'news', 'id' => $post->id, 'field' => 'title', 'type' => 'text'])>{{ $post->title }}</span>
+                                </a>
+                            </h2>
                             @if ($post->published_at)
                                 <p class="news-meta">{{ $post->published_at->format('F j, Y') }}@if ($post->location) &middot; {{ $post->location }}@endif</p>
                             @endif
-                            <p>{{ $post->excerpt }}</p>
+                            <p @include('partials.inline-edit-attrs', ['model' => 'news', 'id' => $post->id, 'field' => 'excerpt', 'type' => 'textarea'])>{{ $post->excerpt }}</p>
                             <a href="{{ $post->url() }}">Read more</a>
                         </li>
                     @empty

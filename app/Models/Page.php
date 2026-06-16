@@ -10,23 +10,23 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Page extends Model
 {
     protected $fillable = [
-        'parent_id',
-        'slug',
         'title',
-        'section',
+        'slug',
         'hero_title',
         'hero_subtitle',
-        'meta_description',
-        'excerpt',
         'body',
-        'template',
-        'sort_order',
-        'is_published',
+        'meta_description',
+        'parent_id',
         'page_type',
         'status',
         'show_in_navigation',
         'navigation_label',
+        'sort_order',
         'published_at',
+        'section',
+        'excerpt',
+        'template',
+        'is_published',
     ];
 
     protected function casts(): array
@@ -77,6 +77,27 @@ class Page extends Model
         return $query->where('status', 'published');
     }
 
+    public function scopeParentCandidates(Builder $query): Builder
+    {
+        return $query->published()
+            ->whereNull('parent_id')
+            ->where(function (Builder $q) {
+                $q->whereIn('slug', [
+                    'products-services',
+                    'partners',
+                    'about',
+                    'contact',
+                    'careers',
+                    'board',
+                    'news',
+                    'portfolio',
+                ])->orWhere(function (Builder $custom) {
+                    $custom->custom();
+                });
+            })
+            ->orderBy('title');
+    }
+
     public function scopeNavigationItems(Builder $query): Builder
     {
         return $query
@@ -105,18 +126,14 @@ class Page extends Model
     public function getFullUrlAttribute(): string
     {
         if ($this->isBuiltIn()) {
-            if ($this->slug === 'home') {
-                return '/';
-            }
-
-            return '/'.ltrim($this->slug, '/');
+            return $this->builtInPath();
         }
 
         if ($this->parent_id) {
             $parent = $this->relationLoaded('parent') ? $this->parent : $this->parent()->first();
 
             if ($parent) {
-                return '/'.ltrim($parent->slug, '/').'/'.ltrim($this->slug, '/');
+                return rtrim($parent->full_url, '/').'/'.ltrim($this->slug, '/');
             }
         }
 
@@ -145,18 +162,27 @@ class Page extends Model
 
     public function url(): string
     {
-        if ($this->isCustom()) {
-            return url($this->full_url);
-        }
+        return url($this->full_url);
+    }
 
+    private function builtInPath(): string
+    {
         if ($this->slug === 'home') {
-            return url('/');
+            return '/';
         }
 
         if ($this->slug === 'contact') {
-            return route('contact');
+            return '/contact';
         }
 
-        return route('pages.show', ['section' => $this->section, 'page' => $this->slug]);
+        if (in_array($this->slug, ['products-services', 'partners', 'about'], true)) {
+            return '/'.$this->slug;
+        }
+
+        if (in_array($this->section, ['products', 'partners', 'about'], true)) {
+            return '/'.$this->section.'/'.ltrim($this->slug, '/');
+        }
+
+        return '/'.ltrim($this->slug, '/');
     }
 }
