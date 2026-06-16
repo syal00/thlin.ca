@@ -45,6 +45,8 @@ class PageSeeder extends Seeder
                     'template' => $data['template'] ?? 'standard',
                     'sort_order' => $index,
                     'is_published' => true,
+                    'page_type' => 'built_in',
+                    'status' => 'published',
                 ], $data)
             );
         }

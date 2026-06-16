@@ -1,5 +1,3 @@
-<a href="#main-content" class="skip-link">Skip to main content</a>
-
 @php
     $navParents = \App\Models\Page::whereIn('slug', [
         'home',
@@ -33,18 +31,28 @@
                     <span class="logo-text">THLIN</span>
                 </a>
 
-                <nav class="site-nav" aria-label="Main navigation">
+                <button
+                    type="button"
+                    class="nav-toggle"
+                    data-nav-toggle
+                    aria-expanded="false"
+                    aria-controls="main-nav"
+                >
+                    <span class="visually-hidden">Open menu</span>
+                    <span class="nav-toggle-icon" aria-hidden="true"></span>
+                </button>
+
+                <nav class="site-nav" id="main-nav" data-main-nav aria-label="Main navigation">
                     <ul>
                         <li><a href="{{ route('home') }}">Home</a></li>
 
                         <li>
                             <a href="#">Products &amp; Services</a>
                             <ul>
-                                <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}">thehealthline.ca</a></li>
-                                <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}">Patient Portals</a></li>
-                                <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'provider-portals']) }}">Provider Portals</a></li>
-                                <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'support-training']) }}">Support &amp; Training</a></li>
-                                <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'portfolio']) }}">Portfolio</a></li>
+                                @include('partials.nav-section-links', [
+                                    'section' => 'products',
+                                    'items' => config('thlin.navigation.products.items'),
+                                ])
                                 @include('partials.nav-cms-children', ['parentSlugs' => ['products-services', 'products', 'portfolio']])
                             </ul>
                         </li>
@@ -52,10 +60,10 @@
                         <li>
                             <a href="#">Partners</a>
                             <ul>
-                                <li><a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'health-care']) }}">Health Care</a></li>
-                                <li><a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'municipalities']) }}">Municipalities</a></li>
-                                <li><a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'social-services']) }}">Social Services</a></li>
-                                <li><a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'oht']) }}">Ontario Health Teams</a></li>
+                                @include('partials.nav-section-links', [
+                                    'section' => 'partners',
+                                    'items' => config('thlin.navigation.partners.items'),
+                                ])
                                 @include('partials.nav-cms-children', ['parentSlugs' => ['partners']])
                             </ul>
                         </li>
@@ -63,11 +71,10 @@
                         <li>
                             <a href="#">About</a>
                             <ul>
-                                <a href="{{ route('pages.show', ['section' => 'about', 'page' => 'us']) }}">About Us</a>
-                                <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'news']) }}">News</a></li>
-                                <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'annual-reports']) }}">Annual Reports</a></li>
-                                <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'board-of-directors']) }}">Board of Directors</a></li>
-                                <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'careers']) }}">Careers</a></li>
+                                @include('partials.nav-section-links', [
+                                    'section' => 'about',
+                                    'items' => config('thlin.navigation.about.items'),
+                                ])
                                 @include('partials.nav-cms-children', ['parentSlugs' => ['about', 'careers', 'news', 'board']])
                             </ul>
                         </li>

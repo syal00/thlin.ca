@@ -36,4 +36,17 @@ class PortfolioItem extends Model
                 ->orWhere('excerpt', 'like', $like);
         });
     }
+
+    public function imageUrl(): ?string
+    {
+        if (! $this->image) {
+            return null;
+        }
+
+        if (str_starts_with($this->image, 'http://') || str_starts_with($this->image, 'https://')) {
+            return $this->image;
+        }
+
+        return asset('storage/'.$this->image);
+    }
 }

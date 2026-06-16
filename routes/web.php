@@ -29,6 +29,9 @@ Route::get('/about', function () {
 
 Route::get('/about/news/{news}', [NewsController::class, 'show'])->name('news.show');
 
+Route::redirect('/partners/oht', '/partners/ontario-health-teams', 301);
+Route::redirect('/about/board-of-directors', '/about/board', 301);
+
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest')->group(function () {
         Route::get('login', [AdminAuthController::class, 'showLogin'])->name('login');

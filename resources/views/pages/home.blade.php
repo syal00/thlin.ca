@@ -5,98 +5,110 @@
 
 @section('hero')
     <section class="home-hero">
-        <div class="container hero-grid">
-            <div class="hero-content">
-                <span class="section-kicker">THLIN</span>
+        <div class="hero-video-bg" aria-hidden="true">
+            <video autoplay muted loop playsinline poster="{{ asset('images/poster.jpg') }}">
+                <source src="{{ asset('videos/background.mp4') }}" type="video/mp4">
+                <source src="{{ asset('videos/background.webm') }}" type="video/webm">
+            </video>
+            <div class="hero-video-overlay"></div>
+        </div>
 
-                <h1
-                    data-editable="true"
-                    data-model="page"
-                    data-id="{{ $page->id }}"
-                    data-field="title"
-                >{{ $page->title }}</h1>
+        <div class="hero-particles" aria-hidden="true">
+            <span class="hero-particle"></span>
+            <span class="hero-particle"></span>
+            <span class="hero-particle"></span>
+            <span class="hero-particle"></span>
+            <span class="hero-particle"></span>
+            <span class="hero-particle"></span>
+        </div>
 
-                <p
-                    class="hero-lead"
-                    data-editable="true"
-                    data-model="page"
-                    data-id="{{ $page->id }}"
-                    data-field="excerpt"
-                >{{ $page->excerpt }}</p>
-<div class="hero-actions">
-    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="btn btn-light">
-        Explore thehealthline.ca
-    </a>
-    <a href="{{ route('contact') }}" class="btn btn-outline-light">
-        Contact Us
-    </a>
-</div>
-<div class="hero-tags">
-    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}">Patient Portal</a>
-    <span>Community service navigation</span>
-    <span>Ontario care network support</span>
-</div>
-            </div>
+        <div class="hero-inner">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <span class="section-kicker">THLIN</span>
 
-            <div class="hero-card">
-                <div class="hero-card-icon">+</div>
-                <h2>Find trusted health and community services</h2>
-                <p>Search information, tools, news, and partner resources across the THLIN network.</p>
+                    <h1
+                        data-editable="true"
+                        data-model="page"
+                        data-id="{{ $page->id }}"
+                        data-field="title"
+                    >{{ $page->title }}</h1>
 
-                <ul>
-                    <li>Health and social service directories</li>
-                    <li>Easy-to-use system navigation tools</li>
-                    <li>Digital support for community partners</li>
-                </ul>
+                    <p
+                        class="hero-lead"
+                        data-editable="true"
+                        data-model="page"
+                        data-id="{{ $page->id }}"
+                        data-field="excerpt"
+                    >{{ $page->excerpt }}</p>
 
-                <form action="{{ route('search') }}" method="get" class="hero-search" role="search">
-                    <label for="hero-search-input" class="visually-hidden">Search the site</label>
-                    <input
-                        id="hero-search-input"
-                        type="search"
-                        name="q"
-                        placeholder="Search services, tools, news..."
-                        value="{{ request('q') }}"
-                    >
-                    <button type="submit">Search</button>
-                </form>
+                    <div class="hero-actions">
+                        <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="btn btn-light">
+                            Explore Products &amp; Services
+                        </a>
+                        <a href="{{ route('contact') }}" class="btn btn-outline-light">
+                            Contact Us
+                        </a>
+                    </div>
+
+                    <div class="hero-badges hero-tags">
+                        <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}">Patient Focused</a>
+                        <span>Community Health Support</span>
+                        <span>Database &amp; Search Support</span>
+                    </div>
+                </div>
+
+                @include('partials.hero-side-card', ['searchInputId' => 'hero-search-input'])
             </div>
         </div>
     </section>
 @endsection
 
 @section('content')
-    <section class="home-section section-light">
-        <div class="container">
+    @php
+        $homeStats = collect($thlin['stats'])->sortByDesc(fn ($stat) => (int) str_replace(',', '', $stat['value']))->values();
+    @endphp
+
+    <section class="home-section home-section-help section-alt">
+        <div class="section-container">
+            <div class="stats-card" aria-label="THLIN impact statistics">
+                @foreach ($homeStats as $stat)
+                    <div class="stat-item">
+                        <span class="stat-number">{{ $stat['value'] }}</span>
+                        <span class="stat-label">{{ $stat['label'] }}</span>
+                    </div>
+                @endforeach
+            </div>
+
             <div class="section-heading">
                 <span class="section-kicker blue">Quick Access</span>
                 <h2>How can we help you?</h2>
                 <p>Choose the path that best matches your needs and quickly access THLIN information, tools, and services.</p>
             </div>
 
-            <div class="quick-grid">
-                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="quick-card">
+            <div class="help-grid">
+                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="help-card">
                     <span>01</span>
                     <h3>Patients &amp; Families</h3>
                     <p>Find trusted health and community service information that is easier to understand and access.</p>
                     <strong>Find services</strong>
                 </a>
 
-                <a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'health-care']) }}" class="quick-card">
+                <a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'health-care']) }}" class="help-card">
                     <span>02</span>
                     <h3>Health &amp; Social Service Providers</h3>
                     <p>Connect people to programs, resources, and local service information.</p>
                     <strong>Support navigation</strong>
                 </a>
 
-                <a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'oht']) }}" class="quick-card">
+                <a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'ontario-health-teams']) }}" class="help-card">
                     <span>03</span>
                     <h3>Partner Organizations</h3>
                     <p>Work with THLIN to build digital tools that support better access to information.</p>
                     <strong>Partner with us</strong>
                 </a>
 
-                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}" class="quick-card">
+                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}" class="help-card">
                     <span>04</span>
                     <h3>Community Members</h3>
                     <p>Explore online tools designed to make health and community information easier to find.</p>
@@ -106,8 +118,8 @@
         </div>
     </section>
 
-    <section class="home-section">
-        <div class="container split-grid">
+    <section class="home-section section-light">
+        <div class="section-container split-grid">
             <div>
                 <span class="section-kicker blue">About THLIN</span>
                 <h2>Making health and community information easier to access.</h2>
@@ -119,7 +131,7 @@
                     Our work is focused on trusted information, usable online tools, and practical support for organizations serving communities across Ontario.
                 </p>
 
-                <a href="{{ route('pages.show', ['section' => 'about', 'page' => 'about-us']) }}" class="btn btn-primary">
+                <a href="{{ route('pages.show', ['section' => 'about', 'page' => 'us']) }}" class="btn btn-primary">
                     Learn About THLIN
                 </a>
             </div>
@@ -147,29 +159,10 @@
         </div>
     </section>
 
-    <section class="home-section section-light">
-        <div class="container">
+    <section class="home-section section-alt">
+        <div class="section-container">
             <div class="section-heading">
-                <span class="section-kicker blue">Impact</span>
-                <h2>Trusted information with measurable reach.</h2>
-                <p>THLIN supports digital access to health and community information through practical tools and partner collaboration.</p>
-            </div>
-
-            <div class="stats-grid">
-                @foreach ($thlin['stats'] as $stat)
-                    <div class="stat-card">
-                        <strong>{{ $stat['value'] }}</strong>
-                        <span>{{ $stat['label'] }}</span>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
-
-    <section class="home-section">
-        <div class="container">
-            <div class="section-heading">
-                <span class="section-kicker blue">Services</span>
+                <span class="section-kicker blue">Products &amp; Services</span>
                 <h2>Digital tools built for easier system navigation.</h2>
                 <p>We help organizations present information clearly and build online tools that are practical, accessible, and easy to maintain.</p>
             </div>
@@ -204,9 +197,9 @@
 
     @if ($featuredPortfolio->isNotEmpty())
         <section class="home-section section-light">
-            <div class="container">
+            <div class="section-container">
                 <div class="section-heading">
-                    <span class="section-kicker blue">Featured Work</span>
+                    <span class="section-kicker blue">Who We Support</span>
                     <h2>Projects that support better access to information.</h2>
                     <p>Explore examples of THLIN’s digital work with healthcare and community partners.</p>
                 </div>
@@ -216,7 +209,7 @@
                         <a href="{{ $item->url }}" class="portfolio-card" target="_blank" rel="noopener">
                             @if ($item->image)
                                 <img
-                                    src="{{ asset('storage/'.$item->image) }}"
+                                    src="{{ $item->imageUrl() }}"
                                     alt="{{ $item->title }}"
                                     data-editable-image="true"
                                     data-model="portfolio"
@@ -257,17 +250,19 @@
         </section>
     @endif
 
-    <section class="home-cta">
-        <div class="container cta-inner">
-            <div>
-                <span class="section-kicker">Work With THLIN</span>
-                <h2>Let’s make health and community information easier to access.</h2>
-                <p>THLIN works with partners to improve digital access to trusted health and social service information.</p>
-            </div>
+    <section class="home-cta-premium">
+        <div class="section-container">
+            <div class="cta-box">
+                <div>
+                    <span class="section-kicker">Get Started</span>
+                    <h2>Ready to connect with THLIN?</h2>
+                    <p>Contact our team to learn more about our digital health information tools and partnership support.</p>
+                </div>
 
-            <div class="cta-actions">
-                <a href="{{ route('contact') }}" class="btn btn-light">Contact Us</a>
-                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'portfolio']) }}" class="btn btn-outline-light">View Our Work</a>
+                <div class="cta-actions">
+                    <a href="{{ route('contact') }}" class="btn btn-light">Contact Us</a>
+                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="btn btn-outline-light">Explore Products &amp; Services</a>
+                </div>
             </div>
         </div>
     </section>

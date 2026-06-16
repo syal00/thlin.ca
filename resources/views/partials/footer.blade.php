@@ -27,10 +27,9 @@
         <div class="footer-column">
             <h2>Services</h2>
             <ul>
-                <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}">Service Directories</a></li>
-                <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}">Patient Portals</a></li>
-                <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'provider-portals']) }}">Provider Portals</a></li>
-                <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'portfolio']) }}">Portfolio</a></li>
+                @foreach (config('thlin.navigation.products.items') as $slug => $label)
+                    <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => $slug]) }}">{{ $label }}</a></li>
+                @endforeach
             </ul>
         </div>
 

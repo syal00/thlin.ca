@@ -2,30 +2,44 @@
 
 @section('title', $page->title.' - '.$thlin['name'])
 
-@section('content')
-    @include('partials.page-header', ['page' => $page])
+@section('hero')
+    @include('partials.page-header', ['page' => $page, 'eyebrow' => 'Careers'])
+@endsection
 
-    <section class="page-content">
-        <div class="container prose">
-            {!! $page->body !!}
-        </div>
-        <div class="container">
-            @foreach ($jobs as $job)
-                <article class="job-card" id="{{ $job->slug }}">
-                    <h2>{{ $job->title }}</h2>
-                    <p class="job-meta">
-                        @if ($job->location){{ $job->location }}@endif
-                        @if ($job->employment_type) &middot; {{ $job->employment_type }}@endif
-                    </p>
-                    @if ($job->posted_at || $job->closes_at)
-                        <p class="job-meta">
-                            @if ($job->posted_at)Posted {{ $job->posted_at->format('F j, Y') }}@endif
-                            @if ($job->closes_at) &middot; Closes {{ $job->closes_at->format('F j, Y') }}@endif
-                        </p>
-                    @endif
-                    <div class="prose">{!! $job->body !!}</div>
-                </article>
-            @endforeach
+@section('content')
+    <section class="home-section section-light">
+        <div class="section-container">
+            <div class="content-shell">
+                @if ($page->body)
+                    <div class="cms-content">{!! $page->body !!}</div>
+                @endif
+
+                <div class="job-list">
+                    @forelse ($jobs as $job)
+                        <article class="job-card" id="{{ $job->slug }}">
+                            <h2>{{ $job->title }}</h2>
+                            <p class="job-meta">
+                                @if ($job->location){{ $job->location }}@endif
+                                @if ($job->employment_type) &middot; {{ $job->employment_type }}@endif
+                            </p>
+                            @if ($job->posted_at || $job->closes_at)
+                                <p class="job-meta">
+                                    @if ($job->posted_at)Posted {{ $job->posted_at->format('F j, Y') }}@endif
+                                    @if ($job->closes_at) &middot; Closes {{ $job->closes_at->format('F j, Y') }}@endif
+                                </p>
+                            @endif
+                            <div class="cms-content">{!! $job->body !!}</div>
+                        </article>
+                    @empty
+                        <article class="job-card">
+                            <h2>No open positions right now</h2>
+                            <p>We are not actively hiring at the moment. Please check back later or contact us to learn more about future opportunities.</p>
+                        </article>
+                    @endforelse
+                </div>
+            </div>
         </div>
     </section>
+
+    @include('partials.page-cta')
 @endsection

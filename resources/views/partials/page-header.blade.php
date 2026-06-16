@@ -1,19 +1,22 @@
-<div class="page-header">
-    <div class="container">
-        <h1
-            data-editable="true"
-            data-model="page"
-            data-id="{{ $page->id }}"
-            data-field="title"
-        >{{ $page->title }}</h1>
-        @if ($page->excerpt)
-            <p
-                class="page-lead"
-                data-editable="true"
-                data-model="page"
-                data-id="{{ $page->id }}"
-                data-field="excerpt"
-            >{{ $page->excerpt }}</p>
-        @endif
-    </div>
-</div>
+@php
+    $sectionEyebrows = [
+        'about' => 'About THLIN',
+        'products' => 'Products & Services',
+        'partners' => 'Partners',
+    ];
+
+    $eyebrow = $eyebrow ?? (isset($page) ? ($sectionEyebrows[$page->section] ?? 'THLIN') : 'THLIN');
+@endphp
+
+@include('partials.page-hero', array_merge(
+    ['page' => $page ?? null, 'eyebrow' => $eyebrow],
+    array_filter([
+        'titleField' => $titleField ?? null,
+        'subtitleField' => $subtitleField ?? null,
+        'heroTitle' => $heroTitle ?? null,
+        'heroSubtitle' => $heroSubtitle ?? null,
+        'breadcrumbs' => $breadcrumbs ?? null,
+        'editable' => $editable ?? null,
+        'hideDefaultActions' => $hideDefaultActions ?? null,
+    ], fn ($value) => $value !== null)
+))
