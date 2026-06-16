@@ -11,24 +11,24 @@
         </div>
     @endauth
 
-    <section class="inner-hero custom-page-hero">
+    <section class="inner-hero">
         <div class="inner-container">
-            <nav class="breadcrumb" aria-label="Breadcrumb">
+            <nav class="inner-breadcrumb breadcrumb" aria-label="Breadcrumb">
                 <a href="{{ url('/') }}">Home</a>
 
                 @if ($page->parent)
-                    <span aria-hidden="true">/</span>
+                    <span class="breadcrumb-sep" aria-hidden="true">/</span>
                     <a href="{{ url($page->parent->full_url) }}">
                         {{ $page->parent->title }}
                     </a>
                 @endif
 
-                <span aria-hidden="true">/</span>
+                <span class="breadcrumb-sep" aria-hidden="true">/</span>
                 <span aria-current="page">{{ $page->title }}</span>
             </nav>
 
             <div class="inner-hero-content">
-                <span class="section-eyebrow">
+                <span class="inner-eyebrow">
                     {{ $page->parent ? $page->parent->title : 'THLIN Resource' }}
                 </span>
 
@@ -46,7 +46,7 @@
             <div class="custom-page-layout">
                 <main class="custom-page-main">
                     @if (trim(strip_tags($page->body ?? '')) !== '')
-                        <article class="content-shell cms-content">
+                        <article class="inner-content-card content-shell cms-content">
                             @include('partials.cms-body', ['html' => $page->body])
                         </article>
                     @else

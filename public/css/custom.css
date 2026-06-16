@@ -611,34 +611,11 @@
 }
 
 /* =========================================================
-   Inner pages — static hero (no video, no white card)
+   Inner pages — static hero (no video, no particles)
 ========================================================= */
-
-.has-page-hero .inner-page-hero {
-    position: relative;
-    padding: 3rem 0 4rem;
-    background:
-        radial-gradient(circle at 78% 22%, rgba(255, 255, 255, 0.12), transparent 28%),
-        linear-gradient(135deg, #042C53 0%, #185FA5 65%, #0B4F86 100%);
-    color: #ffffff;
-}
-
-.has-page-hero .inner-hero-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding-left: 24px;
-    padding-right: 24px;
-    position: relative;
-    z-index: 2;
-}
 
 .has-page-hero .inner-hero-content {
     max-width: 850px;
-}
-
-.has-page-hero .inner-hero-content .section-kicker {
-    color: rgba(255, 255, 255, 0.92);
-    margin-bottom: 1.25rem;
 }
 
 .has-page-hero .inner-hero-content h1 {
@@ -649,7 +626,7 @@
     color: #ffffff;
 }
 
-.has-page-hero .inner-hero-content .hero-lead {
+.has-page-hero .inner-hero-content p {
     max-width: 720px;
     margin-top: 1.25rem;
     font-size: 1.1rem;
@@ -657,35 +634,8 @@
     color: rgba(255, 255, 255, 0.88);
 }
 
-.has-page-hero .inner-hero-content .hero-actions {
+.has-page-hero .inner-hero-actions {
     margin-top: 1.75rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.85rem;
-}
-
-.has-page-hero .page-breadcrumb {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.82);
-}
-
-.has-page-hero .page-breadcrumb a {
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.has-page-hero .page-breadcrumb a:hover {
-    text-decoration: underline;
-}
-
-.has-page-hero .breadcrumb-sep {
-    opacity: 0.65;
 }
 
 .has-page-hero .section-container {
@@ -716,24 +666,19 @@
 }
 
 @media (max-width: 640px) {
-    .has-page-hero .inner-page-hero {
-        padding: 2.5rem 0 3rem;
-    }
-
-    .has-page-hero .inner-hero-inner {
-        padding-left: 16px;
-        padding-right: 16px;
+    .has-page-hero .inner-hero {
+        padding: 64px 0 48px;
     }
 
     .has-page-hero .inner-hero-content h1 {
         font-size: clamp(2rem, 9vw, 2.75rem);
     }
 
-    .has-page-hero .inner-hero-content .hero-actions {
+    .has-page-hero .inner-hero-actions {
         flex-direction: column;
     }
 
-    .has-page-hero .inner-hero-content .hero-actions .btn {
+    .has-page-hero .inner-hero-actions .btn {
         width: 100%;
     }
 

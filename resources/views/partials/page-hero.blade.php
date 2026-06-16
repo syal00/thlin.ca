@@ -41,9 +41,9 @@
     }
 @endphp
 
-<section class="inner-page-hero">
-    <div class="inner-hero-inner">
-        <nav class="page-breadcrumb breadcrumb" aria-label="Breadcrumb">
+<section class="inner-hero">
+    <div class="inner-container">
+        <nav class="inner-breadcrumb breadcrumb" aria-label="Breadcrumb">
             @foreach ($breadcrumbs as $crumb)
                 @if (! empty($crumb['url']) && empty($crumb['current']))
                     <a href="{{ $crumb['url'] }}">{{ $crumb['label'] }}</a>
@@ -58,30 +58,27 @@
         </nav>
 
         <div class="inner-hero-content">
-            <span class="section-kicker">{{ $eyebrowLabel }}</span>
+            <span class="inner-eyebrow">{{ $eyebrowLabel }}</span>
 
             @if (isset($page) && ($editable ?? true))
                 <h1 @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => $resolvedTitleField ?? 'hero_title', 'type' => 'text'])>{{ $heroTitle }}</h1>
 
                 @if ($page->hero_subtitle || $page->excerpt || auth()->check())
-                    <p
-                        class="hero-lead"
-                        @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => $resolvedSubtitleField ?? 'hero_subtitle', 'type' => 'textarea'])
-                    >{{ $page->hero_subtitle ?: ($page->excerpt ?? '') }}</p>
+                    <p @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => $resolvedSubtitleField ?? 'hero_subtitle', 'type' => 'textarea'])>{{ $page->hero_subtitle ?: ($page->excerpt ?? '') }}</p>
                 @endif
             @else
                 <h1>{{ $heroTitle }}</h1>
                 @if ($heroSubtitle)
-                    <p class="hero-lead">{{ $heroSubtitle }}</p>
+                    <p>{{ $heroSubtitle }}</p>
                 @endif
             @endif
 
             @if (! empty($heroActions))
-                <div class="hero-actions">
+                <div class="inner-hero-actions hero-actions">
                     {!! $heroActions !!}
                 </div>
             @elseif (! isset($hideDefaultActions) || ! $hideDefaultActions)
-                <div class="hero-actions">
+                <div class="inner-hero-actions hero-actions">
                     <a href="{{ route('contact') }}" class="btn btn-light">Contact Us</a>
                     <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="btn btn-outline-light">
                         Explore Products &amp; Services

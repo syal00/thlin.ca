@@ -4342,87 +4342,9 @@ body.nav-open {
     margin: 0 auto;
 }
 
-.is-custom-page .custom-page-hero {
-    position: relative;
-    overflow: hidden;
-    padding: 90px 0 80px;
-    background:
-        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.16), transparent 30%),
-        linear-gradient(135deg, #042C53 0%, #185FA5 70%, #0b4f86 100%);
-    color: #ffffff;
-}
-
-.is-custom-page .custom-page-hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-        radial-gradient(circle at 18% 20%, rgba(230, 241, 251, 0.12), transparent 28%),
-        radial-gradient(circle at 85% 75%, rgba(234, 243, 222, 0.14), transparent 30%);
-    pointer-events: none;
-}
-
-.is-custom-page .custom-page-hero .inner-container {
+.is-custom-page .inner-hero .inner-container {
     position: relative;
     z-index: 2;
-}
-
-.is-custom-page .custom-page-hero .breadcrumb {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 26px;
-    color: rgba(255, 255, 255, 0.82);
-    font-size: 0.9rem;
-}
-
-.is-custom-page .custom-page-hero .breadcrumb a {
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 700;
-}
-
-.is-custom-page .custom-page-hero .breadcrumb a:hover {
-    text-decoration: underline;
-}
-
-.is-custom-page .custom-page-hero .section-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 16px;
-    color: #E6F1FB;
-    font-size: 0.78rem;
-    font-weight: 800;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-}
-
-.is-custom-page .custom-page-hero .section-eyebrow::before {
-    content: "";
-    width: 34px;
-    height: 2px;
-    background: currentColor;
-    border-radius: 99px;
-}
-
-.is-custom-page .custom-page-hero h1 {
-    max-width: 900px;
-    margin: 0;
-    color: #ffffff;
-    font-size: clamp(2.6rem, 5vw, 5.2rem);
-    line-height: 1;
-    letter-spacing: -0.045em;
-    text-shadow: none;
-}
-
-.is-custom-page .custom-page-hero p {
-    max-width: 720px;
-    margin-top: 22px;
-    color: rgba(255, 255, 255, 0.88);
-    font-size: 1.12rem;
-    line-height: 1.8;
 }
 
 .is-custom-page .custom-page-section {
@@ -4682,12 +4604,8 @@ body.nav-open {
         width: min(100% - 32px, 1180px);
     }
 
-    .is-custom-page .custom-page-hero {
-        padding: 64px 0 54px;
-    }
-
-    .is-custom-page .custom-page-hero h1 {
-        font-size: clamp(2.2rem, 12vw, 3.4rem);
+    .is-custom-page .inner-hero {
+        padding: 64px 0 48px;
     }
 
     .is-custom-page .custom-page-section .content-shell {
@@ -4826,8 +4744,7 @@ body.has-inline-edit-bar .site-wrapper {
 }
 
 .inline-edit-enabled .home-hero,
-.inline-edit-enabled .inner-page-hero,
-.inline-edit-enabled .custom-page-hero {
+.inline-edit-enabled .inner-hero {
     overflow: visible;
 }
 
