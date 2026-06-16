@@ -29,6 +29,10 @@
     opacity: 0.42;
 }
 
+.is-home-page .hero-network-canvas.is-active {
+    opacity: 0.78;
+}
+
 .is-home-page .hero-video-overlay{
     background:
         radial-gradient(circle at 75% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 35%),
@@ -560,7 +564,11 @@
     }
 
     .is-home-page .hero-video-bg video {
-        display: none;
+        display: none !important;
+    }
+
+    .is-home-page .hero-network-canvas.is-active {
+        display: block !important;
     }
 
 

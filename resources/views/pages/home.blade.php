@@ -6,7 +6,8 @@
 @section('hero')
     <section class="home-hero">
         <div class="hero-video-bg" aria-hidden="true">
-            <video autoplay muted loop playsinline poster="{{ asset('images/hero-doctors.jpg') }}">
+            <canvas class="hero-network-canvas" data-hero-network aria-hidden="true"></canvas>
+            <video autoplay muted loop playsinline preload="auto" poster="{{ asset('images/hero-doctors.jpg') }}">
                 <source src="{{ asset('videos/background.mp4') }}" type="video/mp4">
             </video>
             <div class="hero-video-overlay"></div>
@@ -221,3 +222,7 @@
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/hero-network.js') }}?v={{ @filemtime(public_path('js/hero-network.js')) ?: '1' }}" defer></script>
+@endpush
