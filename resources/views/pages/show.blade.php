@@ -51,7 +51,90 @@
             <div class="section-container">
                 <div class="section-heading">
                     <span class="section-kicker blue">Portal Features</span>
-                    <h2>Designed for easier access and better support.</h2>
+                    @elseif ($page->slug === 'healthline')
+                        <!-- Service Detail Hero Section -->
+                        <section class="service-detail-hero">
+                            <div class="container">
+                                <!-- Breadcrumb -->
+                                <nav class="service-breadcrumb" aria-label="Breadcrumb">
+                                    <a href="{{ route('home') }}">Home</a>
+                                    <span class="separator">/</span>
+                                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'products']) }}">Products & Services</a>
+                                    <span class="separator">/</span>
+                                    <span class="current">{{ $page->title }}</span>
+                                </nav>
+
+                                <!-- Hero Content Grid -->
+                                <div class="service-detail-grid">
+                                    <div class="service-hero-content">
+                                        <span class="service-label">Products & Services</span>
+
+                                        <h1
+                                            class="service-title"
+                                            data-editable="true"
+                                            data-model="page"
+                                            data-id="{{ $page->id }}"
+                                            data-field="title"
+                                        >{{ $page->title }}</h1>
+
+                                        <p
+                                            class="service-excerpt"
+                                            data-editable="true"
+                                            data-model="page"
+                                            data-id="{{ $page->id }}"
+                                            data-field="excerpt"
+                                        >{{ $page->excerpt }}</p>
+
+                                        <div class="service-detail-actions">
+                                            <a href="{{ route('contact') }}" class="btn btn-primary">Contact Us</a>
+                                            <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="btn btn-soft">Explore Products</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="service-hero-card">
+                                        <span class="service-card-icon">⭐</span>
+                                        <h2>Product Highlights</h2>
+                                        <p class="service-card-intro">Trusted health information and patient-centric solutions.</p>
+
+                                        <ul class="service-highlight-list">
+                                            <li>Comprehensive, trusted health information</li>
+                                            <li>Easy-to-use patient interfaces</li>
+                                            <li>24/7 accessible online services</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Main Content Section -->
+                        <section class="service-detail-content">
+                            <div class="container">
+                                <div class="service-content-grid">
+                                    <main class="service-main-card">
+                                        <div
+                                            data-editable="true"
+                                            data-model="page"
+                                            data-id="{{ $page->id }}"
+                                            data-field="body"
+                                        >
+                                            {!! $page->body !!}
+                                        </div>
+                                    </main>
+
+                                    <aside class="service-side-card">
+                                        <h3>Quick Links</h3>
+                                        <ul>
+                                            <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}">Healthline Home</a></li>
+                                            <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'provider-portals']) }}">Provider Portals</a></li>
+                                            <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'support-training']) }}">Support & Training</a></li>
+                                            <li><a href="{{ route('contact') }}">Contact THLIN</a></li>
+                                            <li><a href="{{ route('pages.show', ['section' => 'products']) }}">All Products</a></li>
+                                        </ul>
+                                    </aside>
+                                </div>
+                            </div>
+                        </section>
+                    @else
                     <p>Patient portal solutions help people find information, connect with services, and navigate care more confidently.</p>
                 </div>
 
