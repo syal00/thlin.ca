@@ -1,8 +1,10 @@
 @php
+    use App\Models\SiteSetting;
+
     $tag = $tag ?? 'span';
     $settingKey = $key;
     $settingType = $type ?? 'text';
-    $settingValue = site_setting($settingKey, $default ?? '');
+    $settingValue = SiteSetting::getValue($settingKey, $default ?? '');
     $inlineType = in_array($settingType, ['richtext', 'textarea'], true) ? 'richtext' : $settingType;
     $isRichOutput = $inlineType === 'richtext';
     $settingClass = $class ?? null;

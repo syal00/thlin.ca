@@ -108,12 +108,12 @@
 
                     <div class="contact-info-item">
                         <span>Phone</span>
-                        <a href="tel:{{ preg_replace('/\D+/', '', site_setting('contact_phone', '5196605910')) }}">@include('partials.site-setting', ['key' => 'contact_phone', 'tag' => 'span', 'type' => 'text'])</a>
+                        <a href="tel:{{ preg_replace('/\D+/', '', \App\Models\SiteSetting::getValue('contact_phone', '5196605910')) }}">@include('partials.site-setting', ['key' => 'contact_phone', 'tag' => 'span', 'type' => 'text'])</a>
                     </div>
 
                     <div class="contact-info-item">
                         <span>Email</span>
-                        <a href="mailto:{{ site_setting('contact_email', 'admin@thehealthline.ca') }}">@include('partials.site-setting', ['key' => 'contact_email', 'tag' => 'span', 'type' => 'text'])</a>
+                        <a href="mailto:{{ \App\Models\SiteSetting::getValue('contact_email', 'admin@thehealthline.ca') }}">@include('partials.site-setting', ['key' => 'contact_email', 'tag' => 'span', 'type' => 'text'])</a>
                     </div>
 
                     <div class="contact-note">
