@@ -24,7 +24,19 @@
         <div class="section-container">
             <div class="content-shell">
                 <article class="cms-content">
-                    @include('partials.cms-body', ['html' => $post->body])
+                    <h1 @include('partials.inline-edit-attrs', ['model' => 'news', 'id' => $post->id, 'field' => 'title', 'type' => 'text'])>{{ $post->title }}</h1>
+
+                    @if ($post->excerpt || auth()->check())
+                        <p class="news-excerpt" @include('partials.inline-edit-attrs', ['model' => 'news', 'id' => $post->id, 'field' => 'excerpt', 'type' => 'richtext'])>{!! $post->excerpt !!}</p>
+                    @endif
+
+                    @auth
+                        <div @include('partials.inline-edit-attrs', ['model' => 'news', 'id' => $post->id, 'field' => 'body', 'type' => 'richtext'])>
+                            @include('partials.cms-body', ['html' => $post->body])
+                        </div>
+                    @else
+                        @include('partials.cms-body', ['html' => $post->body])
+                    @endauth
                 </article>
 
                 <p class="back-link">

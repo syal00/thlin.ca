@@ -64,7 +64,7 @@
                 <h1 @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => $resolvedTitleField ?? 'hero_title', 'type' => 'text'])>{{ $heroTitle }}</h1>
 
                 @if ($page->hero_subtitle || $page->excerpt || auth()->check())
-                    <p @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => $resolvedSubtitleField ?? 'hero_subtitle', 'type' => 'textarea'])>{{ $page->hero_subtitle ?: ($page->excerpt ?? '') }}</p>
+                    <p @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => $resolvedSubtitleField ?? 'hero_subtitle', 'type' => 'richtext'])>{!! $page->hero_subtitle ?: ($page->excerpt ?? '') !!}</p>
                 @endif
             @else
                 <h1>{{ $heroTitle }}</h1>

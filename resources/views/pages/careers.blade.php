@@ -16,8 +16,14 @@
     <section class="home-section section-light">
         <div class="section-container">
             <div class="content-shell">
-                @if ($page->body)
-                    <div class="cms-content">@include('partials.cms-body', ['html' => $page->body])</div>
+                @if ($page->body || auth()->check())
+                    @auth
+                        <div class="cms-content" @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'body', 'type' => 'richtext'])>
+                            @include('partials.cms-body', ['html' => $page->body])
+                        </div>
+                    @else
+                        <div class="cms-content">@include('partials.cms-body', ['html' => $page->body])</div>
+                    @endauth
                 @endif
 
                 @include('partials.page-updated', ['page' => $page])
@@ -39,7 +45,13 @@
                                     @if ($job->closes_at) &middot; Closes {{ $job->closes_at->format('F j, Y') }}@endif
                                 </p>
                             @endif
-                            <div class="cms-content">@include('partials.cms-body', ['html' => $job->body])</div>
+                            @auth
+                                <div class="cms-content" @include('partials.inline-edit-attrs', ['model' => 'career', 'id' => $job->id, 'field' => 'body', 'type' => 'richtext'])>
+                                    @include('partials.cms-body', ['html' => $job->body])
+                                </div>
+                            @else
+                                <div class="cms-content">@include('partials.cms-body', ['html' => $job->body])</div>
+                            @endauth
                         </article>
                     @empty
                         <article class="job-card">

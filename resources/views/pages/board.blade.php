@@ -16,8 +16,14 @@
     <section class="home-section section-light">
         <div class="section-container">
             <div class="content-shell">
-                @if ($page->body)
-                    <div class="cms-content">@include('partials.cms-body', ['html' => $page->body])</div>
+                @if ($page->body || auth()->check())
+                    @auth
+                        <div class="cms-content" @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'body', 'type' => 'richtext'])>
+                            @include('partials.cms-body', ['html' => $page->body])
+                        </div>
+                    @else
+                        <div class="cms-content">@include('partials.cms-body', ['html' => $page->body])</div>
+                    @endauth
                 @endif
 
                 @include('partials.page-updated', ['page' => $page])
@@ -30,7 +36,7 @@
                             @endif
                             <h2 @include('partials.inline-edit-attrs', ['model' => 'board', 'id' => $member->id, 'field' => 'name', 'type' => 'text'])>{{ $member->name }}</h2>
                             <p class="board-role" @include('partials.inline-edit-attrs', ['model' => 'board', 'id' => $member->id, 'field' => 'role', 'type' => 'text'])>{{ $member->role }}</p>
-                            <p @include('partials.inline-edit-attrs', ['model' => 'board', 'id' => $member->id, 'field' => 'bio', 'type' => 'textarea'])>{{ $member->bio }}</p>
+                            <p @include('partials.inline-edit-attrs', ['model' => 'board', 'id' => $member->id, 'field' => 'bio', 'type' => 'richtext'])>{!! $member->bio !!}</p>
                         </article>
                     @endforeach
                 </div>

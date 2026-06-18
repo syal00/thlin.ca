@@ -16,7 +16,7 @@
     @foreach ($children as $childPage)
         <li>
             <a href="{{ $childPage->full_url }}">
-                {{ $childPage->menu_label }}
+                <span @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $childPage->id, 'field' => 'navigation_label', 'type' => 'text'])>{{ $childPage->menu_label }}</span>
             </a>
         </li>
     @endforeach

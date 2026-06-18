@@ -105,7 +105,11 @@
                 update: @json(route('admin.inline-update')),
                 uploadImage: @json(route('admin.inline-upload-image')),
             };
+            window.inlineEditTinyMce = {
+                baseUrl: @json(asset('vendor/tinymce')),
+            };
         </script>
+        <script src="{{ asset('vendor/tinymce/tinymce.min.js') }}?v={{ @filemtime(public_path('vendor/tinymce/tinymce.min.js')) ?: '1' }}"></script>
         <script src="{{ asset('js/inline-edit.js') }}?v={{ @filemtime(public_path('js/inline-edit.js')) ?: '1' }}" defer></script>
     @endauth
     @stack('scripts')

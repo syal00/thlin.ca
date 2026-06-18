@@ -32,7 +32,7 @@
     <div class="portfolio-card-body">
         <h3 @include('partials.inline-edit-attrs', ['model' => 'portfolio', 'id' => $item->id, 'field' => 'title', 'type' => 'text'])>{{ $item->title }}</h3>
 
-        <p @include('partials.inline-edit-attrs', ['model' => 'portfolio', 'id' => $item->id, 'field' => 'excerpt', 'type' => 'textarea'])>{{ $item->excerpt }}</p>
+        <p @include('partials.inline-edit-attrs', ['model' => 'portfolio', 'id' => $item->id, 'field' => 'excerpt', 'type' => 'richtext'])>{!! $item->excerpt !!}</p>
 
         @if ($item->url)
             <a href="{{ $item->url }}" class="portfolio-card-action" target="_blank" rel="noopener">View project</a>

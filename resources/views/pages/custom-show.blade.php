@@ -47,28 +47,23 @@
         <div class="inner-container">
             <div class="custom-page-layout">
                 <main class="custom-page-main">
-                    @if (trim(strip_tags($page->body ?? '')) !== '')
+                    @if (trim(strip_tags($page->body ?? '')) !== '' || auth()->check())
                         <article class="inner-content-card content-shell cms-content">
-                            @include('partials.cms-body', ['html' => $page->body])
+                            @auth
+                                <div @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'body', 'type' => 'richtext'])>
+                                    @include('partials.cms-body', ['html' => $page->body])
+                                </div>
+                            @else
+                                @include('partials.cms-body', ['html' => $page->body])
+                            @endauth
                             @include('partials.page-updated', ['page' => $page])
                         </article>
                     @else
                         <article class="content-shell cms-content cms-empty-state">
-                            @auth
-                                <h2>Content not added yet</h2>
-                                <p>
-                                    This page has been created in the CMS. Add content from the admin editor to complete this page.
-                                </p>
-
-                                <a href="{{ route('admin.pages.edit', $page) }}" class="btn btn-primary">
-                                    Edit this page
-                                </a>
-                            @else
-                                <h2>Content coming soon</h2>
-                                <p>
-                                    Information for this page will be added soon.
-                                </p>
-                            @endauth
+                            <h2>Content coming soon</h2>
+                            <p>
+                                Information for this page will be added soon.
+                            </p>
                         </article>
                     @endif
                 </main>
@@ -82,7 +77,7 @@
                             <div class="sidebar-links">
                                 @foreach ($page->parent->visibleChildren as $childPage)
                                     <a href="{{ url($childPage->full_url) }}" @class(['active' => $childPage->id === $page->id])>
-                                        {{ $childPage->menu_label }}
+                                        <span @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $childPage->id, 'field' => 'navigation_label', 'type' => 'text'])>{{ $childPage->menu_label }}</span>
                                     </a>
                                 @endforeach
                             </div>

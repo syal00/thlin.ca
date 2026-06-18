@@ -27,12 +27,12 @@
                 <div class="hero-content home-hero-enter">
                     <span class="section-kicker">THLIN</span>
 
-                    <h1 @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'title', 'type' => 'text'])>{{ $page->title }}</h1>
+                    <h1 @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'hero_title', 'type' => 'text'])>{{ $page->hero_title ?: $page->title }}</h1>
 
                     <p
                         class="hero-lead"
-                        @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'excerpt', 'type' => 'textarea'])
-                    >{{ $page->excerpt }}</p>
+                        @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'excerpt', 'type' => 'richtext'])
+                    >{!! $page->excerpt !!}</p>
 
                     <div class="hero-actions">
                         <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="btn btn-light">
@@ -74,37 +74,37 @@
 
             <div class="section-heading reveal-on-scroll">
                 <span class="section-kicker blue">Quick Access</span>
-                <h2>How can we help you?</h2>
-                <p>Choose the path that best matches your needs and quickly access THLIN information, tools, and services.</p>
+                @include('partials.site-setting', ['key' => 'home_quick_access_title', 'tag' => 'h2', 'type' => 'text'])
+                @include('partials.site-setting', ['key' => 'home_quick_access_subtitle', 'tag' => 'p', 'type' => 'textarea'])
             </div>
 
             <div class="help-grid">
                 <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="help-card reveal-on-scroll" data-reveal-delay="0ms">
-                    <span>01</span>
-                    <h3>Patients &amp; Families</h3>
-                    <p>Find trusted health and community service information that is easier to understand and access.</p>
-                    <strong>Find services</strong>
+                    <span class="help-card__number">01</span>
+                    @include('partials.site-setting', ['key' => 'home_help_card_1_title', 'tag' => 'h3', 'type' => 'text'])
+                    @include('partials.site-setting', ['key' => 'home_help_card_1_text', 'tag' => 'p', 'type' => 'textarea'])
+                    @include('partials.site-setting', ['key' => 'home_help_card_1_link', 'tag' => 'strong', 'type' => 'text'])
                 </a>
 
                 <a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'health-care']) }}" class="help-card reveal-on-scroll" data-reveal-delay="80ms">
-                    <span>02</span>
-                    <h3>Health &amp; Social Service Providers</h3>
-                    <p>Connect people to programs, resources, and local service information.</p>
-                    <strong>Support navigation</strong>
+                    <span class="help-card__number">02</span>
+                    @include('partials.site-setting', ['key' => 'home_help_card_2_title', 'tag' => 'h3', 'type' => 'text'])
+                    @include('partials.site-setting', ['key' => 'home_help_card_2_text', 'tag' => 'p', 'type' => 'textarea'])
+                    @include('partials.site-setting', ['key' => 'home_help_card_2_link', 'tag' => 'strong', 'type' => 'text'])
                 </a>
 
                 <a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'ontario-health-teams']) }}" class="help-card reveal-on-scroll" data-reveal-delay="160ms">
-                    <span>03</span>
-                    <h3>Partner Organizations</h3>
-                    <p>Work with THLIN to build digital tools that support better access to information.</p>
-                    <strong>Partner with us</strong>
+                    <span class="help-card__number">03</span>
+                    @include('partials.site-setting', ['key' => 'home_help_card_3_title', 'tag' => 'h3', 'type' => 'text'])
+                    @include('partials.site-setting', ['key' => 'home_help_card_3_text', 'tag' => 'p', 'type' => 'textarea'])
+                    @include('partials.site-setting', ['key' => 'home_help_card_3_link', 'tag' => 'strong', 'type' => 'text'])
                 </a>
 
                 <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}" class="help-card reveal-on-scroll" data-reveal-delay="240ms">
-                    <span>04</span>
-                    <h3>Community Members</h3>
-                    <p>Explore online tools designed to make health and community information easier to find.</p>
-                    <strong>Explore tools</strong>
+                    <span class="help-card__number">04</span>
+                    @include('partials.site-setting', ['key' => 'home_help_card_4_title', 'tag' => 'h3', 'type' => 'text'])
+                    @include('partials.site-setting', ['key' => 'home_help_card_4_text', 'tag' => 'p', 'type' => 'textarea'])
+                    @include('partials.site-setting', ['key' => 'home_help_card_4_link', 'tag' => 'strong', 'type' => 'text'])
                 </a>
             </div>
         </div>
@@ -114,24 +114,19 @@
         <div class="section-container split-grid">
             <div class="reveal-on-scroll">
                 <span class="section-kicker blue">About THLIN</span>
-                <h2>Making health and community information easier to access.</h2>
-                <p>
-                    THLIN develops and supports digital information tools that help people navigate health and social services.
-                    We work with partners to organize service information clearly, improve access, and support better system navigation.
-                </p>
-                <p>
-                    Our work is focused on trusted information, usable online tools, and practical support for organizations serving communities across Ontario.
-                </p>
+                @include('partials.site-setting', ['key' => 'home_about_title', 'tag' => 'h2', 'type' => 'text'])
+                @include('partials.site-setting', ['key' => 'home_about_text_1', 'tag' => 'p', 'type' => 'textarea'])
+                @include('partials.site-setting', ['key' => 'home_about_text_2', 'tag' => 'p', 'type' => 'textarea'])
 
                 <a href="{{ route('pages.show', ['section' => 'about', 'page' => 'us']) }}" class="btn btn-primary">
-                    Learn About THLIN
+                    @include('partials.site-setting', ['key' => 'home_about_button_label', 'tag' => 'span', 'type' => 'text'])
                 </a>
             </div>
 
             <div class="info-panel reveal-on-scroll" data-reveal-delay="120ms">
-                <span>thehealthline.ca</span>
-                <h3>Ontario’s health service directory</h3>
-                <p>A trusted online directory helping people find home care, community support, health care, and social service resources.</p>
+                @include('partials.site-setting', ['key' => 'home_about_panel_kicker', 'tag' => 'span', 'type' => 'text'])
+                @include('partials.site-setting', ['key' => 'home_about_panel_title', 'tag' => 'h3', 'type' => 'text'])
+                @include('partials.site-setting', ['key' => 'home_about_panel_text', 'tag' => 'p', 'type' => 'textarea'])
 
                 <div class="info-list">
                     <div>
@@ -155,33 +150,33 @@
         <div class="section-container">
             <div class="section-heading reveal-on-scroll">
                 <span class="section-kicker blue">Products &amp; Services</span>
-                <h2>Digital tools built for easier system navigation.</h2>
-                <p>We help organizations present information clearly and build online tools that are practical, accessible, and easy to maintain.</p>
+                @include('partials.site-setting', ['key' => 'home_products_title', 'tag' => 'h2', 'type' => 'text'])
+                @include('partials.site-setting', ['key' => 'home_products_subtitle', 'tag' => 'p', 'type' => 'textarea'])
             </div>
 
             <div class="service-grid">
                 <div class="service-card reveal-on-scroll">
                     <span></span>
-                    <h3>Digital service directories</h3>
-                    <p>Organized directories that help people find health, social, and community services faster.</p>
+                    @include('partials.site-setting', ['key' => 'home_products_card_1_title', 'tag' => 'h3', 'type' => 'text'])
+                    @include('partials.site-setting', ['key' => 'home_products_card_1_text', 'tag' => 'p', 'type' => 'textarea'])
                 </div>
 
                 <div class="service-card reveal-on-scroll">
                     <span></span>
-                    <h3>Community information tools</h3>
-                    <p>Searchable online tools designed around real user needs and local community resources.</p>
+                    @include('partials.site-setting', ['key' => 'home_products_card_2_title', 'tag' => 'h3', 'type' => 'text'])
+                    @include('partials.site-setting', ['key' => 'home_products_card_2_text', 'tag' => 'p', 'type' => 'textarea'])
                 </div>
 
                 <div class="service-card reveal-on-scroll">
                     <span></span>
-                    <h3>Website and portal development</h3>
-                    <p>Professional websites and portals that support content management and partner communication.</p>
+                    @include('partials.site-setting', ['key' => 'home_products_card_3_title', 'tag' => 'h3', 'type' => 'text'])
+                    @include('partials.site-setting', ['key' => 'home_products_card_3_text', 'tag' => 'p', 'type' => 'textarea'])
                 </div>
 
                 <div class="service-card reveal-on-scroll">
                     <span></span>
-                    <h3>Data and content support</h3>
-                    <p>Support for keeping information accurate, structured, searchable, and useful for users.</p>
+                    @include('partials.site-setting', ['key' => 'home_products_card_4_title', 'tag' => 'h3', 'type' => 'text'])
+                    @include('partials.site-setting', ['key' => 'home_products_card_4_text', 'tag' => 'p', 'type' => 'textarea'])
                 </div>
             </div>
         </div>
@@ -192,8 +187,8 @@
             <div class="section-container">
                 <div class="section-heading reveal-on-scroll">
                     <span class="section-kicker blue">Who We Support</span>
-                    <h2>Projects that support better access to information.</h2>
-                    <p>Explore examples of THLIN’s digital work with healthcare and community partners.</p>
+                    @include('partials.site-setting', ['key' => 'home_portfolio_title', 'tag' => 'h2', 'type' => 'text'])
+                    @include('partials.site-setting', ['key' => 'home_portfolio_subtitle', 'tag' => 'p', 'type' => 'textarea'])
                 </div>
 
                 <div class="portfolio-grid">
@@ -209,14 +204,14 @@
         <div class="section-container">
             <div class="cta-box reveal-on-scroll">
                 <div>
-                    <span class="section-kicker">Get Started</span>
-                    <h2>Ready to connect with THLIN?</h2>
-                    <p>Contact our team to learn more about our digital health information tools and partnership support.</p>
+                    @include('partials.site-setting', ['key' => 'cta_eyebrow', 'tag' => 'span', 'class' => 'section-kicker', 'type' => 'text'])
+                    @include('partials.site-setting', ['key' => 'home_cta_title', 'tag' => 'h2', 'type' => 'text'])
+                    @include('partials.site-setting', ['key' => 'home_cta_text', 'tag' => 'p', 'type' => 'textarea'])
                 </div>
 
                 <div class="cta-actions">
-                    <a href="{{ route('contact') }}" class="btn btn-light">Contact Us</a>
-                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="btn btn-outline-light">Explore Products &amp; Services</a>
+                    <a href="{{ route('contact') }}" class="btn btn-light">@include('partials.site-setting', ['key' => 'cta_primary_label', 'tag' => 'span', 'type' => 'text'])</a>
+                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="btn btn-outline-light">@include('partials.site-setting', ['key' => 'cta_secondary_label', 'tag' => 'span', 'type' => 'text'])</a>
                 </div>
             </div>
         </div>

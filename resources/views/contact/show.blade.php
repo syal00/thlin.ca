@@ -10,17 +10,30 @@
 @endif
 
 @section('hero')
-    @include('partials.page-header', [
-        'editable' => false,
-        'eyebrow' => 'Contact THLIN',
-        'heroTitle' => "Let's Connect",
-        'heroSubtitle' => 'We work with partners to improve information systems and connect people across Ontario to trusted health and community services.',
-        'breadcrumbs' => [
-            ['label' => 'Home', 'url' => route('home')],
-            ['label' => 'Contact', 'current' => true],
-        ],
-        'hideDefaultActions' => true,
-    ])
+    @if ($page)
+        @include('partials.page-header', [
+            'page' => $page,
+            'editable' => true,
+            'eyebrow' => 'Contact THLIN',
+            'breadcrumbs' => [
+                ['label' => 'Home', 'url' => route('home')],
+                ['label' => 'Contact', 'current' => true],
+            ],
+            'hideDefaultActions' => true,
+        ])
+    @else
+        @include('partials.page-header', [
+            'editable' => false,
+            'eyebrow' => 'Contact THLIN',
+            'heroTitle' => "Let's Connect",
+            'heroSubtitle' => 'We work with partners to improve information systems and connect people across Ontario to trusted health and community services.',
+            'breadcrumbs' => [
+                ['label' => 'Home', 'url' => route('home')],
+                ['label' => 'Contact', 'current' => true],
+            ],
+            'hideDefaultActions' => true,
+        ])
+    @endif
 @endsection
 
 @section('content')
@@ -30,8 +43,8 @@
                 <div class="contact-form-card content-shell">
                     <div class="section-heading">
                         <span class="section-kicker blue">Message</span>
-                        <h2>Send us a message</h2>
-                        <p>Tell us how we can help. We'll get back to you as soon as possible.</p>
+                        @include('partials.site-setting', ['key' => 'contact_form_title', 'tag' => 'h2', 'type' => 'text'])
+                        @include('partials.site-setting', ['key' => 'contact_form_subtitle', 'tag' => 'p', 'type' => 'textarea'])
                     </div>
 
                     @include('partials.page-updated', ['page' => $page])
@@ -86,29 +99,26 @@
                 <aside class="contact-info-panel info-panel">
                     <div class="contact-info-icon">+</div>
 
-                    <h2>Head Office</h2>
+                    @include('partials.site-setting', ['key' => 'contact_office_heading', 'tag' => 'h2', 'type' => 'text'])
 
                     <div class="contact-info-item">
                         <span>Address</span>
-                        <p>201 King St, London, ON N6C 1C9</p>
+                        <p>@include('partials.site-setting', ['key' => 'contact_address', 'tag' => 'span', 'type' => 'text'])</p>
                     </div>
 
                     <div class="contact-info-item">
                         <span>Phone</span>
-                        <a href="tel:5196605910">519-660-5910</a>
+                        <a href="tel:{{ preg_replace('/\D+/', '', site_setting('contact_phone', '5196605910')) }}">@include('partials.site-setting', ['key' => 'contact_phone', 'tag' => 'span', 'type' => 'text'])</a>
                     </div>
 
                     <div class="contact-info-item">
                         <span>Email</span>
-                        <a href="mailto:admin@thehealthline.ca">admin@thehealthline.ca</a>
+                        <a href="mailto:{{ site_setting('contact_email', 'admin@thehealthline.ca') }}">@include('partials.site-setting', ['key' => 'contact_email', 'tag' => 'span', 'type' => 'text'])</a>
                     </div>
 
                     <div class="contact-note">
-                        <strong>Working with THLIN?</strong>
-                        <p>
-                            Contact us about partnerships, digital tools, service directories,
-                            portals, and information management support.
-                        </p>
+                        @include('partials.site-setting', ['key' => 'contact_note_title', 'tag' => 'strong', 'type' => 'text'])
+                        @include('partials.site-setting', ['key' => 'contact_note_text', 'tag' => 'p', 'type' => 'textarea'])
                     </div>
                 </aside>
             </div>

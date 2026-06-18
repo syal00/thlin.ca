@@ -6,13 +6,16 @@
                 <span>thehealthline.ca</span>
             </a>
 
-            <p>
-                THLIN helps people and organizations access trusted health and community service information through practical digital tools.
-            </p>
+            @include('partials.site-setting', [
+                'key' => 'footer_description',
+                'default' => 'THLIN helps people and organizations access trusted health and community service information through practical digital tools.',
+                'type' => 'textarea',
+                'tag' => 'p',
+            ])
         </div>
 
         <div class="footer-column">
-            <h2>Quick Links</h2>
+            <h2>@include('partials.site-setting', ['key' => 'footer_quick_links_heading', 'default' => 'Quick Links', 'tag' => 'span'])</h2>
             <ul>
                 <li><a href="{{ route('home') }}">Home</a></li>
                 <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'us']) }}">About</a></li>
@@ -25,7 +28,7 @@
         </div>
 
         <div class="footer-column">
-            <h2>Services</h2>
+            <h2>@include('partials.site-setting', ['key' => 'footer_services_heading', 'default' => 'Services', 'tag' => 'span'])</h2>
             <ul>
                 @foreach (config('thlin.navigation.products.items') as $slug => $label)
                     <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => $slug]) }}">{{ $label }}</a></li>
@@ -34,7 +37,7 @@
         </div>
 
         <div class="footer-column">
-            <h2>Connect</h2>
+            <h2>@include('partials.site-setting', ['key' => 'footer_connect_heading', 'default' => 'Connect', 'tag' => 'span'])</h2>
             <ul>
                 <li><a href="{{ route('contact') }}">Contact THLIN</a></li>
                 <li><a href="https://www.thehealthline.ca" target="_blank" rel="noopener">Visit thehealthline.ca</a></li>
@@ -46,8 +49,8 @@
 
     <div class="footer-bottom">
         <div class="container footer-bottom-inner">
-            <p>&copy; {{ date('Y') }} thehealthline.ca Information Network. All rights reserved.</p>
-            <a href="{{ route('contact') }}">Get in touch</a>
+            <p>&copy; {{ date('Y') }} @include('partials.site-setting', ['key' => 'footer_copyright', 'default' => 'thehealthline.ca Information Network. All rights reserved.'])</p>
+            <a href="{{ route('contact') }}">@include('partials.site-setting', ['key' => 'footer_cta_link_label', 'default' => 'Get in touch'])</a>
         </div>
     </div>
 </footer>

@@ -16,8 +16,14 @@
     <section class="home-section section-light">
         <div class="section-container">
             <div class="content-shell">
-                @if ($page->body)
-                    <div class="cms-content">@include('partials.cms-body', ['html' => $page->body])</div>
+                @if ($page->body || auth()->check())
+                    @auth
+                        <div class="cms-content" @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'body', 'type' => 'richtext'])>
+                            @include('partials.cms-body', ['html' => $page->body])
+                        </div>
+                    @else
+                        <div class="cms-content">@include('partials.cms-body', ['html' => $page->body])</div>
+                    @endauth
                 @endif
 
                 @include('partials.page-updated', ['page' => $page])
@@ -33,7 +39,7 @@
                             @if ($post->published_at)
                                 <p class="news-meta">{{ $post->published_at->format('F j, Y') }}@if ($post->location) &middot; {{ $post->location }}@endif</p>
                             @endif
-                            <p @include('partials.inline-edit-attrs', ['model' => 'news', 'id' => $post->id, 'field' => 'excerpt', 'type' => 'textarea'])>{{ $post->excerpt }}</p>
+                            <p @include('partials.inline-edit-attrs', ['model' => 'news', 'id' => $post->id, 'field' => 'excerpt', 'type' => 'richtext'])>{!! $post->excerpt !!}</p>
                             <a href="{{ $post->url() }}">Read more</a>
                         </li>
                     @empty

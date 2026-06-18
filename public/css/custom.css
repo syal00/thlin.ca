@@ -361,7 +361,10 @@
     box-shadow: 0 24px 60px rgba(4, 44, 83, 0.15);
 }
 
-.is-home-page .help-card span , .has-page-hero .help-card span {
+.is-home-page .help-card > span,
+.is-home-page .help-card .help-card__number,
+.has-page-hero .help-card > span,
+.has-page-hero .help-card .help-card__number {
     display: inline-grid;
     place-items: center;
     width: 44px;

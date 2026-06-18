@@ -20,6 +20,9 @@
         ->orderBy('title')
         ->get()
         ->groupBy('parent_id');
+
+    $homePage = $navParents->get('home');
+    $contactPage = $navParents->get('contact');
 @endphp
 
 <header class="site-header {{ request()->routeIs('home') ? 'is-home-header' : 'is-inner-header' }}">
@@ -44,10 +47,18 @@
 
                 <nav class="site-nav" id="main-nav" data-main-nav aria-label="Main navigation">
                     <ul>
-                        <li><a href="{{ route('home') }}">Home</a></li>
+                        <li>
+                            <a href="{{ route('home') }}">
+                                @if ($homePage)
+                                    <span @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $homePage->id, 'field' => 'navigation_label', 'type' => 'text'])>{{ $homePage->menu_label }}</span>
+                                @else
+                                    Home
+                                @endif
+                            </a>
+                        </li>
 
                         <li>
-                            <a href="#">Products &amp; Services</a>
+                            <a href="#">@include('partials.site-setting', ['key' => 'nav_products_label', 'default' => 'Products & Services'])</a>
                             <ul>
                                 @include('partials.nav-section-links', [
                                     'section' => 'products',
@@ -58,7 +69,7 @@
                         </li>
 
                         <li>
-                            <a href="#">Partners</a>
+                            <a href="#">@include('partials.site-setting', ['key' => 'nav_partners_label', 'default' => 'Partners'])</a>
                             <ul>
                                 @include('partials.nav-section-links', [
                                     'section' => 'partners',
@@ -69,7 +80,7 @@
                         </li>
 
                         <li>
-                            <a href="#">About</a>
+                            <a href="#">@include('partials.site-setting', ['key' => 'nav_about_label', 'default' => 'About'])</a>
                             <ul>
                                 @include('partials.nav-section-links', [
                                     'section' => 'about',
@@ -79,7 +90,15 @@
                             </ul>
                         </li>
 
-                        <li><a href="{{ route('contact') }}">Contact</a></li>
+                        <li>
+                            <a href="{{ route('contact') }}">
+                                @if ($contactPage)
+                                    <span @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $contactPage->id, 'field' => 'navigation_label', 'type' => 'text'])>{{ $contactPage->menu_label }}</span>
+                                @else
+                                    Contact
+                                @endif
+                            </a>
+                        </li>
 
                         @php
                             $resourcePages = \App\Models\Page::navigationItems()->get();
@@ -87,12 +106,12 @@
 
                         @if ($resourcePages->count())
                             <li>
-                                <a href="#">Resources</a>
+                                <a href="#">@include('partials.site-setting', ['key' => 'nav_resources_label', 'default' => 'Resources'])</a>
                                 <ul>
                                     @foreach ($resourcePages as $resourcePage)
                                         <li>
                                             <a href="{{ $resourcePage->full_url }}">
-                                                {{ $resourcePage->menu_label }}
+                                                <span @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $resourcePage->id, 'field' => 'navigation_label', 'type' => 'text'])>{{ $resourcePage->menu_label }}</span>
                                             </a>
                                         </li>
                                     @endforeach
@@ -102,7 +121,7 @@
                     </ul>
                 </nav>
 
-                <a href="{{ route('contact') }}" class="nav-cta">Contact Us</a>
+                <a href="{{ route('contact') }}" class="nav-cta">@include('partials.site-setting', ['key' => 'nav_cta_label', 'default' => 'Contact Us'])</a>
             </div>
         </div>
     </div>

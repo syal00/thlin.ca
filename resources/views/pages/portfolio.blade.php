@@ -19,11 +19,14 @@
     <section class="home-section section-light">
         <div class="section-container">
             <div class="content-shell">
-                <div class="cms-content">@include('partials.cms-body', ['html' => $page->body])</div>
-                @include('partials.page-updated', ['page' => $page])
                 @auth
-                    <p class="cms-inline-edit-note">Full page content is edited in the CMS panel using <a href="{{ route('admin.pages.edit', $page) }}">Edit This Page in CMS</a>.</p>
+                    <div class="cms-content" @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'body', 'type' => 'richtext'])>
+                        @include('partials.cms-body', ['html' => $page->body])
+                    </div>
+                @else
+                    <div class="cms-content">@include('partials.cms-body', ['html' => $page->body])</div>
                 @endauth
+                @include('partials.page-updated', ['page' => $page])
             </div>
         </div>
     </section>
@@ -33,7 +36,7 @@
             <div class="section-container">
                 <div class="section-heading">
                     <span class="section-kicker blue">Featured Work</span>
-                    <h2>Highlighted Projects</h2>
+                    <h2>@include('partials.site-setting', ['key' => 'portfolio_featured_title', 'tag' => 'span', 'type' => 'text'])</h2>
                 </div>
 
                 <div class="portfolio-grid">
@@ -50,7 +53,7 @@
             <div class="section-container">
                 <div class="section-heading">
                     <span class="section-kicker blue">Archive</span>
-                    <h2>Past Projects</h2>
+                    <h2>@include('partials.site-setting', ['key' => 'portfolio_past_title', 'tag' => 'span', 'type' => 'text'])</h2>
                 </div>
 
                 <ul class="portfolio-list">
@@ -80,7 +83,7 @@
                                         <span @include('partials.inline-edit-attrs', ['model' => 'portfolio', 'id' => $item->id, 'field' => 'title', 'type' => 'text'])>{{ $item->title }}</span>
                                     </a>
                                 </h3>
-                                <p @include('partials.inline-edit-attrs', ['model' => 'portfolio', 'id' => $item->id, 'field' => 'excerpt', 'type' => 'textarea'])>{{ $item->excerpt }}</p>
+                                <p @include('partials.inline-edit-attrs', ['model' => 'portfolio', 'id' => $item->id, 'field' => 'excerpt', 'type' => 'richtext'])>{!! $item->excerpt !!}</p>
                             </div>
                         </li>
                     @endforeach
@@ -89,10 +92,5 @@
         </section>
     @endif
 
-    @include('partials.page-cta', [
-        'ctaTitle' => 'Interested in Collaborating?',
-        'ctaText' => 'We work with partners to improve information systems and connect the people of Ontario to relevant health and community services.',
-        'ctaPrimary' => 'Contact Us',
-        'ctaSecondary' => 'Explore Products & Services',
-    ])
+    @include('partials.page-cta', ['settingPrefix' => 'portfolio'])
 @endsection
