@@ -166,18 +166,6 @@
                 @enderror
             </div>
         @endif
-
-        <div class="form-group">
-            <label for="meta_description">
-                Search Description
-                <span class="optional-label">Optional</span>
-            </label>
-            <textarea id="meta_description" name="meta_description" rows="2" placeholder="Brief description for search engines">{{ old('meta_description', $page->meta_description) }}</textarea>
-            <small>A short description for search results and SEO. This is optional.</small>
-            @error('meta_description')
-                <small class="form-error">{{ $message }}</small>
-            @enderror
-        </div>
     </div>
 
     {{-- Step 3: Main Page Content --}}
@@ -210,7 +198,61 @@
         </p>
     </div>
 
-    {{-- Step 4: Visibility Settings (custom pages only) --}}
+    {{-- Step 4: SEO Settings --}}
+    <div class="cms-step-card">
+        <div class="cms-step-header">
+            <span class="cms-step-number">{{ ++$step }}</span>
+            <div>
+                <h2>SEO Settings</h2>
+                <p>Control the page title, description, and search keywords.</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="meta_title">
+                SEO Title
+                <span class="optional-label">Optional</span>
+            </label>
+            <input type="text" id="meta_title" name="meta_title" value="{{ old('meta_title', $page->meta_title) }}" placeholder="Leave blank to use the page name">
+            <small>Search engines and browser previews may use this title.</small>
+            @error('meta_title')
+                <small class="form-error">{{ $message }}</small>
+            @enderror
+        </div>
+
+        <div class="form-group">
+            <label for="meta_description">
+                SEO Description
+                <span class="optional-label">Optional</span>
+            </label>
+            <textarea id="meta_description" name="meta_description" rows="3" placeholder="Brief description for search engines">{{ old('meta_description', $page->meta_description) }}</textarea>
+            <small>A short description for search results and SEO. This is optional.</small>
+            @error('meta_description')
+                <small class="form-error">{{ $message }}</small>
+            @enderror
+        </div>
+
+        <div class="form-group">
+            <label for="meta_keywords">
+                SEO Keywords
+                <span class="optional-label">Optional</span>
+            </label>
+            <textarea id="meta_keywords" name="meta_keywords" rows="2" placeholder="patient portals, health services, Ontario">{{ old('meta_keywords', $page->meta_keywords) }}</textarea>
+            <small>Optional search keywords separated by commas.</small>
+            @error('meta_keywords')
+                <small class="form-error">{{ $message }}</small>
+            @enderror
+        </div>
+
+        <div class="seo-preview-card">
+            <span class="seo-preview-label">SEO Preview</span>
+            <strong id="seo-preview-title">{{ $page->meta_title ?: $page->title }}</strong>
+            <span id="seo-preview-url">{{ $page->exists ? $page->full_url : '/your-page-link' }}</span>
+            <p id="seo-preview-description">{{ $page->meta_description ?: $page->hero_subtitle ?: 'Search preview description appears here.' }}</p>
+        </div>
+    </div>
+
+    {{-- Step 5: Visibility Settings (custom pages only) --}}
     @if ($isCustomForm)
         <div class="cms-step-card">
             <div class="cms-step-header">
@@ -299,12 +341,16 @@
                 <p class="cms-actions-help">Save your updates without changing visibility, or use Publish / Save Draft when needed.</p>
                 <div class="cms-actions-buttons">
                     @if ($page->exists)
+                        <a href="{{ route('admin.pages.preview', $page) }}" target="_blank" rel="noopener" class="admin-btn admin-btn-secondary">Preview</a>
                         <button type="submit" name="action" value="save" class="btn btn-primary">Save Changes</button>
                     @endif
                     <button type="submit" name="action" value="draft" class="btn btn-outline-secondary">Save Draft</button>
                     <button type="submit" name="action" value="publish" class="btn btn-primary">Publish to Website</button>
                     <a href="{{ route('admin.pages.index') }}" class="btn btn-light">Cancel</a>
                 </div>
+                @unless ($page->exists)
+                    <p class="admin-help-text">Save the page first to enable preview.</p>
+                @endunless
             @else
                 <p class="cms-actions-help">Save your changes to update the live website content.</p>
                 <div class="cms-actions-buttons">
@@ -395,6 +441,11 @@
         const parentSelect = document.querySelector('select[name="parent_id"]');
         const slugInput = document.querySelector('input[name="slug"]');
         const preview = document.getElementById('final-url-preview');
+        const seoTitleInput = document.getElementById('meta_title');
+        const seoDescriptionInput = document.getElementById('meta_description');
+        const seoPreviewTitle = document.getElementById('seo-preview-title');
+        const seoPreviewUrl = document.getElementById('seo-preview-url');
+        const seoPreviewDescription = document.getElementById('seo-preview-description');
         const linkSearch = document.getElementById('link-search');
         const linkGrid = document.getElementById('cms-link-grid');
         const noLinks = document.getElementById('cms-no-links');
@@ -427,6 +478,20 @@
             } else {
                 preview.textContent = '/' + slug;
             }
+
+            if (seoPreviewUrl) {
+                seoPreviewUrl.textContent = preview.textContent;
+            }
+
+            if (seoPreviewTitle) {
+                seoPreviewTitle.textContent = seoTitleInput && seoTitleInput.value.trim() ? seoTitleInput.value.trim() : (document.getElementById('title')?.value || 'Page');
+            }
+
+            if (seoPreviewDescription) {
+                seoPreviewDescription.textContent = seoDescriptionInput && seoDescriptionInput.value.trim()
+                    ? seoDescriptionInput.value.trim()
+                    : (document.getElementById('hero_subtitle')?.value || 'Search preview description appears here.');
+            }
         }
 
         if (parentSelect) {
@@ -435,6 +500,14 @@
 
         if (slugInput) {
             slugInput.addEventListener('input', updatePreview);
+        }
+
+        if (seoTitleInput) {
+            seoTitleInput.addEventListener('input', updatePreview);
+        }
+
+        if (seoDescriptionInput) {
+            seoDescriptionInput.addEventListener('input', updatePreview);
         }
 
         updatePreview();

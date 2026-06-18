@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
-@section('title', $page->title.' - '.$thlin['name'])
+@section('title', ($page->meta_title ?: $page->title).' - '.$thlin['name'])
+
+@if (! empty($page->meta_keywords))
+    @push('head')
+        <meta name="keywords" content="{{ $page->meta_keywords }}">
+    @endpush
+@endif
 
 @section('hero')
     @include('partials.page-header', [
@@ -14,6 +20,7 @@
         <div class="section-container">
             <div class="content-shell">
                 <div class="cms-content">@include('partials.cms-body', ['html' => $page->body])</div>
+                @include('partials.page-updated', ['page' => $page])
                 @auth
                     <p class="cms-inline-edit-note">Full page content is edited in the CMS panel using <a href="{{ route('admin.pages.edit', $page) }}">Edit This Page in CMS</a>.</p>
                 @endauth

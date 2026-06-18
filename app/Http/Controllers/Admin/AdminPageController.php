@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\BoardMember;
+use App\Models\Career;
+use App\Models\NewsPost;
 use App\Models\Page;
+use App\Models\PortfolioItem;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -16,7 +20,7 @@ class AdminPageController extends Controller
     public function index(): View
     {
         $builtInPages = Page::builtIn()
-            ->orderBy('section')
+            ->orderBy('section', 'asc')
             ->orderBy('sort_order')
             ->orderBy('title')
             ->get();
@@ -56,7 +60,9 @@ class AdminPageController extends Controller
             'hero_title' => ['nullable', 'string', 'max:255'],
             'hero_subtitle' => ['nullable', 'string', 'max:500'],
             'body' => ['nullable', 'string'],
+            'meta_title' => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string', 'max:500'],
+            'meta_keywords' => ['nullable', 'string', 'max:1000'],
             'show_in_navigation' => ['nullable', 'boolean'],
             'navigation_label' => ['nullable', 'string', 'max:255'],
             'sort_order' => ['nullable', 'integer'],
@@ -94,6 +100,14 @@ class AdminPageController extends Controller
         ]);
     }
 
+    public function preview(Page $page): View
+    {
+        $page->load('parent.visibleChildren');
+        \Illuminate\Support\Facades\View::share('cmsPage', $page);
+
+        return $this->renderPreview($page);
+    }
+
     public function update(Request $request, Page $page): RedirectResponse
     {
         $rules = [
@@ -101,7 +115,9 @@ class AdminPageController extends Controller
             'hero_title' => ['nullable', 'string', 'max:255'],
             'hero_subtitle' => ['nullable', 'string', 'max:500'],
             'body' => ['nullable', 'string'],
+            'meta_title' => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string', 'max:500'],
+            'meta_keywords' => ['nullable', 'string', 'max:1000'],
         ];
 
         if ($page->isCustom()) {
@@ -179,7 +195,7 @@ class AdminPageController extends Controller
             return back()->with('error', 'Built-in pages cannot be deleted.');
         }
 
-        $page->delete();
+        Page::query()->whereKey($page->id)->delete();
 
         return redirect()
             ->route('admin.pages.index')
@@ -213,6 +229,55 @@ class AdminPageController extends Controller
         ]);
 
         return back()->with('success', 'Page moved to draft.');
+    }
+
+    private function renderPreview(Page $page): View
+    {
+        if ($page->isCustom()) {
+            return view('pages.custom-show', compact('page'));
+        }
+
+        $section = $page->section;
+
+        return match ($page->template) {
+            'home' => view('pages.home', [
+                'page' => $page,
+                'featuredPortfolio' => PortfolioItem::featured()->ordered()->get(),
+            ]),
+
+            'portfolio' => view('pages.portfolio', [
+                'page' => $page,
+                'section' => $section,
+                'featured' => PortfolioItem::featured()->ordered()->get(),
+                'past' => PortfolioItem::query()->where('featured', '=', false)->ordered()->get(),
+            ]),
+
+            'board' => view('pages.board', [
+                'page' => $page,
+                'section' => $section,
+                'members' => BoardMember::ordered()->get(),
+            ]),
+
+            'news' => view('pages.news', [
+                'page' => $page,
+                'section' => $section,
+                'posts' => NewsPost::published()->orderByDesc('published_at')->get(),
+            ]),
+
+            'careers' => view('pages.careers', [
+                'page' => $page,
+                'section' => $section,
+                'jobs' => Career::active()->orderByDesc('posted_at')->get(),
+            ]),
+
+            'contact' => view('contact.show', compact('page')),
+
+            default => view('pages.show', [
+                'page' => $page,
+                'section' => $section,
+                'isPreview' => true,
+            ]),
+        };
     }
 
     private function publishedPagesForLinks(?Page $exclude = null)

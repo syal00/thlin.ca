@@ -81,14 +81,28 @@
                                 <a href="{{ route('admin.pages.edit', $page) }}" class="admin-page-title-link">{{ $page->title }}</a>
                             </td>
                             <td>
-                                @if ($page->status === 'published')
-                                    <span class="admin-badge admin-badge-success">Published</span>
-                                @else
-                                    <span class="admin-badge admin-badge-muted">Draft</span>
-                                @endif
+                                <div class="admin-status-group">
+                                    @if ($page->is_published)
+                                        <span class="status-badge status-published">Published</span>
+                                    @else
+                                        <span class="status-badge status-draft">Draft</span>
+                                    @endif
+
+                                    @if (isset($page->show_in_navigation) && ! $page->show_in_navigation)
+                                        <span class="status-badge status-hidden">Hidden from Navigation</span>
+                                    @endif
+                                </div>
                             </td>
                             <td><code>{{ $page->full_url }}</code></td>
-                            <td>{{ $page->show_in_navigation ? 'Shown' : 'Hidden' }}</td>
+                            <td>
+                                <div class="admin-status-group">
+                                    @if ($page->show_in_navigation)
+                                        <span class="status-badge status-published">Shown</span>
+                                    @else
+                                        <span class="status-badge status-hidden">Hidden from Navigation</span>
+                                    @endif
+                                </div>
+                            </td>
                             <td>{{ $page->updated_at?->format('M d, Y') }}</td>
                             <td>
                                 <div class="admin-row-actions">

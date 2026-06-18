@@ -1,7 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Contact - '.$thlin['name'])
-@section('meta_description', 'Contact thehealthline.ca Information Network.')
+@section('title', (($page?->meta_title ?: 'Contact')).' - '.$thlin['name'])
+@section('meta_description', $page?->meta_description ?: 'Contact thehealthline.ca Information Network.')
+
+@if (! empty($page?->meta_keywords))
+    @push('head')
+        <meta name="keywords" content="{{ $page->meta_keywords }}">
+    @endpush
+@endif
 
 @section('hero')
     @include('partials.page-header', [
@@ -27,6 +33,8 @@
                         <h2>Send us a message</h2>
                         <p>Tell us how we can help. We'll get back to you as soon as possible.</p>
                     </div>
+
+                    @include('partials.page-updated', ['page' => $page])
 
                     @if (session('success'))
                         <div class="contact-success">

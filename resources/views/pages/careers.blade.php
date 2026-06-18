@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
-@section('title', $page->title.' - '.$thlin['name'])
+@section('title', ($page->meta_title ?: $page->title).' - '.$thlin['name'])
+
+@if (! empty($page->meta_keywords))
+    @push('head')
+        <meta name="keywords" content="{{ $page->meta_keywords }}">
+    @endpush
+@endif
 
 @section('hero')
     @include('partials.page-header', ['page' => $page, 'eyebrow' => 'Careers'])
@@ -13,6 +19,8 @@
                 @if ($page->body)
                     <div class="cms-content">@include('partials.cms-body', ['html' => $page->body])</div>
                 @endif
+
+                @include('partials.page-updated', ['page' => $page])
 
                 <div class="job-list">
                     @forelse ($jobs as $job)

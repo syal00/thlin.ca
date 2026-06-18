@@ -16,6 +16,18 @@
             <a href="{{ route('admin.pages.index') }}" class="btn btn-light">Back to pages</a>
         </div>
 
+        <div class="admin-status-group admin-page-status-group">
+            @if ($page->is_published)
+                <span class="status-badge status-published">Published</span>
+            @else
+                <span class="status-badge status-draft">Draft</span>
+            @endif
+
+            @if (isset($page->show_in_navigation) && ! $page->show_in_navigation)
+                <span class="status-badge status-hidden">Hidden from Navigation</span>
+            @endif
+        </div>
+
         @include('admin.pages.partials.form', [
             'page' => $page,
             'publishedPages' => $publishedPages,

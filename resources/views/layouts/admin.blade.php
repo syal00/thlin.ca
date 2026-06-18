@@ -45,6 +45,10 @@
                            class="admin-nav-link {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}">
                             Pages
                         </a>
+                        <a href="{{ route('admin.messages.index') }}"
+                           class="admin-nav-link {{ request()->routeIs('admin.messages.*') ? 'active' : '' }}">
+                            Messages
+                        </a>
                         <a href="{{ route('admin.news.index') }}"
                            class="admin-nav-link {{ request()->routeIs('admin.news.*') ? 'active' : '' }}">
                             News
@@ -153,6 +157,7 @@
         </main>
     @endauth
 
+    <script src="{{ asset('js/admin-media.js') }}" defer></script>
     @stack('scripts')
 </body>
 </html>

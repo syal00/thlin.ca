@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EditorUploadController;
 use App\Http\Controllers\Admin\InlineEditController;
 use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
 use App\Http\Controllers\Admin\NewsPostController as AdminNewsPostController;
 use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\PortfolioItemController as AdminPortfolioItemController;
@@ -46,8 +47,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('inline-upload-image', [InlineEditController::class, 'uploadImage'])->name('inline-upload-image');
 
         Route::resource('pages', AdminPageController::class)->except(['show']);
+        Route::get('pages/{page}/preview', [AdminPageController::class, 'preview'])->name('pages.preview');
         Route::patch('pages/{page}/publish', [AdminPageController::class, 'publish'])->name('pages.publish');
         Route::patch('pages/{page}/unpublish', [AdminPageController::class, 'unpublish'])->name('pages.unpublish');
+
+        Route::get('messages', [AdminContactMessageController::class, 'index'])->name('messages.index');
+        Route::get('messages/{message}', [AdminContactMessageController::class, 'show'])->name('messages.show');
+        Route::patch('messages/{message}/read', [AdminContactMessageController::class, 'markRead'])->name('messages.read');
+        Route::delete('messages/{message}', [AdminContactMessageController::class, 'destroy'])->name('messages.destroy');
 
         Route::resource('media', MediaController::class)
             ->only(['index', 'create', 'store', 'destroy'])

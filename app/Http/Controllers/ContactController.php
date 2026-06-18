@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ContactMessage;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
@@ -22,11 +23,19 @@ class ContactController extends Controller
 
     public function send(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
             'organization' => ['nullable', 'string', 'max:255'],
             'message' => ['required', 'string', 'max:5000'],
+        ]);
+
+        ContactMessage::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'organization' => $validated['organization'] ?? null,
+            'message' => $validated['message'],
+            'status' => 'new',
         ]);
 
         return back()->with('success', 'Thank you. Your message has been received.');

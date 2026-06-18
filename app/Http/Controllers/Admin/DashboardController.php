@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\BoardMember;
 use App\Models\Career;
+use App\Models\ContactMessage;
+use App\Models\MediaFile;
 use App\Models\NewsPost;
 use App\Models\Page;
 use App\Models\PortfolioItem;
@@ -16,12 +18,13 @@ class DashboardController extends Controller
     public function index(): View
     {
         return view('admin.dashboard', [
-            'pageCount' => Page::count(),
-            'newsCount' => NewsPost::count(),
-            'careerCount' => Career::count(),
-            'boardCount' => BoardMember::count(),
-            'portfolioCount' => PortfolioItem::count(),
-            'userCount' => User::count(),
+            'totalPages' => Page::query()->count('*'),
+            'publishedPages' => Page::published()->count('*'),
+            'draftPages' => Page::query()->where('status', 'draft')->count('*'),
+            'uploadedFiles' => MediaFile::query()->count('*'),
+            'newsCount' => NewsPost::query()->count('*'),
+            'careerCount' => Career::query()->count('*'),
+            'messageCount' => ContactMessage::query()->count('*'),
             'recentPages' => Page::query()
                 ->orderByDesc('updated_at')
                 ->limit(8)

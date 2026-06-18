@@ -15,6 +15,7 @@
         'subtitleField' => $subtitleField ?? null,
         'heroTitle' => $heroTitle ?? null,
         'heroSubtitle' => $heroSubtitle ?? null,
+        'heroActions' => $heroActions ?? null,
         'breadcrumbs' => $breadcrumbs ?? null,
         'editable' => $editable ?? null,
         'hideDefaultActions' => $hideDefaultActions ?? null,

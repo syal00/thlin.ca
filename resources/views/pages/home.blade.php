@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $page->title.' - '.$thlin['name'])
+@section('title', ($page->meta_title ?: $page->title).' - '.$thlin['name'])
 @section('meta_description', $page->excerpt)
 
 @section('hero')
@@ -221,6 +221,8 @@
             </div>
         </div>
     </section>
+
+    @include('partials.page-updated', ['page' => $page])
 @endsection
 
 @push('scripts')

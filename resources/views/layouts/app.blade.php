@@ -35,8 +35,68 @@
     </main>
 
     @include('partials.footer')
+
+    <div class="accessibility-toolbar" aria-label="Accessibility tools">
+        <strong>Accessibility</strong>
+
+        <button type="button" id="decreaseText" aria-label="Decrease text size">A-</button>
+        <button type="button" id="increaseText" aria-label="Increase text size">A+</button>
+        <button type="button" id="toggleContrast" aria-label="Toggle high contrast mode">High Contrast</button>
+        <button type="button" id="resetAccessibility" aria-label="Reset accessibility settings">Reset</button>
     </div>
 
+    <button type="button" id="backToTop" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div class="ai-help-widget" id="aiHelpWidget">
+        <button type="button" class="ai-help-toggle" id="aiHelpToggle" aria-label="Open help options">
+            AI Help
+        </button>
+
+        <div class="ai-help-panel" id="aiHelpPanel" aria-hidden="true">
+            <div class="ai-help-header">
+                <div>
+                    <span>THLIN Support</span>
+                    <h2>AI Help Assistant</h2>
+                </div>
+
+                <button type="button" id="aiHelpClose" aria-label="Close help widget">×</button>
+            </div>
+
+            <p class="ai-help-intro">
+                Ask about THLIN services, portals, resources, and contact options.
+            </p>
+
+            <p class="ai-help-disclaimer">
+                This assistant helps with website navigation only and does not provide medical advice.
+            </p>
+
+            <div class="ai-chat-box" id="aiChatBox" aria-live="polite">
+                <div class="ai-message ai-message-bot">
+                    Hi, I can help you find THLIN services and resources. What are you looking for?
+                </div>
+            </div>
+
+            <div class="ai-quick-actions">
+                <button type="button" data-question="Find health services">Find health services</button>
+                <button type="button" data-question="Patient Portals">Patient Portals</button>
+                <button type="button" data-question="Provider Portals">Provider Portals</button>
+                <button type="button" data-question="Support & Training">Support &amp; Training</button>
+                <button type="button" data-question="Contact THLIN">Contact THLIN</button>
+            </div>
+
+            <form class="ai-help-form" id="aiHelpForm">
+                <label class="sr-only" for="aiHelpInput">Ask a question</label>
+                <input type="text" id="aiHelpInput" placeholder="Ask a question" autocomplete="off">
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+    </div>
+
+    <script src="{{ asset('js/ai-help-widget.js') }}" defer></script>
+    <script src="{{ asset('js/accessibility.js') }}" defer></script>
     <script src="{{ asset('js/thlin.js') }}" defer></script>
     
     @auth

@@ -17,29 +17,42 @@
             <table class="admin-table">
                 <thead>
                     <tr>
-                        <th>File title</th>
-                        <th>Original name</th>
+                        <th>File name</th>
+                        <th>Type</th>
                         <th>Size</th>
                         <th>Uploaded</th>
-                        <th>File link</th>
+                        <th>Public URL</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($mediaFiles as $file)
+                    @forelse ($mediaFiles as $mediaFile)
                         <tr>
-                            <td>{{ $file->title }}</td>
-                            <td>{{ $file->original_name }}</td>
-                            <td>{{ $file->formatted_size }}</td>
-                            <td>{{ $file->created_at->format('M d, Y') }}</td>
                             <td>
-                                <input type="text" class="admin-copy-input" value="{{ $file->url }}" readonly onclick="this.select(); document.execCommand('copy');">
-                                <small class="form-helper">Click to copy</small>
+                                <strong>{{ $mediaFile->title }}</strong><br>
+                                <small class="form-helper">{{ $mediaFile->original_name }}</small>
+                            </td>
+                            <td>
+                                <span class="media-type-badge">
+                                    {{ strtoupper(pathinfo($mediaFile->file_name ?? $mediaFile->file_path ?? '', PATHINFO_EXTENSION)) ?: strtoupper($mediaFile->file_type ?: 'FILE') }}
+                                </span>
+                            </td>
+                            <td>{{ $mediaFile->formatted_size }}</td>
+                            <td>{{ $mediaFile->created_at?->format('M j, Y') }}</td>
+                            <td>
+                                <code>{{ $mediaFile->url }}</code><br>
+                                <button type="button" class="admin-btn admin-btn-secondary copy-link-btn" data-copy="{{ $mediaFile->url }}">Copy Link</button>
                             </td>
                             <td>
                                 <div class="admin-row-actions">
-                                    <a href="{{ $file->url }}" target="_blank" rel="noopener" class="btn btn-light btn-sm">Open</a>
-                                    <form method="post" action="{{ route('admin.media.destroy', $file) }}" class="admin-inline-form" onsubmit="return confirm('Delete this file?')">
+                                    @if (strtolower(pathinfo($mediaFile->file_name ?? $mediaFile->file_path ?? '', PATHINFO_EXTENSION)) === 'pdf')
+                                        <a href="{{ $mediaFile->url }}" target="_blank" rel="noopener" class="admin-btn admin-btn-secondary">Preview PDF</a>
+                                        <a href="{{ $mediaFile->url }}" download class="admin-btn admin-btn-secondary">Download</a>
+                                    @else
+                                        <a href="{{ $mediaFile->url }}" target="_blank" rel="noopener" class="admin-btn admin-btn-secondary">Open</a>
+                                        <a href="{{ $mediaFile->url }}" download class="admin-btn admin-btn-secondary">Download</a>
+                                    @endif
+                                    <form method="post" action="{{ route('admin.media.destroy', $mediaFile) }}" class="admin-inline-form" onsubmit="return confirm('Delete this file?')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>

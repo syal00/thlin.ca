@@ -7,39 +7,39 @@
 @section('content')
     <div class="dashboard-grid">
         <a href="{{ route('admin.pages.index') }}" class="dashboard-stat-card dashboard-stat-card--link">
-            <span class="stat-label">Pages</span>
-            <strong>{{ $pageCount ?? 0 }}</strong>
-            <p>Website and custom pages</p>
+            <span class="stat-label">Total Pages</span>
+            <strong>{{ $totalPages ?? 0 }}</strong>
+            <p>All published and draft CMS pages</p>
         </a>
 
         <div class="dashboard-stat-card">
-            <span class="stat-label">News</span>
+            <span class="stat-label">Published Pages</span>
+            <strong>{{ $publishedPages ?? 0 }}</strong>
+            <p>Pages visible on the website</p>
+        </div>
+
+        <div class="dashboard-stat-card">
+            <span class="stat-label">Draft Pages</span>
+            <strong>{{ $draftPages ?? 0 }}</strong>
+            <p>Saved but not yet published</p>
+        </div>
+
+        <div class="dashboard-stat-card">
+            <span class="stat-label">Uploaded Files</span>
+            <strong>{{ $uploadedFiles ?? 0 }}</strong>
+            <p>PDFs and documents in the media library</p>
+        </div>
+
+        <div class="dashboard-stat-card">
+            <span class="stat-label">News Posts</span>
             <strong>{{ $newsCount ?? 0 }}</strong>
-            <p>Published news posts</p>
+            <p>News and announcements</p>
         </div>
 
         <div class="dashboard-stat-card">
             <span class="stat-label">Careers</span>
             <strong>{{ $careerCount ?? 0 }}</strong>
-            <p>Job postings</p>
-        </div>
-
-        <div class="dashboard-stat-card">
-            <span class="stat-label">Board</span>
-            <strong>{{ $boardCount ?? 0 }}</strong>
-            <p>Board members</p>
-        </div>
-
-        <div class="dashboard-stat-card">
-            <span class="stat-label">Portfolio</span>
-            <strong>{{ $portfolioCount ?? 0 }}</strong>
-            <p>Portfolio items</p>
-        </div>
-
-        <div class="dashboard-stat-card">
-            <span class="stat-label">Users</span>
-            <strong>{{ $userCount ?? 0 }}</strong>
-            <p>Admin users</p>
+            <p>Current job postings</p>
         </div>
     </div>
 

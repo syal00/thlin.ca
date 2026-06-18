@@ -1,14 +1,22 @@
 @extends('layouts.app')
 
-@section('title', $page->title.' - '.$thlin['name'])
+@section('title', ($page->meta_title ?: $page->title).' - '.$thlin['name'])
 @section('meta_description', $page->meta_description ?: $page->hero_subtitle)
+
+@if (! empty($page->meta_keywords))
+    @push('head')
+        <meta name="keywords" content="{{ $page->meta_keywords }}">
+    @endpush
+@endif
 
 @section('content')
     @auth
+        @if (empty($isPreview))
         <div class="cms-admin-edit-banner">
             <span>Editing this page in the CMS</span>
             <a href="{{ route('admin.pages.edit', $page) }}" class="btn btn-primary btn-sm">Open Page Editor</a>
         </div>
+        @endif
     @endauth
 
     <section class="inner-hero">
@@ -48,6 +56,7 @@
                     @if (trim(strip_tags($page->body ?? '')) !== '')
                         <article class="inner-content-card content-shell cms-content">
                             @include('partials.cms-body', ['html' => $page->body])
+                            @include('partials.page-updated', ['page' => $page])
                         </article>
                     @else
                         <article class="content-shell cms-content cms-empty-state">

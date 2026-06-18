@@ -15,7 +15,9 @@ class Page extends Model
         'hero_title',
         'hero_subtitle',
         'body',
+        'meta_title',
         'meta_description',
+        'meta_keywords',
         'parent_id',
         'page_type',
         'status',
@@ -117,9 +119,11 @@ class Page extends Model
             $q->where('title', 'like', $like)
                 ->orWhere('excerpt', 'like', $like)
                 ->orWhere('body', 'like', $like)
+                ->orWhere('meta_title', 'like', $like)
                 ->orWhere('meta_description', 'like', $like)
                 ->orWhere('hero_title', 'like', $like)
-                ->orWhere('hero_subtitle', 'like', $like);
+                ->orWhere('hero_subtitle', 'like', $like)
+                ->orWhere('meta_keywords', 'like', $like);
         });
     }
 
