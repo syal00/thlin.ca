@@ -9936,3 +9936,90 @@ main#main-content > section:last-child {
         gap: 0.5rem !important;
     }
 }
+
+/* =========================================================
+   Product Page Targeted Fixes
+========================================================= */
+
+body {
+    padding-bottom: 90px !important;
+}
+
+.accessibility-toolbar {
+    position: fixed !important;
+    left: 1rem !important;
+    bottom: 1rem !important;
+    z-index: 9999 !important;
+    max-width: calc(100vw - 2rem) !important;
+}
+
+.service-detail-hero {
+    position: relative !important;
+    overflow: hidden !important;
+    min-height: auto !important;
+    background:
+        linear-gradient(90deg, rgba(18, 74, 132, 0.90) 0%, rgba(18, 74, 132, 0.75) 45%, rgba(24, 95, 165, 0.35) 100%),
+        url("/images/health-service-hero.jpg") right center / cover no-repeat !important;
+    color: #ffffff !important;
+    padding: 6rem 0 6.5rem !important;
+}
+
+.service-detail-content,
+.service-feature-cards-section,
+.why-matters-section,
+.related-pages-section,
+.related-services-section {
+    margin-top: 3rem !important;
+}
+
+.service-main-card,
+.service-pro-card,
+.why-matters-section,
+.related-services-section,
+.service-feature-cards-section {
+    margin-bottom: 3rem !important;
+    padding-bottom: 3rem !important;
+}
+
+.service-rich-content figure,
+.service-rich-content .image,
+.service-rich-content img {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 1rem 0 !important;
+}
+
+.service-rich-content img {
+    display: block !important;
+    max-height: 360px !important;
+    object-fit: cover !important;
+    border-radius: 20px !important;
+    border: 1px solid #dbe7f3 !important;
+    box-shadow: 0 10px 24px rgba(24, 95, 165, 0.10) !important;
+}
+
+.service-rich-content .service-image-card,
+.service-rich-content .service-hero-image,
+.service-rich-content .service-hero-image img,
+.service-rich-content .service-hero-card-content {
+    display: none !important;
+}
+
+.page-cta,
+.related-pages-section,
+.service-detail-content {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+@media (max-width: 700px) {
+    .accessibility-toolbar {
+        left: 0.75rem !important;
+        right: 0.75rem !important;
+        bottom: 0.75rem !important;
+    }
+
+    .service-detail-hero {
+        padding: 4.5rem 0 5rem !important;
+    }
+}
