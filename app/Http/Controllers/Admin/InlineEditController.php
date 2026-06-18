@@ -119,7 +119,7 @@ class InlineEditController extends Controller
 
         return response()->json([
             'success' => true,
-            'url' => Storage::disk('public')->url($path),
+            'url' => Storage::url($path),
         ]);
     }
 
