@@ -103,11 +103,19 @@
     <div class="container service-detail-grid">
         <div class="service-detail-copy">
             <div class="service-breadcrumb">
-                <a href="{{ route('home') }}">Home</a>
-                <span>/</span>
-                <span>Products &amp; Services</span>
-                <span>/</span>
-                <span>{{ $page->title }}</span>
+                @if ($page->slug === 'healthline')
+                    <a href="{{ route('home') }}">Home</a>
+                    <span>/</span>
+                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}">Services</a>
+                    <span>/</span>
+                    <span>thehealthline.ca</span>
+                @else
+                    <a href="{{ route('home') }}">Home</a>
+                    <span>/</span>
+                    <span>Products &amp; Services</span>
+                    <span>/</span>
+                    <span>{{ $page->title }}</span>
+                @endif
             </div>
 
             <span class="section-kicker">Products &amp; Services</span>
@@ -117,32 +125,43 @@
                 data-model="page"
                 data-id="{{ $page->id }}"
                 data-field="title"
-            >{{ $page->title }}</h1>
+            >{{ $page->slug === 'healthline' ? 'Trusted Health & Community Service Navigation' : ($page->title ?: 'Trusted Health & Community Service Navigation') }}</h1>
 
-            @if ($page->excerpt)
-                <p
-                    class="service-detail-excerpt"
-                    data-editable="true"
-                    data-model="page"
-                    data-id="{{ $page->id }}"
-                    data-field="excerpt"
-                >{{ $page->excerpt }}</p>
-            @endif
+            <p
+                class="service-detail-excerpt"
+                data-editable="true"
+                data-model="page"
+                data-id="{{ $page->id }}"
+                data-field="excerpt"
+            >{{ $page->slug === 'healthline' ? 'Helping patients, caregivers, providers, and community partners find reliable service information across Ontario.' : ($page->excerpt ?: 'Helping patients, caregivers, providers, and community partners find reliable service information across Ontario.') }}</p>
 
             <div class="service-detail-actions">
-                <a href="{{ route('contact') }}" class="service-btn service-btn-light">Contact Us</a>
-                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="service-btn service-btn-outline">
-                    Explore Services
-                </a>
+                <a href="{{ route('search') }}" class="service-btn service-btn-light">Find Services</a>
+                <a href="{{ route('contact') }}" class="service-btn service-btn-outline">Contact THLIN</a>
+            </div>
+
+            <div class="service-hero-tags">
+                <span>Verified Information</span>
+                <span>Ontario-Wide Directory</span>
+                <span>Patient &amp; Provider Support</span>
             </div>
         </div>
 
         <aside class="service-hero-card">
-            <h2>Service Highlights</h2>
+            <h2>How thehealthline.ca Helps</h2>
             <ul class="service-highlight-list">
-                <li>Trusted health and community service directory</li>
-                <li>Supports patients, caregivers, and providers</li>
-                <li>Helps users navigate health and community services</li>
+                <li>
+                    <strong>Verified Service Listings</strong>
+                    <span>Regularly updated health and community service information.</span>
+                </li>
+                <li>
+                    <strong>Easier System Navigation</strong>
+                    <span>Helping users quickly find the right care and support.</span>
+                </li>
+                <li>
+                    <strong>Built for Ontario Partners</strong>
+                    <span>Supporting patients, caregivers, providers, and organizations.</span>
+                </li>
             </ul>
         </aside>
     </div>
@@ -152,29 +171,129 @@
     <div class="container service-content-grid">
         <article class="service-main-card service-pro-card">
             <div
+                class="service-rich-content"
                 data-editable="true"
                 data-model="page"
                 data-id="{{ $page->id }}"
                 data-field="body"
-                class="service-rich-content"
             >
                 {!! $page->body !!}
             </div>
+
+            <a href="{{ route('search') }}" class="service-story-btn">Find Services</a>
+
+            <section class="service-feature-cards-section" aria-label="Service Features">
+                <div class="service-feature-heading">
+                    <span class="section-kicker blue">Service Features</span>
+                    <h2>Built to make service information easier to find and use</h2>
+                    <p>
+                        thehealthline.ca helps people, caregivers, providers, and community partners access trusted health and community service information across Ontario.
+                    </p>
+                </div>
+
+                <div class="service-feature-cards">
+                    <article class="service-feature-card">
+                        <span class="feature-number">01</span>
+                        <h3>Trusted Service Directory</h3>
+                        <p>Search detailed health and community service listings across Ontario with clear, reliable information.</p>
+                    </article>
+
+                    <article class="service-feature-card">
+                        <span class="feature-number">02</span>
+                        <h3>Accurate Information</h3>
+                        <p>Service details are reviewed, organized, and refreshed to help users find up-to-date information.</p>
+                    </article>
+
+                    <article class="service-feature-card">
+                        <span class="feature-number">03</span>
+                        <h3>Easy Navigation</h3>
+                        <p>Designed to help patients, caregivers, and providers quickly find the right services and support.</p>
+                    </article>
+
+                    <article class="service-feature-card">
+                        <span class="feature-number">04</span>
+                        <h3>Connected Care Support</h3>
+                        <p>Helps community partners and health system teams connect people to relevant local resources.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="why-matters-section">
+                <div class="why-matters-header">
+                    <span class="section-kicker blue">Why It Matters</span>
+                    <h2>Clear information helps people access the right support</h2>
+                    <p>
+                        Patients, providers, and communities need trusted service information to make better decisions and connect people with the right care.
+                    </p>
+                </div>
+
+                <div class="why-matters-grid">
+                    <article class="why-matters-card">
+                        <span class="why-number">01</span>
+                        <h3>Patients</h3>
+                        <p>Patients need clear, simple information to understand available health and community services.</p>
+                    </article>
+
+                    <article class="why-matters-card">
+                        <span class="why-number">02</span>
+                        <h3>Providers</h3>
+                        <p>Providers need accurate service data to guide referrals, care coordination, and system navigation.</p>
+                    </article>
+
+                    <article class="why-matters-card">
+                        <span class="why-number">03</span>
+                        <h3>Communities</h3>
+                        <p>Communities need connected digital tools that make local support easier to find and access.</p>
+                    </article>
+                </div>
+
+                <div class="why-matters-note">
+                    <p>
+                        THLIN brings these needs together through trusted digital tools, service directories, and partnership-focused solutions.
+                    </p>
+                </div>
+            </section>
         </article>
 
         <aside class="service-side-card service-pro-sidebar">
-            <h2>Quick Links</h2>
+            <span class="sidebar-label">Explore</span>
+            <h2>Explore Services</h2>
             <ul>
-                <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}">thehealthline.ca</a></li>
-                <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}">Patient Portals</a></li>
-                <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'provider-portals']) }}">Provider Portals</a></li>
-                <li><a href="{{ route('contact') }}">Contact THLIN</a></li>
+                <li>
+                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}">
+                        thehealthline.ca
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}">
+                        Patient Portals
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'provider-portals']) }}">
+                        Provider Portals
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'support-training']) }}">
+                        Support &amp; Training
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('contact') }}">
+                        Contact THLIN
+                    </a>
+                </li>
             </ul>
         </aside>
     </div>
 </section>
 
-@includeIf('partials.page-cta')
+@include('partials.page-cta')
 
 @else
 

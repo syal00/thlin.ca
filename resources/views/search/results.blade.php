@@ -1,44 +1,91 @@
 @extends('layouts.app')
 
-@section('title', 'Search'.($query ? ': '.$query : '').' - '.$thlin['name'])
-
-@section('hero')
-    @include('partials.page-header', [
-        'editable' => false,
-        'eyebrow' => 'THLIN',
-        'heroTitle' => 'Search',
-        'heroSubtitle' => 'Find pages, tools, news, and resources across the THLIN website.',
-        'breadcrumbs' => [
-            ['label' => 'Home', 'url' => route('home')],
-            ['label' => 'Search', 'current' => true],
-        ],
-        'hideDefaultActions' => true,
-    ])
-@endsection
+@section('title', 'Search - '.$thlin['name'])
+@section('meta_description', 'Search pages, tools, services, and resources across the THLIN website.')
 
 @section('content')
-    <section class="home-section section-light">
-        <div class="section-container">
-            <div class="content-shell">
+
+<section class="search-hero">
+    <div class="container">
+        <div class="search-breadcrumb">
+            <a href="{{ route('home') }}">Home</a>
+            <span>/</span>
+            <span>Search</span>
+        </div>
+
+        <span class="section-kicker">THLIN</span>
+
+        <h1>Search THLIN Resources</h1>
+
+        <p>
+            Find pages, tools, services, and resources across the THLIN website.
+        </p>
+    </div>
+</section>
+
+<section class="search-page-section">
+    <div class="container">
+        <div class="search-card">
+            <div class="search-card-header">
+                <h2>What are you looking for?</h2>
+                <p>Enter a keyword to search across THLIN pages, services, news, and resources.</p>
+            </div>
+
+            <form method="GET" action="{{ route('search') }}" class="search-form">
+                <label for="q" class="sr-only">Search</label>
+
+                <input
+                    id="q"
+                    type="search"
+                    name="q"
+                    value="{{ request('q') }}"
+                    placeholder="Search services, pages, resources..."
+                >
+
+                <button type="submit">Search</button>
+            </form>
+
+            <div class="search-suggestions">
+                <span>Suggested:</span>
+                <a href="{{ route('search', ['q' => 'products services']) }}">Products &amp; Services</a>
+                <a href="{{ route('search', ['q' => 'patient portals']) }}">Patient Portals</a>
+                <a href="{{ route('search', ['q' => 'contact']) }}">Contact</a>
+                <a href="{{ route('search', ['q' => 'annual reports']) }}">Annual Reports</a>
+            </div>
+
+            <div class="search-results">
                 @if ($query === '')
-                    <p>Enter a search term to find pages across the site.</p>
+                    <div class="search-empty">
+                        <h2>Start your search</h2>
+                        <p>Enter a keyword above to find pages, services, and resources across THLIN.</p>
+                    </div>
                 @elseif ($results->isEmpty())
-                    <p>No results found for &ldquo;{{ $query }}&rdquo;.</p>
+                    <div class="search-empty">
+                        <h2>No results found</h2>
+                        <p>Try searching with a different keyword or browse the suggested links above.</p>
+                    </div>
                 @else
-                    <p>{{ $results->count() }} result(s) for &ldquo;{{ $query }}&rdquo;</p>
-                    <ul class="search-results">
+                    <h2>Search Results</h2>
+
+                    <div class="search-result-list">
                         @foreach ($results as $result)
-                            <li>
-                                <span class="result-type">{{ $result['type'] }}</span>
-                                <h2><a href="{{ $result['url'] }}">{{ $result['title'] }}</a></h2>
-                                @if (! empty($result['excerpt']))
+                            <article class="search-result-item">
+                                <h3>
+                                    <a href="{{ $result['url'] ?? '#' }}">
+                                        {{ $result['title'] ?? 'Untitled' }}
+                                    </a>
+                                </h3>
+
+                                @if (!empty($result['excerpt']))
                                     <p>{{ $result['excerpt'] }}</p>
                                 @endif
-                            </li>
+                            </article>
                         @endforeach
-                    </ul>
+                    </div>
                 @endif
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
 @endsection

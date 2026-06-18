@@ -12,9 +12,7 @@
 
             <div class="page-cta-actions">
                 <a href="{{ route('contact') }}" class="cta-primary">Contact Us</a>
-                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="cta-secondary">
-                    Explore Products &amp; Services
-                </a>
+                <a href="{{ route('search') }}" class="cta-secondary">Find Services</a>
             </div>
         </div>
     </div>
