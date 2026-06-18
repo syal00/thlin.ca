@@ -144,7 +144,10 @@ class InlineEditController extends Controller
         $path = $request->file('image')->store('uploads', 'public');
         $record->update([$validated['field'] => $path]);
 
-        return response()->json(['success' => true, 'url' => Storage::disk('public')->url($path)]);
+        /** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
+        $disk = Storage::disk('public');
+
+        return response()->json(['success' => true, 'url' => $disk->url($path)]);
     }
 
     /** @param array<string, mixed> $validated */
