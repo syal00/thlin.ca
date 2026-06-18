@@ -50,7 +50,7 @@
                         <li>
                             <a href="{{ route('home') }}">
                                 @if ($homePage)
-                                    <span @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $homePage->id, 'field' => 'navigation_label', 'type' => 'text'])>{{ $homePage->menu_label }}</span>
+                                    <span @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $homePage->id, 'field' => 'navigation_label', 'type' => 'text'])>Home</span>
                                 @else
                                     Home
                                 @endif

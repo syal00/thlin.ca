@@ -27,7 +27,7 @@
                 <div class="hero-content home-hero-enter">
                     <span class="section-kicker">THLIN</span>
 
-                    <h1 @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'hero_title', 'type' => 'text'])>Home</h1>
+                    <h1 @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'hero_title', 'type' => 'text'])>{{ $page->hero_title ?: $page->title }}</h1>
 
                     <p
                         class="hero-lead"

@@ -11,7 +11,7 @@ class PageSeeder extends Seeder
     public function run(): void
     {
         $pages = [
-            ['slug' => 'home', 'title' => 'System Navigation Made Easy', 'section' => 'home', 'template' => 'home', 'excerpt' => 'Founded in 2001, we\'re an award-winning digital health non-profit committed to connecting patients and caregivers to services, health and social services providers to other providers and health system planners to information. We\'re driven by an unrelenting commitment to simplifying system navigation by building useful and usable online tools. Becoming healthier is challenging; finding care shouldn\'t be.'],
+            ['slug' => 'home', 'title' => 'System Navigation Made Easy', 'navigation_label' => 'Home', 'section' => 'home', 'template' => 'home', 'excerpt' => 'Founded in 2001, we\'re an award-winning digital health non-profit committed to connecting patients and caregivers to services, health and social services providers to other providers and health system planners to information. We\'re driven by an unrelenting commitment to simplifying system navigation by building useful and usable online tools. Becoming healthier is challenging; finding care shouldn\'t be.'],
             ['slug' => 'healthline', 'title' => 'Help Finding Health Care', 'section' => 'products', 'excerpt' => 'Ontario\'s authoritative online health and community service directory.'],
             ['slug' => 'healthchat', 'title' => 'Powering Collaboration', 'section' => 'products', 'excerpt' => 'Secure collaboration for health and social service teams.'],
             ['slug' => 'healthchat-features', 'title' => 'healthchat.ca Features', 'section' => 'products', 'excerpt' => 'Core features of the healthchat.ca platform.'],
