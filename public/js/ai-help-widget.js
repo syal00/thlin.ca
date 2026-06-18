@@ -25,7 +25,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const message = document.createElement('div');
         message.className = `ai-message ai-message-${type}`;
-        message.innerHTML = text;
+
+        if (type === 'user') {
+            message.textContent = text;
+        } else {
+            message.innerHTML = text;
+        }
+
         chatBox.appendChild(message);
         chatBox.scrollTop = chatBox.scrollHeight;
     }

@@ -19,35 +19,29 @@
         @endif
     @endauth
 
-    <section class="inner-hero">
-        <div class="inner-container">
-            <nav class="inner-breadcrumb breadcrumb" aria-label="Breadcrumb">
-                <a href="{{ url('/') }}">Home</a>
+    @php
+        $customBreadcrumbs = [
+            ['label' => 'Home', 'url' => route('home')],
+        ];
 
-                @if ($page->parent)
-                    <span class="breadcrumb-sep" aria-hidden="true">/</span>
-                    <a href="{{ url($page->parent->full_url) }}">
-                        {{ $page->parent->title }}
-                    </a>
-                @endif
+        if ($page->parent) {
+            $customBreadcrumbs[] = [
+                'label' => $page->parent->title,
+                'url' => url($page->parent->full_url),
+            ];
+        }
 
-                <span class="breadcrumb-sep" aria-hidden="true">/</span>
-                <span aria-current="page">{{ $page->title }}</span>
-            </nav>
+        $customBreadcrumbs[] = [
+            'label' => $page->hero_title ?: $page->title,
+            'current' => true,
+        ];
+    @endphp
 
-            <div class="inner-hero-content">
-                <span class="inner-eyebrow">
-                    {{ $page->parent ? $page->parent->title : 'THLIN Resource' }}
-                </span>
-
-                <h1 @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'hero_title', 'type' => 'text'])>{{ $page->hero_title ?: $page->title }}</h1>
-
-                @if ($page->hero_subtitle || $page->meta_description || auth()->check())
-                    <p @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'hero_subtitle', 'type' => 'textarea'])>{{ $page->hero_subtitle ?: ($page->meta_description ?? '') }}</p>
-                @endif
-            </div>
-        </div>
-    </section>
+    @include('partials.page-header', [
+        'page' => $page,
+        'eyebrow' => $page->parent ? $page->parent->title : 'THLIN Resource',
+        'breadcrumbs' => $customBreadcrumbs,
+    ])
 
     <section class="custom-page-section">
         <div class="inner-container">
@@ -99,29 +93,5 @@
         </div>
     </section>
 
-    <section class="inner-cta-section">
-        <div class="inner-container">
-            <div class="inner-cta">
-                <div>
-                    <span class="section-eyebrow">Get Started</span>
-
-                    <h2>Ready to connect with THLIN?</h2>
-
-                    <p>
-                        Contact our team to learn more about our digital health information tools and partnership support.
-                    </p>
-                </div>
-
-                <div class="inner-cta-actions">
-                    <a href="{{ url('/contact') }}" class="btn btn-light">
-                        Contact Us
-                    </a>
-
-                    <a href="{{ url('/products-services') }}" class="btn btn-outline-light">
-                        Explore Products &amp; Services
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+    @include('partials.page-cta')
 @endsection

@@ -61,5 +61,39 @@
                 @endif
             </div>
         </div>
+
+        <section class="guided-finder-section" aria-label="Guided Service Finder">
+            <div class="guided-finder-head">
+                <span class="section-kicker blue">Guided Service Finder</span>
+                <h2>Not sure where to start?</h2>
+                <p>Use these quick options to find the right THLIN resource.</p>
+            </div>
+
+            <div class="guided-finder-grid">
+                <article class="guided-finder-card">
+                    <h3>Find Health Services</h3>
+                    <p>Search THLIN pages, services, and resources in one place.</p>
+                    <a href="{{ route('search') }}" class="guided-finder-btn">Open Search</a>
+                </article>
+
+                <article class="guided-finder-card">
+                    <h3>Patient Portals</h3>
+                    <p>Explore tools designed for patients and caregivers.</p>
+                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}" class="guided-finder-btn">Open Patient Portals</a>
+                </article>
+
+                <article class="guided-finder-card">
+                    <h3>Provider Portals</h3>
+                    <p>Find provider-focused tools and support resources.</p>
+                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'provider-portals']) }}" class="guided-finder-btn">Open Provider Portals</a>
+                </article>
+
+                <article class="guided-finder-card">
+                    <h3>Contact THLIN</h3>
+                    <p>Reach our team for guidance on services and navigation.</p>
+                    <a href="{{ route('contact') }}" class="guided-finder-btn">Contact THLIN</a>
+                </article>
+            </div>
+        </section>
     </div>
 </section>

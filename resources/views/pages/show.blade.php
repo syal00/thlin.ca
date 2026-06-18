@@ -224,36 +224,6 @@
                 <p class="content-updated">Last updated: {{ $page->updated_at->format('F j, Y') }}</p>
             @endif
 
-            <section class="related-services-section" aria-label="Related Services">
-                <div class="related-services-heading">
-                    <span class="section-kicker blue">Related Services</span>
-                    <h2>Explore connected THLIN services</h2>
-                    <p>Learn more about THLIN tools and support for patients, providers, and community partners.</p>
-                </div>
-
-                <div class="related-services-grid">
-                    <a class="related-service-card" href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}">
-                        <span>01</span>
-                        <h3>Patient Portals</h3>
-                        <p>Digital tools that help patients and caregivers access clear service information.</p>
-                    </a>
-
-                    <a class="related-service-card" href="{{ route('pages.show', ['section' => 'products', 'page' => 'provider-portals']) }}">
-                        <span>02</span>
-                        <h3>Provider Portals</h3>
-                        <p>Support tools designed for providers, care teams, and system partners.</p>
-                    </a>
-
-                    <a class="related-service-card" href="{{ route('pages.show', ['section' => 'products', 'page' => 'support-training']) }}">
-                        <span>03</span>
-                        <h3>Support &amp; Training</h3>
-                        <p>Resources and support to help teams use THLIN tools effectively.</p>
-                    </a>
-                </div>
-            </section>
-
-            <a href="{{ route('search') }}" class="service-story-btn">Find Services</a>
-
             <section class="service-feature-cards-section" aria-label="Service Features">
                 <div class="service-feature-heading">
                     <span class="section-kicker blue">Service Features</span>
@@ -325,6 +295,36 @@
                     </p>
                 </div>
             </section>
+
+            <section class="related-services-section" aria-label="Related Services">
+                <div class="related-services-heading">
+                    <span class="section-kicker blue">Related Services</span>
+                    <h2>Explore connected THLIN services</h2>
+                    <p>Learn more about THLIN tools and support for patients, providers, and community partners.</p>
+                </div>
+
+                <div class="related-services-grid">
+                    <a class="related-service-card" href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}">
+                        <span>01</span>
+                        <h3>Patient Portals</h3>
+                        <p>Digital tools that help patients and caregivers access clear service information.</p>
+                    </a>
+
+                    <a class="related-service-card" href="{{ route('pages.show', ['section' => 'products', 'page' => 'provider-portals']) }}">
+                        <span>02</span>
+                        <h3>Provider Portals</h3>
+                        <p>Support tools designed for providers, care teams, and system partners.</p>
+                    </a>
+
+                    <a class="related-service-card" href="{{ route('pages.show', ['section' => 'products', 'page' => 'support-training']) }}">
+                        <span>03</span>
+                        <h3>Support &amp; Training</h3>
+                        <p>Resources and support to help teams use THLIN tools effectively.</p>
+                    </a>
+                </div>
+            </section>
+
+            <a href="{{ route('search') }}" class="service-story-btn">Find Services</a>
         </article>
 
         <aside class="service-side-card service-pro-sidebar">
