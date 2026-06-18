@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Cache;
 
 class SiteSetting extends Model
@@ -20,7 +21,11 @@ class SiteSetting extends Model
     /** @return array<string, string|null> */
     public static function cached(): array
     {
-        return Cache::remember('site_settings', 3600, fn () => static::query()->pluck('value', 'key')->all());
+        try {
+            return Cache::remember('site_settings', 3600, fn () => static::query()->pluck('value', 'key')->all());
+        } catch (QueryException) {
+            return [];
+        }
     }
 
     public static function forgetCache(): void
