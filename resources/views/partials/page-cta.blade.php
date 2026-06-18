@@ -2,10 +2,10 @@
     $prefix = isset($settingPrefix) ? $settingPrefix.'_' : '';
 @endphp
 
-<section class="home-cta-premium">
-    <div class="section-container">
-        <div class="cta-box">
-            <div>
+<section class="page-cta">
+    <div class="container">
+        <div class="page-cta-card">
+            <div class="page-cta-copy">
                 @include('partials.site-setting', [
                     'key' => $prefix.'cta_eyebrow',
                     'default' => $ctaEyebrow ?? 'Get Started',
@@ -25,14 +25,14 @@
                 ])
             </div>
 
-            <div class="cta-actions">
-                <a href="{{ $ctaPrimaryUrl ?? route('contact') }}" class="btn btn-light">
+            <div class="page-cta-actions">
+                <a href="{{ $ctaPrimaryUrl ?? route('contact') }}" class="cta-primary">
                     @include('partials.site-setting', [
                         'key' => $prefix.'cta_primary_label',
                         'default' => $ctaPrimary ?? 'Contact Us',
                     ])
                 </a>
-                <a href="{{ $ctaSecondaryUrl ?? route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="btn btn-outline-light">
+                <a href="{{ $ctaSecondaryUrl ?? route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="cta-secondary">
                     @include('partials.site-setting', [
                         'key' => $prefix.'cta_secondary_label',
                         'default' => $ctaSecondary ?? 'Explore Products & Services',

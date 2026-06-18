@@ -135,7 +135,7 @@
     </div>
 </section>
 
-@includeIf('partials.page-cta')
+@include('partials.page-cta')
 
 @elseif (($section ?? $page->section) === 'products' || $page->section === 'products')
 
