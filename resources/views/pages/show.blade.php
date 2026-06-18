@@ -221,110 +221,10 @@
             </div>
 
             @if ($page->updated_at)
-                <p class="content-updated">Last updated: {{ $page->updated_at->format('F j, Y') }}</p>
+                <p class="page-last-updated">
+                    Last updated: {{ $page->updated_at->format('F j, Y') }}
+                </p>
             @endif
-
-            <section class="service-feature-cards-section" aria-label="Service Features">
-                <div class="service-feature-heading">
-                    <span class="section-kicker blue">Service Features</span>
-                    <h2>Built to make service information easier to find and use</h2>
-                    <p>
-                        thehealthline.ca helps people, caregivers, providers, and community partners access trusted health and community service information across Ontario.
-                    </p>
-                </div>
-
-                <div class="service-feature-cards">
-                    <article class="service-feature-card">
-                        <span class="feature-number">01</span>
-                        <h3>Trusted Service Directory</h3>
-                        <p>Search detailed health and community service listings across Ontario with clear, reliable information.</p>
-                    </article>
-
-                    <article class="service-feature-card">
-                        <span class="feature-number">02</span>
-                        <h3>Accurate Information</h3>
-                        <p>Service details are reviewed, organized, and refreshed to help users find up-to-date information.</p>
-                    </article>
-
-                    <article class="service-feature-card">
-                        <span class="feature-number">03</span>
-                        <h3>Easy Navigation</h3>
-                        <p>Designed to help patients, caregivers, and providers quickly find the right services and support.</p>
-                    </article>
-
-                    <article class="service-feature-card">
-                        <span class="feature-number">04</span>
-                        <h3>Connected Care Support</h3>
-                        <p>Helps community partners and health system teams connect people to relevant local resources.</p>
-                    </article>
-                </div>
-            </section>
-
-            <section class="why-matters-section">
-                <div class="why-matters-header">
-                    <span class="section-kicker blue">Why It Matters</span>
-                    <h2>Clear information helps people access the right support</h2>
-                    <p>
-                        Patients, providers, and communities need trusted service information to make better decisions and connect people with the right care.
-                    </p>
-                </div>
-
-                <div class="why-matters-grid">
-                    <article class="why-matters-card">
-                        <span class="why-number">01</span>
-                        <h3>Patients</h3>
-                        <p>Patients need clear, simple information to understand available health and community services.</p>
-                    </article>
-
-                    <article class="why-matters-card">
-                        <span class="why-number">02</span>
-                        <h3>Providers</h3>
-                        <p>Providers need accurate service data to guide referrals, care coordination, and system navigation.</p>
-                    </article>
-
-                    <article class="why-matters-card">
-                        <span class="why-number">03</span>
-                        <h3>Communities</h3>
-                        <p>Communities need connected digital tools that make local support easier to find and access.</p>
-                    </article>
-                </div>
-
-                <div class="why-matters-note">
-                    <p>
-                        THLIN brings these needs together through trusted digital tools, service directories, and partnership-focused solutions.
-                    </p>
-                </div>
-            </section>
-
-            <section class="related-services-section" aria-label="Related Services">
-                <div class="related-services-heading">
-                    <span class="section-kicker blue">Related Services</span>
-                    <h2>Explore connected THLIN services</h2>
-                    <p>Learn more about THLIN tools and support for patients, providers, and community partners.</p>
-                </div>
-
-                <div class="related-services-grid">
-                    <a class="related-service-card" href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}">
-                        <span>01</span>
-                        <h3>Patient Portals</h3>
-                        <p>Digital tools that help patients and caregivers access clear service information.</p>
-                    </a>
-
-                    <a class="related-service-card" href="{{ route('pages.show', ['section' => 'products', 'page' => 'provider-portals']) }}">
-                        <span>02</span>
-                        <h3>Provider Portals</h3>
-                        <p>Support tools designed for providers, care teams, and system partners.</p>
-                    </a>
-
-                    <a class="related-service-card" href="{{ route('pages.show', ['section' => 'products', 'page' => 'support-training']) }}">
-                        <span>03</span>
-                        <h3>Support &amp; Training</h3>
-                        <p>Resources and support to help teams use THLIN tools effectively.</p>
-                    </a>
-                </div>
-            </section>
-
-            <a href="{{ route('search') }}" class="service-story-btn">Find Services</a>
         </article>
 
         <aside class="service-side-card service-pro-sidebar">
@@ -335,6 +235,110 @@
                     <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}">
                         thehealthline.ca
                     </a>
+
+<section class="service-feature-cards-section full-width-section" aria-label="Service Features">
+    <div class="container">
+        <div class="service-feature-heading">
+            <span class="section-kicker blue">Service Features</span>
+            <h2>Built to make service information easier to find and use</h2>
+            <p>
+                thehealthline.ca helps people, caregivers, providers, and community partners access trusted
+                health and community service information across Ontario.
+            </p>
+        </div>
+
+        <div class="service-feature-cards">
+            <article class="service-feature-card">
+                <span class="feature-number">01</span>
+                <h3>Trusted Service Directory</h3>
+                <p>Search detailed health and community service listings across Ontario with clear, reliable information.</p>
+            </article>
+
+            <article class="service-feature-card">
+                <span class="feature-number">02</span>
+                <h3>Accurate Information</h3>
+                <p>Service details are reviewed, organized, and refreshed to help users find up-to-date information.</p>
+            </article>
+
+            <article class="service-feature-card">
+                <span class="feature-number">03</span>
+                <h3>Easy Navigation</h3>
+                <p>Designed to help patients, caregivers, and providers quickly find the right services and support.</p>
+            </article>
+
+            <article class="service-feature-card">
+                <span class="feature-number">04</span>
+                <h3>Connected Care Support</h3>
+                <p>Helps community partners and health system teams connect people to relevant local resources.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="why-matters-section full-width-section">
+    <div class="container">
+        <div class="why-matters-header">
+            <span class="section-kicker blue">Why It Matters</span>
+            <h2>Clear information helps people access the right support</h2>
+            <p>
+                Patients, providers, and communities need trusted service information to make better decisions
+                and connect people with the right care.
+            </p>
+        </div>
+
+        <div class="why-matters-grid">
+            <article class="why-matters-card">
+                <span class="why-number">01</span>
+                <h3>Patients</h3>
+                <p>Patients need clear, simple information to understand available health and community services.</p>
+            </article>
+
+            <article class="why-matters-card">
+                <span class="why-number">02</span>
+                <h3>Providers</h3>
+                <p>Providers need accurate service data to guide referrals, care coordination, and system navigation.</p>
+            </article>
+
+            <article class="why-matters-card">
+                <span class="why-number">03</span>
+                <h3>Communities</h3>
+                <p>Communities need connected digital tools that make local support easier to find and access.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="related-pages-section full-width-section" aria-label="Related Services">
+    <div class="container">
+        <div class="related-pages-header">
+            <span class="section-kicker blue">Related Services</span>
+            <h2>Explore more THLIN services</h2>
+            <p>Learn more about THLIN tools and support for patients, providers, and community partners.</p>
+        </div>
+
+        <div class="related-pages-grid">
+            <a class="related-page-card" href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}">
+                <span>01</span>
+                <h3>Patient Portals</h3>
+                <p>Digital tools that help patients and caregivers access clear service information.</p>
+            </a>
+
+            <a class="related-page-card" href="{{ route('pages.show', ['section' => 'products', 'page' => 'provider-portals']) }}">
+                <span>02</span>
+                <h3>Provider Portals</h3>
+                <p>Support tools designed for providers, care teams, and system partners.</p>
+            </a>
+
+            <a class="related-page-card" href="{{ route('pages.show', ['section' => 'products', 'page' => 'support-training']) }}">
+                <span>03</span>
+                <h3>Support &amp; Training</h3>
+                <p>Resources and support to help teams use THLIN tools effectively.</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+@include('partials.page-cta')
                 </li>
 
                 <li>
