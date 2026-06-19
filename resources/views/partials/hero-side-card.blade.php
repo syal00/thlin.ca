@@ -18,6 +18,6 @@
             placeholder="Search services, tools, news..."
             value="{{ request('q') }}"
         >
-        <button type="submit">Search</button>
+        <button type="submit" class="hero-search-button">Search</button>
     </form>
 </div>

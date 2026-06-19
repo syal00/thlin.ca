@@ -37,9 +37,9 @@
 @endsection
 
 @section('content')
-    <section class="home-section section-light contact-page">
+    <section class="home-section section-light contact-page contact-page-section">
         <div class="section-container">
-            <div class="contact-grid">
+            <div class="contact-grid contact-page-grid">
                 <div class="contact-form-card content-shell">
                     <div class="section-heading">
                         <span class="section-kicker blue">Message</span>
@@ -96,7 +96,7 @@
                     </form>
                 </div>
 
-                <aside class="contact-info-panel info-panel">
+                <aside class="contact-info-panel info-panel contact-info-card">
                     <div class="contact-info-icon">+</div>
 
                     @include('partials.site-setting', ['key' => 'contact_office_heading', 'tag' => 'h2', 'type' => 'text'])

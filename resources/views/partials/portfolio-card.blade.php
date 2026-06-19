@@ -22,7 +22,7 @@
             data-model="portfolio"
             data-id="{{ $item->id }}"
             data-field="image"
-        >Click to add image</div>
+        >Project image</div>
     @endif
 
     @if ($item->url)

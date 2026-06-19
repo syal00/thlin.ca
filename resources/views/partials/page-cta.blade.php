@@ -1,42 +1,24 @@
-@php
-    $prefix = isset($settingPrefix) ? $settingPrefix.'_' : '';
-@endphp
+<section class="thlin-final-cta">
+    <div class="thlin-final-cta-container">
+        <div class="thlin-final-cta-card">
+            <div class="thlin-final-cta-copy">
+                <span class="thlin-final-cta-kicker">Get Started</span>
 
-<section class="page-cta">
-    <div class="container">
-        <div class="page-cta-card">
-            <div class="page-cta-copy">
-                @include('partials.site-setting', [
-                    'key' => $prefix.'cta_eyebrow',
-                    'default' => $ctaEyebrow ?? 'Get Started',
-                    'tag' => 'span',
-                    'class' => 'section-kicker',
-                ])
-                @include('partials.site-setting', [
-                    'key' => $prefix.'cta_title',
-                    'default' => $ctaTitle ?? 'Ready to connect with THLIN?',
-                    'tag' => 'h2',
-                ])
-                @include('partials.site-setting', [
-                    'key' => $prefix.'cta_text',
-                    'default' => $ctaText ?? 'Contact our team to learn more about our digital health information tools and partnership support.',
-                    'type' => 'textarea',
-                    'tag' => 'p',
-                ])
+                <h2>Ready to connect with THLIN?</h2>
+
+                <p>
+                    Contact our team to learn more about our digital health information tools
+                    and partnership support.
+                </p>
             </div>
 
-            <div class="page-cta-actions">
-                <a href="{{ $ctaPrimaryUrl ?? route('contact') }}" class="cta-primary">
-                    @include('partials.site-setting', [
-                        'key' => $prefix.'cta_primary_label',
-                        'default' => $ctaPrimary ?? 'Contact Us',
-                    ])
+            <div class="thlin-final-cta-actions">
+                <a href="{{ route('contact') }}" class="thlin-final-cta-btn thlin-final-cta-btn-primary">
+                    Contact Us
                 </a>
-                <a href="{{ $ctaSecondaryUrl ?? route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="cta-secondary">
-                    @include('partials.site-setting', [
-                        'key' => $prefix.'cta_secondary_label',
-                        'default' => $ctaSecondary ?? 'Explore Products & Services',
-                    ])
+
+                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="thlin-final-cta-btn thlin-final-cta-btn-secondary">
+                    Explore Products &amp; Services
                 </a>
             </div>
         </div>
