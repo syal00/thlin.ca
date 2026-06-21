@@ -165,6 +165,25 @@ class CmsPageManagementTest extends TestCase
             ->assertSessionHas('success');
 
         $this->assertSame('Updated hero heading', $page->fresh()->hero_title);
+        $this->assertSame($admin->id, $page->fresh()->updated_by);
+    }
+
+    public function test_authenticated_admin_is_recorded_as_custom_page_creator(): void
+    {
+        $admin = User::firstOrFail();
+
+        $this->actingAs($admin)
+            ->post(route('admin.pages.store'), [
+                'title' => 'Attribution Test',
+                'slug' => 'attribution-test',
+                'action' => 'draft',
+            ])
+            ->assertRedirect(route('admin.pages.index'));
+
+        $page = Page::where('slug', 'attribution-test')->firstOrFail();
+
+        $this->assertSame($admin->id, $page->created_by);
+        $this->assertSame($admin->id, $page->updated_by);
     }
 
     public function test_custom_page_edit_form_shows_saved_values(): void

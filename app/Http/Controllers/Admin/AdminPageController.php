@@ -74,6 +74,8 @@ class AdminPageController extends Controller
         $validated['show_in_navigation'] = $request->boolean('show_in_navigation');
         $validated['sort_order'] = $validated['sort_order'] ?? 0;
         $validated['parent_id'] = $this->resolveParentId($request->input('parent_id'));
+        $validated['created_by'] = $request->user()->id;
+        $validated['updated_by'] = $request->user()->id;
 
         Page::create($validated);
 
@@ -166,6 +168,8 @@ class AdminPageController extends Controller
             unset($validated['body']);
         }
 
+        $validated['updated_by'] = $request->user()->id;
+
         $page->update($validated);
 
         return redirect()
@@ -196,6 +200,7 @@ class AdminPageController extends Controller
             'status' => 'published',
             'is_published' => true,
             'published_at' => $page->published_at ?? now(),
+            'updated_by' => $request->user()->id,
         ]);
 
         return back()->with('success', 'Page published successfully.');
@@ -210,6 +215,7 @@ class AdminPageController extends Controller
         $page->update([
             'status' => 'draft',
             'is_published' => false,
+            'updated_by' => $request->user()->id,
         ]);
 
         return back()->with('success', 'Page moved to draft.');

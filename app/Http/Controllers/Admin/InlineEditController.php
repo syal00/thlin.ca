@@ -77,7 +77,13 @@ class InlineEditController extends Controller
 
         $value = $this->sanitizeValue($modelKey, $field, (string) ($validated['value'] ?? ''));
 
-        $record->update([$field => $value === '' ? null : $value]);
+        $changes = [$field => $value === '' ? null : $value];
+
+        if ($record instanceof Page) {
+            $changes['updated_by'] = $request->user()->id;
+        }
+
+        $record->update($changes);
 
         return response()->json([
             'success' => true,
