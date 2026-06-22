@@ -29,7 +29,7 @@ php artisan migrate --seed
 
 Manage **pages**, **news**, **careers**, **board members**, and **portfolio items** without editing code.
 
-## CMS features
+## CMS features for project
 
 The admin CMS supports:
 

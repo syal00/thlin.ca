@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', ($page->meta_title ?: $page->title).' - '.$thlin['name'])
+@section('title', ($page->meta_title ?: $page->title) . ' - ' . $thlin['name'])
 @section('meta_description', $page->excerpt)
 
 @section('hero')
@@ -29,10 +29,7 @@
 
                     <h1 @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'hero_title', 'type' => 'text'])>{{ $page->hero_title ?: $page->title }}</h1>
 
-                    <p
-                        class="hero-lead"
-                        @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'excerpt', 'type' => 'richtext'])
-                    >{!! $page->excerpt !!}</p>
+                    <p class="hero-lead" @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'excerpt', 'type' => 'richtext'])>{!! $page->excerpt !!}</p>
 
                     <div class="hero-actions">
                         <a href="{{ route('search') }}" class="btn btn-light hero-primary-btn">
@@ -44,7 +41,8 @@
                     </div>
 
                     <div class="hero-badges hero-tags">
-                        <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}">Patient Focused</a>
+                        <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}">Patient
+                            Focused</a>
                         <span>Community Health Support</span>
                         <span>Database &amp; Search Support</span>
                     </div>
@@ -58,7 +56,7 @@
 
 @section('content')
     @php
-        $homeStats = collect($thlin['stats'])->sortByDesc(fn ($stat) => (int) str_replace(',', '', $stat['value']))->values();
+        $homeStats = collect($thlin['stats'])->sortByDesc(fn($stat) => (int) str_replace(',', '', $stat['value']))->values();
     @endphp
 
     <section class="home-section home-section-help home-help-section section-alt">
@@ -79,28 +77,32 @@
             </div>
 
             <div class="help-grid">
-                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="help-card home-help-card reveal-on-scroll" data-reveal-delay="0ms">
+                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}"
+                    class="help-card home-help-card reveal-on-scroll" data-reveal-delay="0ms">
                     <span class="help-card__number">01</span>
                     @include('partials.site-setting', ['key' => 'home_help_card_1_title', 'default' => 'Patients & Families', 'tag' => 'h3', 'type' => 'text'])
                     @include('partials.site-setting', ['key' => 'home_help_card_1_text', 'default' => 'Find trusted health and community service information that is easier to understand and access.', 'tag' => 'p', 'type' => 'textarea'])
                     @include('partials.site-setting', ['key' => 'home_help_card_1_link', 'default' => 'Find services', 'tag' => 'strong', 'type' => 'text'])
                 </a>
 
-                <a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'health-care']) }}" class="help-card home-help-card reveal-on-scroll" data-reveal-delay="80ms">
+                <a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'health-care']) }}"
+                    class="help-card home-help-card reveal-on-scroll" data-reveal-delay="80ms">
                     <span class="help-card__number">02</span>
                     @include('partials.site-setting', ['key' => 'home_help_card_2_title', 'default' => 'Health & Social Service Providers', 'tag' => 'h3', 'type' => 'text'])
                     @include('partials.site-setting', ['key' => 'home_help_card_2_text', 'default' => 'Connect people to programs, resources, and local service information.', 'tag' => 'p', 'type' => 'textarea'])
                     @include('partials.site-setting', ['key' => 'home_help_card_2_link', 'default' => 'Support navigation', 'tag' => 'strong', 'type' => 'text'])
                 </a>
 
-                <a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'ontario-health-teams']) }}" class="help-card home-help-card reveal-on-scroll" data-reveal-delay="160ms">
+                <a href="{{ route('pages.show', ['section' => 'partners', 'page' => 'ontario-health-teams']) }}"
+                    class="help-card home-help-card reveal-on-scroll" data-reveal-delay="160ms">
                     <span class="help-card__number">03</span>
                     @include('partials.site-setting', ['key' => 'home_help_card_3_title', 'default' => 'Partner Organizations', 'tag' => 'h3', 'type' => 'text'])
                     @include('partials.site-setting', ['key' => 'home_help_card_3_text', 'default' => 'Work with THLIN to build digital tools that support better access to information.', 'tag' => 'p', 'type' => 'textarea'])
                     @include('partials.site-setting', ['key' => 'home_help_card_3_link', 'default' => 'Partner with us', 'tag' => 'strong', 'type' => 'text'])
                 </a>
 
-                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}" class="help-card home-help-card reveal-on-scroll" data-reveal-delay="240ms">
+                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}"
+                    class="help-card home-help-card reveal-on-scroll" data-reveal-delay="240ms">
                     <span class="help-card__number">04</span>
                     @include('partials.site-setting', ['key' => 'home_help_card_4_title', 'default' => 'Community Members', 'tag' => 'h3', 'type' => 'text'])
                     @include('partials.site-setting', ['key' => 'home_help_card_4_text', 'default' => 'Explore online tools designed to make health and community information easier to find.', 'tag' => 'p', 'type' => 'textarea'])
@@ -171,27 +173,47 @@
 
             <div class="service-grid">
                 <article class="service-card home-product-card reveal-on-scroll">
-                    <span class="service-icon"></span>
-                    @include('partials.site-setting', ['key' => 'home_products_card_1_title', 'default' => 'Digital service directories', 'tag' => 'h3', 'type' => 'text'])
-                    @include('partials.site-setting', ['key' => 'home_products_card_1_text', 'default' => 'Organized directories that help people find health, social, and community services faster.', 'tag' => 'p', 'type' => 'textarea'])
+                    <div class="service-card-image-wrapper">
+                        <img src="{{ asset('images/services/digital-service-directories.jpg') }}"
+                            alt="Digital service directories" class="service-card-img">
+                    </div>
+                    <div class="service-card-content">
+                        @include('partials.site-setting', ['key' => 'home_products_card_1_title', 'default' => 'Digital service directories', 'tag' => 'h3', 'type' => 'text'])
+                        @include('partials.site-setting', ['key' => 'home_products_card_1_text', 'default' => 'Organized directories that help people find health, social, and community services faster.', 'tag' => 'p', 'type' => 'textarea'])
+                    </div>
                 </article>
 
                 <article class="service-card home-product-card reveal-on-scroll">
-                    <span class="service-icon"></span>
-                    @include('partials.site-setting', ['key' => 'home_products_card_2_title', 'default' => 'Community information tools', 'tag' => 'h3', 'type' => 'text'])
-                    @include('partials.site-setting', ['key' => 'home_products_card_2_text', 'default' => 'Searchable online tools designed around real user needs and local community resources.', 'tag' => 'p', 'type' => 'textarea'])
+                    <div class="service-card-image-wrapper">
+                        <img src="{{ asset('images/services/community-information-tools.jpg') }}"
+                            alt="Community information tools" class="service-card-img">
+                    </div>
+                    <div class="service-card-content">
+                        @include('partials.site-setting', ['key' => 'home_products_card_2_title', 'default' => 'Community information tools', 'tag' => 'h3', 'type' => 'text'])
+                        @include('partials.site-setting', ['key' => 'home_products_card_2_text', 'default' => 'Searchable online tools designed around real user needs and local community resources.', 'tag' => 'p', 'type' => 'textarea'])
+                    </div>
                 </article>
 
                 <article class="service-card home-product-card reveal-on-scroll">
-                    <span class="service-icon"></span>
-                    @include('partials.site-setting', ['key' => 'home_products_card_3_title', 'default' => 'Website and portal development', 'tag' => 'h3', 'type' => 'text'])
-                    @include('partials.site-setting', ['key' => 'home_products_card_3_text', 'default' => 'Professional websites and portals that support content management and partner communication.', 'tag' => 'p', 'type' => 'textarea'])
+                    <div class="service-card-image-wrapper">
+                        <img src="{{ asset('images/services/website-portal-development.jpg') }}"
+                            alt="Website and portal development" class="service-card-img">
+                    </div>
+                    <div class="service-card-content">
+                        @include('partials.site-setting', ['key' => 'home_products_card_3_title', 'default' => 'Website and portal development', 'tag' => 'h3', 'type' => 'text'])
+                        @include('partials.site-setting', ['key' => 'home_products_card_3_text', 'default' => 'Professional websites and portals that support content management and partner communication.', 'tag' => 'p', 'type' => 'textarea'])
+                    </div>
                 </article>
 
                 <article class="service-card home-product-card reveal-on-scroll">
-                    <span class="service-icon"></span>
-                    @include('partials.site-setting', ['key' => 'home_products_card_4_title', 'default' => 'Data and content support', 'tag' => 'h3', 'type' => 'text'])
-                    @include('partials.site-setting', ['key' => 'home_products_card_4_text', 'default' => 'Support for keeping information accurate, structured, searchable, and useful for users.', 'tag' => 'p', 'type' => 'textarea'])
+                    <div class="service-card-image-wrapper">
+                        <img src="{{ asset('images/services/data-content-support.jpg') }}" alt="Data and content support"
+                            class="service-card-img">
+                    </div>
+                    <div class="service-card-content">
+                        @include('partials.site-setting', ['key' => 'home_products_card_4_title', 'default' => 'Data and content support', 'tag' => 'h3', 'type' => 'text'])
+                        @include('partials.site-setting', ['key' => 'home_products_card_4_text', 'default' => 'Support for keeping information accurate, structured, searchable, and useful for users.', 'tag' => 'p', 'type' => 'textarea'])
+                    </div>
                 </article>
             </div>
         </div>
@@ -221,5 +243,6 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('js/hero-network.js') }}?v={{ @filemtime(public_path('js/hero-network.js')) ?: '1' }}" defer></script>
+    <script src="{{ asset('js/hero-network.js') }}?v={{ @filemtime(public_path('js/hero-network.js')) ?: '1' }}"
+        defer></script>
 @endpush
