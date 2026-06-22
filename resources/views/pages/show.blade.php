@@ -209,7 +209,7 @@
 
 <section class="service-detail-content">
     <div class="container service-content-grid">
-        <article class="service-main-card service-pro-card">
+        <article class="service-main-card service-pro-card product-main-content-card">
             <div
                 class="service-rich-content"
                 data-editable="true"

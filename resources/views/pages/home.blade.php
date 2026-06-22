@@ -110,8 +110,8 @@
         </div>
     </section>
 
-    <section class="home-section section-light">
-        <div class="section-container split-grid">
+    <section class="home-section section-light home-about-section about-section">
+        <div class="section-container split-grid home-about-grid about-grid">
             <div class="reveal-on-scroll">
                 <span class="section-kicker blue">About THLIN</span>
                 @include('partials.site-setting', ['key' => 'home_about_title', 'default' => 'Making health and community information easier to access.', 'tag' => 'h2', 'type' => 'text'])
@@ -124,29 +124,44 @@
             </div>
 
             <div class="info-panel reveal-on-scroll" data-reveal-delay="120ms">
-                @include('partials.site-setting', ['key' => 'home_about_panel_kicker', 'default' => 'thehealthline.ca', 'tag' => 'span', 'type' => 'text'])
-                @include('partials.site-setting', ['key' => 'home_about_panel_title', 'default' => 'Ontario’s health service directory', 'tag' => 'h3', 'type' => 'text'])
-                @include('partials.site-setting', ['key' => 'home_about_panel_text', 'default' => 'A trusted online directory helping people find home care, community support, health care, and social service resources.', 'tag' => 'p', 'type' => 'textarea'])
+                <div class="about-highlight-card">
+                    @include('partials.site-setting', ['key' => 'home_about_panel_kicker', 'default' => 'thehealthline.ca', 'tag' => 'span', 'type' => 'text', 'class' => 'about-card-label'])
 
-                <div class="info-list">
-                    <div>
-                        <strong>Service information</strong>
-                        <small>Clear, organized, and searchable records.</small>
-                    </div>
-                    <div>
-                        <strong>Navigation support</strong>
-                        <small>Tools designed to help people find the right care.</small>
-                    </div>
-                    <div>
-                        <strong>Partner focused</strong>
-                        <small>Built with community and healthcare organizations.</small>
+                    @include('partials.site-setting', ['key' => 'home_about_panel_title', 'default' => 'Ontario’s health service directory', 'tag' => 'h3', 'type' => 'text'])
+
+                    @include('partials.site-setting', ['key' => 'home_about_panel_text', 'default' => 'A trusted online directory helping people find home care, community support, health care, and social service resources.', 'tag' => 'p', 'type' => 'textarea'])
+
+                    <div class="about-highlight-list">
+                        <div class="about-highlight-item">
+                            <span class="about-highlight-icon">01</span>
+                            <div>
+                                <h4>Service Information</h4>
+                                <p>Clear, organized, and searchable records.</p>
+                            </div>
+                        </div>
+
+                        <div class="about-highlight-item">
+                            <span class="about-highlight-icon">02</span>
+                            <div>
+                                <h4>Navigation Support</h4>
+                                <p>Tools designed to help people find the right care.</p>
+                            </div>
+                        </div>
+
+                        <div class="about-highlight-item">
+                            <span class="about-highlight-icon">03</span>
+                            <div>
+                                <h4>Partner Focused</h4>
+                                <p>Built with community and healthcare organizations.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="home-section section-alt">
+    <section class="home-section section-alt home-products-section">
         <div class="section-container">
             <div class="section-heading reveal-on-scroll">
                 <span class="section-kicker blue">Products &amp; Services</span>
@@ -155,29 +170,29 @@
             </div>
 
             <div class="service-grid">
-                <div class="service-card reveal-on-scroll">
-                    <span></span>
+                <article class="service-card home-product-card reveal-on-scroll">
+                    <span class="service-icon"></span>
                     @include('partials.site-setting', ['key' => 'home_products_card_1_title', 'default' => 'Digital service directories', 'tag' => 'h3', 'type' => 'text'])
                     @include('partials.site-setting', ['key' => 'home_products_card_1_text', 'default' => 'Organized directories that help people find health, social, and community services faster.', 'tag' => 'p', 'type' => 'textarea'])
-                </div>
+                </article>
 
-                <div class="service-card reveal-on-scroll">
-                    <span></span>
+                <article class="service-card home-product-card reveal-on-scroll">
+                    <span class="service-icon"></span>
                     @include('partials.site-setting', ['key' => 'home_products_card_2_title', 'default' => 'Community information tools', 'tag' => 'h3', 'type' => 'text'])
                     @include('partials.site-setting', ['key' => 'home_products_card_2_text', 'default' => 'Searchable online tools designed around real user needs and local community resources.', 'tag' => 'p', 'type' => 'textarea'])
-                </div>
+                </article>
 
-                <div class="service-card reveal-on-scroll">
-                    <span></span>
+                <article class="service-card home-product-card reveal-on-scroll">
+                    <span class="service-icon"></span>
                     @include('partials.site-setting', ['key' => 'home_products_card_3_title', 'default' => 'Website and portal development', 'tag' => 'h3', 'type' => 'text'])
                     @include('partials.site-setting', ['key' => 'home_products_card_3_text', 'default' => 'Professional websites and portals that support content management and partner communication.', 'tag' => 'p', 'type' => 'textarea'])
-                </div>
+                </article>
 
-                <div class="service-card reveal-on-scroll">
-                    <span></span>
+                <article class="service-card home-product-card reveal-on-scroll">
+                    <span class="service-icon"></span>
                     @include('partials.site-setting', ['key' => 'home_products_card_4_title', 'default' => 'Data and content support', 'tag' => 'h3', 'type' => 'text'])
                     @include('partials.site-setting', ['key' => 'home_products_card_4_text', 'default' => 'Support for keeping information accurate, structured, searchable, and useful for users.', 'tag' => 'p', 'type' => 'textarea'])
-                </div>
+                </article>
             </div>
         </div>
     </section>
