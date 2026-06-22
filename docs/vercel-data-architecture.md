@@ -9,7 +9,7 @@
 
 The deployed URL responds from Vercel, so future user editing and uploads must be planned for a serverless runtime.
 
-## Phase 1 Decision
+## Phase 0 Decision
 
 For Vercel deployment, application data must be split into two persistent services:
 
@@ -27,7 +27,7 @@ For Vercel deployment, application data must be split into two persistent servic
    - documents
    - future large media assets
 
-SQLite remains acceptable for local development and automated tests, but it should not be the production or preview database for user-editable content on Vercel.
+SQLite remains the local-development and automated-test database. PostgreSQL is required for production and preview user-editable content on Vercel.
 
 ## Vercel Constraints
 
@@ -38,7 +38,19 @@ Vercel Functions should be treated as stateless:
 - Do not rely on files created at runtime surviving redeploys or function invocations.
 - Use `/tmp` only for temporary processing, such as image resizing before upload to Vercel Blob.
 
-## Target Environment Variables
+## Environment Configuration
+
+Local development continues to use the committed `.env.example` defaults:
+
+```env
+APP_ENV=local
+DB_CONNECTION=sqlite
+FILESYSTEM_DISK=local
+```
+
+Production and preview must use the values documented in `.env.production.example`. Set the real credentials in Vercel project settings; never commit them to this repository.
+
+## Target Production Environment Variables
 
 Production/preview should eventually provide:
 
@@ -72,26 +84,26 @@ The current `vercel.json` already avoids database-backed cache, session, and que
 
 That is compatible with a stateless runtime, but it does not solve persistent database or uploaded file storage.
 
-## Phase 1 Completion Criteria
+## Phase 0 Completion Criteria
 
-Phase 1 is complete when the team agrees to the following:
+Phase 0 is complete when the following checks have passed:
 
 - Vercel remains the Laravel hosting target.
-- PostgreSQL will be used for production/preview structured data.
-- Uploaded files will use Vercel Blob, not Vercel local filesystem storage.
-- SQLite is limited to local development and tests.
-- Later database migrations will be designed around page revisions, media metadata, media usage tracking, permissions, and audit logs.
+- Local development and tests use SQLite without a `DATABASE_URL`.
+- Vercel Production and Preview each provide `DB_CONNECTION=pgsql`, `DATABASE_URL`, and `BLOB_READ_WRITE_TOKEN`.
+- The PostgreSQL connection succeeds and `php artisan migrate --force` completes against that database.
+- A Vercel Blob store is connected to the project and its token is available to the Laravel function.
+- The deployed application can read production CMS data from PostgreSQL.
+- Admin file uploads remain disabled in production until the current local-disk upload code is replaced with Vercel Blob writes.
+- Later migrations are designed around page revisions, media metadata, media usage tracking, permissions, and audit logs.
 
-## Next Phase
+## Phase 1
 
-Phase 2 should connect PostgreSQL and verify that Vercel can read/write CMS data from it.
+Phase 1 replaces local-disk upload writes with Vercel Blob writes and persists the returned Blob metadata in PostgreSQL.
 
 Recommended next tasks:
 
-1. Select a Postgres provider, such as Neon, Supabase, Railway, or another managed Postgres service.
-2. Add `DB_CONNECTION=pgsql` and `DATABASE_URL` to Vercel environment variables.
-3. Run Laravel migrations against the selected Postgres database.
-4. Create or connect a Vercel Blob store for the project.
-5. Add `BLOB_READ_WRITE_TOKEN` to Vercel environment variables.
-6. Deploy and confirm that pages load from Postgres.
-7. In the following storage phase, update admin uploads to write to Vercel Blob and save Blob metadata in `media_files`.
+1. Replace local `public` disk writes in the upload controllers with Vercel Blob uploads.
+2. Store the Blob pathname and public URL in `media_files`.
+3. Update deletions to remove the corresponding Blob object.
+4. Add production upload tests for PDFs and images.
