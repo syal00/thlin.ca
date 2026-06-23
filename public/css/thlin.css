@@ -11095,6 +11095,58 @@ body {
 }
 
 /* =========================================================
+   FINAL DETAIL PAGE CONTENT PARITY
+========================================================= */
+
+.service-rich-content,
+.page-content-card > div[data-editable="true"] {
+    display: grid !important;
+    gap: 1rem !important;
+}
+
+.service-rich-content img,
+.page-content-card img {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 20px !important;
+    border: 1px solid #dbe7f3 !important;
+    margin: 0 0 1.6rem !important;
+    background: #f8fafc !important;
+}
+
+.service-rich-content h2,
+.service-rich-content h3,
+.page-content-card h2,
+.page-content-card h3 {
+    color: #124a84 !important;
+    font-weight: 900 !important;
+    margin: 0.4rem 0 0.35rem !important;
+}
+
+.service-rich-content p,
+.page-content-card p {
+    color: #5f6f82 !important;
+    line-height: 1.75 !important;
+    margin: 0 0 0.9rem !important;
+}
+
+.service-rich-content ul,
+.service-rich-content ol,
+.page-content-card ul,
+.page-content-card ol {
+    margin: 0 0 1rem !important;
+    padding-left: 1.25rem !important;
+}
+
+.service-rich-content li,
+.page-content-card li {
+    color: #1f2937 !important;
+    margin: 0.2rem 0 !important;
+}
+
+/* =========================================================
    FINAL CROSS-PAGE VISUAL PARITY v1
 ========================================================= */
 
