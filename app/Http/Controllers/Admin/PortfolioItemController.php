@@ -24,7 +24,7 @@ class PortfolioItemController extends Controller
     {
         PortfolioItem::create($this->validated($request));
 
-        return redirect()->route('admin.portfolio.index')->with('status', 'Portfolio item created.');
+        return redirect()->route('admin.portfolio.index')->with('success', 'Portfolio item created.');
     }
 
     public function edit(PortfolioItem $portfolioItem): View
@@ -36,14 +36,14 @@ class PortfolioItemController extends Controller
     {
         $portfolioItem->update($this->validated($request));
 
-        return redirect()->route('admin.portfolio.index')->with('status', 'Portfolio item updated.');
+        return redirect()->route('admin.portfolio.index')->with('success', 'Portfolio item updated.');
     }
 
     public function destroy(PortfolioItem $portfolioItem): RedirectResponse
     {
         $portfolioItem->delete();
 
-        return redirect()->route('admin.portfolio.index')->with('status', 'Portfolio item deleted.');
+        return redirect()->route('admin.portfolio.index')->with('success', 'Portfolio item deleted.');
     }
 
     private function validated(Request $request): array
@@ -53,8 +53,15 @@ class PortfolioItemController extends Controller
             'excerpt' => ['nullable', 'string'],
             'url' => ['nullable', 'url', 'max:500'],
             'image' => ['nullable', 'string', 'max:255'],
+            'image_file' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
         ]);
+
+        if ($request->hasFile('image_file')) {
+            $data['image'] = $request->file('image_file')->store('uploads/portfolio', 'public');
+        }
+
+        unset($data['image_file']);
 
         $data['featured'] = $request->boolean('featured');
 

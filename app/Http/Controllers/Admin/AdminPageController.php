@@ -206,7 +206,7 @@ class AdminPageController extends Controller
             ->with('success', 'Custom page deleted successfully.');
     }
 
-    public function publish(Page $page): RedirectResponse
+    public function publish(Page $page, Request $request): RedirectResponse
     {
         if ($page->isBuiltIn()) {
             return back()->with('error', 'Built-in pages are always published.');
@@ -222,7 +222,7 @@ class AdminPageController extends Controller
         return back()->with('success', 'Page published successfully.');
     }
 
-    public function unpublish(Page $page): RedirectResponse
+    public function unpublish(Page $page, Request $request): RedirectResponse
     {
         if ($page->isBuiltIn()) {
             return back()->with('error', 'Built-in pages cannot be unpublished.');

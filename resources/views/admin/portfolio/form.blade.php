@@ -10,7 +10,7 @@
     </div>
 
     <div class="admin-card">
-        <form method="post" action="{{ $item->exists ? route('admin.portfolio.update', $item) : route('admin.portfolio.store') }}">
+        <form method="post" enctype="multipart/form-data" action="{{ $item->exists ? route('admin.portfolio.update', $item) : route('admin.portfolio.store') }}">
             @csrf
             @if ($item->exists) @method('PUT') @endif
 
@@ -27,6 +27,16 @@
             <div class="form-group">
                 <label class="form-label" for="excerpt">Excerpt</label>
                 <textarea class="form-control" id="excerpt" name="excerpt" rows="3">{{ old('excerpt', $item->excerpt) }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="image_file">Image</label>
+                @if ($item->image)
+                    <div style="margin-bottom: 0.75rem;">
+                        <img src="{{ str_starts_with($item->image, 'http') ? $item->image : asset('storage/'.$item->image) }}" alt="" style="max-width: 200px; border-radius: 12px;">
+                    </div>
+                @endif
+                <input class="form-control" type="file" id="image_file" name="image_file" accept="image/jpeg,image/png,image/webp">
             </div>
 
             <div class="form-group">

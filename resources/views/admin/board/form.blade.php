@@ -10,7 +10,7 @@
     </div>
 
     <div class="admin-card">
-        <form method="post" action="{{ $member->exists ? route('admin.board.update', $member) : route('admin.board.store') }}">
+        <form method="post" enctype="multipart/form-data" action="{{ $member->exists ? route('admin.board.update', $member) : route('admin.board.store') }}">
             @csrf
             @if ($member->exists) @method('PUT') @endif
 
@@ -30,8 +30,18 @@
             </div>
 
             <div class="form-group">
+                <label class="form-label" for="photo_file">Photo</label>
+                @if ($member->photoUrl())
+                    <div style="margin-bottom: 0.75rem;">
+                        <img src="{{ $member->photoUrl() }}" alt="" style="max-width: 120px; border-radius: 12px;">
+                    </div>
+                @endif
+                <input class="form-control" type="file" id="photo_file" name="photo_file" accept="image/jpeg,image/png,image/webp">
+            </div>
+
+            <div class="form-group">
                 <label class="form-label" for="bio">Bio</label>
-                <textarea class="form-control" id="bio" name="bio" rows="8">{{ old('bio', $member->bio) }}</textarea>
+                <textarea class="form-control cms-editor" id="bio" name="bio" rows="8">{{ old('bio', $member->bio) }}</textarea>
             </div>
 
             <div class="form-actions">
@@ -39,4 +49,6 @@
             </div>
         </form>
     </div>
+
+    @include('admin.partials.tinymce', ['selector' => '#bio', 'height' => 320])
 @endsection

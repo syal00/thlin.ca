@@ -40,8 +40,8 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label" for="body">Body (HTML)</label>
-                <textarea class="form-control" id="body" name="body" rows="12">{{ old('body', $career->body) }}</textarea>
+                <label class="form-label" for="body">Body</label>
+                <textarea class="form-control cms-editor" id="body" name="body" rows="12">{{ old('body', $career->body) }}</textarea>
             </div>
 
             <div class="form-group">
@@ -56,4 +56,6 @@
             </div>
         </form>
     </div>
+
+    @include('admin.partials.tinymce', ['selector' => '#body'])
 @endsection

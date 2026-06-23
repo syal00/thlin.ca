@@ -166,10 +166,11 @@ class InlineEditController extends Controller
             return response()->json(['success' => false, 'message' => 'Invalid setting key.'], 422);
         }
 
-        $setting = SiteSetting::query()->firstOrCreate(
-            ['key' => $key],
-            ['type' => 'text', 'group' => 'general']
-        );
+        $setting = SiteSetting::query()->where('key', $key)->first();
+
+        if (! $setting) {
+            return response()->json(['success' => false, 'message' => 'Unknown setting key.'], 403);
+        }
 
         $value = $this->sanitizeValue(
             'sitesetting',
