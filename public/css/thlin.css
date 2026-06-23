@@ -10817,6 +10817,560 @@ body {
     border-color: #BA7517 !important;
 }
 
+/* =========================================================
+   FINAL THLIN EOF OVERRIDES v2
+========================================================= */
+
+.site-header.is-home-header {
+    position: absolute !important;
+    top: 1.5rem !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+}
+
+.site-header.is-inner-header {
+    position: relative !important;
+    z-index: 1000 !important;
+    padding: 1rem 0 !important;
+    background: #ffffff !important;
+}
+
+.nav-wrapper .container {
+    width: min(1180px, calc(100% - 2rem)) !important;
+    margin: 0 auto !important;
+}
+
+.nav-shell,
+.header-inner {
+    min-height: 76px !important;
+    padding: 0.85rem 1.5rem !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    border: 1px solid #dbe7f3 !important;
+    border-radius: 24px !important;
+    box-shadow: 0 18px 50px rgba(18, 74, 132, 0.14) !important;
+    backdrop-filter: blur(14px) !important;
+}
+
+.nav-link {
+    color: #1f2937 !important;
+    font-weight: 900 !important;
+    text-decoration: none !important;
+}
+
+.nav-link.is-active {
+    color: #124a84 !important;
+}
+
+.nav-cta {
+    background: #185FA5 !important;
+    color: #ffffff !important;
+    border-radius: 999px !important;
+    min-height: 52px !important;
+    padding: 0 1.6rem !important;
+    font-weight: 900 !important;
+    text-decoration: none !important;
+}
+
+.home-hero {
+    padding-top: 9rem !important;
+    padding-bottom: 4.5rem !important;
+    margin-top: 0 !important;
+    min-height: auto !important;
+}
+
+.home-section,
+.home-help-section,
+.home-about-section,
+.home-products-section,
+.portfolio-section,
+.thlin-final-cta {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.home-help-section {
+    padding-top: 3.5rem !important;
+    padding-bottom: 3rem !important;
+}
+
+.home-about-section {
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+    background: #f5f7fb !important;
+    overflow: visible !important;
+}
+
+.home-products-section,
+.portfolio-section {
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+}
+
+.home-help-section + .home-about-section,
+.home-about-section + .home-products-section,
+.home-products-section + .portfolio-section {
+    padding-top: 3.5rem !important;
+}
+
+.home-about-grid,
+.about-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(380px, 0.9fr) !important;
+    gap: 3.5rem !important;
+    align-items: center !important;
+}
+
+.about-highlight-card {
+    margin-top: 0 !important;
+    top: auto !important;
+    transform: none !important;
+    align-self: center !important;
+    border: 2px solid #dbe7f3 !important;
+    border-top: 6px solid #185FA5 !important;
+    box-shadow: 0 24px 70px rgba(18, 74, 132, 0.12) !important;
+}
+
+.home-product-card {
+    background: #ffffff !important;
+    border: 2px solid #dbe7f3 !important;
+    border-top: 6px solid #185FA5 !important;
+    border-radius: 28px !important;
+    padding: 2.4rem !important;
+    box-shadow: 0 20px 55px rgba(18, 74, 132, 0.10) !important;
+    transition: all 0.22s ease !important;
+}
+
+.home-product-card:nth-child(2) {
+    border-top-color: #3B6D11 !important;
+}
+
+.home-product-card:nth-child(3) {
+    border-top-color: #BA7517 !important;
+}
+
+.home-product-card:hover {
+    transform: translateY(-6px) !important;
+    border-color: #185FA5 !important;
+    box-shadow: 0 28px 75px rgba(18, 74, 132, 0.16) !important;
+}
+
+.home-product-card h3 {
+    color: #124a84 !important;
+    font-weight: 900 !important;
+}
+
+.home-product-card p {
+    color: #5f6f82 !important;
+    line-height: 1.7 !important;
+}
+
+.thlin-final-cta {
+    width: 100% !important;
+    background: #f5f7fb !important;
+    padding: 4rem 1rem !important;
+    margin: 0 !important;
+}
+
+.thlin-final-cta-container {
+    width: min(1180px, 100%) !important;
+    margin: 0 auto !important;
+}
+
+.thlin-final-cta-card {
+    background: linear-gradient(135deg, #124a84 0%, #185FA5 100%) !important;
+    border-radius: 32px !important;
+    padding: 3.2rem !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    gap: 2rem !important;
+    align-items: center !important;
+    box-shadow: 0 24px 70px rgba(18, 74, 132, 0.22) !important;
+}
+
+.thlin-final-cta-card,
+.thlin-final-cta-card * {
+    opacity: 1 !important;
+    filter: none !important;
+    visibility: visible !important;
+}
+
+.thlin-final-cta-copy h2 {
+    color: #ffffff !important;
+    margin: 0 0 1rem !important;
+    font-size: clamp(2.2rem, 4vw, 3.4rem) !important;
+    font-weight: 900 !important;
+}
+
+.thlin-final-cta-copy p,
+.thlin-final-cta-kicker {
+    color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.thlin-final-cta-actions {
+    display: flex !important;
+    gap: 1rem !important;
+    justify-content: flex-end !important;
+}
+
+.thlin-final-cta-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 56px !important;
+    min-width: 170px !important;
+    padding: 0 1.5rem !important;
+    border-radius: 999px !important;
+    font-weight: 900 !important;
+    text-decoration: none !important;
+}
+
+.thlin-final-cta-btn-primary {
+    background: #ffffff !important;
+    color: #124a84 !important;
+    border: 2px solid #ffffff !important;
+}
+
+.thlin-final-cta-btn-secondary {
+    background: transparent !important;
+    color: #ffffff !important;
+    border: 2px solid rgba(255, 255, 255, 0.8) !important;
+}
+
+.service-detail-content,
+.service-content-grid,
+.search-page-section,
+.guided-service-section,
+.contact-page-section {
+    margin-top: 0 !important;
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+    min-height: auto !important;
+}
+
+@media (max-width: 900px) {
+    .site-header.is-home-header {
+        position: relative !important;
+        top: auto !important;
+        padding: 0.75rem 1rem !important;
+        background: #ffffff !important;
+    }
+
+    .home-hero {
+        padding-top: 4rem !important;
+        padding-bottom: 3.5rem !important;
+    }
+
+    .home-help-section,
+    .home-about-section,
+    .home-products-section,
+    .portfolio-section,
+    .thlin-final-cta,
+    .search-page-section,
+    .guided-service-section,
+    .contact-page-section {
+        padding-top: 3rem !important;
+        padding-bottom: 3rem !important;
+    }
+
+    .home-about-grid,
+    .about-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2.5rem !important;
+    }
+
+    .thlin-final-cta-card {
+        grid-template-columns: 1fr !important;
+        padding: 2rem !important;
+    }
+
+    .thlin-final-cta-actions {
+        justify-content: flex-start !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+}
+
+/* =========================================================
+   FINAL LAYOUT CONFLICT RESOLUTION (TRUE EOF)
+========================================================= */
+
+.site-header.is-home-header {
+    position: absolute !important;
+    top: 1.5rem !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+}
+
+.site-header.is-inner-header {
+    position: relative !important;
+    z-index: 1000 !important;
+    padding: 1rem 0 !important;
+    background: #ffffff !important;
+}
+
+.nav-wrapper .container {
+    width: min(1180px, calc(100% - 2rem)) !important;
+    margin: 0 auto !important;
+}
+
+.nav-shell,
+.header-inner {
+    min-height: 76px !important;
+    padding: 0.85rem 1.5rem !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    border: 1px solid #dbe7f3 !important;
+    border-radius: 24px !important;
+    box-shadow: 0 18px 50px rgba(18, 74, 132, 0.14) !important;
+    backdrop-filter: blur(14px) !important;
+}
+
+.nav-link {
+    color: #1f2937 !important;
+    font-weight: 900 !important;
+    text-decoration: none !important;
+}
+
+.nav-link.is-active {
+    color: #124a84 !important;
+}
+
+.nav-cta {
+    background: #185FA5 !important;
+    color: #ffffff !important;
+    border-radius: 999px !important;
+    min-height: 52px !important;
+    padding: 0 1.6rem !important;
+    font-weight: 900 !important;
+    text-decoration: none !important;
+}
+
+.home-hero {
+    padding-top: 9rem !important;
+    padding-bottom: 4.5rem !important;
+    margin-top: 0 !important;
+    min-height: auto !important;
+}
+
+.home-section,
+.home-help-section,
+.home-about-section,
+.home-products-section,
+.portfolio-section,
+.thlin-final-cta {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.home-help-section {
+    padding-top: 3.5rem !important;
+    padding-bottom: 3rem !important;
+}
+
+.home-about-section {
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+    background: #f5f7fb !important;
+    overflow: visible !important;
+}
+
+.home-products-section,
+.portfolio-section {
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+}
+
+.home-help-section + .home-about-section,
+.home-about-section + .home-products-section,
+.home-products-section + .portfolio-section {
+    padding-top: 3.5rem !important;
+}
+
+.home-about-grid,
+.about-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(380px, 0.9fr) !important;
+    gap: 3.5rem !important;
+    align-items: center !important;
+}
+
+.about-highlight-card {
+    margin-top: 0 !important;
+    top: auto !important;
+    transform: none !important;
+    align-self: center !important;
+    border: 2px solid #dbe7f3 !important;
+    border-top: 6px solid #185FA5 !important;
+    box-shadow: 0 24px 70px rgba(18, 74, 132, 0.12) !important;
+}
+
+.home-product-card {
+    background: #ffffff !important;
+    border: 2px solid #dbe7f3 !important;
+    border-top: 6px solid #185FA5 !important;
+    border-radius: 28px !important;
+    padding: 2.4rem !important;
+    box-shadow: 0 20px 55px rgba(18, 74, 132, 0.10) !important;
+    transition: all 0.22s ease !important;
+}
+
+.home-product-card:nth-child(2) {
+    border-top-color: #3B6D11 !important;
+}
+
+.home-product-card:nth-child(3) {
+    border-top-color: #BA7517 !important;
+}
+
+.home-product-card:hover {
+    transform: translateY(-6px) !important;
+    border-color: #185FA5 !important;
+    box-shadow: 0 28px 75px rgba(18, 74, 132, 0.16) !important;
+}
+
+.home-product-card h3 {
+    color: #124a84 !important;
+    font-weight: 900 !important;
+}
+
+.home-product-card p {
+    color: #5f6f82 !important;
+    line-height: 1.7 !important;
+}
+
+.thlin-final-cta {
+    width: 100% !important;
+    background: #f5f7fb !important;
+    padding: 4rem 1rem !important;
+    margin: 0 !important;
+}
+
+.thlin-final-cta-container {
+    width: min(1180px, 100%) !important;
+    margin: 0 auto !important;
+}
+
+.thlin-final-cta-card {
+    background: linear-gradient(135deg, #124a84 0%, #185FA5 100%) !important;
+    border-radius: 32px !important;
+    padding: 3.2rem !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    gap: 2rem !important;
+    align-items: center !important;
+    box-shadow: 0 24px 70px rgba(18, 74, 132, 0.22) !important;
+}
+
+.thlin-final-cta-card,
+.thlin-final-cta-card * {
+    opacity: 1 !important;
+    filter: none !important;
+    visibility: visible !important;
+}
+
+.thlin-final-cta-copy h2 {
+    color: #ffffff !important;
+    margin: 0 0 1rem !important;
+    font-size: clamp(2.2rem, 4vw, 3.4rem) !important;
+    font-weight: 900 !important;
+}
+
+.thlin-final-cta-copy p,
+.thlin-final-cta-kicker {
+    color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.thlin-final-cta-actions {
+    display: flex !important;
+    gap: 1rem !important;
+    justify-content: flex-end !important;
+}
+
+.thlin-final-cta-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 56px !important;
+    min-width: 170px !important;
+    padding: 0 1.5rem !important;
+    border-radius: 999px !important;
+    font-weight: 900 !important;
+    text-decoration: none !important;
+}
+
+.thlin-final-cta-btn-primary {
+    background: #ffffff !important;
+    color: #124a84 !important;
+    border: 2px solid #ffffff !important;
+}
+
+.thlin-final-cta-btn-secondary {
+    background: transparent !important;
+    color: #ffffff !important;
+    border: 2px solid rgba(255, 255, 255, 0.8) !important;
+}
+
+.service-detail-content,
+.service-content-grid,
+.search-page-section,
+.guided-service-section,
+.contact-page-section {
+    margin-top: 0 !important;
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+    min-height: auto !important;
+}
+
+@media (max-width: 900px) {
+    .site-header.is-home-header {
+        position: relative !important;
+        top: auto !important;
+        padding: 0.75rem 1rem !important;
+        background: #ffffff !important;
+    }
+
+    .home-hero {
+        padding-top: 4rem !important;
+        padding-bottom: 3.5rem !important;
+    }
+
+    .home-help-section,
+    .home-about-section,
+    .home-products-section,
+    .portfolio-section,
+    .thlin-final-cta,
+    .search-page-section,
+    .guided-service-section,
+    .contact-page-section {
+        padding-top: 3rem !important;
+        padding-bottom: 3rem !important;
+    }
+
+    .home-about-grid,
+    .about-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2.5rem !important;
+    }
+
+    .thlin-final-cta-card {
+        grid-template-columns: 1fr !important;
+        padding: 2rem !important;
+    }
+
+    .thlin-final-cta-actions {
+        justify-content: flex-start !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+}
+
 body.high-contrast .hero-search-card,
 body.high-contrast .hero-support-card,
 body.high-contrast .home-hero-card,
@@ -11169,4 +11723,280 @@ body {
     background: #BA7517 !important;
     color: #ffffff !important;
     border-color: #BA7517 !important;
+}
+/* =========================================================
+   FINAL THLIN ABSOLUTE EOF OVERRIDES v3
+========================================================= */
+
+.site-header.is-home-header {
+    position: absolute !important;
+    top: 1.5rem !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+}
+
+.site-header.is-inner-header {
+    position: relative !important;
+    z-index: 1000 !important;
+    padding: 1rem 0 !important;
+    background: #ffffff !important;
+}
+
+.nav-wrapper .container {
+    width: min(1180px, calc(100% - 2rem)) !important;
+    margin: 0 auto !important;
+}
+
+.nav-shell,
+.header-inner {
+    min-height: 76px !important;
+    padding: 0.85rem 1.5rem !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    border: 1px solid #dbe7f3 !important;
+    border-radius: 24px !important;
+    box-shadow: 0 18px 50px rgba(18, 74, 132, 0.14) !important;
+    backdrop-filter: blur(14px) !important;
+}
+
+.nav-link {
+    color: #1f2937 !important;
+    font-weight: 900 !important;
+    text-decoration: none !important;
+}
+
+.nav-link.is-active {
+    color: #124a84 !important;
+}
+
+.nav-cta {
+    background: #185FA5 !important;
+    color: #ffffff !important;
+    border-radius: 999px !important;
+    min-height: 52px !important;
+    padding: 0 1.6rem !important;
+    font-weight: 900 !important;
+    text-decoration: none !important;
+}
+
+.home-hero {
+    padding-top: 9rem !important;
+    padding-bottom: 4.5rem !important;
+    margin-top: 0 !important;
+    min-height: auto !important;
+}
+
+.home-section,
+.home-help-section,
+.home-about-section,
+.home-products-section,
+.portfolio-section,
+.thlin-final-cta {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.home-help-section {
+    padding-top: 3.5rem !important;
+    padding-bottom: 3rem !important;
+}
+
+.home-about-section {
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+    background: #f5f7fb !important;
+    overflow: visible !important;
+}
+
+.home-products-section,
+.portfolio-section {
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+}
+
+.home-help-section + .home-about-section,
+.home-about-section + .home-products-section,
+.home-products-section + .portfolio-section {
+    padding-top: 3.5rem !important;
+}
+
+.home-about-grid,
+.about-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(380px, 0.9fr) !important;
+    gap: 3.5rem !important;
+    align-items: center !important;
+}
+
+.about-highlight-card {
+    margin-top: 0 !important;
+    top: auto !important;
+    transform: none !important;
+    align-self: center !important;
+    border: 2px solid #dbe7f3 !important;
+    border-top: 6px solid #185FA5 !important;
+    box-shadow: 0 24px 70px rgba(18, 74, 132, 0.12) !important;
+}
+
+.home-product-card {
+    background: #ffffff !important;
+    border: 2px solid #dbe7f3 !important;
+    border-top: 6px solid #185FA5 !important;
+    border-radius: 28px !important;
+    padding: 2.4rem !important;
+    box-shadow: 0 20px 55px rgba(18, 74, 132, 0.10) !important;
+    transition: all 0.22s ease !important;
+}
+
+.home-product-card:nth-child(2) {
+    border-top-color: #3B6D11 !important;
+}
+
+.home-product-card:nth-child(3) {
+    border-top-color: #BA7517 !important;
+}
+
+.home-product-card:hover {
+    transform: translateY(-6px) !important;
+    border-color: #185FA5 !important;
+    box-shadow: 0 28px 75px rgba(18, 74, 132, 0.16) !important;
+}
+
+.home-product-card h3 {
+    color: #124a84 !important;
+    font-weight: 900 !important;
+}
+
+.home-product-card p {
+    color: #5f6f82 !important;
+    line-height: 1.7 !important;
+}
+
+.thlin-final-cta {
+    width: 100% !important;
+    background: #f5f7fb !important;
+    padding: 4rem 1rem !important;
+    margin: 0 !important;
+}
+
+.thlin-final-cta-container {
+    width: min(1180px, 100%) !important;
+    margin: 0 auto !important;
+}
+
+.thlin-final-cta-card {
+    background: linear-gradient(135deg, #124a84 0%, #185FA5 100%) !important;
+    border-radius: 32px !important;
+    padding: 3.2rem !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    gap: 2rem !important;
+    align-items: center !important;
+    box-shadow: 0 24px 70px rgba(18, 74, 132, 0.22) !important;
+}
+
+.thlin-final-cta-card,
+.thlin-final-cta-card * {
+    opacity: 1 !important;
+    filter: none !important;
+    visibility: visible !important;
+}
+
+.thlin-final-cta-copy h2 {
+    color: #ffffff !important;
+    margin: 0 0 1rem !important;
+    font-size: clamp(2.2rem, 4vw, 3.4rem) !important;
+    font-weight: 900 !important;
+}
+
+.thlin-final-cta-copy p,
+.thlin-final-cta-kicker {
+    color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.thlin-final-cta-actions {
+    display: flex !important;
+    gap: 1rem !important;
+    justify-content: flex-end !important;
+}
+
+.thlin-final-cta-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 56px !important;
+    min-width: 170px !important;
+    padding: 0 1.5rem !important;
+    border-radius: 999px !important;
+    font-weight: 900 !important;
+    text-decoration: none !important;
+}
+
+.thlin-final-cta-btn-primary {
+    background: #ffffff !important;
+    color: #124a84 !important;
+    border: 2px solid #ffffff !important;
+}
+
+.thlin-final-cta-btn-secondary {
+    background: transparent !important;
+    color: #ffffff !important;
+    border: 2px solid rgba(255, 255, 255, 0.8) !important;
+}
+
+.service-detail-content,
+.service-content-grid,
+.search-page-section,
+.guided-service-section,
+.contact-page-section {
+    margin-top: 0 !important;
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+    min-height: auto !important;
+}
+
+@media (max-width: 900px) {
+    .site-header.is-home-header {
+        position: relative !important;
+        top: auto !important;
+        padding: 0.75rem 1rem !important;
+        background: #ffffff !important;
+    }
+
+    .home-hero {
+        padding-top: 4rem !important;
+        padding-bottom: 3.5rem !important;
+    }
+
+    .home-help-section,
+    .home-about-section,
+    .home-products-section,
+    .portfolio-section,
+    .thlin-final-cta,
+    .search-page-section,
+    .guided-service-section,
+    .contact-page-section {
+        padding-top: 3rem !important;
+        padding-bottom: 3rem !important;
+    }
+
+    .home-about-grid,
+    .about-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2.5rem !important;
+    }
+
+    .thlin-final-cta-card {
+        grid-template-columns: 1fr !important;
+        padding: 2rem !important;
+    }
+
+    .thlin-final-cta-actions {
+        justify-content: flex-start !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
 }

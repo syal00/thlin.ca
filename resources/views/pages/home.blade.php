@@ -175,7 +175,7 @@
     </section>
 
     @if ($featuredPortfolio->isNotEmpty())
-        <section class="home-section home-portfolio-cards section-alt">
+            <section class="home-section home-portfolio-cards section-alt portfolio-section">
             <div class="section-container">
                 <div class="portfolio-grid">
                     @foreach ($featuredPortfolio as $item)
