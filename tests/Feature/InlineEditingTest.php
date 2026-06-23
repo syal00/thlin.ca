@@ -164,4 +164,18 @@ class InlineEditingTest extends TestCase
             'value' => 'Hacked',
         ])->assertRedirect();
     }
+
+    public function test_inline_update_rejects_unknown_site_setting_key(): void
+    {
+        $admin = User::firstOrFail();
+
+        $this->actingAs($admin)
+            ->patchJson(route('admin.inline-update'), [
+                'model' => 'sitesetting',
+                'key' => 'made_up_setting_key',
+                'field' => 'value',
+                'value' => 'Should not save',
+            ])
+            ->assertForbidden();
+    }
 }

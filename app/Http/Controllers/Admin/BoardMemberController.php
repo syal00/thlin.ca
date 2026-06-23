@@ -24,7 +24,7 @@ class BoardMemberController extends Controller
     {
         BoardMember::create($this->validated($request));
 
-        return redirect()->route('admin.board.index')->with('status', 'Board member added.');
+        return redirect()->route('admin.board.index')->with('success', 'Board member added.');
     }
 
     public function edit(BoardMember $boardMember): View
@@ -36,24 +36,33 @@ class BoardMemberController extends Controller
     {
         $boardMember->update($this->validated($request));
 
-        return redirect()->route('admin.board.index')->with('status', 'Board member updated.');
+        return redirect()->route('admin.board.index')->with('success', 'Board member updated.');
     }
 
     public function destroy(BoardMember $boardMember): RedirectResponse
     {
         $boardMember->delete();
 
-        return redirect()->route('admin.board.index')->with('status', 'Board member removed.');
+        return redirect()->route('admin.board.index')->with('success', 'Board member removed.');
     }
 
     private function validated(Request $request): array
     {
-        return $request->validate([
+        $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'role' => ['required', 'string', 'max:255'],
             'bio' => ['nullable', 'string'],
             'photo' => ['nullable', 'string', 'max:255'],
+            'photo_file' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
         ]);
+
+        if ($request->hasFile('photo_file')) {
+            $data['photo'] = $request->file('photo_file')->store('uploads/board', 'public');
+        }
+
+        unset($data['photo_file']);
+
+        return $data;
     }
 }

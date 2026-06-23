@@ -3,6 +3,14 @@
         'home',
         'products-services',
         'products',
+        'healthline',
+        'healthchat',
+        'patient-portals',
+        'provider-portals',
+        'support-training',
+        'information-management',
+        'portfolio',
+        'resources',
         'partners',
         'about',
         'careers',
@@ -70,27 +78,17 @@
                                 aria-haspopup="true"
                             >@include('partials.site-setting', ['key' => 'nav_products_label', 'default' => 'Products & Services'])</a>
                             <ul class="nav-dropdown-menu">
-                                <li>
-                                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}">thehealthline.ca</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}">Patient Portals</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'provider-portals']) }}">Provider Portals</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'support-training']) }}">Support &amp; Training</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'information-management']) }}">Information Management</a>
-                                </li>
+                                @include('partials.nav-section-links', [
+                                    'section' => 'products',
+                                    'items' => config('thlin.navigation.products.items'),
+                                ])
+                                @include('partials.nav-cms-children', ['parentSlugs' => ['products-services', 'products', 'portfolio']])
                             </ul>
                         </li>
 
-                        <li>
+                        <li class="nav-dropdown">
                             <a href="#" class="nav-link{{ $isPartnersActive ? ' is-active' : '' }}">@include('partials.site-setting', ['key' => 'nav_partners_label', 'default' => 'Partners'])</a>
-                            <ul>
+                            <ul class="nav-dropdown-menu">
                                 @include('partials.nav-section-links', [
                                     'section' => 'partners',
                                     'items' => config('thlin.navigation.partners.items'),
@@ -99,9 +97,9 @@
                             </ul>
                         </li>
 
-                        <li>
+                        <li class="nav-dropdown">
                             <a href="#" class="nav-link{{ $isAboutActive ? ' is-active' : '' }}">@include('partials.site-setting', ['key' => 'nav_about_label', 'default' => 'About'])</a>
-                            <ul>
+                            <ul class="nav-dropdown-menu">
                                 @include('partials.nav-section-links', [
                                     'section' => 'about',
                                     'items' => config('thlin.navigation.about.items'),
@@ -125,9 +123,9 @@
                         @endphp
 
                         @if ($resourcePages->count())
-                            <li>
+                            <li class="nav-dropdown">
                                 <a href="#">@include('partials.site-setting', ['key' => 'nav_resources_label', 'default' => 'Resources'])</a>
-                                <ul>
+                                <ul class="nav-dropdown-menu">
                                     @foreach ($resourcePages as $resourcePage)
                                         <li>
                                             <a href="{{ $resourcePage->full_url }}">
