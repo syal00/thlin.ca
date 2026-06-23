@@ -21,6 +21,24 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if ($this->app->environment('production')) {
+            $required = [
+                'APP_KEY' => env('APP_KEY'),
+                'DB_URL' => env('DB_URL') ?: env('DATABASE_URL'),
+                'CLOUDINARY_URL' => env('CLOUDINARY_URL'),
+            ];
+
+            if (! config('services.tinymce.self_hosted', true)) {
+                $required['TINYMCE_API_KEY'] = env('TINYMCE_API_KEY');
+            }
+
+            foreach ($required as $key => $value) {
+                if (empty($value)) {
+                    throw new \RuntimeException("Required environment variable [{$key}] is not set.");
+                }
+            }
+        }
+
         if ($this->app->environment('production') && env('VERCEL')) {
             URL::forceScheme('https');
         }

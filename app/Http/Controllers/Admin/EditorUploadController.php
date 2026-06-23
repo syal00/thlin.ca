@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Support\CloudinaryStorage;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class EditorUploadController extends Controller
 {
@@ -16,14 +15,10 @@ class EditorUploadController extends Controller
             'file' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
 
-        $file = $request->file('file');
-
-        $fileName = Str::uuid().'.'.$file->getClientOriginalExtension();
-
-        $path = $file->storeAs('uploads/images', $fileName, 'public');
+        $upload = CloudinaryStorage::upload($request->file('file'), 'thlin/editor', 'image');
 
         return response()->json([
-            'location' => Storage::url($path),
+            'location' => $upload['url'],
         ]);
     }
 }
