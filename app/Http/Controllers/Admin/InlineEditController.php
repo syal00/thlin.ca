@@ -113,7 +113,14 @@ class InlineEditController extends Controller
             null,
             $validated['type'] ?? null
         );
-        $record->update([$field => $value === '' ? null : $value]);
+
+        $changes = [$field => $value === '' ? null : $value];
+
+        if ($record instanceof Page) {
+            $changes['updated_by'] = $request->user()->id;
+        }
+
+        $record->update($changes);
 
         return response()->json(['success' => true, 'value' => $value]);
     }

@@ -103,6 +103,7 @@ class ThlinContentImporter
                 'page_type' => 'built_in',
                 'status' => 'published',
                 'is_published' => true,
+                'updated_by' => null,
             ]
         );
 
@@ -125,21 +126,24 @@ class ThlinContentImporter
         $body = $this->extractContentHtml($html);
         $excerpt = $this->extractExcerpt($body) ?? $this->extractExcerptFromTitleArea($html);
 
+        $pageValues = array_filter([
+            'title' => html_entity_decode($title, ENT_QUOTES | ENT_HTML5, 'UTF-8'),
+            'section' => $meta['section'],
+            'template' => $meta['template'] ?? 'standard',
+            'body' => $body,
+            'excerpt' => $excerpt,
+            'meta_description' => $excerpt ? Str::limit($excerpt, 255) : null,
+            'hero_title' => html_entity_decode($title, ENT_QUOTES | ENT_HTML5, 'UTF-8'),
+            'hero_subtitle' => $excerpt,
+            'page_type' => 'built_in',
+            'status' => 'published',
+            'is_published' => true,
+        ]);
+        $pageValues['updated_by'] = null;
+
         Page::updateOrCreate(
             ['slug' => $meta['slug']],
-            array_filter([
-                'title' => html_entity_decode($title, ENT_QUOTES | ENT_HTML5, 'UTF-8'),
-                'section' => $meta['section'],
-                'template' => $meta['template'] ?? 'standard',
-                'body' => $body,
-                'excerpt' => $excerpt,
-                'meta_description' => $excerpt ? Str::limit($excerpt, 255) : null,
-                'hero_title' => html_entity_decode($title, ENT_QUOTES | ENT_HTML5, 'UTF-8'),
-                'hero_subtitle' => $excerpt,
-                'page_type' => 'built_in',
-                'status' => 'published',
-                'is_published' => true,
-            ])
+            $pageValues
         );
 
         $log("  ✓ {$meta['slug']}");
@@ -285,6 +289,7 @@ class ThlinContentImporter
             ['slug' => 'careers'],
             [
                 'body' => '<p>thehealthline.ca Information Network is a non-profit information company committed to making health and social service system navigation easier for everyone in Ontario. Located in London with workers connecting remotely throughout the province, we are a team-based, collaborative company.</p><p>For careers in the health care sector, visit Health Careers on <a href="https://www.southwesthealthline.ca" target="_blank" rel="noopener">southwesthealthline.ca</a>.</p>',
+                'updated_by' => null,
             ]
         );
 
@@ -308,7 +313,10 @@ class ThlinContentImporter
         if (preg_match('/<h1>Building Tools.*?<\/h1>\s*<p>(.*?)<\/p>/is', $content, $intro)) {
             Page::updateOrCreate(
                 ['slug' => 'portfolio'],
-                ['body' => '<section class="content-section"><p>'.$this->cleanInlineHtml($intro[1]).'</p></section>']
+                [
+                    'body' => '<section class="content-section"><p>'.$this->cleanInlineHtml($intro[1]).'</p></section>',
+                    'updated_by' => null,
+                ]
             );
         }
 

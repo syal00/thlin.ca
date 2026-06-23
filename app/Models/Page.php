@@ -29,6 +29,8 @@ class Page extends Model
         'excerpt',
         'template',
         'is_published',
+        'created_by',
+        'updated_by',
     ];
 
     protected function casts(): array
@@ -49,6 +51,16 @@ class Page extends Model
     public function parent(): BelongsTo
     {
         return $this->belongsTo(Page::class, 'parent_id');
+    }
+
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function lastEditor(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by');
     }
 
     public function children(): HasMany
