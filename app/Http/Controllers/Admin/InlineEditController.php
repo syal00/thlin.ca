@@ -116,7 +116,7 @@ class InlineEditController extends Controller
 
         $changes = [$field => $value === '' ? null : $value];
 
-        if ($record instanceof Page) {
+        if ($record instanceof Page && $request->user()) {
             $changes['updated_by'] = $request->user()->id;
         }
 
