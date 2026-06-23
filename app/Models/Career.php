@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\FullTextSearch;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,12 +33,10 @@ class Career extends Model
 
     public function scopeSearch(Builder $query, string $term): Builder
     {
-        $like = '%'.$term.'%';
-
-        return $query->active()->where(function (Builder $q) use ($like) {
-            $q->where('title', 'like', $like)
-                ->orWhere('body', 'like', $like)
-                ->orWhere('location', 'like', $like);
-        });
+        return FullTextSearch::apply(
+            $query->active(),
+            $term,
+            ['title', 'body', 'location']
+        );
     }
 }

@@ -53,4 +53,10 @@
             </table>
         </div>
     </div>
+
+    @if ($items->hasPages())
+        <div class="admin-pagination">
+            {{ $items->links() }}
+        </div>
+    @endif
 @endsection

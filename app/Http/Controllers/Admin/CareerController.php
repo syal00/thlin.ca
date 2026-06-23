@@ -13,7 +13,7 @@ class CareerController extends Controller
 {
     public function index(): View
     {
-        return view('admin.careers.index', ['careers' => Career::orderByDesc('posted_at')->get()]);
+        return view('admin.careers.index', ['careers' => Career::orderByDesc('posted_at')->paginate(12)]);
     }
 
     public function create(): View

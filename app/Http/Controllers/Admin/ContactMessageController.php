@@ -12,7 +12,7 @@ class ContactMessageController extends Controller
     public function index(): View
     {
         return view('admin.messages.index', [
-            'messages' => ContactMessage::query()->latest('created_at')->paginate(20),
+            'messages' => ContactMessage::query()->latest('created_at')->paginate(12),
         ]);
     }
 

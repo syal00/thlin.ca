@@ -12,7 +12,7 @@ class BoardMemberController extends Controller
 {
     public function index(): View
     {
-        return view('admin.board.index', ['members' => BoardMember::ordered()->get()]);
+        return view('admin.board.index', ['members' => BoardMember::ordered()->paginate(12)]);
     }
 
     public function create(): View

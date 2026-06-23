@@ -9,16 +9,7 @@
     @endpush
 @endif
 
-@section('content')
-    @auth
-        @if (empty($isPreview))
-        <div class="cms-admin-edit-banner">
-            <span>Editing this page in the CMS</span>
-            <a href="{{ route('admin.pages.edit', $page) }}" class="btn btn-primary btn-sm">Open Page Editor</a>
-        </div>
-        @endif
-    @endauth
-
+@section('hero')
     @php
         $customBreadcrumbs = [
             ['label' => 'Home', 'url' => route('home')],
@@ -42,7 +33,9 @@
         'eyebrow' => $page->parent ? $page->parent->title : 'THLIN Resource',
         'breadcrumbs' => $customBreadcrumbs,
     ])
+@endsection
 
+@section('content')
     <section class="custom-page-section">
         <div class="inner-container">
             <div class="custom-page-layout">
@@ -56,14 +49,13 @@
                             @else
                                 @include('partials.cms-body', ['html' => $page->body])
                             @endauth
+
                             @include('partials.page-updated', ['page' => $page])
                         </article>
                     @else
                         <article class="content-shell cms-content cms-empty-state">
                             <h2>Content coming soon</h2>
-                            <p>
-                                Information for this page will be added soon.
-                            </p>
+                            <p>Information for this page will be added soon.</p>
                         </article>
                     @endif
                 </main>

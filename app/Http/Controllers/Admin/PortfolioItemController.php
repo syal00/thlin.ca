@@ -12,7 +12,7 @@ class PortfolioItemController extends Controller
 {
     public function index(): View
     {
-        return view('admin.portfolio.index', ['items' => PortfolioItem::ordered()->get()]);
+        return view('admin.portfolio.index', ['items' => PortfolioItem::ordered()->paginate(12)]);
     }
 
     public function create(): View
