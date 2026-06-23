@@ -11095,6 +11095,151 @@ body {
 }
 
 /* =========================================================
+   FINAL CROSS-PAGE VISUAL PARITY v1
+========================================================= */
+
+.home-section,
+.about-content-section,
+.related-pages-section,
+.service-detail-content,
+.service-feature-cards-section,
+.why-matters-section,
+.search-page-section,
+.guided-service-section,
+.contact-page-section,
+.thlin-final-cta {
+    background: #f5f7fb !important;
+}
+
+.section-container,
+.search-page-section .container,
+.guided-service-section .container,
+.contact-page-section .section-container,
+.service-detail-content .container,
+.about-content-section .container,
+.related-pages-section .container {
+    width: min(1180px, calc(100% - 2rem)) !important;
+    margin: 0 auto !important;
+}
+
+.home-quick-card,
+.home-product-card,
+.about-main-card,
+.about-side-card,
+.service-main-card,
+.service-pro-sidebar,
+.service-feature-card,
+.why-matters-card,
+.related-page-card,
+.search-main-card,
+.guided-service-card,
+.guided-service-option,
+.contact-form-card,
+.contact-info-card {
+    background: #ffffff !important;
+    border: 1px solid #dbe7f3 !important;
+    border-radius: 24px !important;
+    box-shadow: 0 12px 30px #dbe7f3 !important;
+}
+
+.home-quick-card,
+.service-feature-card,
+.why-matters-card,
+.related-page-card,
+.guided-service-option {
+    border-top: 5px solid #185FA5 !important;
+}
+
+.service-feature-card:nth-child(2),
+.why-matters-card:nth-child(2),
+.guided-service-option:nth-child(2),
+.related-page-card:nth-child(2) {
+    border-top-color: #3B6D11 !important;
+}
+
+.service-feature-card:nth-child(3),
+.why-matters-card:nth-child(3),
+.guided-service-option:nth-child(3),
+.related-page-card:nth-child(3) {
+    border-top-color: #BA7517 !important;
+}
+
+.section-kicker,
+.section-kicker.blue {
+    color: #185FA5 !important;
+}
+
+.home-section h2,
+.about-content-section h2,
+.related-pages-section h2,
+.service-detail-content h2,
+.service-feature-cards-section h2,
+.why-matters-section h2,
+.search-page-section h1,
+.search-page-section h2,
+.guided-service-section h2,
+.contact-page-section h2 {
+    color: #124a84 !important;
+    font-weight: 900 !important;
+}
+
+.home-section p,
+.about-content-section p,
+.related-pages-section p,
+.service-detail-content p,
+.service-feature-cards-section p,
+.why-matters-section p,
+.search-page-section p,
+.guided-service-section p,
+.contact-page-section p {
+    color: #5f6f82 !important;
+    line-height: 1.7 !important;
+}
+
+.search-main-card,
+.guided-service-card,
+.contact-form-card,
+.contact-info-card,
+.service-main-card,
+.about-main-card {
+    padding: 2.2rem !important;
+}
+
+.home-quick-card:hover,
+.home-product-card:hover,
+.service-feature-card:hover,
+.why-matters-card:hover,
+.related-page-card:hover,
+.guided-service-option:hover {
+    transform: translateY(-4px) !important;
+    border-color: #185FA5 !important;
+    box-shadow: 0 18px 45px #dbe7f3 !important;
+}
+
+.contact-submit,
+.search-main-card button,
+.guided-service-option a,
+.service-btn,
+.about-btn,
+.about-story-btn {
+    border-radius: 999px !important;
+    font-weight: 900 !important;
+}
+
+@media (max-width: 900px) {
+    .search-main-card,
+    .guided-service-card,
+    .contact-form-card,
+    .contact-info-card,
+    .service-main-card,
+    .about-main-card,
+    .about-side-card {
+        padding: 1.6rem !important;
+        border-radius: 20px !important;
+    }
+}
+
+/* =========================================================
    FINAL LAYOUT CONFLICT RESOLUTION (TRUE EOF)
 ========================================================= */
 
