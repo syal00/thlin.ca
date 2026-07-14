@@ -22,10 +22,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         if ($this->app->environment('production')) {
+            // CLOUDINARY_URL is intentionally optional — CloudinaryStorage
+            // falls back when unset. Requiring it here breaks Vercel builds
+            // (composer runs `artisan package:discover` with APP_ENV=production).
             $required = [
                 'APP_KEY' => env('APP_KEY'),
                 'DB_URL' => env('DB_URL') ?: env('DATABASE_URL'),
-                'CLOUDINARY_URL' => env('CLOUDINARY_URL'),
             ];
 
             if (! config('services.tinymce.self_hosted', true)) {
