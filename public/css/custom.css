@@ -641,14 +641,6 @@
     margin-top: 1.75rem;
 }
 
-.has-page-hero .section-container {
-    max-width: 1200px;
-    width: 100%;
-    margin: 0 auto;
-    padding-left: 24px;
-    padding-right: 24px;
-}
-
 .has-page-hero .content-shell {
     background: #ffffff;
     border: 1px solid rgba(211, 209, 199, 0.7);
@@ -717,6 +709,80 @@
 .has-page-hero .news-list,
 .has-page-hero .job-list {
     margin-top: 2rem;
+}
+
+/* Restore dark hero on inner pages — thlin.css “Final Polish” forces a light
+   hero while leaving breadcrumbs white, making them invisible. */
+body.has-page-hero .inner-hero {
+    background:
+        radial-gradient(circle at 85% 20%, rgba(255, 255, 255, 0.10), transparent 28%),
+        linear-gradient(135deg, #042C53 0%, #185FA5 72%, #0B4F86 100%) !important;
+    border-bottom: 0 !important;
+    color: #ffffff !important;
+}
+
+body.has-page-hero .inner-breadcrumb,
+body.has-page-hero .inner-breadcrumb a,
+body.has-page-hero .inner-breadcrumb span,
+body.has-page-hero .inner-hero .breadcrumb,
+body.has-page-hero .inner-hero .breadcrumb a,
+body.has-page-hero .inner-hero .breadcrumb span {
+    color: rgba(255, 255, 255, 0.82) !important;
+}
+
+body.has-page-hero .inner-breadcrumb a:hover,
+body.has-page-hero .inner-hero .breadcrumb a:hover {
+    color: #ffffff !important;
+}
+
+body.has-page-hero .inner-hero .inner-eyebrow,
+body.has-page-hero .inner-hero h1,
+body.has-page-hero .inner-hero p {
+    color: #ffffff !important;
+}
+
+body.has-page-hero .inner-eyebrow::before {
+    background: #ffffff !important;
+}
+
+/* Equal-height cards on data-driven grids */
+.has-page-hero .board-grid,
+.has-page-hero .portfolio-grid,
+.has-page-hero .contact-grid {
+    align-items: stretch;
+}
+
+.has-page-hero .board-card,
+.has-page-hero .portfolio-card,
+.has-page-hero .contact-form-card,
+.has-page-hero .contact-info-panel {
+    height: 100%;
+}
+
+.has-page-hero .board-card {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Legacy Bootstrap markup pasted into CMS body (board import) — neutralize
+   until body is cleared in admin; does not affect the .board-grid loop. */
+.has-page-hero .cms-content .board-of-directors .row {
+    display: block;
+    margin: 0;
+}
+
+.has-page-hero .cms-content .board-of-directors [class*="col-"] {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+    float: none;
+}
+
+.has-page-hero .cms-content .board-of-directors img {
+    max-width: 120px;
+    height: auto;
+    border-radius: 16px;
+    margin-bottom: 1rem;
 }
 
 /* =========================================================

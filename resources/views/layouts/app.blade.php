@@ -9,17 +9,23 @@
     <link rel="stylesheet" href="{{ asset('css/site.css') }}?v={{ @filemtime(public_path('css/site.css')) ?: '1' }}">
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}?v={{ @filemtime(public_path('css/custom.css')) ?: '1' }}">
     <link rel="stylesheet" href="{{ asset('css/home-sections.css') }}?v={{ @filemtime(public_path('css/home-sections.css')) ?: '1' }}">
+    <link rel="stylesheet" href="{{ asset('css/simple-page.css') }}?v={{ @filemtime(public_path('css/simple-page.css')) ?: '1' }}">
 
     @auth
         <meta name="csrf-token" content="{{ csrf_token() }}">
     @endauth
     @stack('head')
 </head>
+@php
+    $builtInSections = ['products', 'partners', 'about'];
+    $isCustomPageRoute = request()->routeIs('custom-pages.show')
+        || (request()->routeIs('custom-pages.child.show') && ! in_array(request()->segment(1), $builtInSections, true));
+@endphp
 <body @class([
     'has-inline-edit-bar' => auth()->check(),
     'is-home-page' => request()->routeIs('home'),
-    'is-custom-page' => request()->routeIs('custom-pages.*'),
-    'has-page-hero' => ! request()->routeIs('home') && ! request()->routeIs('custom-pages.*'),
+    'is-custom-page' => $isCustomPageRoute,
+    'has-page-hero' => ! request()->routeIs('home') && ! $isCustomPageRoute,
 ])>
 
     <div class="site-wrapper">

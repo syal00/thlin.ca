@@ -710,7 +710,7 @@
     grid-template-columns: minmax(0, 1fr) 340px !important;
     gap: 2rem !important;
     align-items: start !important;
-    max-width: 1180px !important;
+    max-width: 1200px !important;
     margin: 0 auto !important;
 }
 
@@ -5766,7 +5766,10 @@ body.nav-open {
 
 @media (max-width: 720px) {
     .inner-container {
-        width: min(100% - 32px, 1180px) !important;
+        width: 100% !important;
+        max-width: 1200px !important;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
     }
 
     .inner-hero {
@@ -6233,8 +6236,12 @@ body.nav-open {
 ========================================================= */
 
 .is-custom-page .inner-container {
-    width: min(1180px, calc(100% - 48px));
+    width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
+    padding-left: 24px;
+    padding-right: 24px;
+    box-sizing: border-box;
 }
 
 .is-custom-page .inner-hero .inner-container {
@@ -6496,7 +6503,10 @@ body.nav-open {
 
 @media (max-width: 640px) {
     .is-custom-page .inner-container {
-        width: min(100% - 32px, 1180px);
+        width: 100%;
+        max-width: 1200px;
+        padding-left: 16px;
+        padding-right: 16px;
     }
 
     .is-custom-page .inner-hero {
@@ -6530,7 +6540,7 @@ body.nav-open {
     justify-content: space-between;
     gap: 16px;
     flex-wrap: wrap;
-    max-width: min(100% - 32px, 1180px);
+    max-width: 1200px;
     margin: 16px auto 0;
     padding: 12px 16px;
     border-radius: 12px;
@@ -7060,8 +7070,12 @@ body.has-inline-edit-bar .site-wrapper {
 .inner-container {
     position: relative !important;
     z-index: 1 !important;
-    width: min(1180px, calc(100% - 48px)) !important;
+    width: 100% !important;
+    max-width: 1200px !important;
     margin: 0 auto !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    box-sizing: border-box !important;
 }
 
 .inner-breadcrumb {
@@ -8283,7 +8297,7 @@ body.thlin-high-contrast .back-to-top {
     grid-template-columns: minmax(0, 1fr) 330px !important;
     gap: 2rem !important;
     align-items: start !important;
-    max-width: 1180px !important;
+    max-width: 1200px !important;
     margin: 0 auto !important;
 }
 
@@ -8309,27 +8323,8 @@ body.thlin-high-contrast .back-to-top {
     color: #1f2937 !important;
 }
 
-.service-rich-content h2 {
-    position: relative !important;
-    margin: 2rem 0 1rem !important;
-    padding: 1.2rem 1.4rem !important;
-    background: #f1f5f9 !important;
-    border: 1px solid #dbe7f3 !important;
-    border-left: 6px solid #185FA5 !important;
-    border-radius: 18px !important;
-    color: #124a84 !important;
-    font-size: clamp(1.6rem, 2.5vw, 2.25rem) !important;
-    line-height: 1.18 !important;
-    letter-spacing: -0.035em !important;
-    font-weight: 900 !important;
-}
-
-.service-rich-content h2::before {
-    display: none !important;
-}
-
 .service-rich-content p {
-    max-width: 850px !important;
+    max-width: 100% !important;
     color: #1f2937 !important;
     font-size: 1.05rem !important;
     line-height: 1.85 !important;
@@ -8741,7 +8736,7 @@ body.thlin-high-contrast .back-to-top {
     grid-template-columns: minmax(0, 1fr) 330px !important;
     gap: 2rem !important;
     align-items: start !important;
-    max-width: 1180px !important;
+    max-width: 1200px !important;
     margin: 0 auto !important;
 }
 
@@ -8800,7 +8795,7 @@ body.thlin-high-contrast .back-to-top {
 }
 
 .service-rich-content p {
-    max-width: 760px;
+    max-width: 100%;
     color: #1f2937 !important;
     font-size: 1.06rem !important;
     line-height: 1.85 !important;
@@ -8840,7 +8835,7 @@ body.thlin-high-contrast .back-to-top {
 }
 
 .page-cta .container {
-    width: min(1180px, 100%) !important;
+    width: 100% !important; max-width: 1200px !important;
     margin: 0 auto !important;
     padding: 0 1rem !important;
 }
@@ -9895,7 +9890,7 @@ body.high-contrast .service-btn {
 }
 
 .page-cta .container {
-    width: min(1180px, 100%) !important;
+    width: 100% !important; max-width: 1200px !important;
     margin: 0 auto !important;
     padding: 0 1rem !important;
 }
@@ -10119,13 +10114,16 @@ body {
 .service-rich-content img {
     max-width: 100% !important;
     width: 100% !important;
-    margin: 1rem 0 !important;
+    margin: 1.5rem 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
 }
 
 .service-rich-content img {
     display: block !important;
-    max-height: 360px !important;
-    object-fit: cover !important;
+    height: auto !important;
+    max-height: none !important;
+    object-fit: contain !important;
     border-radius: 20px !important;
     border: 1px solid #dbe7f3 !important;
     box-shadow: 0 10px 24px rgba(24, 95, 165, 0.10) !important;
@@ -10198,9 +10196,8 @@ body {
 
 .full-width-section .container,
 .page-cta .container {
-    width: min(1180px, calc(100% - 2rem)) !important;
+    width: 100% !important; max-width: 1200px !important; padding-left: 24px !important; padding-right: 24px !important; box-sizing: border-box !important;
     margin: 0 auto !important;
-    padding: 0 !important;
 }
 
 .service-detail-content {
@@ -10212,7 +10209,7 @@ body {
 }
 
 .service-content-grid {
-    width: min(1180px, calc(100% - 2rem)) !important;
+    width: 100% !important; max-width: 1200px !important; padding-left: 24px !important; padding-right: 24px !important; box-sizing: border-box !important;
     margin: 0 auto !important;
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) 330px !important;
@@ -10300,9 +10297,8 @@ body {
 }
 
 .page-cta .container {
-    width: min(1180px, calc(100% - 2rem)) !important;
+    width: 100% !important; max-width: 1200px !important; padding-left: 24px !important; padding-right: 24px !important; box-sizing: border-box !important;
     margin: 0 auto !important;
-    padding: 0 !important;
 }
 
 .page-cta-card {
@@ -10425,9 +10421,8 @@ body {
 }
 
 .full-width-section .container {
-    width: min(1180px, calc(100% - 2rem)) !important;
+    width: 100% !important; max-width: 1200px !important; padding-left: 24px !important; padding-right: 24px !important; box-sizing: border-box !important;
     margin: 0 auto !important;
-    padding: 0 !important;
 }
 
 .service-feature-cards-section,
@@ -10528,11 +10523,10 @@ body {
 }
 
 .service-content-grid {
-    width: min(1180px, calc(100% - 2rem)) !important;
-    max-width: 1180px !important;
+    width: 100% !important; max-width: 1200px !important; padding-left: 24px !important; padding-right: 24px !important; box-sizing: border-box !important;
+    max-width: 1200px !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    padding: 0 !important;
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) 330px !important;
     gap: 2rem !important;
@@ -10579,11 +10573,10 @@ body {
 .why-matters-section .container,
 .related-pages-section .container,
 .page-cta .container {
-    width: min(1180px, calc(100% - 2rem)) !important;
-    max-width: 1180px !important;
+    width: 100% !important; max-width: 1200px !important; padding-left: 24px !important; padding-right: 24px !important; box-sizing: border-box !important;
+    max-width: 1200px !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    padding: 0 !important;
     position: relative !important;
     left: auto !important;
     right: auto !important;
@@ -11627,11 +11620,10 @@ body {
 }
 
 .service-content-grid {
-    width: min(1180px, calc(100% - 2rem)) !important;
-    max-width: 1180px !important;
+    width: 100% !important; max-width: 1200px !important; padding-left: 24px !important; padding-right: 24px !important; box-sizing: border-box !important;
+    max-width: 1200px !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    padding: 0 !important;
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) 330px !important;
     gap: 2rem !important;
@@ -11742,11 +11734,10 @@ body {
 .why-matters-section .container,
 .related-pages-section .container,
 .page-cta .container {
-    width: min(1180px, calc(100% - 2rem)) !important;
-    max-width: 1180px !important;
+    width: 100% !important; max-width: 1200px !important; padding-left: 24px !important; padding-right: 24px !important; box-sizing: border-box !important;
+    max-width: 1200px !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    padding: 0 !important;
     position: relative !important;
     left: auto !important;
     right: auto !important;

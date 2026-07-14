@@ -124,7 +124,7 @@
 }
 
 .home-help-section .section-container {
-    width: min(1180px, calc(100% - 2rem));
+    max-width: 1200px; width: 100%; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; box-sizing: border-box;
     margin: 0 auto;
 }
 
@@ -166,7 +166,7 @@
 
 .home-about-section .section-container,
 .home-about-grid {
-    width: min(1180px, calc(100% - 2rem));
+    max-width: 1200px; width: 100%; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; box-sizing: border-box;
     margin: 0 auto;
 }
 
@@ -252,7 +252,7 @@
 }
 
 .home-products-section .section-container {
-    width: min(1180px, calc(100% - 2rem));
+    max-width: 1200px; width: 100%; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; box-sizing: border-box;
     margin: 0 auto;
 }
 
@@ -308,7 +308,7 @@
 }
 
 .thlin-final-cta-container {
-    width: min(1180px, calc(100% - 2rem));
+    max-width: 1200px; width: 100%; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; box-sizing: border-box;
     margin: 0 auto;
 }
 
@@ -415,7 +415,7 @@
 }
 
 .home-quick-cards-section .section-container {
-    width: min(1180px, calc(100% - 2rem));
+    max-width: 1200px; width: 100%; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; box-sizing: border-box;
     margin: 0 auto;
 }
 
@@ -480,7 +480,7 @@
     grid-template-columns: minmax(0, 1fr) minmax(300px, 0.9fr);
     gap: 3.5rem;
     align-items: center;
-    width: min(1180px, calc(100% - 2rem));
+    max-width: 1200px; width: 100%; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; box-sizing: border-box;
     margin: 0 auto;
 }
 
@@ -513,7 +513,7 @@
 }
 
 .home-stats-section .stats-card {
-    width: min(1180px, calc(100% - 2rem));
+    max-width: 1200px; width: 100%; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; box-sizing: border-box;
     margin: 0 auto;
 }
 
@@ -524,7 +524,7 @@
 }
 
 .home-products-section .section-container {
-    width: min(1180px, calc(100% - 2rem));
+    max-width: 1200px; width: 100%; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; box-sizing: border-box;
     margin: 0 auto;
 }
 
