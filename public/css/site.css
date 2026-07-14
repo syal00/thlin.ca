@@ -1051,6 +1051,26 @@ main#main-content {
     box-sizing: border-box !important;
 }
 
+@media (max-width: 1024px) {
+    .container,
+    .inner-container,
+    .section-container,
+    .hero-inner,
+    .is-home-page .section-container,
+    .is-home-page .hero-inner,
+    .has-page-hero .section-container,
+    .has-page-hero .hero-inner,
+    .is-custom-page .inner-container,
+    .full-width-section .container,
+    .service-feature-cards-section .container,
+    .why-matters-section .container,
+    .related-pages-section .container,
+    .page-cta .container {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+}
+
 @media (max-width: 640px) {
     .container,
     .inner-container,

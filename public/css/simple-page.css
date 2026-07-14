@@ -281,3 +281,267 @@
         padding: 2.5rem 0 !important;
     }
 }
+
+/* =========================================================
+   Responsive frames — header + content shells
+   ---------------------------------------------------------
+   thlin.css EOF overrides force a floating pill nav
+   (1180px inset + 24px radius) on EVERY page. That
+   fights the 1200/24 content shell and clips badly on
+   tablet/mobile. Rules below win last (this file loads
+   after thlin/site/custom/home-sections).
+========================================================= */
+
+/* -- Desktop / all: inner pages = flush full-width bar -- */
+.site-header.is-inner-header {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid #e4edf7 !important;
+    box-shadow: 0 8px 24px rgba(18, 74, 132, 0.06) !important;
+}
+
+.site-header.is-inner-header .nav-wrapper {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    padding: 0 !important;
+}
+
+.site-header.is-inner-header .nav-wrapper .container,
+.site-header.is-inner-header .container {
+    max-width: 1200px !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    box-sizing: border-box !important;
+}
+
+.site-header.is-inner-header .nav-shell,
+.site-header.is-inner-header .header-inner {
+    min-height: 78px !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+}
+
+/* -- Home keeps floating pill, but same 1200/24 shell -- */
+.site-header.is-home-header .nav-wrapper .container {
+    max-width: 1200px !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    box-sizing: border-box !important;
+}
+
+.site-header.is-home-header .nav-shell,
+.site-header.is-home-header .header-inner {
+    border-radius: 16px !important;
+}
+
+/* -- Content shells / listing cards: lighter frames -- */
+.has-page-hero .content-shell,
+.content-shell {
+    border-radius: 16px !important;
+    box-shadow: 0 8px 28px rgba(4, 44, 83, 0.06) !important;
+}
+
+.news-item,
+.job-card {
+    border-radius: 12px !important;
+    box-shadow: 0 6px 20px rgba(4, 44, 83, 0.05) !important;
+}
+
+.about-intro {
+    border-radius: 12px !important;
+    padding: 1.5rem 1.75rem !important;
+}
+
+/* Hero CTAs sit above the fixed accessibility bar */
+.inner-hero {
+    padding-bottom: 5.75rem !important;
+}
+
+.inner-hero .inner-hero-actions {
+    margin-bottom: 0.5rem !important;
+}
+
+/* -- Accessibility toolbar stays inside the viewport -- */
+.accessibility-toolbar,
+.site-accessibility-toolbar {
+    left: 1rem !important;
+    right: auto !important;
+    bottom: 1rem !important;
+    max-width: min(420px, calc(100vw - 2rem)) !important;
+    box-sizing: border-box !important;
+}
+
+/* ---------- Tablet (≤1024) ---------- */
+@media (max-width: 1024px) {
+    .site-header.is-inner-header .nav-wrapper .container,
+    .site-header.is-inner-header .container,
+    .site-header.is-home-header .nav-wrapper .container,
+    .container,
+    .inner-container,
+    .section-container,
+    .hero-inner,
+    .simple-hero .container,
+    .simple-section .container {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+
+    .site-header.is-inner-header .nav-shell,
+    .site-header.is-inner-header .header-inner {
+        min-height: 72px !important;
+    }
+
+    /* Home: drop floating pill — same flush bar as inner pages */
+    .site-header.is-home-header {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: #ffffff !important;
+        border-bottom: 1px solid #e4edf7 !important;
+        box-shadow: 0 8px 24px rgba(18, 74, 132, 0.06) !important;
+    }
+
+    .site-header.is-home-header .nav-wrapper {
+        position: static !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        padding: 0 !important;
+    }
+
+    .site-header.is-home-header .nav-shell,
+    .site-header.is-home-header .header-inner {
+        min-height: 72px !important;
+        padding: 0 !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+    }
+
+    .home-hero {
+        padding-top: 3.5rem !important;
+    }
+
+    /* Keep hero CTAs clear of the fixed accessibility bar */
+    .inner-hero {
+        padding-bottom: 5.5rem !important;
+    }
+
+    .content-shell,
+    .has-page-hero .content-shell {
+        border-radius: 14px !important;
+        padding: clamp(22px, 3vw, 36px) !important;
+    }
+}
+
+/* ---------- Mobile (≤640) ---------- */
+@media (max-width: 640px) {
+    .site-header.is-inner-header .nav-wrapper .container,
+    .site-header.is-inner-header .container,
+    .site-header.is-home-header .nav-wrapper .container,
+    .container,
+    .inner-container,
+    .section-container,
+    .hero-inner,
+    .simple-hero .container,
+    .simple-section .container {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+    }
+
+    .site-header.is-inner-header {
+        box-shadow: 0 4px 16px rgba(18, 74, 132, 0.06) !important;
+    }
+
+    .site-header.is-inner-header .nav-shell,
+    .site-header.is-inner-header .header-inner,
+    .site-header.is-home-header .nav-shell,
+    .site-header.is-home-header .header-inner {
+        min-height: 64px !important;
+        gap: 0.65rem !important;
+    }
+
+    /* Legacy rule sets .nav-cta { width: 100% } under 700px —
+       that blows up the header CTA next to the hamburger. */
+    .site-header .nav-cta {
+        width: auto !important;
+        min-width: 0 !important;
+        min-height: 40px !important;
+        padding: 0 0.95rem !important;
+        font-size: 0.85rem !important;
+        white-space: nowrap !important;
+        flex: 0 0 auto !important;
+    }
+
+    .inner-hero {
+        padding-top: 3rem !important;
+        padding-bottom: 6rem !important;
+    }
+
+    .home-hero {
+        padding-top: 2.5rem !important;
+        padding-bottom: 3rem !important;
+    }
+
+    .content-shell,
+    .has-page-hero .content-shell {
+        border-radius: 12px !important;
+        padding: 1.25rem !important;
+        box-shadow: 0 4px 16px rgba(4, 44, 83, 0.05) !important;
+    }
+
+    .news-item,
+    .job-card {
+        padding: 1.25rem !important;
+        border-radius: 10px !important;
+    }
+
+    .about-intro {
+        padding: 1.15rem 1.25rem !important;
+        border-radius: 10px !important;
+    }
+
+    .accessibility-toolbar,
+    .site-accessibility-toolbar {
+        left: 0.75rem !important;
+        right: 0.75rem !important;
+        bottom: 0.75rem !important;
+        max-width: none !important;
+        width: auto !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        border-radius: 14px !important;
+        gap: 0.35rem !important;
+    }
+
+    .accessibility-toolbar span,
+    .accessibility-toolbar strong,
+    .site-accessibility-toolbar span,
+    .site-accessibility-toolbar strong {
+        width: 100% !important;
+        text-align: center !important;
+        font-size: 0.7rem !important;
+    }
+}
