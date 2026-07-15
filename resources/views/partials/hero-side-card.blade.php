@@ -10,7 +10,7 @@
     </ul>
 
     <form action="{{ route('search') }}" method="get" class="hero-search" role="search">
-        <label for="{{ $searchInputId ?? 'hero-search-input' }}" class="visually-hidden">Search the site</label>
+        <label for="{{ $searchInputId ?? 'hero-search-input' }}" class="t-visually-hidden">Search the site</label>
         <input
             id="{{ $searchInputId ?? 'hero-search-input' }}"
             type="search"

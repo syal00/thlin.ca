@@ -5,11 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>@yield('title', $thlin['name'])</title>
     <meta name="description" content="@yield('meta_description', $thlin['tagline'])">
-    <link rel="stylesheet" href="{{ asset('css/thlin.css') }}?v={{ @filemtime(public_path('css/thlin.css')) ?: '1' }}">
-    <link rel="stylesheet" href="{{ asset('css/site.css') }}?v={{ @filemtime(public_path('css/site.css')) ?: '1' }}">
-    <link rel="stylesheet" href="{{ asset('css/custom.css') }}?v={{ @filemtime(public_path('css/custom.css')) ?: '1' }}">
-    <link rel="stylesheet" href="{{ asset('css/home-sections.css') }}?v={{ @filemtime(public_path('css/home-sections.css')) ?: '1' }}">
-    <link rel="stylesheet" href="{{ asset('css/simple-page.css') }}?v={{ @filemtime(public_path('css/simple-page.css')) ?: '1' }}">
+
+    {{-- Inter — primary typeface per the design system. font-display:swap
+         avoids invisible-text flash; system-font fallback in tokens.css
+         covers the case where this request fails/is blocked. --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+
+    {{-- Frontend rebuild — single clean cascade, no legacy files, no
+         !important. Modular by concern per the design-system spec. --}}
+    @php
+        $thlinStylesheets = [
+            'tokens', 'base', 'layout', 'header', 'navigation', 'footer',
+            'buttons', 'forms', 'cards', 'hero', 'accessibility',
+            'animations', 'utilities', 'pages', 'home',
+        ];
+    @endphp
+    @foreach ($thlinStylesheets as $sheet)
+        <link rel="stylesheet" href="{{ asset("css/{$sheet}.css") }}?v={{ @filemtime(public_path("css/{$sheet}.css")) ?: '1' }}">
+    @endforeach
 
     @auth
         <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -28,22 +43,22 @@
     'has-page-hero' => ! request()->routeIs('home') && ! $isCustomPageRoute,
 ])>
 
-    <div class="site-wrapper">
+    <div class="site-wrapper t-site">
     @auth
         @include('partials.admin-edit-bar')
     @endauth
 
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#main-content" class="skip-link t-skip-link">Skip to main content</a>
 
     @include('partials.header')
 
-    <main id="main-content">
+    <main id="main-content" class="t-main">
         @yield('content')
     </main>
 
     @include('partials.footer')
 
-    <div class="accessibility-toolbar" aria-label="Accessibility tools">
+    <div class="t-a11y-toolbar" aria-label="Accessibility tools">
         <strong>Accessibility</strong>
 
         <button type="button" id="decreaseText" aria-label="Decrease text size">A-</button>
@@ -52,7 +67,7 @@
         <button type="button" id="resetAccessibility" aria-label="Reset accessibility settings">Reset</button>
     </div>
 
-    <button type="button" id="backToTop" class="back-to-top" aria-label="Back to top">
+    <button type="button" id="backToTop" class="t-back-to-top" aria-label="Back to top">
         ↑
     </button>
 

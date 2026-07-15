@@ -1,0 +1,29 @@
+/* =========================================================
+   THLIN Buttons
+========================================================= */
+
+.t-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 52px;
+    padding: 0.85rem 1.5rem;
+    border-radius: var(--t-radius-pill);
+    border: 2px solid transparent;
+    font-weight: 800;
+    font-size: 0.95rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+.t-btn-primary { background: var(--t-blue); color: var(--t-white); }
+.t-btn-primary:hover { background: var(--t-blue-dark); color: var(--t-white); }
+.t-btn-accent { background: var(--t-orange); color: var(--t-white); }
+.t-btn-accent:hover { background: #9f6011; color: var(--t-white); }
+.t-btn-light { background: var(--t-white); color: var(--t-blue-dark); }
+.t-btn-light:hover { background: var(--t-light-blue); color: var(--t-blue-dark); }
+.t-btn-outline { background: transparent; color: var(--t-white); border-color: rgba(255, 255, 255, 0.6); }
+.t-btn-outline:hover { background: rgba(255, 255, 255, 0.12); color: var(--t-white); }
+.t-btn-outline-navy { background: transparent; color: var(--t-navy); border-color: var(--t-navy); }
+.t-btn-outline-navy:hover { background: var(--t-navy); color: var(--t-white); }

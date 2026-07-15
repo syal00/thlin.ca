@@ -10,38 +10,20 @@
 @endif
 
 @section('hero')
-    @php
-        $customBreadcrumbs = [
-            ['label' => 'Home', 'url' => route('home')],
-        ];
-
-        if ($page->parent) {
-            $customBreadcrumbs[] = [
-                'label' => $page->parent->title,
-                'url' => url($page->parent->full_url),
-            ];
-        }
-
-        $customBreadcrumbs[] = [
-            'label' => $page->hero_title ?: $page->title,
-            'current' => true,
-        ];
-    @endphp
-
-    @include('partials.page-header', [
+    @include('partials.hero-page', [
         'page' => $page,
+        'heroTitle' => $page->hero_title ?: $page->title,
         'eyebrow' => $page->parent ? $page->parent->title : 'THLIN Resource',
-        'breadcrumbs' => $customBreadcrumbs,
     ])
 @endsection
 
 @section('content')
-    <section class="custom-page-section">
-        <div class="inner-container">
+    <section class="t-prose custom-page-section">
+        <div class="t-container">
             <div class="custom-page-layout">
                 <main class="custom-page-main">
                     @if (trim(strip_tags($page->body ?? '')) !== '' || auth()->check())
-                        <article class="inner-content-card content-shell cms-content">
+                        <article class="t-prose-content">
                             @auth
                                 <div @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'body', 'type' => 'richtext'])>
                                     @include('partials.cms-body', ['html' => $page->body])
@@ -53,7 +35,7 @@
                             @include('partials.page-updated', ['page' => $page])
                         </article>
                     @else
-                        <article class="content-shell cms-content cms-empty-state">
+                        <article class="t-prose-content cms-empty-state">
                             <h2>Content coming soon</h2>
                             <p>Information for this page will be added soon.</p>
                         </article>
@@ -80,5 +62,5 @@
         </div>
     </section>
 
-    @include('partials.page-cta')
+    @include('partials.cta-section')
 @endsection

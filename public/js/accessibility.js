@@ -1,49 +1,55 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const body = document.body;
+    // Scaling/contrast toggle on <html>, not <body>: every font-size in the
+    // new CSS system is `rem`-based off the root element, so this is what
+    // actually cascades through headings/buttons/cards instead of only
+    // affecting unstyled text. See public/css/base.css .t-text-large /
+    // .t-text-small / .t-high-contrast.
+    const root = document.documentElement;
 
     const decreaseText = document.getElementById('decreaseText');
     const increaseText = document.getElementById('increaseText');
     const toggleContrast = document.getElementById('toggleContrast');
     const resetAccessibility = document.getElementById('resetAccessibility');
-    const backToTop = document.getElementById('backToTop');
 
     const savedTextSize = localStorage.getItem('thlinTextSize');
     const savedContrast = localStorage.getItem('thlinHighContrast');
 
     if (savedTextSize === 'large') {
-        body.classList.add('text-large');
+        root.classList.add('t-text-large');
     }
 
     if (savedTextSize === 'small') {
-        body.classList.add('text-small');
+        root.classList.add('t-text-small');
     }
 
     if (savedContrast === 'true') {
-        body.classList.add('high-contrast');
+        root.classList.add('t-high-contrast');
     }
 
     increaseText?.addEventListener('click', function () {
-        body.classList.remove('text-small');
-        body.classList.add('text-large');
+        root.classList.remove('t-text-small');
+        root.classList.add('t-text-large');
         localStorage.setItem('thlinTextSize', 'large');
     });
 
     decreaseText?.addEventListener('click', function () {
-        body.classList.remove('text-large');
-        body.classList.add('text-small');
+        root.classList.remove('t-text-large');
+        root.classList.add('t-text-small');
         localStorage.setItem('thlinTextSize', 'small');
     });
 
     toggleContrast?.addEventListener('click', function () {
-        body.classList.toggle('high-contrast');
-        localStorage.setItem('thlinHighContrast', body.classList.contains('high-contrast') ? 'true' : 'false');
+        root.classList.toggle('t-high-contrast');
+        localStorage.setItem('thlinHighContrast', root.classList.contains('t-high-contrast') ? 'true' : 'false');
     });
 
     resetAccessibility?.addEventListener('click', function () {
-        body.classList.remove('text-large', 'text-small', 'high-contrast');
+        root.classList.remove('t-text-large', 't-text-small', 't-high-contrast');
         localStorage.removeItem('thlinTextSize');
         localStorage.removeItem('thlinHighContrast');
     });
+
+    const backToTop = document.getElementById('backToTop');
 
     function updateBackToTopVisibility() {
         if (!backToTop) {

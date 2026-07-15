@@ -1,0 +1,146 @@
+/* =========================================================
+   THLIN Navigation — main menu, dropdowns, nav search
+========================================================= */
+
+.t-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--t-space-lg);
+    flex: 1 1 auto;
+    justify-content: center;
+}
+.t-nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.t-nav-link {
+    color: var(--t-text);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+.t-nav-link:hover, .t-nav-link.is-active { color: var(--t-blue); }
+
+.t-nav-dropdown { position: relative; }
+.t-nav-dropdown > button.t-nav-link {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    font: inherit;
+}
+.t-nav-dropdown > button.t-nav-link::after {
+    content: "";
+    display: inline-block;
+    width: 0.4em; height: 0.4em;
+    margin-left: 0.4em;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: translateY(-2px) rotate(45deg);
+    transition: transform 0.15s ease;
+}
+.t-nav-dropdown.is-open > button.t-nav-link::after { transform: translateY(1px) rotate(225deg); }
+
+/* Menu box starts flush against the trigger (top: 100%, zero gap) so there
+   is no dead geometric zone for the pointer to lose hover in — the visual
+   gap is faked with padding-top instead. This plus the JS mouseleave grace
+   timeout (see thlin.js initNavDropdowns) removes the "closes before you
+   can click" failure mode entirely. */
+.t-nav-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 260px;
+    margin: 0;
+    padding: 1.35rem 0.6rem 0.6rem;
+    list-style: none;
+    background: var(--t-white);
+    border: 1px solid var(--t-border);
+    border-radius: var(--t-radius-md);
+    box-shadow: var(--t-shadow-lg);
+    z-index: 30;
+}
+.t-nav-dropdown.is-open > .t-nav-dropdown-menu,
+.t-nav-dropdown:focus-within > .t-nav-dropdown-menu { display: block; }
+.t-nav-dropdown-menu a {
+    display: block;
+    padding: 0.7rem 0.85rem;
+    border-radius: var(--t-radius-sm);
+    color: var(--t-blue-dark);
+    font-weight: 700;
+    text-decoration: none;
+}
+.t-nav-dropdown-menu a:hover { background: var(--t-light-blue); color: var(--t-blue); }
+.t-nav-cms-divider {
+    padding: 0.4rem 0.85rem 0.2rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--t-text-muted);
+}
+
+/* ---------- Nav search ---------- */
+.t-nav-search {
+    display: flex;
+    align-items: center;
+}
+.t-nav-search-input {
+    height: 40px;
+    padding: 0 0.9rem;
+    border: 1px solid var(--t-border);
+    border-right: 0;
+    border-radius: var(--t-radius-sm) 0 0 var(--t-radius-sm);
+    font-size: 0.9rem;
+    min-width: 170px;
+}
+.t-nav-search-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; height: 40px;
+    border: 1px solid var(--t-blue);
+    border-radius: 0 var(--t-radius-sm) var(--t-radius-sm) 0;
+    background: var(--t-blue);
+    color: var(--t-white);
+    cursor: pointer;
+}
+.t-nav-search-submit:hover { background: var(--t-blue-dark); }
+@media (max-width: 1150px) { .t-nav-search { display: none; } }
+
+@media (max-width: 1024px) {
+    .t-nav {
+        display: none;
+        position: absolute;
+        top: 100%; left: 0; right: 0;
+        background: var(--t-white);
+        border-bottom: 1px solid var(--t-border);
+        box-shadow: var(--t-shadow-md);
+        padding: var(--t-space-md);
+    }
+    .t-nav.is-open { display: block; }
+    .t-nav-menu { flex-direction: column; align-items: stretch; gap: 0; }
+    .t-nav-menu > li { border-bottom: 1px solid var(--t-border); }
+    .t-nav-menu > li:last-child { border-bottom: 0; }
+    .t-nav-link { display: block; padding: 0.85rem 0.2rem; }
+    .t-nav-dropdown-menu { position: static; box-shadow: none; display: none; border: 0; padding-left: 0.75rem; }
+    .t-nav-dropdown.is-open .t-nav-dropdown-menu { display: block; }
+}
+
+/* ---------- Breadcrumb ---------- */
+.t-breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: var(--t-space-md);
+    font-size: 0.88rem;
+}
+.t-breadcrumb a { color: rgba(255, 255, 255, 0.85); text-decoration: none; font-weight: 600; }
+.t-breadcrumb a:hover { color: var(--t-white); text-decoration: underline; }
+.t-breadcrumb span[aria-current] { color: var(--t-white); font-weight: 700; }
+.t-breadcrumb-sep { opacity: 0.6; color: rgba(255, 255, 255, 0.85); }

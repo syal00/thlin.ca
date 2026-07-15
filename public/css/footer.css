@@ -1,0 +1,57 @@
+/* =========================================================
+   THLIN Footer
+========================================================= */
+
+.t-footer {
+    background: var(--t-navy);
+    color: rgba(255, 255, 255, 0.85);
+    margin-top: auto;
+}
+.t-footer-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) repeat(3, minmax(0, 1fr));
+    gap: var(--t-space-lg);
+    padding: var(--t-space-2xl) 0 var(--t-space-xl);
+}
+.t-footer-brand { display: flex; flex-direction: column; gap: var(--t-space-sm); }
+.t-footer-logo { display: flex; align-items: center; gap: 0.6rem; color: var(--t-white); text-decoration: none; font-weight: 800; }
+.t-footer-logo-mark {
+    display: inline-grid; place-items: center;
+    width: 36px; height: 36px;
+    border-radius: var(--t-radius-sm);
+    background: var(--t-blue);
+    color: var(--t-white);
+    font-size: 0.78rem; font-weight: 900;
+}
+.t-footer-brand p { color: rgba(255, 255, 255, 0.7); font-size: 0.92rem; line-height: 1.7; margin: 0; }
+.t-footer-column h2 {
+    color: var(--t-white);
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: var(--t-space-sm);
+}
+.t-footer-column ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
+.t-footer-column a { color: rgba(255, 255, 255, 0.75); text-decoration: none; font-size: 0.92rem; }
+.t-footer-column a:hover { color: var(--t-white); }
+.t-footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.14); }
+.t-footer-bottom-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--t-space-md);
+    padding: var(--t-space-md) 0;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.65);
+}
+.t-footer-bottom-inner a { color: rgba(255, 255, 255, 0.85); text-decoration: none; font-weight: 700; }
+.t-footer-bottom-inner a:hover { color: var(--t-white); }
+
+@media (max-width: 1024px) {
+    .t-footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+    .t-footer-grid { grid-template-columns: 1fr; }
+    .t-footer-bottom-inner { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+}

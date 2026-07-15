@@ -1,33 +1,13 @@
-{{-- Simple full-bleed hero: title only, no card, no buttons, no breadcrumb clutter --}}
-<section class="simple-hero">
-    <div class="container simple-hero-inner">
-        <h1
-            data-editable="true"
-            data-model="page"
-            data-id="{{ $page->id }}"
-            data-field="title"
-        >{{ $page->title }}</h1>
-    </div>
-</section>
-
-{{-- Main content: single column, no sidebar --}}
-<section class="simple-section simple-section--light">
-    <div class="container simple-prose">
-        <div
-            class="service-rich-content capability-page-body"
-            data-editable="true"
-            data-model="page"
-            data-id="{{ $page->id }}"
-            data-field="body"
-        >
+{{-- Main content: single column prose, no sidebar/card. Hero is rendered by
+     the parent view (pages/show.blade.php @section('hero')) so this partial
+     only needs the body. --}}
+<section class="t-prose">
+    <div class="t-container">
+        <div class="t-prose-content service-rich-content capability-page-body" @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'body', 'type' => 'richtext'])>
             @include('partials.cms-body', ['html' => $page->body])
         </div>
 
-        @if ($page->updated_at)
-            <p class="simple-updated">
-                Last updated: {{ $page->updated_at->format('F j, Y') }}
-            </p>
-        @endif
+        @include('partials.page-updated', ['page' => $page])
     </div>
 </section>
 
