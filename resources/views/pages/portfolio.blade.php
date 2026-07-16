@@ -9,37 +9,32 @@
 @endif
 
 @section('hero')
-    @include('partials.page-header', [
-        'page' => $page,
-        'eyebrow' => 'Portfolio',
-    ])
+    @include('partials.hero-page', ['page' => $page])
 @endsection
 
 @section('content')
-    <section class="home-section section-light">
-        <div class="section-container">
-            <div class="content-shell">
-                @auth
-                    <div class="cms-content" @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'body', 'type' => 'richtext'])>
-                        @include('partials.cms-body', ['html' => $page->body])
-                    </div>
-                @else
-                    <div class="cms-content">@include('partials.cms-body', ['html' => $page->body])</div>
-                @endauth
-                @include('partials.page-updated', ['page' => $page])
-            </div>
+    <section class="t-prose">
+        <div class="t-container">
+            @auth
+                <div class="t-prose-content" @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'body', 'type' => 'richtext'])>
+                    @include('partials.cms-body', ['html' => $page->body])
+                </div>
+            @else
+                <div class="t-prose-content">@include('partials.cms-body', ['html' => $page->body])</div>
+            @endauth
+            @include('partials.page-updated', ['page' => $page])
         </div>
     </section>
 
     @if ($featured->isNotEmpty())
-        <section class="home-section section-alt">
-            <div class="section-container">
-                <div class="section-heading">
-                    <span class="section-kicker blue">Featured Work</span>
+        <section class="t-prose t-prose--alt">
+            <div class="t-container">
+                <div class="t-section-head">
+                    <span class="t-eyebrow">Featured Work</span>
                     <h2>@include('partials.site-setting', ['key' => 'portfolio_featured_title', 'tag' => 'span', 'type' => 'text'])</h2>
                 </div>
 
-                <div class="portfolio-grid">
+                <div class="t-card-grid">
                     @foreach ($featured as $item)
                         @include('partials.portfolio-card', ['item' => $item])
                     @endforeach
@@ -49,10 +44,10 @@
     @endif
 
     @if ($past->isNotEmpty())
-        <section class="home-section section-light">
-            <div class="section-container">
-                <div class="section-heading">
-                    <span class="section-kicker blue">Archive</span>
+        <section class="t-prose">
+            <div class="t-container">
+                <div class="t-section-head">
+                    <span class="t-eyebrow">Archive</span>
                     <h2>@include('partials.site-setting', ['key' => 'portfolio_past_title', 'tag' => 'span', 'type' => 'text'])</h2>
                 </div>
 
@@ -92,5 +87,5 @@
         </section>
     @endif
 
-    @include('partials.page-cta', ['settingPrefix' => 'portfolio'])
+    @include('partials.cta-section')
 @endsection

@@ -1,0 +1,25 @@
+/* =========================================================
+   THLIN Hero — shared inner-page hero (title + optional image/breadcrumb).
+   Homepage-specific hero (video/canvas) lives in home.css.
+========================================================= */
+
+.t-hero-page {
+    position: relative;
+    padding: var(--t-space-2xl) 0 var(--t-space-xl);
+    background: linear-gradient(135deg, var(--t-navy) 0%, var(--t-blue) 100%);
+    color: var(--t-white);
+    overflow: hidden;
+}
+.t-hero-page--image {
+    background-size: cover;
+    background-position: center;
+}
+.t-hero-page--image::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, rgba(4,44,83,0.88) 0%, rgba(24,95,165,0.7) 100%);
+}
+.t-hero-page-inner { position: relative; z-index: 1; }
+.t-hero-page h1 { color: var(--t-white); font-size: clamp(2.1rem, 4vw, 3rem); margin: 0; }
+.t-hero-page p { color: rgba(255, 255, 255, 0.88); font-size: 1.05rem; margin: var(--t-space-sm) 0 0; max-width: 640px; }

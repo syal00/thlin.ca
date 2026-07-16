@@ -36,7 +36,8 @@ return [
     ],
 
     'tinymce' => [
-        'api_key' => env('TINYMCE_API_KEY'),
+        'key' => env('TINYMCE_API_KEY', ''),
+        'api_key' => env('TINYMCE_API_KEY', ''),
         'self_hosted' => env('TINYMCE_SELF_HOSTED', true),
     ],
 

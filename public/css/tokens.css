@@ -1,0 +1,60 @@
+/* =========================================================
+   THLIN Design Tokens
+   -----------------------------------------------------------
+   Single source of truth for the new frontend system. Loaded
+   first, before base/layout/components/home.css. Legacy files
+   (thlin.css, site.css, custom.css, home-sections.css,
+   simple-page.css) still load after these during the phased
+   migration — new component classes are namespaced with a
+   `t-` prefix specifically so they never collide with legacy
+   selectors while both systems coexist.
+========================================================= */
+
+:root {
+    /* Brand colours — per THLIN Project Charter. Blue + white are the
+       dominant base; green/orange are required accents; yellow/red are
+       reserved for sparing use only (badges/alerts), never large fills. */
+    --t-blue: #185FA5;
+    --t-blue-dark: #124a84;
+    --t-navy: #042C53;
+    --t-green: #3B6D11;
+    --t-orange: #BA7517;
+    --t-yellow: #EAB308;
+    --t-red: #B42318;
+    --t-white: #FFFFFF;
+
+    /* Text/background — off-black body text, never pure #000 */
+    --t-text: #2C2C2A;
+    --t-text-muted: #5F5E5A;
+    --t-bg: #F8FAFC;
+    --t-light-blue: #E6F1FB;
+    --t-border: #DBE7F3;
+
+    /* Shell / grid — 1200px container, 24px padding, responsive down to 20/16 */
+    --t-shell-width: 1200px;
+    --t-shell-pad: 24px;
+    --t-shell-pad-tablet: 20px;
+    --t-shell-pad-mobile: 16px;
+
+    /* Spacing scale */
+    --t-space-xs: 0.5rem;
+    --t-space-sm: 0.75rem;
+    --t-space-md: 1.25rem;
+    --t-space-lg: 2rem;
+    --t-space-xl: 3.5rem;
+    --t-space-2xl: 5rem;
+
+    /* Radii / shadows */
+    --t-radius-sm: 10px;
+    --t-radius-md: 16px;
+    --t-radius-lg: 24px;
+    --t-radius-pill: 999px;
+    --t-shadow-sm: 0 6px 20px rgba(4, 44, 83, 0.06);
+    --t-shadow-md: 0 14px 40px rgba(4, 44, 83, 0.08);
+    --t-shadow-lg: 0 24px 70px rgba(4, 44, 83, 0.12);
+
+    /* Type — Inter is loaded via Google Fonts in layouts/app.blade.php;
+       this stack falls back gracefully to the closest system font if that
+       request is blocked/slow, so text never depends on it to be legible. */
+    --t-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}

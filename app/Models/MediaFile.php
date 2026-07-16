@@ -13,6 +13,7 @@ class MediaFile extends Model
         'original_name',
         'file_name',
         'file_path',
+        'cloudinary_public_id',
         'file_type',
         'mime_type',
         'file_size',
@@ -27,6 +28,10 @@ class MediaFile extends Model
 
     public function getUrlAttribute(): string
     {
+        if (str_starts_with($this->file_path, 'http://') || str_starts_with($this->file_path, 'https://')) {
+            return $this->file_path;
+        }
+
         return Storage::url($this->file_path);
     }
 

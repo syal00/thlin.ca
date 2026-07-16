@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\MediaFile;
+use App\Support\CloudinaryStorage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -14,7 +14,7 @@ class MediaController extends Controller
 {
     public function index(): View
     {
-        $mediaFiles = MediaFile::latest()->paginate(15);
+        $mediaFiles = MediaFile::latest()->paginate(12);
 
         return view('admin.media.index', compact('mediaFiles'));
     }
@@ -33,17 +33,14 @@ class MediaController extends Controller
         ]);
 
         $file = $request->file('file');
-
-        $safeTitle = Str::slug($validated['title']);
-        $fileName = $safeTitle.'-'.time().'.'.$file->getClientOriginalExtension();
-
-        $path = $file->storeAs('uploads/files', $fileName, 'public');
+        $upload = CloudinaryStorage::upload($file, 'thlin/media', 'raw');
 
         MediaFile::create([
             'title' => $validated['title'],
             'original_name' => $file->getClientOriginalName(),
-            'file_name' => $fileName,
-            'file_path' => $path,
+            'file_name' => Str::slug($validated['title']).'-'.time().'.'.$file->getClientOriginalExtension(),
+            'file_path' => $upload['file_path'],
+            'cloudinary_public_id' => $upload['public_id'],
             'file_type' => 'pdf',
             'mime_type' => $file->getMimeType(),
             'file_size' => $file->getSize(),
@@ -58,9 +55,11 @@ class MediaController extends Controller
 
     public function destroy(MediaFile $mediaFile): RedirectResponse
     {
-        if (Storage::disk('public')->exists($mediaFile->file_path)) {
-            Storage::disk('public')->delete($mediaFile->file_path);
-        }
+        CloudinaryStorage::destroy(
+            $mediaFile->cloudinary_public_id,
+            $mediaFile->file_path,
+            'raw'
+        );
 
         $mediaFile->delete();
 

@@ -49,4 +49,10 @@
             </table>
         </div>
     </div>
+
+    @if ($members->hasPages())
+        <div class="admin-pagination">
+            {{ $members->links() }}
+        </div>
+    @endif
 @endsection

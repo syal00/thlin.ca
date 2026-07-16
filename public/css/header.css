@@ -1,0 +1,74 @@
+/* =========================================================
+   THLIN Header — logo, mobile toggle, header shell
+========================================================= */
+
+.t-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: var(--t-white);
+    border-bottom: 1px solid var(--t-border);
+}
+
+.t-header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--t-space-lg);
+    min-height: 76px;
+}
+
+.t-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    color: var(--t-navy);
+    font-weight: 800;
+    flex: 0 0 auto;
+}
+.t-logo img { height: 40px; width: auto; }
+.t-logo-mark {
+    display: inline-grid;
+    place-items: center;
+    width: 40px; height: 40px;
+    border-radius: var(--t-radius-sm);
+    background: var(--t-blue);
+    color: var(--t-white);
+    font-size: 0.85rem;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+}
+.t-logo-text { font-size: 1.1rem; }
+
+.t-nav-toggle {
+    display: none;
+    width: 44px; height: 44px;
+    border: 1px solid var(--t-border);
+    border-radius: var(--t-radius-sm);
+    background: var(--t-white);
+    cursor: pointer;
+}
+.t-nav-toggle-icon,
+.t-nav-toggle-icon::before,
+.t-nav-toggle-icon::after {
+    display: block;
+    width: 20px; height: 2px;
+    background: var(--t-navy);
+    margin: 0 auto;
+    position: relative;
+    transition: transform 0.2s ease;
+}
+.t-nav-toggle-icon::before { content: ""; position: absolute; top: -6px; }
+.t-nav-toggle-icon::after { content: ""; position: absolute; top: 6px; }
+
+.t-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 0 0 auto;
+}
+
+@media (max-width: 1024px) {
+    .t-nav-toggle { display: block; }
+}

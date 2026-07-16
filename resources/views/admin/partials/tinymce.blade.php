@@ -4,7 +4,7 @@
 ])
 
 @push('scripts')
-<script src="{{ asset('vendor/tinymce/tinymce.min.js') }}?v={{ @filemtime(public_path('vendor/tinymce/tinymce.min.js')) ?: '1' }}"></script>
+@include('admin.partials.tinymce-script')
 <script>
     tinymce.init({
         selector: @json($selector),

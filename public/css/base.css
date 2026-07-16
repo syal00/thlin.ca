@@ -1,0 +1,34 @@
+/* =========================================================
+   THLIN Base — reset + typography only.
+   Accessibility toggle states -> accessibility.css
+   Scroll-reveal / reduced-motion -> animations.css
+   sr-only / skip-link / badges -> utilities.css
+========================================================= */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+    scroll-behavior: smooth;
+    font-size: 100%; /* 1rem = 16px by default; scaled by accessibility.css */
+}
+
+body {
+    margin: 0;
+    font-family: var(--t-font);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--t-text);
+    background: var(--t-white);
+}
+
+img, picture, video, canvas, svg { display: block; max-width: 100%; }
+button, input, textarea, select { font: inherit; color: inherit; }
+a { color: var(--t-blue); }
+
+h1, h2, h3, h4, h5, h6 { color: var(--t-navy); line-height: 1.2; margin: 0 0 var(--t-space-md); }
+p { margin: 0 0 var(--t-space-md); }
+
+:focus-visible {
+    outline: 3px solid var(--t-orange);
+    outline-offset: 2px;
+}

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\FullTextSearch;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -125,18 +126,11 @@ class Page extends Model
 
     public function scopeSearch(Builder $query, string $term): Builder
     {
-        $like = '%'.$term.'%';
-
-        return $query->published()->where(function (Builder $q) use ($like) {
-            $q->where('title', 'like', $like)
-                ->orWhere('excerpt', 'like', $like)
-                ->orWhere('body', 'like', $like)
-                ->orWhere('meta_title', 'like', $like)
-                ->orWhere('meta_description', 'like', $like)
-                ->orWhere('hero_title', 'like', $like)
-                ->orWhere('hero_subtitle', 'like', $like)
-                ->orWhere('meta_keywords', 'like', $like);
-        });
+        return FullTextSearch::apply(
+            $query->published(),
+            $term,
+            ['title', 'excerpt', 'body', 'meta_title', 'meta_description', 'hero_title', 'hero_subtitle', 'meta_keywords']
+        );
     }
 
     public function getFullUrlAttribute(): string

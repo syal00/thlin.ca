@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\FullTextSearch;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,12 +30,7 @@ class PortfolioItem extends Model
 
     public function scopeSearch(Builder $query, string $term): Builder
     {
-        $like = '%'.$term.'%';
-
-        return $query->where(function (Builder $q) use ($like) {
-            $q->where('title', 'like', $like)
-                ->orWhere('excerpt', 'like', $like);
-        });
+        return FullTextSearch::apply($query, $term, ['title', 'excerpt']);
     }
 
     public function imageUrl(): ?string
