@@ -13,21 +13,35 @@
 @endsection
 
 @section('content')
-    {{-- Matches thlin.ca's Board of Directors page structure: photo + name/role
-         + bio per member. The page body field is intentionally not rendered
-         here — it duplicated this same member list (imported legacy HTML), so
-         the loop below is the single source of truth. If the body field
-         still holds that legacy content, clear it via /admin -> Pages ->
-         Board of Directors. --}}
-    <section class="t-prose">
-        <div class="t-container">
-            @include('partials.page-updated', ['page' => $page])
+    <section class="board-page">
+        <div class="board-container">
+            <article class="board-card">
+                <div class="board-content">
+                    <div
+                        data-editable="true"
+                        data-model="page"
+                        data-id="{{ $page->id }}"
+                        data-field="body"
+                    >
+                        {!! $page->body !!}
+                    </div>
 
-            <div class="t-card-grid">
-                @foreach ($members as $member)
-                    @include('partials.card-board', ['member' => $member])
-                @endforeach
-            </div>
+                    <div class="t-card-grid board-members-grid">
+                        @foreach ($members as $member)
+                            @include('partials.card-board', ['member' => $member])
+                        @endforeach
+                    </div>
+                </div>
+
+                @if (!empty($page->updated_at))
+                    <div class="page-updated-meta">
+                        <span>Last updated:</span>
+                        <time datetime="{{ $page->updated_at->format('Y-m-d') }}">
+                            {{ $page->updated_at->format('F j, Y') }}
+                        </time>
+                    </div>
+                @endif
+            </article>
         </div>
     </section>
 @endsection

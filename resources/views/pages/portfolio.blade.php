@@ -8,84 +8,119 @@
     @endpush
 @endif
 
-@section('hero')
-    @include('partials.hero-page', ['page' => $page])
-@endsection
-
 @section('content')
-    <section class="t-prose">
-        <div class="t-container">
-            @auth
-                <div class="t-prose-content" @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'body', 'type' => 'richtext'])>
-                    @include('partials.cms-body', ['html' => $page->body])
+    <section class="portfolio-page">
+        <div class="portfolio-container">
+
+            <div class="portfolio-header">
+                <div class="portfolio-breadcrumb">
+                    <a href="{{ route('home') }}">Home</a>
+                    <span>/</span>
+                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}">Products &amp; Services</a>
+                    <span>/</span>
+                    <span>Portfolio</span>
                 </div>
-            @else
-                <div class="t-prose-content">@include('partials.cms-body', ['html' => $page->body])</div>
-            @endauth
-            @include('partials.page-updated', ['page' => $page])
+
+                <span class="section-kicker">Featured Work</span>
+                <h1 @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'title', 'type' => 'text'])>{{ $page->title }}</h1>
+                <p>
+                    Mapping the mosaic of services available within your community and presenting the information effectively takes careful work.
+                    THLIN helps organizations build patient-centred digital tools that are simple, usable, and information-rich.
+                </p>
+            </div>
+
+            <section class="portfolio-featured-section">
+                <div class="portfolio-section-heading">
+                    <span class="section-kicker">Projects</span>
+                    <h2>Explore selected THLIN work</h2>
+                    <p>
+                        Examples of digital health information tools, service navigation websites, and community information platforms.
+                    </p>
+                </div>
+
+                <div class="portfolio-project-grid">
+                    @foreach ($featured as $project)
+                        <article class="portfolio-project-card" data-animate="fade-up">
+                            <div class="portfolio-project-media">
+                                @if (!empty($project->image))
+                                    <img
+                                        src="{{ $project->imageUrl() }}"
+                                        alt="{{ $project->title }}"
+                                        data-editable-image="true"
+                                        data-model="portfolio"
+                                        data-id="{{ $project->id }}"
+                                        data-field="image"
+                                    >
+                                @else
+                                    <div
+                                        class="portfolio-image-placeholder"
+                                        data-editable-image="true"
+                                        data-model="portfolio"
+                                        data-id="{{ $project->id }}"
+                                        data-field="image"
+                                    >
+                                        <span>Project image</span>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <div class="portfolio-project-body">
+                                <h3 @include('partials.inline-edit-attrs', ['model' => 'portfolio', 'id' => $project->id, 'field' => 'title', 'type' => 'text'])>{{ $project->title }}</h3>
+                                <p @include('partials.inline-edit-attrs', ['model' => 'portfolio', 'id' => $project->id, 'field' => 'excerpt', 'type' => 'richtext'])>{{ trim(strip_tags((string) $project->excerpt)) }}</p>
+
+                                @if (!empty($project->url))
+                                    <a href="{{ $project->url }}" class="portfolio-project-link" target="_blank" rel="noopener">
+                                        View project
+                                    </a>
+                                @endif
+                            </div>
+                        </article>
+                    @endforeach
+
+                    @foreach ($past as $project)
+                        <article class="portfolio-project-card" data-animate="fade-up">
+                            <div class="portfolio-project-media">
+                                @if (!empty($project->image))
+                                    <img
+                                        src="{{ $project->imageUrl() }}"
+                                        alt="{{ $project->title }}"
+                                        data-editable-image="true"
+                                        data-model="portfolio"
+                                        data-id="{{ $project->id }}"
+                                        data-field="image"
+                                    >
+                                @else
+                                    <div
+                                        class="portfolio-image-placeholder"
+                                        data-editable-image="true"
+                                        data-model="portfolio"
+                                        data-id="{{ $project->id }}"
+                                        data-field="image"
+                                    >
+                                        <span>Project image</span>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <div class="portfolio-project-body">
+                                <h3 @include('partials.inline-edit-attrs', ['model' => 'portfolio', 'id' => $project->id, 'field' => 'title', 'type' => 'text'])>{{ $project->title }}</h3>
+                                <p @include('partials.inline-edit-attrs', ['model' => 'portfolio', 'id' => $project->id, 'field' => 'excerpt', 'type' => 'richtext'])>{{ trim(strip_tags((string) $project->excerpt)) }}</p>
+
+                                @if (!empty($project->url))
+                                    <a href="{{ $project->url }}" class="portfolio-project-link" target="_blank" rel="noopener">
+                                        View project
+                                    </a>
+                                @endif
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
+
+                @include('partials.page-updated', ['page' => $page])
+            </section>
+
         </div>
     </section>
-
-    @if ($featured->isNotEmpty())
-        <section class="t-prose t-prose--alt">
-            <div class="t-container">
-                <div class="t-section-head">
-                    <span class="t-eyebrow">Featured Work</span>
-                    <h2>@include('partials.site-setting', ['key' => 'portfolio_featured_title', 'tag' => 'span', 'type' => 'text'])</h2>
-                </div>
-
-                <div class="t-card-grid">
-                    @foreach ($featured as $item)
-                        @include('partials.portfolio-card', ['item' => $item])
-                    @endforeach
-                </div>
-            </div>
-        </section>
-    @endif
-
-    @if ($past->isNotEmpty())
-        <section class="t-prose">
-            <div class="t-container">
-                <div class="t-section-head">
-                    <span class="t-eyebrow">Archive</span>
-                    <h2>@include('partials.site-setting', ['key' => 'portfolio_past_title', 'tag' => 'span', 'type' => 'text'])</h2>
-                </div>
-
-                <ul class="portfolio-list">
-                    @foreach ($past as $item)
-                        <li class="portfolio-list-item">
-                            @if ($item->image)
-                                <img
-                                    src="{{ $item->imageUrl() }}"
-                                    alt="{{ $item->title }}"
-                                    data-editable-image="true"
-                                    data-model="portfolio"
-                                    data-id="{{ $item->id }}"
-                                    data-field="image"
-                                >
-                            @else
-                                <div
-                                    class="portfolio-placeholder"
-                                    data-editable-image="true"
-                                    data-model="portfolio"
-                                    data-id="{{ $item->id }}"
-                                    data-field="image"
-                                >Image</div>
-                            @endif
-                            <div>
-                                <h3>
-                                    <a href="{{ $item->url }}" target="_blank" rel="noopener">
-                                        <span @include('partials.inline-edit-attrs', ['model' => 'portfolio', 'id' => $item->id, 'field' => 'title', 'type' => 'text'])>{{ $item->title }}</span>
-                                    </a>
-                                </h3>
-                                <p @include('partials.inline-edit-attrs', ['model' => 'portfolio', 'id' => $item->id, 'field' => 'excerpt', 'type' => 'richtext'])>{!! $item->excerpt !!}</p>
-                            </div>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-        </section>
-    @endif
 
     @include('partials.cta-section')
 @endsection

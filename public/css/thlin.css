@@ -15680,3 +15680,1721 @@ select:focus-visible {
         height: 200px !important;
     }
 }
+
+/* =========================================================
+   FINAL SEARCH PAGE REDESIGN
+========================================================= */
+
+.thlin-search-page {
+    background: #f5f7fb !important;
+    padding: 5rem 0 !important;
+    margin: 0 !important;
+}
+
+.thlin-search-container {
+    width: min(1080px, calc(100% - 2rem)) !important;
+    margin: 0 auto !important;
+}
+
+.thlin-search-header {
+    max-width: 820px !important;
+    margin-bottom: 2rem !important;
+}
+
+.thlin-search-header .section-kicker,
+.thlin-guided-search-header .section-kicker,
+.thlin-search-results-header .section-kicker {
+    color: #185FA5 !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase !important;
+    font-size: 0.82rem !important;
+    font-weight: 900 !important;
+}
+
+.thlin-search-header h1 {
+    color: #124a84 !important;
+    font-size: clamp(2.6rem, 5vw, 4.2rem) !important;
+    line-height: 1.05 !important;
+    letter-spacing: -0.05em !important;
+    font-weight: 900 !important;
+    margin: 0.9rem 0 1rem !important;
+}
+
+.thlin-search-header p {
+    color: #5f6f82 !important;
+    font-size: 1.08rem !important;
+    line-height: 1.75 !important;
+    margin: 0 !important;
+}
+
+.thlin-search-panel {
+    background: #ffffff !important;
+    border: 1px solid #dbe7f3 !important;
+    border-top: 6px solid #185FA5 !important;
+    border-radius: 30px !important;
+    padding: 2rem !important;
+    box-shadow: 0 24px 70px rgba(18, 74, 132, 0.10) !important;
+    margin-bottom: 2rem !important;
+}
+
+.thlin-search-form {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 150px !important;
+    gap: 0.9rem !important;
+    align-items: center !important;
+    background: #f8fafc !important;
+    border: 1px solid #dbe7f3 !important;
+    border-radius: 20px !important;
+    padding: 0.75rem !important;
+}
+
+.thlin-search-form input {
+    width: 100% !important;
+    min-height: 58px !important;
+    border: 0 !important;
+    border-radius: 15px !important;
+    background: #ffffff !important;
+    color: #1f2937 !important;
+    padding: 0 1.2rem !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    outline: none !important;
+}
+
+.thlin-search-form input::placeholder {
+    color: #5f6f82 !important;
+    opacity: 1 !important;
+}
+
+.thlin-search-form input:focus {
+    box-shadow: 0 0 0 4px rgba(24, 95, 165, 0.14) !important;
+}
+
+.thlin-search-form button {
+    min-height: 58px !important;
+    border-radius: 15px !important;
+    border: 2px solid #BA7517 !important;
+    background: #BA7517 !important;
+    color: #ffffff !important;
+    font-weight: 900 !important;
+    cursor: pointer !important;
+}
+
+.thlin-search-form button:hover {
+    background: #124a84 !important;
+    border-color: #124a84 !important;
+    color: #ffffff !important;
+}
+
+.thlin-search-suggestions {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.7rem !important;
+    align-items: center !important;
+    margin-top: 1.3rem !important;
+}
+
+.thlin-search-suggestions span {
+    color: #5f6f82 !important;
+    font-weight: 900 !important;
+    margin-right: 0.2rem !important;
+}
+
+.thlin-search-suggestions a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 40px !important;
+    padding: 0 1rem !important;
+    border-radius: 999px !important;
+    background: #f8fafc !important;
+    border: 1px solid #dbe7f3 !important;
+    color: #124a84 !important;
+    font-weight: 900 !important;
+    text-decoration: none !important;
+}
+
+.thlin-search-suggestions a:hover {
+    background: #185FA5 !important;
+    border-color: #185FA5 !important;
+    color: #ffffff !important;
+}
+
+.thlin-guided-search {
+    background: #ffffff !important;
+    border: 1px solid #dbe7f3 !important;
+    border-radius: 30px !important;
+    padding: 2rem !important;
+    box-shadow: 0 20px 55px rgba(18, 74, 132, 0.08) !important;
+}
+
+.thlin-guided-search-header {
+    max-width: 760px !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.thlin-guided-search-header h2 {
+    color: #124a84 !important;
+    font-size: clamp(1.8rem, 3vw, 2.5rem) !important;
+    line-height: 1.15 !important;
+    font-weight: 900 !important;
+    margin: 0.8rem 0 0.7rem !important;
+}
+
+.thlin-guided-search-header p {
+    color: #5f6f82 !important;
+    line-height: 1.7 !important;
+    margin: 0 !important;
+}
+
+.thlin-guided-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 1rem !important;
+}
+
+.thlin-guided-card {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.6rem !important;
+    background: #f8fafc !important;
+    border: 1px solid #dbe7f3 !important;
+    border-top: 5px solid #185FA5 !important;
+    border-radius: 22px !important;
+    padding: 1.4rem !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+}
+
+.thlin-guided-card:nth-child(2) {
+    border-top-color: #3B6D11 !important;
+}
+
+.thlin-guided-card:nth-child(3) {
+    border-top-color: #BA7517 !important;
+}
+
+.thlin-guided-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 18px 45px rgba(18, 74, 132, 0.13) !important;
+}
+
+.thlin-guided-card strong {
+    color: #124a84 !important;
+    font-size: 1.05rem !important;
+    line-height: 1.3 !important;
+    font-weight: 900 !important;
+}
+
+.thlin-guided-card span {
+    color: #5f6f82 !important;
+    line-height: 1.6 !important;
+    font-weight: 600 !important;
+}
+
+.thlin-search-results {
+    background: #ffffff !important;
+    border: 1px solid #dbe7f3 !important;
+    border-radius: 30px !important;
+    padding: 2rem !important;
+    box-shadow: 0 20px 55px rgba(18, 74, 132, 0.08) !important;
+}
+
+.thlin-search-results-header h2 {
+    color: #124a84 !important;
+    font-size: clamp(1.8rem, 3vw, 2.5rem) !important;
+    font-weight: 900 !important;
+    margin: 0.8rem 0 1.5rem !important;
+}
+
+.thlin-search-result-card {
+    display: block !important;
+    background: #f8fafc !important;
+    border: 1px solid #dbe7f3 !important;
+    border-radius: 20px !important;
+    padding: 1.4rem !important;
+    margin-bottom: 1rem !important;
+    text-decoration: none !important;
+}
+
+.thlin-search-result-card h3 {
+    color: #124a84 !important;
+    margin: 0 0 0.5rem !important;
+    font-size: 1.2rem !important;
+    font-weight: 900 !important;
+}
+
+.thlin-search-result-card p {
+    color: #5f6f82 !important;
+    margin: 0 !important;
+    line-height: 1.65 !important;
+}
+
+@media (max-width: 900px) {
+    .thlin-search-form {
+        grid-template-columns: 1fr !important;
+    }
+
+    .thlin-search-form button {
+        width: 100% !important;
+    }
+
+    .thlin-guided-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .thlin-search-page {
+        padding: 3rem 0 !important;
+    }
+
+    .thlin-search-panel,
+    .thlin-guided-search,
+    .thlin-search-results {
+        padding: 1.4rem !important;
+        border-radius: 24px !important;
+    }
+
+    .thlin-guided-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* Search breadcrumb inside redesigned search header */
+.thlin-search-breadcrumb {
+    display: flex !important;
+    gap: 0.5rem !important;
+    align-items: center !important;
+    margin-bottom: 1.3rem !important;
+    color: #5f6f82 !important;
+    font-weight: 800 !important;
+}
+
+.thlin-search-breadcrumb a {
+    color: #124a84 !important;
+    text-decoration: none !important;
+    font-weight: 900 !important;
+}
+
+.thlin-search-breadcrumb a:hover {
+    text-decoration: underline !important;
+    text-underline-offset: 4px !important;
+}
+
+/* Final popular search chip polish */
+.thlin-search-suggestions {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.75rem !important;
+    align-items: center !important;
+    margin-top: 1.4rem !important;
+}
+
+.thlin-search-suggestions span {
+    color: #5f6f82 !important;
+    font-weight: 900 !important;
+    margin-right: 0.25rem !important;
+}
+
+.thlin-search-suggestions a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 42px !important;
+    padding: 0 1.05rem !important;
+    border-radius: 999px !important;
+    background: #f8fafc !important;
+    border: 1px solid #dbe7f3 !important;
+    color: #124a84 !important;
+    font-weight: 900 !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+}
+
+.thlin-search-suggestions a:hover,
+.thlin-search-suggestions a:focus-visible {
+    background: #185FA5 !important;
+    border-color: #185FA5 !important;
+    color: #ffffff !important;
+    transform: translateY(-2px) !important;
+}
+
+/* =========================================================
+   PATIENT PORTALS CLEAN CONTAINER SYSTEM
+========================================================= */
+
+.service-detail-content.patient-portals-page {
+    background: #f5f7fb !important;
+    padding: 4rem 0 5rem !important;
+    margin: 0 !important;
+}
+
+.service-detail-content.patient-portals-page .service-detail-container {
+    width: min(1120px, calc(100% - 2rem)) !important;
+    margin: 0 auto !important;
+}
+
+.service-detail-content.patient-portals-page .service-detail-card {
+    background: #ffffff !important;
+    border: 1px solid #dbe7f3 !important;
+    border-top: 6px solid #185FA5 !important;
+    border-radius: 28px !important;
+    padding: 2.8rem !important;
+    box-shadow: 0 24px 70px rgba(18, 74, 132, 0.10) !important;
+    overflow: hidden !important;
+}
+
+.service-detail-content.patient-portals-page .service-rich-content {
+    max-width: 920px !important;
+    margin: 0 auto !important;
+}
+
+/* Remove accidental floating checkmark pseudo icon on Patient Portals rich content. */
+.service-detail-content.patient-portals-page .service-rich-content li::before {
+    display: none !important;
+    content: none !important;
+}
+
+.service-detail-content.patient-portals-page .service-rich-content li {
+    position: static !important;
+    padding-left: 0 !important;
+}
+
+/* =========================================================
+   PATIENT PORTALS SECTION SPACING BALANCE
+========================================================= */
+
+.service-detail-content.patient-portals-page .service-rich-content h2,
+.service-detail-content.patient-portals-page .service-rich-content h3 {
+    color: #124a84 !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.035em !important;
+    line-height: 1.12 !important;
+}
+
+.service-detail-content.patient-portals-page .service-rich-content h2 {
+    font-size: clamp(2rem, 3.6vw, 3rem) !important;
+    margin: 2.8rem 0 1rem !important;
+    padding: 0 !important;
+}
+
+.service-detail-content.patient-portals-page .service-rich-content h3 {
+    font-size: clamp(1.5rem, 2.4vw, 2rem) !important;
+    margin: 2.2rem 0 0.8rem !important;
+}
+
+.service-detail-content.patient-portals-page .service-rich-content p {
+    color: #5f6f82 !important;
+    font-size: 1.02rem !important;
+    line-height: 1.75 !important;
+    margin: 0 0 1.4rem !important;
+}
+
+.service-detail-content.patient-portals-page .service-rich-content section,
+.service-detail-content.patient-portals-page .service-content-block,
+.service-detail-content.patient-portals-page .patient-section-card {
+    margin-top: 2rem !important;
+    margin-bottom: 2rem !important;
+}
+
+.service-detail-content.patient-portals-page .patient-section-card {
+    background: #f8fafc !important;
+    border: 1px solid #dbe7f3 !important;
+    border-radius: 22px !important;
+    padding: 2rem !important;
+}
+
+/* =========================================================
+   PATIENT PORTALS USER-FRIENDLY CARD
+========================================================= */
+
+.patient-feature-card,
+.service-rich-content .patient-feature-card {
+    background: #f8fafc !important;
+    border: 1px solid #dbe7f3 !important;
+    border-left: 6px solid #185FA5 !important;
+    border-radius: 22px !important;
+    padding: 1.8rem 2rem !important;
+    margin: 2rem 0 !important;
+}
+
+.patient-feature-card h3,
+.patient-feature-card h2,
+.service-rich-content .patient-feature-card h3,
+.service-rich-content .patient-feature-card h2 {
+    color: #124a84 !important;
+    font-size: clamp(1.7rem, 3vw, 2.3rem) !important;
+    line-height: 1.15 !important;
+    margin: 0 0 0.9rem !important;
+}
+
+.patient-feature-card p,
+.service-rich-content .patient-feature-card p {
+    margin-bottom: 0 !important;
+}
+
+/* =========================================================
+   PATIENT PORTALS SOLUTIONS SECTION
+========================================================= */
+
+.patient-solutions-card {
+    background: #ffffff !important;
+    border: 1px solid #dbe7f3 !important;
+    border-top: 6px solid #3B6D11 !important;
+    border-radius: 26px !important;
+    padding: 2.4rem !important;
+    margin: 2.5rem 0 0 !important;
+    box-shadow: 0 18px 50px rgba(18, 74, 132, 0.08) !important;
+}
+
+.patient-solutions-copy {
+    max-width: 760px !important;
+    margin-bottom: 1.6rem !important;
+}
+
+.patient-solutions-copy .section-kicker {
+    color: #3B6D11 !important;
+    font-size: 0.78rem !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+    font-weight: 900 !important;
+}
+
+.patient-solutions-copy h2 {
+    color: #124a84 !important;
+    font-size: clamp(2rem, 3.8vw, 3rem) !important;
+    line-height: 1.1 !important;
+    margin: 0.8rem 0 0.8rem !important;
+    font-weight: 900 !important;
+}
+
+.patient-solutions-copy p {
+    color: #5f6f82 !important;
+    line-height: 1.7 !important;
+    margin: 0 !important;
+}
+
+.patient-solutions-links {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.9rem !important;
+    align-items: center !important;
+    margin-top: 1.2rem !important;
+    padding: 0 !important;
+    list-style: none !important;
+}
+
+.patient-solutions-links li {
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.patient-solutions-links li::marker {
+    content: "" !important;
+}
+
+.patient-solution-btn,
+.patient-solutions-links a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 48px !important;
+    padding: 0 1.25rem !important;
+    border-radius: 999px !important;
+    background: #185FA5 !important;
+    color: #ffffff !important;
+    border: 2px solid #185FA5 !important;
+    font-weight: 900 !important;
+    text-decoration: none !important;
+    line-height: 1 !important;
+}
+
+.patient-solution-btn:hover,
+.patient-solutions-links a:hover {
+    background: #124a84 !important;
+    color: #ffffff !important;
+    border-color: #124a84 !important;
+    transform: translateY(-2px) !important;
+}
+
+/* =========================================================
+   PATIENT PORTALS SOLUTIONS LIST BULLET REMOVAL
+========================================================= */
+
+.service-rich-content ul.patient-solutions-links,
+.patient-solutions-links {
+    list-style: none !important;
+    padding-left: 0 !important;
+}
+
+.service-rich-content ul.patient-solutions-links li::before,
+.patient-solutions-links li::before {
+    display: none !important;
+    content: none !important;
+}
+
+@media (max-width: 800px) {
+    .service-detail-content.patient-portals-page .service-detail-card {
+        padding: 2rem !important;
+    }
+
+    .patient-solutions-card {
+        padding: 2rem !important;
+    }
+
+    .patient-solutions-links {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+
+    .patient-solution-btn,
+    .patient-solutions-links a {
+        width: 100% !important;
+    }
+}
+
+/* =========================================================
+   REMOVE PATIENT PORTALS IMAGE GAP
+========================================================= */
+
+.service-detail-hero + .service-detail-content,
+.product-hero + .service-detail-content {
+    margin-top: 0 !important;
+    padding-top: 4rem !important;
+}
+
+.service-detail-content {
+    background: #f5f7fb !important;
+}
+
+/* =========================================================
+   PATIENT PORTALS CONTENT CARD ORGANIZATION
+========================================================= */
+
+.service-detail-content.patient-portals-page .service-rich-content {
+    max-width: 980px !important;
+    margin: 0 auto !important;
+}
+
+.service-detail-content.patient-portals-page .service-rich-content > div,
+.service-detail-content.patient-portals-page .service-rich-content > section,
+.service-detail-content.patient-portals-page .service-content-block,
+.service-detail-content.patient-portals-page .patient-feature-card {
+    background: #f8fafc !important;
+    border: 1px solid #dbe7f3 !important;
+    border-left: 6px solid #185FA5 !important;
+    border-radius: 22px !important;
+    padding: 2rem 2.2rem !important;
+    margin: 0 0 1.6rem !important;
+    box-shadow: 0 14px 36px rgba(18, 74, 132, 0.06) !important;
+}
+
+.service-detail-content.patient-portals-page .service-rich-content > div:nth-of-type(2),
+.service-detail-content.patient-portals-page .service-content-block:nth-of-type(2),
+.service-detail-content.patient-portals-page .patient-feature-card:nth-of-type(2) {
+    border-left-color: #3B6D11 !important;
+}
+
+.service-detail-content.patient-portals-page .service-rich-content > div:nth-of-type(3),
+.service-detail-content.patient-portals-page .service-content-block:nth-of-type(3),
+.service-detail-content.patient-portals-page .patient-feature-card:nth-of-type(3) {
+    border-left-color: #BA7517 !important;
+}
+
+/* Clean heading style inside cards */
+.service-detail-content.patient-portals-page .service-rich-content h2,
+.service-detail-content.patient-portals-page .service-rich-content h3 {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 0 0 0.9rem !important;
+    color: #124a84 !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.04em !important;
+    line-height: 1.1 !important;
+    box-shadow: none !important;
+}
+
+.service-detail-content.patient-portals-page .service-rich-content h2 {
+    font-size: clamp(2rem, 3.2vw, 2.8rem) !important;
+}
+
+.service-detail-content.patient-portals-page .service-rich-content h3 {
+    font-size: clamp(1.55rem, 2.5vw, 2.1rem) !important;
+}
+
+/* Remove decorative bracket/line before headings if present */
+.service-detail-content.patient-portals-page .service-rich-content h2::before,
+.service-detail-content.patient-portals-page .service-rich-content h2::after,
+.service-detail-content.patient-portals-page .service-rich-content h3::before,
+.service-detail-content.patient-portals-page .service-rich-content h3::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* Paragraph spacing */
+.service-detail-content.patient-portals-page .service-rich-content p {
+    color: #5f6f82 !important;
+    font-size: 1.02rem !important;
+    line-height: 1.75 !important;
+    margin: 0 0 1rem !important;
+}
+
+.service-detail-content.patient-portals-page .service-rich-content p:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* Reduce large gaps between cards */
+.service-detail-content.patient-portals-page .service-rich-content > * + * {
+    margin-top: 1.4rem !important;
+}
+
+/* Make first content card slightly stronger */
+.service-detail-content.patient-portals-page .service-rich-content > div:first-child,
+.service-detail-content.patient-portals-page .service-rich-content > section:first-child,
+.service-detail-content.patient-portals-page .service-content-block:first-child {
+    background: #ffffff !important;
+    border-left-color: #185FA5 !important;
+}
+
+@media (max-width: 700px) {
+    .service-detail-content.patient-portals-page .service-rich-content > div,
+    .service-detail-content.patient-portals-page .service-rich-content > section,
+    .service-detail-content.patient-portals-page .service-content-block,
+    .service-detail-content.patient-portals-page .patient-feature-card {
+        padding: 1.5rem !important;
+        border-radius: 18px !important;
+    }
+
+    .service-detail-content.patient-portals-page .service-rich-content h2 {
+        font-size: 2rem !important;
+    }
+}
+
+/* =========================================================
+   PRODUCT DETAIL LOWER SECTION POLISH
+========================================================= */
+
+.service-feature-cards-section,
+.why-matters-section,
+.related-services-section {
+    padding-top: 3.5rem !important;
+    padding-bottom: 3.5rem !important;
+    margin: 0 !important;
+}
+
+.service-feature-cards-section + .why-matters-section,
+.why-matters-section + .related-services-section {
+    margin-top: 0 !important;
+}
+
+.service-feature-heading,
+.why-matters-header,
+.related-services-header {
+    max-width: 820px !important;
+    margin-bottom: 2rem !important;
+}
+
+.service-feature-heading h2,
+.why-matters-header h2,
+.related-services-header h2 {
+    color: #124a84 !important;
+    font-size: clamp(2.1rem, 4vw, 3.2rem) !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.045em !important;
+    font-weight: 900 !important;
+    margin: 0.8rem 0 0.9rem !important;
+}
+
+.service-feature-heading p,
+.why-matters-header p,
+.related-services-header p {
+    color: #5f6f82 !important;
+    font-size: 1.02rem !important;
+    line-height: 1.7 !important;
+    max-width: 760px !important;
+    margin: 0 !important;
+}
+
+.service-feature-cards,
+.why-matters-grid,
+.related-services-grid {
+    gap: 1.25rem !important;
+}
+
+.service-feature-card,
+.why-matters-card,
+.related-service-card {
+    min-height: auto !important;
+    padding: 1.6rem !important;
+    border-radius: 22px !important;
+    background: #f8fafc !important;
+    border: 1px solid #dbe7f3 !important;
+    box-shadow: 0 14px 36px rgba(18, 74, 132, 0.06) !important;
+}
+
+.service-feature-card h3,
+.why-matters-card h3,
+.related-service-card h3 {
+    color: #124a84 !important;
+    font-size: 1.25rem !important;
+    line-height: 1.25 !important;
+    font-weight: 900 !important;
+    margin: 0 0 0.65rem !important;
+}
+
+.service-feature-card p,
+.why-matters-card p,
+.related-service-card p {
+    color: #5f6f82 !important;
+    font-size: 0.98rem !important;
+    line-height: 1.65 !important;
+    margin: 0 !important;
+}
+
+.why-matters-section,
+.related-services-section {
+    border-top: 1px solid rgba(219, 231, 243, 0.9) !important;
+}
+
+.related-service-card {
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+}
+
+.related-service-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 22px 55px rgba(18, 74, 132, 0.12) !important;
+    border-color: rgba(24, 95, 165, 0.35) !important;
+}
+
+@media (max-width: 900px) {
+    .service-feature-cards,
+    .why-matters-grid,
+    .related-services-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .service-feature-cards-section,
+    .why-matters-section,
+    .related-services-section {
+        padding-top: 2.8rem !important;
+        padding-bottom: 2.8rem !important;
+    }
+
+    .service-feature-heading h2,
+    .why-matters-header h2,
+    .related-services-header h2 {
+        font-size: clamp(2rem, 10vw, 2.8rem) !important;
+    }
+}
+
+/* =========================================================
+   SUPPORT & TRAINING READABLE CONTENT WIDTH
+========================================================= */
+
+.service-detail-content.support-training-page {
+    background: #f5f7fb !important;
+    padding: 4rem 0 5rem !important;
+}
+
+.service-detail-content.support-training-page .service-detail-container {
+    width: min(1120px, calc(100% - 2rem)) !important;
+    margin: 0 auto !important;
+}
+
+.service-detail-content.support-training-page .service-detail-card {
+    background: #ffffff !important;
+    border: 1px solid #dbe7f3 !important;
+    border-top: 6px solid #185FA5 !important;
+    border-radius: 28px !important;
+    padding: 2.8rem !important;
+    box-shadow: 0 24px 70px rgba(18, 74, 132, 0.10) !important;
+}
+
+.service-detail-content.support-training-page .service-rich-content {
+    max-width: 900px !important;
+    margin: 0 auto !important;
+}
+
+.service-detail-content.support-training-page .service-rich-content p {
+    max-width: 82ch !important;
+    color: #5f6f82 !important;
+    font-size: 1.03rem !important;
+    line-height: 1.75 !important;
+}
+
+/* =========================================================
+   SUPPORT & TRAINING CONTENT VISUAL CLEANUP
+========================================================= */
+
+.service-detail-content.support-training-page .service-rich-content > section,
+.service-detail-content.support-training-page .service-rich-content > .service-content-block {
+    background: #f8fafc !important;
+    border: 1px solid #dbe7f3 !important;
+    border-left: 6px solid #185FA5 !important;
+    border-radius: 20px !important;
+    padding: 1.7rem 1.8rem !important;
+    margin: 0 0 1.25rem !important;
+    box-shadow: 0 12px 28px rgba(18, 74, 132, 0.06) !important;
+}
+
+.service-detail-content.support-training-page .service-rich-content h2,
+.service-detail-content.support-training-page .service-rich-content h3 {
+    background: transparent !important;
+    border: 0 !important;
+    border-left: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 0 0.8rem !important;
+    color: #124a84 !important;
+    letter-spacing: -0.03em !important;
+    line-height: 1.14 !important;
+    font-weight: 900 !important;
+}
+
+.service-detail-content.support-training-page .service-rich-content h2 {
+    font-size: clamp(1.8rem, 2.8vw, 2.45rem) !important;
+}
+
+.service-detail-content.support-training-page .service-rich-content h3 {
+    font-size: clamp(1.35rem, 2.1vw, 1.7rem) !important;
+    margin-top: 0 !important;
+}
+
+.service-detail-content.support-training-page .service-rich-content h2::before,
+.service-detail-content.support-training-page .service-rich-content h2::after,
+.service-detail-content.support-training-page .service-rich-content h3::before,
+.service-detail-content.support-training-page .service-rich-content h3::after {
+    display: none !important;
+    content: none !important;
+}
+
+.service-detail-content.support-training-page .service-rich-content p {
+    max-width: 82ch !important;
+    color: #5f6f82 !important;
+    font-size: 1rem !important;
+    line-height: 1.7 !important;
+    margin: 0 0 0.95rem !important;
+}
+
+.service-detail-content.support-training-page .service-rich-content .card-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 1rem !important;
+    margin-top: 1rem !important;
+}
+
+.service-detail-content.support-training-page .service-rich-content .card {
+    background: #ffffff !important;
+    border: 1px solid #dbe7f3 !important;
+    border-radius: 16px !important;
+    padding: 1.1rem !important;
+}
+
+.service-detail-content.support-training-page .service-rich-content .card a,
+.service-detail-content.support-training-page .service-rich-content > section > p > a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 42px !important;
+    padding: 0 1rem !important;
+    border-radius: 999px !important;
+    background: #185FA5 !important;
+    border: 1px solid #185FA5 !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-weight: 900 !important;
+}
+
+.service-detail-content.support-training-page .service-rich-content .card a:hover,
+.service-detail-content.support-training-page .service-rich-content > section > p > a:hover {
+    background: #124a84 !important;
+    border-color: #124a84 !important;
+}
+
+@media (max-width: 900px) {
+    .service-detail-content.support-training-page .service-rich-content .card-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* =========================================================
+   SUPPORT & TRAINING CONTACT EMAIL GRID FIX
+========================================================= */
+
+.support-contact-grid {
+    display: grid !important;
+    gap: 1rem !important;
+    max-width: 760px !important;
+    margin: 1.8rem 0 0 !important;
+}
+
+.support-contact-row {
+    display: grid !important;
+    grid-template-columns: minmax(260px, 1fr) minmax(250px, auto) !important;
+    gap: 1rem !important;
+    align-items: center !important;
+}
+
+.support-contact-row span {
+    color: #5f6f82 !important;
+    font-size: 1.05rem !important;
+    line-height: 1.5 !important;
+    font-weight: 700 !important;
+}
+
+.support-contact-row a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 50px !important;
+    width: 100% !important;
+    padding: 0 1.3rem !important;
+    border-radius: 999px !important;
+    background: #185FA5 !important;
+    color: #ffffff !important;
+    border: 2px solid #185FA5 !important;
+    font-weight: 900 !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    box-shadow: 0 12px 26px rgba(24, 95, 165, 0.18) !important;
+}
+
+.support-contact-row a:hover,
+.support-contact-row a:focus-visible {
+    background: #124a84 !important;
+    border-color: #124a84 !important;
+    color: #ffffff !important;
+    transform: translateY(-2px) !important;
+}
+
+/* =========================================================
+   SUPPORT PAGE CARD SPACING
+========================================================= */
+
+.support-training-card,
+.service-content-block {
+    background: #f8fafc !important;
+    border: 1px solid #dbe7f3 !important;
+    border-left: 6px solid #185FA5 !important;
+    border-radius: 26px !important;
+    padding: 2.4rem 2.6rem !important;
+    margin-bottom: 2rem !important;
+    box-shadow: 0 18px 48px rgba(18, 74, 132, 0.07) !important;
+}
+
+.support-training-card h2,
+.service-content-block h2 {
+    color: #124a84 !important;
+    font-size: clamp(2rem, 3.6vw, 3.1rem) !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.045em !important;
+    font-weight: 900 !important;
+    margin: 0 0 1rem !important;
+}
+
+.support-training-card p,
+.service-content-block p {
+    color: #5f6f82 !important;
+    font-size: 1.03rem !important;
+    line-height: 1.75 !important;
+    max-width: 82ch !important;
+    margin: 0 0 1.2rem !important;
+}
+
+/* =========================================================
+   SUPPORT TUTORIAL SECTION FIX
+========================================================= */
+
+.support-tutorial-section {
+    background: #f8fafc !important;
+    border: 1px solid #dbe7f3 !important;
+    border-left: 6px solid #185FA5 !important;
+    border-radius: 26px !important;
+    padding: 2.4rem 2.6rem !important;
+    margin: 2rem 0 !important;
+    box-shadow: 0 18px 48px rgba(18, 74, 132, 0.07) !important;
+    overflow: visible !important;
+}
+
+.support-tutorial-header {
+    max-width: 860px !important;
+    margin-bottom: 1.8rem !important;
+}
+
+.support-tutorial-header h2 {
+    color: #124a84 !important;
+    font-size: clamp(2rem, 3.5vw, 3rem) !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.045em !important;
+    font-weight: 900 !important;
+    margin: 0 0 1rem !important;
+}
+
+.support-tutorial-header p {
+    color: #5f6f82 !important;
+    font-size: 1.03rem !important;
+    line-height: 1.75 !important;
+    max-width: 82ch !important;
+    margin: 0 !important;
+}
+
+.support-tutorial-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 1.25rem !important;
+    margin-top: 1.6rem !important;
+}
+
+.support-tutorial-card {
+    background: #ffffff !important;
+    border: 1px solid #dbe7f3 !important;
+    border-radius: 22px !important;
+    padding: 1.5rem !important;
+    box-shadow: 0 12px 30px rgba(18, 74, 132, 0.05) !important;
+}
+
+.support-tutorial-card h3 {
+    color: #124a84 !important;
+    font-size: 1.45rem !important;
+    line-height: 1.2 !important;
+    font-weight: 900 !important;
+    margin: 0 0 0.7rem !important;
+}
+
+.support-tutorial-card p {
+    color: #5f6f82 !important;
+    line-height: 1.65 !important;
+    margin: 0 0 1.2rem !important;
+}
+
+.support-video-btn,
+.support-playlist-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 48px !important;
+    padding: 0 1.3rem !important;
+    border-radius: 999px !important;
+    background: #185FA5 !important;
+    color: #ffffff !important;
+    border: 2px solid #185FA5 !important;
+    font-weight: 900 !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+}
+
+.support-video-btn:hover,
+.support-playlist-btn:hover,
+.support-video-btn:focus-visible,
+.support-playlist-btn:focus-visible {
+    background: #124a84 !important;
+    border-color: #124a84 !important;
+    color: #ffffff !important;
+    transform: translateY(-2px) !important;
+}
+
+.support-playlist-action {
+    display: flex !important;
+    justify-content: flex-start !important;
+    margin-top: 1.5rem !important;
+    padding-bottom: 0.2rem !important;
+}
+
+.support-playlist-btn {
+    background: #3B6D11 !important;
+    border-color: #3B6D11 !important;
+}
+
+.support-playlist-btn:hover {
+    background: #124a84 !important;
+    border-color: #124a84 !important;
+}
+
+/* =========================================================
+   REMOVE CUT-OFF ISSUE
+========================================================= */
+
+.service-detail-card,
+.service-rich-content,
+.support-tutorial-section {
+    overflow: visible !important;
+}
+
+.support-tutorial-section {
+    padding-bottom: 2.6rem !important;
+}
+
+/* =========================================================
+   RESPONSIVE FIX
+========================================================= */
+
+@media (max-width: 900px) {
+    .support-contact-row {
+        grid-template-columns: 1fr !important;
+    }
+
+    .support-contact-row a {
+        width: 100% !important;
+    }
+
+    .support-tutorial-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .support-training-card,
+    .service-content-block,
+    .support-tutorial-section {
+        padding: 1.6rem !important;
+    }
+}
+
+/* =========================================================
+   FINAL PORTFOLIO PAGE REDESIGN
+========================================================= */
+
+.portfolio-page {
+    background: #f5f7fb !important;
+    padding: 4.5rem 0 5rem !important;
+    margin: 0 !important;
+}
+
+.portfolio-container {
+    width: min(1180px, calc(100% - 2rem)) !important;
+    margin: 0 auto !important;
+}
+
+.portfolio-header {
+    background: #ffffff !important;
+    border: 1px solid #dbe7f3 !important;
+    border-top: 6px solid #185FA5 !important;
+    border-radius: 30px !important;
+    padding: 2.8rem !important;
+    box-shadow: 0 24px 70px rgba(18, 74, 132, 0.10) !important;
+    margin-bottom: 2rem !important;
+}
+
+.portfolio-breadcrumb {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    margin-bottom: 1.4rem !important;
+    color: #5f6f82 !important;
+    font-weight: 800 !important;
+}
+
+.portfolio-breadcrumb a {
+    color: #124a84 !important;
+    text-decoration: none !important;
+    font-weight: 900 !important;
+}
+
+.portfolio-breadcrumb a:hover {
+    text-decoration: underline !important;
+    text-underline-offset: 4px !important;
+}
+
+.portfolio-header .section-kicker,
+.portfolio-section-heading .section-kicker {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.7rem !important;
+    color: #185FA5 !important;
+    font-size: 0.82rem !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase !important;
+    font-weight: 900 !important;
+}
+
+.portfolio-header .section-kicker::before,
+.portfolio-section-heading .section-kicker::before {
+    content: "" !important;
+    width: 42px !important;
+    height: 3px !important;
+    border-radius: 999px !important;
+    background: #185FA5 !important;
+}
+
+.portfolio-header h1 {
+    color: #124a84 !important;
+    font-size: clamp(3rem, 6vw, 5rem) !important;
+    line-height: 1.02 !important;
+    letter-spacing: -0.06em !important;
+    font-weight: 900 !important;
+    margin: 1rem 0 1rem !important;
+}
+
+.portfolio-header p {
+    color: #5f6f82 !important;
+    font-size: 1.08rem !important;
+    line-height: 1.75 !important;
+    max-width: 82ch !important;
+    margin: 0 !important;
+}
+
+.portfolio-featured-section {
+    background: #ffffff !important;
+    border: 1px solid #dbe7f3 !important;
+    border-radius: 30px !important;
+    padding: 2.8rem !important;
+    box-shadow: 0 24px 70px rgba(18, 74, 132, 0.08) !important;
+}
+
+.portfolio-section-heading {
+    max-width: 820px !important;
+    margin-bottom: 2rem !important;
+}
+
+.portfolio-section-heading h2 {
+    color: #124a84 !important;
+    font-size: clamp(2.2rem, 4vw, 3.4rem) !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.05em !important;
+    font-weight: 900 !important;
+    margin: 0.9rem 0 0.8rem !important;
+}
+
+.portfolio-section-heading p {
+    color: #5f6f82 !important;
+    font-size: 1.03rem !important;
+    line-height: 1.7 !important;
+    max-width: 760px !important;
+    margin: 0 !important;
+}
+
+/* =========================================================
+   PORTFOLIO PROJECT CARD GRID
+========================================================= */
+
+.portfolio-project-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 1.4rem !important;
+}
+
+.portfolio-project-card {
+    background: #f8fafc !important;
+    border: 1px solid #dbe7f3 !important;
+    border-radius: 24px !important;
+    overflow: hidden !important;
+    box-shadow: 0 16px 40px rgba(18, 74, 132, 0.07) !important;
+    transition: all 0.2s ease !important;
+}
+
+.portfolio-project-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 24px 60px rgba(18, 74, 132, 0.13) !important;
+    border-color: rgba(24, 95, 165, 0.35) !important;
+}
+
+.portfolio-project-media {
+    background: #eef4fa !important;
+    border-bottom: 1px solid #dbe7f3 !important;
+    min-height: 220px !important;
+}
+
+.portfolio-project-media img {
+    display: block !important;
+    width: 100% !important;
+    height: 220px !important;
+    object-fit: cover !important;
+    object-position: center !important;
+}
+
+.portfolio-image-placeholder {
+    height: 220px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background:
+        linear-gradient(135deg, rgba(24, 95, 165, 0.08), rgba(59, 109, 17, 0.06)),
+        #f8fafc !important;
+    color: #5f6f82 !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.04em !important;
+}
+
+.portfolio-project-body {
+    padding: 1.5rem !important;
+}
+
+.portfolio-project-body h3 {
+    color: #124a84 !important;
+    font-size: 1.35rem !important;
+    line-height: 1.25 !important;
+    font-weight: 900 !important;
+    margin: 0 0 0.7rem !important;
+}
+
+.portfolio-project-body p {
+    color: #5f6f82 !important;
+    font-size: 0.98rem !important;
+    line-height: 1.65 !important;
+    margin: 0 0 1.2rem !important;
+}
+
+.portfolio-project-link {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+    color: #124a84 !important;
+    font-weight: 900 !important;
+    text-decoration: none !important;
+}
+
+.portfolio-project-link::after {
+    content: "\2192" !important;
+    transition: transform 0.2s ease !important;
+}
+
+.portfolio-project-link:hover {
+    color: #185FA5 !important;
+}
+
+.portfolio-project-link:hover::after {
+    transform: translateX(4px) !important;
+}
+
+/* =========================================================
+   LEGACY PORTFOLIO CONFLICT OVERRIDES
+========================================================= */
+
+.portfolio-page .portfolio-card,
+.portfolio-page .project-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+}
+
+/* =========================================================
+   RESPONSIVE PORTFOLIO
+========================================================= */
+
+@media (max-width: 1000px) {
+    .portfolio-project-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 650px) {
+    .portfolio-page {
+        padding: 3rem 0 !important;
+    }
+
+    .portfolio-header,
+    .portfolio-featured-section {
+        padding: 1.6rem !important;
+        border-radius: 24px !important;
+    }
+
+    .portfolio-project-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .portfolio-header h1 {
+        font-size: 2.6rem !important;
+    }
+}
+
+/* =========================================================
+   RESOURCES PAGE REDESIGN
+========================================================= */
+
+.resources-page {
+    background: #f5f7fb !important;
+    padding: 4.5rem 0 5rem !important;
+    margin: 0 !important;
+}
+
+.resources-container {
+    width: min(1120px, calc(100% - 2rem)) !important;
+    margin: 0 auto !important;
+}
+
+.resources-header {
+    background: #ffffff !important;
+    border: 1px solid #dbe7f3 !important;
+    border-top: 6px solid #185FA5 !important;
+    border-radius: 30px !important;
+    padding: 2.8rem !important;
+    box-shadow: 0 24px 70px rgba(18, 74, 132, 0.10) !important;
+    margin-bottom: 2rem !important;
+}
+
+.resources-breadcrumb {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+    align-items: center !important;
+    margin-bottom: 1.4rem !important;
+    color: #5f6f82 !important;
+    font-weight: 800 !important;
+}
+
+.resources-breadcrumb a {
+    color: #124a84 !important;
+    text-decoration: none !important;
+    font-weight: 900 !important;
+}
+
+.resources-breadcrumb a:hover {
+    text-decoration: underline !important;
+    text-underline-offset: 4px !important;
+}
+
+.resources-header .section-kicker,
+.resources-card-body .section-kicker {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.7rem !important;
+    color: #185FA5 !important;
+    font-size: 0.82rem !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase !important;
+    font-weight: 900 !important;
+}
+
+.resources-header .section-kicker::before,
+.resources-card-body .section-kicker::before {
+    content: "" !important;
+    width: 42px !important;
+    height: 3px !important;
+    border-radius: 999px !important;
+    background: #185FA5 !important;
+}
+
+.resources-header h1 {
+    color: #124a84 !important;
+    font-size: clamp(2.8rem, 5vw, 4.6rem) !important;
+    line-height: 1.04 !important;
+    letter-spacing: -0.055em !important;
+    font-weight: 900 !important;
+    margin: 1rem 0 1rem !important;
+}
+
+.resources-header p {
+    color: #5f6f82 !important;
+    font-size: 1.08rem !important;
+    line-height: 1.75 !important;
+    max-width: 82ch !important;
+    margin: 0 !important;
+}
+
+.resources-card {
+    display: grid !important;
+    grid-template-columns: 0.95fr 1.05fr !important;
+    gap: 0 !important;
+    background: #ffffff !important;
+    border: 1px solid #dbe7f3 !important;
+    border-radius: 30px !important;
+    overflow: hidden !important;
+    box-shadow: 0 24px 70px rgba(18, 74, 132, 0.10) !important;
+}
+
+.resources-card-media {
+    background: #eef4fa !important;
+    min-height: 360px !important;
+}
+
+.resources-card-media img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 360px !important;
+    object-fit: cover !important;
+    object-position: center !important;
+}
+
+.resources-image-placeholder {
+    min-height: 360px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background:
+        linear-gradient(135deg, rgba(24, 95, 165, 0.10), rgba(59, 109, 17, 0.08)),
+        #eef4fa !important;
+    color: #5f6f82 !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.04em !important;
+}
+
+.resources-card-body {
+    padding: 3rem !important;
+}
+
+.resources-card-body article,
+.resources-card-body section {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+}
+
+.resources-card-body h2 {
+    color: #124a84 !important;
+    font-size: clamp(2rem, 3.6vw, 3.2rem) !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.05em !important;
+    font-weight: 900 !important;
+    margin: 1rem 0 1rem !important;
+}
+
+.resources-card-body p {
+    color: #5f6f82 !important;
+    font-size: 1.05rem !important;
+    line-height: 1.75 !important;
+    max-width: 70ch !important;
+    margin: 0 0 1.5rem !important;
+}
+
+.resources-card-link {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 50px !important;
+    padding: 0 1.4rem !important;
+    border-radius: 999px !important;
+    background: #185FA5 !important;
+    color: #ffffff !important;
+    border: 2px solid #185FA5 !important;
+    font-weight: 900 !important;
+    text-decoration: none !important;
+}
+
+.resources-card-link:hover,
+.resources-card-link:focus-visible {
+    background: #124a84 !important;
+    border-color: #124a84 !important;
+    color: #ffffff !important;
+    transform: translateY(-2px) !important;
+}
+
+@media (max-width: 850px) {
+    .resources-card {
+        grid-template-columns: 1fr !important;
+    }
+
+    .resources-header,
+    .resources-card-body {
+        padding: 1.7rem !important;
+    }
+
+    .resources-card-media,
+    .resources-card-media img,
+    .resources-image-placeholder {
+        min-height: 260px !important;
+    }
+}
+
+/* =========================================================
+   BOARD OF DIRECTORS PAGE CENTERING
+========================================================= */
+
+.board-page {
+    background: #f5f7fb !important;
+    padding: 4.5rem 0 5rem !important;
+    margin: 0 !important;
+}
+
+.board-container {
+    width: min(1120px, calc(100% - 2rem)) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.board-card {
+    background: #ffffff !important;
+    border: 1px solid #dbe7f3 !important;
+    border-top: 6px solid #185FA5 !important;
+    border-radius: 30px !important;
+    padding: 2.8rem !important;
+    box-shadow: 0 24px 70px rgba(18, 74, 132, 0.10) !important;
+}
+
+.board-content {
+    max-width: 900px !important;
+    margin: 0 auto !important;
+}
+
+.board-content p {
+    color: #5f6f82 !important;
+    font-size: 1.02rem !important;
+    line-height: 1.75 !important;
+    max-width: 82ch !important;
+}
+
+.board-content img {
+    max-width: 180px !important;
+    height: auto !important;
+    border-radius: 18px !important;
+    border: 1px solid #dbe7f3 !important;
+    box-shadow: 0 14px 34px rgba(18, 74, 132, 0.10) !important;
+    margin-bottom: 1rem !important;
+}
+
+.board-content h2,
+.board-content h3 {
+    color: #124a84 !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.035em !important;
+    line-height: 1.15 !important;
+}
+
+.board-members-grid {
+    margin-top: 2rem !important;
+}
+
+@media (max-width: 850px) {
+    .board-card {
+        padding: 1.7rem !important;
+    }
+}
+
+/* =========================================================
+   CONSISTENT LAST UPDATED DATE
+========================================================= */
+
+.page-updated-meta {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 0.35rem !important;
+    width: fit-content !important;
+    margin: 2.4rem 0 0 auto !important;
+    padding: 0.75rem 1rem !important;
+    border-radius: 999px !important;
+    background: #f8fafc !important;
+    border: 1px solid #dbe7f3 !important;
+    color: #5f6f82 !important;
+    font-size: 0.92rem !important;
+    font-weight: 900 !important;
+}
+
+.page-updated-meta::before {
+    content: "\21BB" !important;
+    color: #185FA5 !important;
+    font-weight: 900 !important;
+}
+
+.page-updated-meta span {
+    color: #5f6f82 !important;
+}
+
+.page-updated-meta time {
+    color: #124a84 !important;
+}
+
+@media (max-width: 700px) {
+    .page-updated-meta {
+        width: 100% !important;
+        justify-content: center !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+}
