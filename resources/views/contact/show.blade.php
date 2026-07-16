@@ -9,42 +9,21 @@
     @endpush
 @endif
 
-@section('hero')
-    @if ($page)
-        @include('partials.page-header', [
-            'page' => $page,
-            'editable' => true,
-            'eyebrow' => 'Contact THLIN',
-            'breadcrumbs' => [
-                ['label' => 'Home', 'url' => route('home')],
-                ['label' => 'Contact', 'current' => true],
-            ],
-            'hideDefaultActions' => true,
-        ])
-    @else
-        @include('partials.page-header', [
-            'editable' => false,
-            'eyebrow' => 'Contact THLIN',
-            'heroTitle' => "Let's Connect",
-            'heroSubtitle' => 'We work with partners to improve information systems and connect people across Ontario to trusted health and community services.',
-            'breadcrumbs' => [
-                ['label' => 'Home', 'url' => route('home')],
-                ['label' => 'Contact', 'current' => true],
-            ],
-            'hideDefaultActions' => true,
-        ])
-    @endif
-@endsection
-
 @section('content')
-    <section class="home-section section-light contact-page contact-page-section">
-        <div class="section-container">
-            <div class="contact-grid contact-page-grid">
-                <div class="contact-form-card content-shell">
+    <section class="contact-page-section">
+        <div class="contact-page-container">
+            <div class="contact-page-header">
+                <span class="section-kicker">Contact THLIN</span>
+                <h1>Let's Connect</h1>
+                <p>Contact thehealthline.ca Information Network.</p>
+            </div>
+
+            <div class="contact-page-grid">
+                <div class="contact-form-card">
                     <div class="section-heading">
                         <span class="section-kicker blue">Message</span>
-                        @include('partials.site-setting', ['key' => 'contact_form_title', 'tag' => 'h2', 'type' => 'text'])
-                        @include('partials.site-setting', ['key' => 'contact_form_subtitle', 'tag' => 'p', 'type' => 'textarea'])
+                        <h2>Send us a message</h2>
+                        <p>Fill out the form and our team will get back to you as soon as possible.</p>
                     </div>
 
                     @include('partials.page-updated', ['page' => $page])
@@ -90,35 +69,40 @@
                             @enderror
                         </div>
 
-                        <button type="submit" class="contact-submit">
+                        <button type="submit" class="contact-submit contact-submit-btn">
                             Send Message
                         </button>
                     </form>
                 </div>
 
-                <aside class="contact-info-panel info-panel contact-info-card">
-                    <div class="contact-info-icon">+</div>
+                <aside class="contact-info-card">
+                    <span class="contact-card-icon">+</span>
 
-                    @include('partials.site-setting', ['key' => 'contact_office_heading', 'tag' => 'h2', 'type' => 'text'])
-
-                    <div class="contact-info-item">
-                        <span>Address</span>
-                        <p>@include('partials.site-setting', ['key' => 'contact_address', 'tag' => 'span', 'type' => 'text'])</p>
+                    <div class="contact-info-block">
+                        <span class="contact-label">Address</span>
+                        <p>201 King St, London, ON N6C 1C9</p>
                     </div>
 
-                    <div class="contact-info-item">
-                        <span>Phone</span>
-                        <a href="tel:{{ preg_replace('/\D+/', '', \App\Models\SiteSetting::getValue('contact_phone', '5196605910')) }}">@include('partials.site-setting', ['key' => 'contact_phone', 'tag' => 'span', 'type' => 'text'])</a>
+                    <div class="contact-info-block">
+                        <span class="contact-label">Phone</span>
+                        <p>
+                            <a href="tel:+15194347101">519-434-7101</a>
+                        </p>
                     </div>
 
-                    <div class="contact-info-item">
-                        <span>Email</span>
-                        <a href="mailto:{{ \App\Models\SiteSetting::getValue('contact_email', 'admin@thehealthline.ca') }}">@include('partials.site-setting', ['key' => 'contact_email', 'tag' => 'span', 'type' => 'text'])</a>
+                    <div class="contact-info-block">
+                        <span class="contact-label">Email</span>
+                        <p>
+                            <a href="mailto:admin@thehealthline.ca">admin@thehealthline.ca</a>
+                        </p>
                     </div>
 
-                    <div class="contact-note">
-                        @include('partials.site-setting', ['key' => 'contact_note_title', 'tag' => 'strong', 'type' => 'text'])
-                        @include('partials.site-setting', ['key' => 'contact_note_text', 'tag' => 'p', 'type' => 'textarea'])
+                    <div class="contact-info-note">
+                        <h3>Need help finding services?</h3>
+                        <p>
+                            Use the search page or contact our team for support with THLIN resources and navigation.
+                        </p>
+                        <a href="{{ route('search') }}">Search THLIN Resources</a>
                     </div>
                 </aside>
             </div>

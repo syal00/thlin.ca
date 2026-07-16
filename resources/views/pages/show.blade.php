@@ -43,7 +43,7 @@
             </div>
         </div>
 
-        <aside class="about-hero-card">
+        <aside class="about-hero-card" data-animate="fade-up">
             <span class="about-card-label">Founded</span>
             <strong>2001</strong>
             <p>
@@ -66,7 +66,7 @@
 
 <section class="about-content-section">
     <div class="container about-content-grid">
-        <article class="about-main-card">
+        <article class="about-main-card" data-animate="fade-up">
             <span class="section-kicker blue">Our Story</span>
 
             <div
@@ -79,14 +79,18 @@
                 {!! $page->body !!}
             </div>
 
-            @if ($page->updated_at)
-                <p class="content-updated">Last updated: {{ $page->updated_at->format('F j, Y') }}</p>
+            @if (!empty($page->updated_at))
+                <div class="page-meta-row">
+                    <span class="page-last-updated">
+                        Last updated: {{ $page->updated_at->format('F j, Y') }}
+                    </span>
+                </div>
             @endif
 
             <a href="{{ route('contact') }}" class="about-story-btn">Contact Us</a>
         </article>
 
-        <aside class="about-side-card">
+        <aside class="about-side-card" data-animate="fade-up">
             <h2>About THLIN</h2>
             <ul>
                 <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'us']) }}">Our Story</a></li>
@@ -108,25 +112,25 @@
         </div>
 
         <div class="related-pages-grid">
-            <a class="related-page-card" href="{{ route('pages.show', ['section' => 'about', 'page' => 'board']) }}">
+            <a class="related-page-card" href="{{ route('pages.show', ['section' => 'about', 'page' => 'board']) }}" data-animate="fade-up">
                 <span>01</span>
                 <h3>Board</h3>
                 <p>Learn more about THLIN leadership and governance.</p>
             </a>
 
-            <a class="related-page-card" href="{{ route('pages.show', ['section' => 'about', 'page' => 'annual-reports']) }}">
+            <a class="related-page-card" href="{{ route('pages.show', ['section' => 'about', 'page' => 'annual-reports']) }}" data-animate="fade-up">
                 <span>02</span>
                 <h3>Annual Reports</h3>
                 <p>View organizational reports and updates.</p>
             </a>
 
-            <a class="related-page-card" href="{{ route('pages.show', ['section' => 'about', 'page' => 'news']) }}">
+            <a class="related-page-card" href="{{ route('pages.show', ['section' => 'about', 'page' => 'news']) }}" data-animate="fade-up">
                 <span>03</span>
                 <h3>News</h3>
                 <p>Read the latest THLIN news and announcements.</p>
             </a>
 
-            <a class="related-page-card" href="{{ route('pages.show', ['section' => 'about', 'page' => 'careers']) }}">
+            <a class="related-page-card" href="{{ route('pages.show', ['section' => 'about', 'page' => 'careers']) }}" data-animate="fade-up">
                 <span>04</span>
                 <h3>Careers</h3>
                 <p>Explore opportunities to work with THLIN.</p>
@@ -187,7 +191,7 @@
             </div>
         </div>
 
-        <aside class="service-hero-card">
+        <aside class="service-hero-card" data-animate="fade-up">
             <h2>How thehealthline.ca Helps</h2>
             <ul class="service-highlight-list">
                 <li>
@@ -209,7 +213,7 @@
 
 <section class="service-detail-content">
     <div class="container service-content-grid">
-        <article class="service-main-card service-pro-card product-main-content-card">
+        <article class="service-main-card service-pro-card product-main-content-card" data-animate="fade-up">
             <div
                 class="service-rich-content"
                 data-editable="true"
@@ -220,14 +224,16 @@
                 {!! $page->body !!}
             </div>
 
-            @if ($page->updated_at)
-                <p class="page-last-updated">
-                    Last updated: {{ $page->updated_at->format('F j, Y') }}
-                </p>
+            @if (!empty($page->updated_at))
+                <div class="page-meta-row">
+                    <span class="page-last-updated">
+                        Last updated: {{ $page->updated_at->format('F j, Y') }}
+                    </span>
+                </div>
             @endif
         </article>
 
-        <aside class="service-side-card service-pro-sidebar">
+        <aside class="service-side-card service-pro-sidebar" data-animate="fade-up">
             <span class="sidebar-label">Explore</span>
             <h2>Explore Services</h2>
             <nav class="service-sidebar-nav" aria-label="Explore services">
@@ -273,25 +279,25 @@
             </div>
 
             <div class="service-feature-cards">
-                <article class="service-feature-card">
+                <article class="service-feature-card" data-animate="fade-up">
                     <span class="feature-number">01</span>
                     <h3>Trusted Service Directory</h3>
                     <p>Search detailed health and community service listings across Ontario with clear, reliable information.</p>
                 </article>
 
-                <article class="service-feature-card">
+                <article class="service-feature-card" data-animate="fade-up">
                     <span class="feature-number">02</span>
                     <h3>Accurate Information</h3>
                     <p>Service details are reviewed, organized, and refreshed to help users find up-to-date information.</p>
                 </article>
 
-                <article class="service-feature-card">
+                <article class="service-feature-card" data-animate="fade-up">
                     <span class="feature-number">03</span>
                     <h3>Easy Navigation</h3>
                     <p>Designed to help patients, caregivers, and providers quickly find the right services and support.</p>
                 </article>
 
-                <article class="service-feature-card">
+                <article class="service-feature-card" data-animate="fade-up">
                     <span class="feature-number">04</span>
                     <h3>Connected Care Support</h3>
                     <p>Helps community partners and health system teams connect people to relevant local resources.</p>
@@ -312,19 +318,19 @@
             </div>
 
             <div class="why-matters-grid">
-                <article class="why-matters-card">
+                <article class="why-matters-card" data-animate="fade-up">
                     <span class="why-number">01</span>
                     <h3>Patients</h3>
                     <p>Patients need clear, simple information to understand available health and community services.</p>
                 </article>
 
-                <article class="why-matters-card">
+                <article class="why-matters-card" data-animate="fade-up">
                     <span class="why-number">02</span>
                     <h3>Providers</h3>
                     <p>Providers need accurate service data to guide referrals, care coordination, and system navigation.</p>
                 </article>
 
-                <article class="why-matters-card">
+                <article class="why-matters-card" data-animate="fade-up">
                     <span class="why-number">03</span>
                     <h3>Communities</h3>
                     <p>Communities need connected digital tools that make local support easier to find and access.</p>
@@ -342,19 +348,19 @@
             </div>
 
             <div class="related-pages-grid">
-                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}" class="related-page-card">
+                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}" class="related-page-card" data-animate="fade-up">
                     <span>01</span>
                     <h3>Patient Portals</h3>
                     <p>Digital tools that help patients and caregivers access clear service information.</p>
                 </a>
 
-                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'provider-portals']) }}" class="related-page-card">
+                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'provider-portals']) }}" class="related-page-card" data-animate="fade-up">
                     <span>02</span>
                     <h3>Provider Portals</h3>
                     <p>Support tools designed for providers, care teams, and system partners.</p>
                 </a>
 
-                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'support-training']) }}" class="related-page-card">
+                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'support-training']) }}" class="related-page-card" data-animate="fade-up">
                     <span>03</span>
                     <h3>Support &amp; Training</h3>
                     <p>Resources and support to help teams use THLIN tools effectively.</p>
@@ -396,8 +402,12 @@
             {!! $page->body !!}
         </div>
 
-        @if ($page->updated_at)
-            <p class="content-updated">Last updated: {{ $page->updated_at->format('F j, Y') }}</p>
+        @if (!empty($page->updated_at))
+            <div class="page-meta-row">
+                <span class="page-last-updated">
+                    Last updated: {{ $page->updated_at->format('F j, Y') }}
+                </span>
+            </div>
         @endif
     </div>
 </section>

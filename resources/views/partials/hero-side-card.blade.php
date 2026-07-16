@@ -1,16 +1,16 @@
-<div class="hero-card">
-    <div class="hero-card-icon" aria-hidden="true">+</div>
+<div class="hero-service-card" data-animate="fade-up">
+    <span class="hero-card-icon" aria-hidden="true">+</span>
     <h2>Find trusted health and community services</h2>
     <p>Search information, tools, news, and partner resources across the THLIN network.</p>
 
-    <ul>
+    <ul class="hero-service-list">
         <li>Health and social service directories</li>
         <li>Easy-to-use system navigation tools</li>
         <li>Digital support for community partners</li>
     </ul>
 
-    <form action="{{ route('search') }}" method="get" class="hero-search" role="search">
-        <label for="{{ $searchInputId ?? 'hero-search-input' }}" class="visually-hidden">Search the site</label>
+    <form action="{{ route('search') }}" method="get" class="hero-clean-search" role="search">
+        <label for="{{ $searchInputId ?? 'hero-search-input' }}" class="visually-hidden">Search services</label>
         <input
             id="{{ $searchInputId ?? 'hero-search-input' }}"
             type="search"
@@ -18,6 +18,6 @@
             placeholder="Search services, tools, news..."
             value="{{ request('q') }}"
         >
-        <button type="submit" class="hero-search-button">Search</button>
+        <button type="submit">Search</button>
     </form>
 </div>

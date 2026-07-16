@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', $thlin['name'])</title>
     <meta name="description" content="@yield('meta_description', $thlin['tagline'])">
     <link rel="stylesheet" href="{{ asset('css/thlin.css') }}?v={{ @filemtime(public_path('css/thlin.css')) ?: '1' }}">
@@ -37,16 +37,9 @@
 
     @include('partials.footer')
 
-    <div class="accessibility-toolbar" aria-label="Accessibility tools">
-        <strong>Accessibility</strong>
+    {{-- Custom accessibility toolbar removed to avoid style conflicts; browser/OS accessibility features are supported via CSS media queries and semantic markup. --}}
 
-        <button type="button" id="decreaseText" aria-label="Decrease text size">A-</button>
-        <button type="button" id="increaseText" aria-label="Increase text size">A+</button>
-        <button type="button" id="toggleContrast" aria-label="Toggle high contrast mode">High Contrast</button>
-        <button type="button" id="resetAccessibility" aria-label="Reset accessibility settings">Reset</button>
-    </div>
-
-    <button type="button" id="backToTop" class="back-to-top" aria-label="Back to top">
+    <button type="button" id="backToTop" class="back-to-top" data-back-to-top aria-label="Back to top">
         ↑
     </button>
 
@@ -97,8 +90,8 @@
     </div>
 
     <script src="{{ asset('js/ai-help-widget.js') }}" defer></script>
-    <script src="{{ asset('js/accessibility.js') }}" defer></script>
     <script src="{{ asset('js/thlin.js') }}" defer></script>
+    <script src="{{ asset('js/home-animations.js') }}" defer></script>
     
     @auth
         <script>

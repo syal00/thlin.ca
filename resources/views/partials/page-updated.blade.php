@@ -1,3 +1,4 @@
-@if (! empty($page) && $page->updated_at)
-    <p class="content-updated">Last updated: {{ $page->updated_at->format('F j, Y') }}</p>
-@endif
+{{--
+    Intentionally left blank.
+    Last updated is rendered only inside page content cards in resources/views/pages/show.blade.php.
+--}}

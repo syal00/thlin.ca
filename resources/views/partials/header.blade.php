@@ -43,9 +43,8 @@
     <div class="nav-wrapper">
         <div class="container">
             <div class="header-inner nav-shell">
-                <a href="{{ route('home') }}" class="site-logo" aria-label="THLIN home">
-                    <span class="logo-icon">THL</span>
-                    <span class="logo-text">THLIN</span>
+                <a href="{{ route('home') }}" class="brand-logo" aria-label="THLIN Home">
+                    <img src="{{ asset('images/thlin-logo.png') }}" alt="THLIN logo">
                 </a>
 
                 <button
@@ -139,7 +138,7 @@
                     </ul>
                 </nav>
 
-                <a href="{{ route('contact') }}" class="nav-cta">@include('partials.site-setting', ['key' => 'nav_cta_label', 'default' => 'Contact Us'])</a>
+                <a href="{{ route('contact') }}" class="nav-cta contact-nav-btn">@include('partials.site-setting', ['key' => 'nav_cta_label', 'default' => 'Contact Us'])</a>
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 <section class="search-page-section">
     <div class="container">
-        <div class="search-main-card">
+        <div class="search-main-card" data-animate="fade-up">
             <div class="search-page-header">
                 <span class="section-kicker">Search THLIN</span>
 
@@ -12,7 +12,7 @@
             </div>
 
             <form method="GET" action="{{ route('search') }}" class="professional-search-form">
-                <label for="q" class="sr-only">Search</label>
+                <label for="q" class="sr-only">Search THLIN resources</label>
 
                 <input
                     id="q"
@@ -81,7 +81,7 @@
 
 <section class="guided-service-section">
     <div class="container">
-        <div class="guided-service-card">
+        <div class="guided-service-card" data-animate="fade-up">
             <div class="guided-service-header">
                 <span class="section-kicker">Guided Service Finder</span>
 
@@ -91,28 +91,28 @@
             </div>
 
             <div class="guided-service-grid">
-                <article class="guided-service-option">
+                <article class="guided-service-option" data-animate="fade-up">
                     <span class="guided-number">01</span>
                     <h3>Find Health Services</h3>
                     <p>Search THLIN pages, services, and resources in one place.</p>
                     <a href="{{ route('search', ['q' => 'health services']) }}">Open Search</a>
                 </article>
 
-                <article class="guided-service-option">
+                <article class="guided-service-option" data-animate="fade-up">
                     <span class="guided-number">02</span>
                     <h3>Patient Portals</h3>
                     <p>Explore tools designed for patients and caregivers.</p>
                     <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}">Open Patient Portals</a>
                 </article>
 
-                <article class="guided-service-option">
+                <article class="guided-service-option" data-animate="fade-up">
                     <span class="guided-number">03</span>
                     <h3>Provider Portals</h3>
                     <p>Find provider-focused tools and support resources.</p>
                     <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'provider-portals']) }}">Open Provider Portals</a>
                 </article>
 
-                <article class="guided-service-option">
+                <article class="guided-service-option" data-animate="fade-up">
                     <span class="guided-number">04</span>
                     <h3>Contact THLIN</h3>
                     <p>Reach our team for guidance on services and navigation.</p>

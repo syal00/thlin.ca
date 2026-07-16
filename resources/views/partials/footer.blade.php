@@ -1,30 +1,29 @@
 <footer class="site-footer">
     <div class="container footer-grid">
         <div class="footer-brand">
-            <a href="{{ route('home') }}" class="footer-logo">
-                <span class="footer-logo-mark">THL</span>
-                <span>thehealthline.ca</span>
+            <a href="{{ route('home') }}" class="footer-logo" aria-label="THLIN Home">
+                <img src="{{ asset('images/thlin-logo.png') }}" alt="THLIN logo">
             </a>
 
-            @include('partials.site-setting', [
-                'key' => 'footer_description',
-                'default' => 'THLIN helps people and organizations access trusted health and community service information through practical digital tools.',
-                'type' => 'textarea',
-                'tag' => 'p',
-            ])
+            <p>
+                THLIN helps people and organizations access trusted health and community
+                service information through practical digital tools.
+            </p>
         </div>
 
         <div class="footer-column">
             <h2>@include('partials.site-setting', ['key' => 'footer_quick_links_heading', 'default' => 'Quick Links', 'tag' => 'span'])</h2>
-            <ul>
-                <li><a href="{{ route('home') }}">Home</a></li>
-                <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'us']) }}">About</a></li>
-                <li><a href="{{ route('contact') }}">Contact</a></li>
-                <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}">thehealthline.ca</a></li>
-                @if (app()->environment('local'))
-                    <li><a href="{{ route('admin.login') }}">CMS Login</a></li>
-                @endif
-            </ul>
+            <nav aria-label="Footer navigation">
+                <ul>
+                    <li><a href="{{ route('home') }}">Home</a></li>
+                    <li><a href="{{ route('pages.show', ['section' => 'about', 'page' => 'us']) }}">About</a></li>
+                    <li><a href="{{ route('contact') }}">Contact</a></li>
+                    <li><a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}">thehealthline.ca</a></li>
+                    @if (app()->environment('local'))
+                        <li><a href="{{ route('admin.login') }}">CMS Login</a></li>
+                    @endif
+                </ul>
+            </nav>
         </div>
 
         <div class="footer-column">

@@ -1,7 +1,7 @@
 @php
     /** @var \App\Models\PortfolioItem $item */
 @endphp
-<article class="portfolio-card reveal-on-scroll">
+<article class="portfolio-card home-project-card project-card reveal-on-scroll" data-animate="fade-up">
     @if ($item->url)
         <a href="{{ $item->url }}" class="portfolio-card-media" target="_blank" rel="noopener">
     @endif
@@ -29,7 +29,7 @@
         </a>
     @endif
 
-    <div class="portfolio-card-body">
+    <div class="portfolio-card-body home-project-card-content portfolio-card-content project-card-content">
         <h3 @include('partials.inline-edit-attrs', ['model' => 'portfolio', 'id' => $item->id, 'field' => 'title', 'type' => 'text'])>{{ $item->title }}</h3>
 
         <p @include('partials.inline-edit-attrs', ['model' => 'portfolio', 'id' => $item->id, 'field' => 'excerpt', 'type' => 'richtext'])>{!! $item->excerpt !!}</p>
