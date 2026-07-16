@@ -22,32 +22,69 @@
             <span class="hero-particle"></span>
         </div>
 
-        <div class="hero-inner">
-            <div class="hero-grid">
-                <div class="hero-content home-hero-enter" data-animate="fade-up">
+        <div class="home-hero-container">
+            <div class="home-hero-grid">
+                <div class="home-hero-copy" data-animate="fade-up">
                     <span class="section-kicker">Guided Service Finder</span>
 
                     <h1 @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'hero_title', 'type' => 'text'])>{{ $page->hero_title ?: $page->title }}</h1>
 
-                    <p class="hero-lead" @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'excerpt', 'type' => 'richtext'])>{!! $page->excerpt !!}</p>
+                    @php
+                        $heroExcerpt = (string) ($page->excerpt ?? '');
+                        $heroExcerpt = preg_replace('/<figure[^>]*>.*?<img[^>]*>.*?<\/figure>/is', '', $heroExcerpt) ?? $heroExcerpt;
+                        $heroExcerpt = preg_replace('/<img[^>]*>/i', '', $heroExcerpt) ?? $heroExcerpt;
+                    @endphp
+                    <p @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'excerpt', 'type' => 'richtext'])>{!! $heroExcerpt !!}</p>
 
-                    <div class="hero-actions">
-                        <a href="{{ route('search') }}" class="btn btn-light hero-primary-btn">
+                    <div class="home-hero-actions">
+                        <a href="{{ route('search') }}" class="hero-primary-btn">
                             Find Services
                         </a>
-                        <a href="{{ route('contact') }}" class="btn btn-outline-light">
+                        <a href="{{ route('contact') }}" class="hero-secondary-btn">
                             Contact Us
                         </a>
                     </div>
                 </div>
 
-                @include('partials.hero-side-card', ['searchInputId' => 'hero-search-input'])
+                <div class="hero-service-card">
+                    @include('partials.hero-side-card', ['searchInputId' => 'hero-search-input'])
+                </div>
             </div>
         </div>
     </section>
 @endsection
 
 @section('content')
+    <section class="thlin-stats-section">
+        <div class="thlin-stats-container">
+            <div class="thlin-stats-grid">
+                <article class="thlin-stat-card">
+                    <span class="thlin-stat-label">01</span>
+                    <strong class="count-up" data-count="48071">48,071</strong>
+                    <p>Service Records</p>
+                </article>
+
+                <article class="thlin-stat-card">
+                    <span class="thlin-stat-label">02</span>
+                    <strong class="count-up" data-count="27773">27,773</strong>
+                    <p>Agency Profiles</p>
+                </article>
+
+                <article class="thlin-stat-card">
+                    <span class="thlin-stat-label">03</span>
+                    <strong class="count-up" data-count="31">31</strong>
+                    <p>Specialty Websites</p>
+                </article>
+
+                <article class="thlin-stat-card">
+                    <span class="thlin-stat-label">04</span>
+                    <strong class="count-up" data-count="1">1</strong>
+                    <p>Provincial Database</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
     <section class="home-section home-quick-cards-section">
         <div class="section-container">
             <div class="home-quick-cards-grid">
@@ -74,49 +111,6 @@
                         @include('partials.site-setting', ['key' => 'home_quick_card_3_text', 'default' => 'Check out some examples of our latest projects!', 'tag' => 'p', 'type' => 'textarea'])
                     </div>
                 </a>
-            </div>
-        </div>
-    </section>
-
-    <section class="home-section home-healthline-section">
-        <div class="section-container home-healthline-grid">
-            <div class="reveal-on-scroll" data-animate="fade-up">
-                @include('partials.site-setting', ['key' => 'home_healthline_title', 'default' => 'thehealthline.ca', 'tag' => 'h2', 'type' => 'text'])
-                @include('partials.site-setting', ['key' => 'home_healthline_text', 'default' => 'An authoritative health service directory that makes navigating the health care system easier. With 47,000 detailed records for home, community, primary, acute and long-term care services, Our online service directory is the most widely used, online system navigation tool in Ontario.', 'tag' => 'p', 'type' => 'textarea'])
-                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="btn btn-primary btn-lg learn-more-btn">Learn More</a>
-            </div>
-            <div class="home-healthline-visual reveal-on-scroll" data-reveal-delay="120ms" data-animate="fade-up">
-                <img src="{{ asset('images/healthcare-digital-support.jpg') }}" alt="Older adults using digital health resources together" class="home-healthline-image">
-            </div>
-        </div>
-    </section>
-
-    <section class="home-stats-section" aria-label="THLIN impact statistics">
-        <div class="container">
-            <div class="home-stats-card" data-animate="fade-up">
-                <div class="home-stat-item" data-animate="fade-up">
-                    <span class="home-stat-icon">01</span>
-                    <strong class="count-up" data-count="48071">0</strong>
-                    <p>Service Records</p>
-                </div>
-
-                <div class="home-stat-item" data-animate="fade-up">
-                    <span class="home-stat-icon">02</span>
-                    <strong class="count-up" data-count="27773">0</strong>
-                    <p>Agency Profiles</p>
-                </div>
-
-                <div class="home-stat-item" data-animate="fade-up">
-                    <span class="home-stat-icon">03</span>
-                    <strong class="count-up" data-count="31">0</strong>
-                    <p>Specialty Websites</p>
-                </div>
-
-                <div class="home-stat-item" data-animate="fade-up">
-                    <span class="home-stat-icon">04</span>
-                    <strong class="count-up" data-count="1">0</strong>
-                    <p>Provincial Database</p>
-                </div>
             </div>
         </div>
     </section>
@@ -177,36 +171,93 @@
         </div>
     </section>
 
-    <section class="home-section home-portfolio-intro section-dark">
-        <div class="section-container">
-            <div class="reveal-on-scroll" data-animate="fade-up">
-                @include('partials.site-setting', ['key' => 'home_portfolio_title', 'default' => 'Building Tools to Support our Communities', 'tag' => 'h2', 'type' => 'text'])
-                @include('partials.site-setting', ['key' => 'home_portfolio_subtitle', 'default' => 'Mapping the mosaic of services available within your community and presenting the information effectively, takes careful work. We can help. Whether you\'re enhancing an existing community information tool or building patient-centred websites, featuring tools to help find condition-specific information, our tailored sites are built to meet user needs. Simple, easy to use and information-rich.', 'tag' => 'p', 'type' => 'textarea'])
-                <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}" class="btn btn-light learn-more-btn">Learn More</a>
+    @php
+        $homePortfolioItems = $featuredPortfolio;
+        if ($homePortfolioItems->isEmpty()) {
+            $homePortfolioItems = \App\Models\PortfolioItem::query()->ordered()->limit(3)->get();
+        }
+
+        if ($homePortfolioItems->isEmpty()) {
+            $homePortfolioItems = collect([
+                (object) [
+                    'id' => null,
+                    'title' => 'AES Wellness Portal',
+                    'excerpt' => 'A culturally-driven education and wellness information portal supporting access to community resources and services.',
+                    'url' => 'https://aeswellnessportal.ca/',
+                    'image_url' => null,
+                ],
+                (object) [
+                    'id' => null,
+                    'title' => 'FamilyInfo',
+                    'excerpt' => 'Helping families access local programming, services, and community information in one organized online space.',
+                    'url' => 'https://familyinfo.ca/',
+                    'image_url' => null,
+                ],
+                (object) [
+                    'id' => null,
+                    'title' => 'Age-Friendly Sarnia Lambton',
+                    'excerpt' => 'Supporting community members with accessible information, local resources, and age-friendly service navigation.',
+                    'url' => 'https://agefriendlysarnialambton.ca/',
+                    'image_url' => null,
+                ],
+            ]);
+        }
+    @endphp
+
+    <section class="thlin-portfolio-section" data-animate="fade-up">
+        <div class="thlin-portfolio-container">
+            <div class="thlin-portfolio-header" data-animate="fade-up">
+                <span class="section-kicker">Portfolio</span>
+                <h2>Examples of THLIN digital information work</h2>
+                <p>
+                    Check out some examples of our latest projects and digital information tools
+                    supporting healthcare and community service navigation.
+                </p>
+            </div>
+
+            <div class="thlin-portfolio-grid">
+                @foreach ($homePortfolioItems as $item)
+                    @php
+                        $itemId = $item->id ?? null;
+                        $itemTitle = (string) ($item->title ?? 'Project');
+                        $itemExcerpt = (string) ($item->excerpt ?? '');
+                        $itemUrl = $item->url ?? null;
+                        $itemImageUrl = $itemId && method_exists($item, 'imageUrl') ? $item->imageUrl() : ($item->image_url ?? null);
+                    @endphp
+
+                    <article class="thlin-portfolio-card">
+                        <div class="thlin-portfolio-image">
+                            @if ($itemImageUrl)
+                                <img src="{{ $itemImageUrl }}" alt="{{ $itemTitle }} project preview"
+                                    @if ($itemId)
+                                        data-editable-image="true" data-model="portfolio" data-id="{{ $itemId }}"
+                                        data-field="image"
+                                    @endif
+                                >
+                            @else
+                                <div class="thlin-portfolio-image-placeholder"
+                                    @if ($itemId)
+                                        data-editable-image="true" data-model="portfolio" data-id="{{ $itemId }}"
+                                        data-field="image"
+                                    @endif
+                                >Project preview</div>
+                            @endif
+                        </div>
+
+                        <div class="thlin-portfolio-content">
+                            <span class="thlin-portfolio-tag">Project</span>
+                            <h3 @if ($itemId) @include('partials.inline-edit-attrs', ['model' => 'portfolio', 'id' => $itemId, 'field' => 'title', 'type' => 'text']) @endif>{{ $itemTitle }}</h3>
+                            <p @if ($itemId) @include('partials.inline-edit-attrs', ['model' => 'portfolio', 'id' => $itemId, 'field' => 'excerpt', 'type' => 'richtext']) @endif>{{ \Illuminate\Support\Str::limit(strip_tags($itemExcerpt), 160) }}</p>
+                            @if ($itemUrl)
+                                <a href="{{ $itemUrl }}" class="thlin-portfolio-link" target="_blank"
+                                    rel="noopener">View project</a>
+                            @endif
+                        </div>
+                    </article>
+                @endforeach
             </div>
         </div>
     </section>
-
-    @if ($featuredPortfolio->isNotEmpty())
-            <section class="home-section home-portfolio-cards home-projects-section section-alt portfolio-section projects-section" data-animate="fade-up">
-            <div class="section-container">
-                <div class="home-projects-header portfolio-section-header projects-section-header" data-animate="fade-up">
-                    <span class="section-kicker">Projects</span>
-                    <h2>Examples of THLIN digital information work</h2>
-                    <p>
-                        Explore selected projects that show how THLIN supports health, community,
-                        and partner information needs.
-                    </p>
-                </div>
-
-                <div class="portfolio-grid home-projects-grid projects-grid featured-layout">
-                    @foreach ($featuredPortfolio as $item)
-                        @include('partials.portfolio-card', ['item' => $item])
-                    @endforeach
-                </div>
-            </div>
-        </section>
-    @endif
 
     @include('partials.page-cta')
 

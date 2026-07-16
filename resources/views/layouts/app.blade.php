@@ -6,9 +6,15 @@
     <title>@yield('title', $thlin['name'])</title>
     <meta name="description" content="@yield('meta_description', $thlin['tagline'])">
     <link rel="stylesheet" href="{{ asset('css/thlin.css') }}?v={{ @filemtime(public_path('css/thlin.css')) ?: '1' }}">
-    <link rel="stylesheet" href="{{ asset('css/site.css') }}?v={{ @filemtime(public_path('css/site.css')) ?: '1' }}">
-    <link rel="stylesheet" href="{{ asset('css/custom.css') }}?v={{ @filemtime(public_path('css/custom.css')) ?: '1' }}">
-    <link rel="stylesheet" href="{{ asset('css/home-sections.css') }}?v={{ @filemtime(public_path('css/home-sections.css')) ?: '1' }}">
+    @if (file_exists(public_path('css/site.css')))
+        <link rel="stylesheet" href="{{ asset('css/site.css') }}?v={{ @filemtime(public_path('css/site.css')) ?: '1' }}">
+    @endif
+    @if (file_exists(public_path('css/custom.css')))
+        <link rel="stylesheet" href="{{ asset('css/custom.css') }}?v={{ @filemtime(public_path('css/custom.css')) ?: '1' }}">
+    @endif
+    @if (file_exists(public_path('css/home-sections.css')))
+        <link rel="stylesheet" href="{{ asset('css/home-sections.css') }}?v={{ @filemtime(public_path('css/home-sections.css')) ?: '1' }}">
+    @endif
 
     @auth
         <meta name="csrf-token" content="{{ csrf_token() }}">
