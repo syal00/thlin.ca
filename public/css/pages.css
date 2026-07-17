@@ -13,6 +13,52 @@
 .t-prose-content h3 { font-size: 1.3rem; margin-top: var(--t-space-md); }
 .t-prose-content a { color: var(--t-blue); font-weight: 700; }
 .t-prose-content img { max-width: 100%; height: auto; border-radius: var(--t-radius-md); margin: var(--t-space-md) 0; }
+
+/* Embedded frames (video embeds, maps, docs) never overflow the viewport:
+   scale to the content column on every device size. Iframes keep a 16:9
+   ratio when the editor pasted fixed pixel dimensions. */
+.t-prose-content iframe,
+.t-prose-content embed,
+.t-prose-content object,
+.t-prose-content video {
+    display: block;
+    max-width: 100%;
+    border: 0;
+    margin: var(--t-space-md) 0;
+}
+.t-prose-content iframe[width][height],
+.t-prose-content video[width][height] {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+}
+
+/* TinyMCE "Insert media" responsive wrappers */
+.t-prose-content .tiny-pageembed {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    margin: var(--t-space-md) 0;
+}
+.t-prose-content .tiny-pageembed--21by9 { aspect-ratio: 21 / 9; }
+.t-prose-content .tiny-pageembed--16by9 { aspect-ratio: 16 / 9; }
+.t-prose-content .tiny-pageembed--4by3 { aspect-ratio: 4 / 3; }
+.t-prose-content .tiny-pageembed--1by1 { aspect-ratio: 1; }
+.t-prose-content .tiny-pageembed iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+/* Wide tables scroll inside their own frame instead of stretching the page */
+.t-prose-content table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+}
 .t-prose-content blockquote {
     margin: var(--t-space-lg) 0;
     padding: var(--t-space-md) var(--t-space-lg);

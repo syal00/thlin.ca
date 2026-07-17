@@ -29,10 +29,8 @@
         ->get()
         ->groupBy('parent_id');
 
-    $homePage = $navParents->get('home');
     $contactPage = $navParents->get('contact');
 
-    $isHomeActive = request()->routeIs('home');
     $isProductsActive = request()->is('products*') || (request()->routeIs('pages.show') && request()->route('section') === 'products');
     $isPartnersActive = request()->is('partners*') || (request()->routeIs('pages.show') && request()->route('section') === 'partners');
     $isAboutActive = request()->is('about*') || (request()->routeIs('pages.show') && request()->route('section') === 'about');
@@ -46,6 +44,7 @@
                 <a href="{{ route('home') }}" class="site-logo t-logo" aria-label="THLIN home">
                     <span class="logo-icon t-logo-mark">THL</span>
                     <span class="logo-text t-logo-text">THLIN</span>
+                    <span class="logo-text-full t-logo-text-full">THL Information Network</span>
                 </a>
 
                 <button
@@ -54,33 +53,13 @@
                     data-nav-toggle
                     aria-expanded="false"
                     aria-controls="main-nav"
-                >
-                    <span class="visually-hidden t-visually-hidden">Open menu</span>
-                    <span class="nav-toggle-icon t-nav-toggle-icon" aria-hidden="true"></span>
-                </button>
+                >MENU</button>
 
                 <nav class="site-nav site-nav-wrapper main-nav t-nav" id="main-nav" data-main-nav aria-label="Main navigation">
                     <ul class="nav-menu t-nav-menu">
-                        <li>
-                            <a href="{{ route('home') }}" class="nav-link t-nav-link{{ $isHomeActive ? ' is-active' : '' }}">
-                                @if ($homePage)
-                                    <span @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $homePage->id, 'field' => 'navigation_label', 'type' => 'text'])>Home</span>
-                                @else
-                                    Home
-                                @endif
-                            </a>
-                        </li>
-
-                        <li class="nav-dropdown t-nav-dropdown" data-nav-dropdown>
-                            <button
-                                type="button"
-                                class="nav-link t-nav-link{{ $isProductsActive ? ' is-active' : '' }}"
-                                aria-expanded="false"
-                                aria-haspopup="true"
-                                aria-controls="nav-dropdown-products"
-                                data-nav-dropdown-trigger
-                            >@include('partials.site-setting', ['key' => 'nav_products_label', 'default' => 'Products & Services'])</button>
-                            <ul class="nav-dropdown-menu t-nav-dropdown-menu" id="nav-dropdown-products" data-nav-dropdown-menu>
+                        <li class="nav-dropdown t-nav-dropdown">
+                            <a href="{{ url('/products-services') }}" class="nav-link t-nav-link{{ $isProductsActive ? ' is-active' : '' }}">@include('partials.site-setting', ['key' => 'nav_products_label', 'default' => 'Products & Services'])</a>
+                            <ul class="nav-dropdown-menu t-nav-dropdown-menu">
                                 @include('partials.nav-section-links', [
                                     'section' => 'products',
                                     'items' => config('thlin.navigation.products.items'),
@@ -89,16 +68,9 @@
                             </ul>
                         </li>
 
-                        <li class="nav-dropdown t-nav-dropdown" data-nav-dropdown>
-                            <button
-                                type="button"
-                                class="nav-link t-nav-link{{ $isPartnersActive ? ' is-active' : '' }}"
-                                aria-expanded="false"
-                                aria-haspopup="true"
-                                aria-controls="nav-dropdown-partners"
-                                data-nav-dropdown-trigger
-                            >@include('partials.site-setting', ['key' => 'nav_partners_label', 'default' => 'Partners'])</button>
-                            <ul class="nav-dropdown-menu t-nav-dropdown-menu" id="nav-dropdown-partners" data-nav-dropdown-menu>
+                        <li class="nav-dropdown t-nav-dropdown">
+                            <a href="{{ url('/partners') }}" class="nav-link t-nav-link{{ $isPartnersActive ? ' is-active' : '' }}">@include('partials.site-setting', ['key' => 'nav_partners_label', 'default' => 'Partners'])</a>
+                            <ul class="nav-dropdown-menu t-nav-dropdown-menu">
                                 @include('partials.nav-section-links', [
                                     'section' => 'partners',
                                     'items' => config('thlin.navigation.partners.items'),
@@ -107,16 +79,9 @@
                             </ul>
                         </li>
 
-                        <li class="nav-dropdown t-nav-dropdown" data-nav-dropdown>
-                            <button
-                                type="button"
-                                class="nav-link t-nav-link{{ $isAboutActive ? ' is-active' : '' }}"
-                                aria-expanded="false"
-                                aria-haspopup="true"
-                                aria-controls="nav-dropdown-about"
-                                data-nav-dropdown-trigger
-                            >@include('partials.site-setting', ['key' => 'nav_about_label', 'default' => 'About'])</button>
-                            <ul class="nav-dropdown-menu t-nav-dropdown-menu" id="nav-dropdown-about" data-nav-dropdown-menu>
+                        <li class="nav-dropdown t-nav-dropdown">
+                            <a href="{{ url('/about') }}" class="nav-link t-nav-link{{ $isAboutActive ? ' is-active' : '' }}">@include('partials.site-setting', ['key' => 'nav_about_label', 'default' => 'About'])</a>
+                            <ul class="nav-dropdown-menu t-nav-dropdown-menu">
                                 @include('partials.nav-section-links', [
                                     'section' => 'about',
                                     'items' => config('thlin.navigation.about.items'),
@@ -125,7 +90,7 @@
                             </ul>
                         </li>
 
-                        <li>
+                        <li class="t-nav-item-contact">
                             <a href="{{ route('contact') }}" class="nav-link t-nav-link{{ $isContactActive ? ' is-active' : '' }}">
                                 @if ($contactPage)
                                     <span @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $contactPage->id, 'field' => 'navigation_label', 'type' => 'text'])>{{ $contactPage->menu_label }}</span>
@@ -164,21 +129,6 @@
                 </nav>
 
                 <div class="t-header-actions">
-                    <form action="{{ route('search') }}" method="get" class="nav-search-form t-nav-search" role="search">
-                        <label for="nav-search-input" class="t-visually-hidden">Search the site</label>
-                        <input
-                            id="nav-search-input"
-                            class="nav-search-input t-nav-search-input"
-                            type="search"
-                            name="q"
-                            placeholder="Search THLIN..."
-                            value="{{ request('q') }}"
-                        >
-                        <button type="submit" class="nav-search-submit t-nav-search-submit" aria-label="Search">
-                            &#128269;
-                        </button>
-                    </form>
-
                     <a href="{{ route('contact') }}" class="nav-cta t-btn t-btn-primary">@include('partials.site-setting', ['key' => 'nav_cta_label', 'default' => 'Contact Us'])</a>
                 </div>
             </div>

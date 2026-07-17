@@ -18,7 +18,7 @@
     padding: 0;
 }
 .t-nav-link {
-    color: var(--t-text);
+    color: var(--t-navy);
     text-decoration: none;
     font-weight: 700;
     font-size: 0.95rem;
@@ -65,7 +65,8 @@
     z-index: 30;
 }
 .t-nav-dropdown.is-open > .t-nav-dropdown-menu,
-.t-nav-dropdown:focus-within > .t-nav-dropdown-menu { display: block; }
+.t-nav-dropdown:focus-within > .t-nav-dropdown-menu,
+.t-nav-dropdown:hover > .t-nav-dropdown-menu { display: block; }
 .t-nav-dropdown-menu a {
     display: block;
     padding: 0.7rem 0.85rem;
@@ -84,51 +85,75 @@
     color: var(--t-text-muted);
 }
 
-/* ---------- Nav search ---------- */
-.t-nav-search {
-    display: flex;
-    align-items: center;
-}
-.t-nav-search-input {
-    height: 40px;
-    padding: 0 0.9rem;
-    border: 1px solid var(--t-border);
-    border-right: 0;
-    border-radius: var(--t-radius-sm) 0 0 var(--t-radius-sm);
-    font-size: 0.9rem;
-    min-width: 170px;
-}
-.t-nav-search-submit {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px; height: 40px;
-    border: 1px solid var(--t-blue);
-    border-radius: 0 var(--t-radius-sm) var(--t-radius-sm) 0;
-    background: var(--t-blue);
-    color: var(--t-white);
-    cursor: pointer;
-}
-.t-nav-search-submit:hover { background: var(--t-blue-dark); }
-@media (max-width: 1150px) { .t-nav-search { display: none; } }
+/* Contact lives in the mobile menu only — on desktop the header CTA
+   button ("Contact Us") is the single contact entry point. */
+.t-nav-item-contact { display: none; }
 
-@media (max-width: 1024px) {
+/* ---------- Mobile menu (arrow-free dropdown list) ----------
+   Closed: clean bar — full brand name left, MENU text toggle right.
+   Open: links drop down left-aligned with ample vertical padding.
+   Top-level items navigate directly; no submenus, no arrow icons. */
+@media (max-width: 767px) {
     .t-nav {
         display: none;
         position: absolute;
         top: 100%; left: 0; right: 0;
-        background: var(--t-white);
-        border-bottom: 1px solid var(--t-border);
+        background: var(--t-header-bg);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
         box-shadow: var(--t-shadow-md);
-        padding: var(--t-space-md);
+        padding: 12px 0;
     }
     .t-nav.is-open { display: block; }
     .t-nav-menu { flex-direction: column; align-items: stretch; gap: 0; }
-    .t-nav-menu > li { border-bottom: 1px solid var(--t-border); }
-    .t-nav-menu > li:last-child { border-bottom: 0; }
-    .t-nav-link { display: block; padding: 0.85rem 0.2rem; }
-    .t-nav-dropdown-menu { position: static; box-shadow: none; display: none; border: 0; padding-left: 0.75rem; }
-    .t-nav-dropdown.is-open .t-nav-dropdown-menu { display: block; }
+    .t-nav-link {
+        display: block;
+        padding: 14px 24px;
+        color: var(--t-white);
+        font-size: 16px;
+        font-weight: 400;
+        transition: background 0.2s;
+    }
+    .t-nav-link:hover, .t-nav-link.is-active {
+        color: var(--t-white);
+        background-color: rgba(255, 255, 255, 0.08);
+    }
+
+    /* Top-level links navigate directly on mobile — hide flyout menus
+       and the dropdown arrow so items render as plain links. */
+    .t-nav-dropdown-menu,
+    .t-nav-dropdown.is-open > .t-nav-dropdown-menu,
+    .t-nav-dropdown:focus-within > .t-nav-dropdown-menu,
+    .t-nav-dropdown:hover > .t-nav-dropdown-menu { display: none; }
+    .t-nav-dropdown > button.t-nav-link::after { display: none; }
+
+    /* Exception: button-triggered dropdowns (Resources) have no page of
+       their own, so tapping must still expand an inline list. */
+    [data-nav-dropdown].is-open > .t-nav-dropdown-menu {
+        display: block;
+        position: static;
+        min-width: 0;
+        padding: 0 0 8px;
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    [data-nav-dropdown] .t-nav-dropdown-menu a {
+        padding: 12px 24px 12px 40px;
+        border-radius: 0;
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 400;
+        font-size: 15px;
+    }
+    [data-nav-dropdown] .t-nav-dropdown-menu a:hover {
+        background-color: rgba(255, 255, 255, 0.08);
+        color: var(--t-white);
+    }
+    [data-nav-dropdown] .t-nav-cms-divider { padding-left: 40px; color: rgba(255, 255, 255, 0.6); }
+    .t-nav-dropdown > button.t-nav-link { width: 100%; text-align: left; }
+
+    .t-nav-item-contact { display: block; }
+    .t-header-actions .nav-cta { display: none; }
 }
 
 /* ---------- Breadcrumb ---------- */

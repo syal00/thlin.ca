@@ -30,6 +30,18 @@
     --t-light-blue: #E6F1FB;
     --t-border: #DBE7F3;
 
+    /* Header — clean white nav bar */
+    --t-header-bg: #FFFFFF;
+}
+
+/* Mobile nav bar uses the corporate blue mock-up instead of charcoal;
+   redefining the token re-colors .t-header and its mobile flyout panel
+   (.t-nav, see navigation.css) without duplicating rules. */
+@media (max-width: 767px) {
+    :root { --t-header-bg: #2b70c9; }
+}
+
+:root {
     /* Shell / grid — 1200px container, 24px padding, responsive down to 20/16 */
     --t-shell-width: 1200px;
     --t-shell-pad: 24px;

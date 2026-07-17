@@ -5,16 +5,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const toggle = document.querySelector('[data-nav-toggle]');
     const nav = document.querySelector('[data-main-nav]');
-    const mq = window.matchMedia('(max-width: 1024px)');
+    const mq = window.matchMedia('(max-width: 767px)');
 
     if (toggle && nav) {
         const closeNav = () => {
             nav.classList.remove('is-open');
             toggle.setAttribute('aria-expanded', 'false');
             document.body.classList.remove('nav-open');
-            nav.querySelectorAll('.submenu-open').forEach((item) => {
-                item.classList.remove('submenu-open');
-            });
         };
 
         const openNav = () => {
@@ -31,41 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        nav.querySelectorAll(':scope > ul > li').forEach((item) => {
-            const submenu = item.querySelector(':scope > ul');
-            const trigger = item.querySelector(':scope > a');
-
-            if (!submenu || !trigger) {
-                return;
-            }
-
-            item.classList.add('has-submenu');
-
-            trigger.addEventListener('click', (event) => {
-                if (!mq.matches) {
-                    return;
-                }
-
-                event.preventDefault();
-                const isOpen = item.classList.contains('submenu-open');
-
-                nav.querySelectorAll('.submenu-open').forEach((openItem) => {
-                    if (openItem !== item) {
-                        openItem.classList.remove('submenu-open');
-                    }
-                });
-
-                item.classList.toggle('submenu-open', !isOpen);
-            });
-        });
-
+        // Mobile menu items are plain links (no submenu toggling) — any
+        // link click just navigates, so close the panel behind it.
         nav.querySelectorAll('a').forEach((link) => {
             link.addEventListener('click', () => {
-                if (mq.matches && !link.closest('.has-submenu > a')) {
-                    closeNav();
-                }
-
-                if (mq.matches && link.closest('.has-submenu ul a')) {
+                if (mq.matches) {
                     closeNav();
                 }
             });
