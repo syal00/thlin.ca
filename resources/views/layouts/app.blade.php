@@ -19,7 +19,7 @@
         $thlinStylesheets = [
             'tokens', 'base', 'layout', 'header', 'navigation', 'footer',
             'buttons', 'forms', 'cards', 'hero', 'accessibility',
-            'animations', 'utilities', 'pages', 'home',
+            'animations', 'utilities', 'pages', 'home', 'media',
         ];
     @endphp
     @foreach ($thlinStylesheets as $sheet)
@@ -51,6 +51,10 @@
     <a href="#main-content" class="skip-link t-skip-link">Skip to main content</a>
 
     @include('partials.header')
+
+    @hasSection('hero')
+        @yield('hero')
+    @endif
 
     <main id="main-content" class="t-main">
         @yield('content')

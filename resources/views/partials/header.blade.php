@@ -184,8 +184,4 @@
             </div>
         </div>
     </div>
-
-    @hasSection('hero')
-        @yield('hero')
-    @endif
 </header>
