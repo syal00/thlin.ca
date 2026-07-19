@@ -3,6 +3,14 @@
         'home',
         'products-services',
         'products',
+        'healthline',
+        'healthchat',
+        'patient-portals',
+        'provider-portals',
+        'support-training',
+        'information-management',
+        'portfolio',
+        'resources',
         'partners',
         'about',
         'careers',
@@ -21,76 +29,48 @@
         ->get()
         ->groupBy('parent_id');
 
-    $homePage = $navParents->get('home');
     $contactPage = $navParents->get('contact');
 
-    $isHomeActive = request()->routeIs('home');
     $isProductsActive = request()->is('products*') || (request()->routeIs('pages.show') && request()->route('section') === 'products');
     $isPartnersActive = request()->is('partners*') || (request()->routeIs('pages.show') && request()->route('section') === 'partners');
     $isAboutActive = request()->is('about*') || (request()->routeIs('pages.show') && request()->route('section') === 'about');
     $isContactActive = request()->routeIs('contact') || request()->is('contact');
 @endphp
 
-<header class="site-header {{ request()->routeIs('home') ? 'is-home-header' : 'is-inner-header' }}">
+<header class="site-header t-header {{ request()->routeIs('home') ? 'is-home-header' : 'is-inner-header' }}">
     <div class="nav-wrapper">
-        <div class="container">
-            <div class="header-inner nav-shell">
-                <a href="{{ route('home') }}" class="site-logo" aria-label="THLIN home">
-                    <span class="logo-icon">THL</span>
-                    <span class="logo-text">THLIN</span>
+        <div class="t-container">
+            <div class="header-inner nav-shell t-header-inner">
+                <a href="{{ route('home') }}" class="site-logo t-logo" aria-label="THLIN home">
+                    <span class="logo-icon t-logo-mark">THL</span>
+                    <span class="logo-text t-logo-text">THLIN</span>
+                    <span class="logo-text-full t-logo-text-full">THL Information Network</span>
                 </a>
 
                 <button
                     type="button"
-                    class="nav-toggle"
+                    class="nav-toggle t-nav-toggle"
                     data-nav-toggle
                     aria-expanded="false"
                     aria-controls="main-nav"
-                >
-                    <span class="visually-hidden">Open menu</span>
-                    <span class="nav-toggle-icon" aria-hidden="true"></span>
-                </button>
+                >MENU</button>
 
-                <nav class="site-nav site-nav-wrapper main-nav" id="main-nav" data-main-nav aria-label="Main navigation">
-                    <ul class="nav-menu">
-                        <li>
-                            <a href="{{ route('home') }}" class="nav-link{{ $isHomeActive ? ' is-active' : '' }}">
-                                @if ($homePage)
-                                    <span @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $homePage->id, 'field' => 'navigation_label', 'type' => 'text'])>Home</span>
-                                @else
-                                    Home
-                                @endif
-                            </a>
-                        </li>
-
-                        <li class="nav-dropdown">
-                            <a
-                                href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}"
-                                class="nav-link{{ $isProductsActive ? ' is-active' : '' }}"
-                                aria-haspopup="true"
-                            >@include('partials.site-setting', ['key' => 'nav_products_label', 'default' => 'Products & Services'])</a>
-                            <ul class="nav-dropdown-menu">
-                                <li>
-                                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}">thehealthline.ca</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'patient-portals']) }}">Patient Portals</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'provider-portals']) }}">Provider Portals</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'support-training']) }}">Support &amp; Training</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'information-management']) }}">Information Management</a>
-                                </li>
+                <nav class="site-nav site-nav-wrapper main-nav t-nav" id="main-nav" data-main-nav aria-label="Main navigation">
+                    <ul class="nav-menu t-nav-menu">
+                        <li class="nav-dropdown t-nav-dropdown">
+                            <a href="{{ url('/products-services') }}" class="nav-link t-nav-link{{ $isProductsActive ? ' is-active' : '' }}">@include('partials.site-setting', ['key' => 'nav_products_label', 'default' => 'Products & Services'])</a>
+                            <ul class="nav-dropdown-menu t-nav-dropdown-menu">
+                                @include('partials.nav-section-links', [
+                                    'section' => 'products',
+                                    'items' => config('thlin.navigation.products.items'),
+                                ])
+                                @include('partials.nav-cms-children', ['parentSlugs' => ['products-services', 'products', 'portfolio']])
                             </ul>
                         </li>
 
-                        <li>
-                            <a href="#" class="nav-link{{ $isPartnersActive ? ' is-active' : '' }}">@include('partials.site-setting', ['key' => 'nav_partners_label', 'default' => 'Partners'])</a>
-                            <ul>
+                        <li class="nav-dropdown t-nav-dropdown">
+                            <a href="{{ url('/partners') }}" class="nav-link t-nav-link{{ $isPartnersActive ? ' is-active' : '' }}">@include('partials.site-setting', ['key' => 'nav_partners_label', 'default' => 'Partners'])</a>
+                            <ul class="nav-dropdown-menu t-nav-dropdown-menu">
                                 @include('partials.nav-section-links', [
                                     'section' => 'partners',
                                     'items' => config('thlin.navigation.partners.items'),
@@ -99,9 +79,9 @@
                             </ul>
                         </li>
 
-                        <li>
-                            <a href="#" class="nav-link{{ $isAboutActive ? ' is-active' : '' }}">@include('partials.site-setting', ['key' => 'nav_about_label', 'default' => 'About'])</a>
-                            <ul>
+                        <li class="nav-dropdown t-nav-dropdown">
+                            <a href="{{ url('/about') }}" class="nav-link t-nav-link{{ $isAboutActive ? ' is-active' : '' }}">@include('partials.site-setting', ['key' => 'nav_about_label', 'default' => 'About'])</a>
+                            <ul class="nav-dropdown-menu t-nav-dropdown-menu">
                                 @include('partials.nav-section-links', [
                                     'section' => 'about',
                                     'items' => config('thlin.navigation.about.items'),
@@ -110,8 +90,8 @@
                             </ul>
                         </li>
 
-                        <li>
-                            <a href="{{ route('contact') }}" class="nav-link{{ $isContactActive ? ' is-active' : '' }}">
+                        <li class="t-nav-item-contact">
+                            <a href="{{ route('contact') }}" class="nav-link t-nav-link{{ $isContactActive ? ' is-active' : '' }}">
                                 @if ($contactPage)
                                     <span @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $contactPage->id, 'field' => 'navigation_label', 'type' => 'text'])>{{ $contactPage->menu_label }}</span>
                                 @else
@@ -125,9 +105,16 @@
                         @endphp
 
                         @if ($resourcePages->count())
-                            <li>
-                                <a href="#">@include('partials.site-setting', ['key' => 'nav_resources_label', 'default' => 'Resources'])</a>
-                                <ul>
+                            <li class="nav-dropdown t-nav-dropdown" data-nav-dropdown>
+                                <button
+                                    type="button"
+                                    class="t-nav-link"
+                                    aria-expanded="false"
+                                    aria-haspopup="true"
+                                    aria-controls="nav-dropdown-resources"
+                                    data-nav-dropdown-trigger
+                                >@include('partials.site-setting', ['key' => 'nav_resources_label', 'default' => 'Resources'])</button>
+                                <ul class="nav-dropdown-menu t-nav-dropdown-menu" id="nav-dropdown-resources" data-nav-dropdown-menu>
                                     @foreach ($resourcePages as $resourcePage)
                                         <li>
                                             <a href="{{ $resourcePage->full_url }}">
@@ -141,12 +128,10 @@
                     </ul>
                 </nav>
 
-                <a href="{{ route('contact') }}" class="nav-cta">@include('partials.site-setting', ['key' => 'nav_cta_label', 'default' => 'Contact Us'])</a>
+                <div class="t-header-actions">
+                    <a href="{{ route('contact') }}" class="nav-cta t-btn t-btn-primary">@include('partials.site-setting', ['key' => 'nav_cta_label', 'default' => 'Contact Us'])</a>
+                </div>
             </div>
         </div>
     </div>
-
-    @hasSection('hero')
-        @yield('hero')
-    @endif
 </header>

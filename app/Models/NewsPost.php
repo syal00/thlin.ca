@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\FullTextSearch;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -31,14 +32,11 @@ class NewsPost extends Model
 
     public function scopeSearch(Builder $query, string $term): Builder
     {
-        $like = '%'.$term.'%';
-
-        return $query->published()->where(function (Builder $q) use ($like) {
-            $q->where('title', 'like', $like)
-                ->orWhere('excerpt', 'like', $like)
-                ->orWhere('body', 'like', $like)
-                ->orWhere('location', 'like', $like);
-        });
+        return FullTextSearch::apply(
+            $query->published(),
+            $term,
+            ['title', 'excerpt', 'body', 'location']
+        );
     }
 
     public function url(): string

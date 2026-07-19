@@ -1,0 +1,171 @@
+/* =========================================================
+   THLIN Navigation — main menu, dropdowns, nav search
+========================================================= */
+
+.t-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--t-space-lg);
+    flex: 1 1 auto;
+    justify-content: center;
+}
+.t-nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.t-nav-link {
+    color: var(--t-navy);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+.t-nav-link:hover, .t-nav-link.is-active { color: var(--t-blue); }
+
+.t-nav-dropdown { position: relative; }
+.t-nav-dropdown > button.t-nav-link {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    font: inherit;
+}
+.t-nav-dropdown > button.t-nav-link::after {
+    content: "";
+    display: inline-block;
+    width: 0.4em; height: 0.4em;
+    margin-left: 0.4em;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: translateY(-2px) rotate(45deg);
+    transition: transform 0.15s ease;
+}
+.t-nav-dropdown.is-open > button.t-nav-link::after { transform: translateY(1px) rotate(225deg); }
+
+/* Menu box starts flush against the trigger (top: 100%, zero gap) so there
+   is no dead geometric zone for the pointer to lose hover in — the visual
+   gap is faked with padding-top instead. This plus the JS mouseleave grace
+   timeout (see thlin.js initNavDropdowns) removes the "closes before you
+   can click" failure mode entirely. */
+.t-nav-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 260px;
+    margin: 0;
+    padding: 1.35rem 0.6rem 0.6rem;
+    list-style: none;
+    background: var(--t-white);
+    border: 1px solid var(--t-border);
+    border-radius: var(--t-radius-md);
+    box-shadow: var(--t-shadow-lg);
+    z-index: 30;
+}
+.t-nav-dropdown.is-open > .t-nav-dropdown-menu,
+.t-nav-dropdown:focus-within > .t-nav-dropdown-menu,
+.t-nav-dropdown:hover > .t-nav-dropdown-menu { display: block; }
+.t-nav-dropdown-menu a {
+    display: block;
+    padding: 0.7rem 0.85rem;
+    border-radius: var(--t-radius-sm);
+    color: var(--t-blue-dark);
+    font-weight: 700;
+    text-decoration: none;
+}
+.t-nav-dropdown-menu a:hover { background: var(--t-light-blue); color: var(--t-blue); }
+.t-nav-cms-divider {
+    padding: 0.4rem 0.85rem 0.2rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--t-text-muted);
+}
+
+/* Contact lives in the mobile menu only — on desktop the header CTA
+   button ("Contact Us") is the single contact entry point. */
+.t-nav-item-contact { display: none; }
+
+/* ---------- Mobile menu (arrow-free dropdown list) ----------
+   Closed: clean bar — full brand name left, MENU text toggle right.
+   Open: links drop down left-aligned with ample vertical padding.
+   Top-level items navigate directly; no submenus, no arrow icons. */
+@media (max-width: 767px) {
+    .t-nav {
+        display: none;
+        position: absolute;
+        top: 100%; left: 0; right: 0;
+        background: var(--t-header-bg);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: var(--t-shadow-md);
+        padding: 12px 0;
+    }
+    .t-nav.is-open { display: block; }
+    .t-nav-menu { flex-direction: column; align-items: stretch; gap: 0; }
+    .t-nav-link {
+        display: block;
+        padding: 14px 24px;
+        color: var(--t-white);
+        font-size: 16px;
+        font-weight: 400;
+        transition: background 0.2s;
+    }
+    .t-nav-link:hover, .t-nav-link.is-active {
+        color: var(--t-white);
+        background-color: rgba(255, 255, 255, 0.08);
+    }
+
+    /* Top-level links navigate directly on mobile — hide flyout menus
+       and the dropdown arrow so items render as plain links. */
+    .t-nav-dropdown-menu,
+    .t-nav-dropdown.is-open > .t-nav-dropdown-menu,
+    .t-nav-dropdown:focus-within > .t-nav-dropdown-menu,
+    .t-nav-dropdown:hover > .t-nav-dropdown-menu { display: none; }
+    .t-nav-dropdown > button.t-nav-link::after { display: none; }
+
+    /* Exception: button-triggered dropdowns (Resources) have no page of
+       their own, so tapping must still expand an inline list. */
+    [data-nav-dropdown].is-open > .t-nav-dropdown-menu {
+        display: block;
+        position: static;
+        min-width: 0;
+        padding: 0 0 8px;
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    [data-nav-dropdown] .t-nav-dropdown-menu a {
+        padding: 12px 24px 12px 40px;
+        border-radius: 0;
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 400;
+        font-size: 15px;
+    }
+    [data-nav-dropdown] .t-nav-dropdown-menu a:hover {
+        background-color: rgba(255, 255, 255, 0.08);
+        color: var(--t-white);
+    }
+    [data-nav-dropdown] .t-nav-cms-divider { padding-left: 40px; color: rgba(255, 255, 255, 0.6); }
+    .t-nav-dropdown > button.t-nav-link { width: 100%; text-align: left; }
+
+    .t-nav-item-contact { display: block; }
+    .t-header-actions .nav-cta { display: none; }
+}
+
+/* ---------- Breadcrumb ---------- */
+.t-breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: var(--t-space-md);
+    font-size: 0.88rem;
+}
+.t-breadcrumb a { color: rgba(255, 255, 255, 0.85); text-decoration: none; font-weight: 600; }
+.t-breadcrumb a:hover { color: var(--t-white); text-decoration: underline; }
+.t-breadcrumb span[aria-current] { color: var(--t-white); font-weight: 700; }
+.t-breadcrumb-sep { opacity: 0.6; color: rgba(255, 255, 255, 0.85); }

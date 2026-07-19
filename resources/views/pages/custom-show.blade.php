@@ -9,46 +9,21 @@
     @endpush
 @endif
 
-@section('content')
-    @auth
-        @if (empty($isPreview))
-        <div class="cms-admin-edit-banner">
-            <span>Editing this page in the CMS</span>
-            <a href="{{ route('admin.pages.edit', $page) }}" class="btn btn-primary btn-sm">Open Page Editor</a>
-        </div>
-        @endif
-    @endauth
-
-    @php
-        $customBreadcrumbs = [
-            ['label' => 'Home', 'url' => route('home')],
-        ];
-
-        if ($page->parent) {
-            $customBreadcrumbs[] = [
-                'label' => $page->parent->title,
-                'url' => url($page->parent->full_url),
-            ];
-        }
-
-        $customBreadcrumbs[] = [
-            'label' => $page->hero_title ?: $page->title,
-            'current' => true,
-        ];
-    @endphp
-
-    @include('partials.page-header', [
+@section('hero')
+    @include('partials.hero-page', [
         'page' => $page,
+        'heroTitle' => $page->hero_title ?: $page->title,
         'eyebrow' => $page->parent ? $page->parent->title : 'THLIN Resource',
-        'breadcrumbs' => $customBreadcrumbs,
     ])
+@endsection
 
-    <section class="custom-page-section">
-        <div class="inner-container">
+@section('content')
+    <section class="t-prose custom-page-section">
+        <div class="t-container">
             <div class="custom-page-layout">
                 <main class="custom-page-main">
                     @if (trim(strip_tags($page->body ?? '')) !== '' || auth()->check())
-                        <article class="inner-content-card content-shell cms-content">
+                        <article class="t-prose-content">
                             @auth
                                 <div @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'body', 'type' => 'richtext'])>
                                     @include('partials.cms-body', ['html' => $page->body])
@@ -56,14 +31,13 @@
                             @else
                                 @include('partials.cms-body', ['html' => $page->body])
                             @endauth
+
                             @include('partials.page-updated', ['page' => $page])
                         </article>
                     @else
-                        <article class="content-shell cms-content cms-empty-state">
+                        <article class="t-prose-content cms-empty-state">
                             <h2>Content coming soon</h2>
-                            <p>
-                                Information for this page will be added soon.
-                            </p>
+                            <p>Information for this page will be added soon.</p>
                         </article>
                     @endif
                 </main>
@@ -88,5 +62,5 @@
         </div>
     </section>
 
-    @include('partials.page-cta')
+    @include('partials.cta-section')
 @endsection

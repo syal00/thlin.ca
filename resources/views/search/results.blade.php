@@ -4,21 +4,19 @@
 @section('meta_description', 'Search pages, tools, services, and resources across the THLIN website.')
 
 @section('hero')
-    @include('partials.page-header', [
+    @include('partials.hero-page', [
+        'editable' => false,
         'heroTitle' => 'Search THLIN Resources',
         'heroSubtitle' => 'Find pages, tools, services, and resources across the THLIN website.',
-        'eyebrow' => 'THLIN',
         'breadcrumbs' => [
             ['label' => 'Home', 'url' => route('home')],
             ['label' => 'Search', 'current' => true],
         ],
-        'hideDefaultActions' => true,
     ])
 @endsection
 
 @section('content')
     @include('search.index')
 
-    @include('partials.page-cta')
-
+    @include('partials.cta-section')
 @endsection

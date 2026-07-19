@@ -54,7 +54,9 @@ class PageController extends Controller
                 'jobs' => Career::active()->orderByDesc('posted_at')->get(),
             ])),
 
-            default => view('pages.show', $data),
+            default => $page->slug === 'annual-reports'
+                ? view('pages.annual-reports', $data)
+                : view('pages.show', $data),
         };
     }
 }

@@ -25,6 +25,8 @@ Phase 0 establishes the storage boundaries before production CMS writes are enab
 4. Run `php artisan migrate --force` against the PostgreSQL database from a trusted deployment or CI environment.
 5. Deploy and confirm the application reads CMS records from PostgreSQL.
 
+If the Vercel project owner cannot add developers without upgrading the Vercel plan, keep the no-upgrade workflow: the administrator performs these Vercel steps and developers continue through GitHub. Use `docs/admin-managed-vercel-setup.md` as the handoff checklist.
+
 ## Phase 0 Exit Conditions
 
 - Local development remains on SQLite.

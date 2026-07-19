@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\FullTextSearch;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,13 +22,7 @@ class BoardMember extends Model
 
     public function scopeSearch(Builder $query, string $term): Builder
     {
-        $like = '%'.$term.'%';
-
-        return $query->where(function (Builder $q) use ($like) {
-            $q->where('name', 'like', $like)
-                ->orWhere('role', 'like', $like)
-                ->orWhere('bio', 'like', $like);
-        });
+        return FullTextSearch::apply($query, $term, ['name', 'role', 'bio']);
     }
 
     public function photoUrl(): ?string

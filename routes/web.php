@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageCo
 use App\Http\Controllers\Admin\NewsPostController as AdminNewsPostController;
 use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\PortfolioItemController as AdminPortfolioItemController;
+use App\Http\Controllers\Admin\SiteSettingController as AdminSiteSettingController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CustomPageController;
@@ -24,19 +25,19 @@ Route::get('/search', [SearchController::class, 'index'])->name('search');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
-Route::get('/about', function () {
-    return redirect('/');
-})->name('about');
+Route::get('/about', [CustomPageController::class, 'show'])
+    ->defaults('slug', 'about')
+    ->name('about');
 
 Route::get('/about/news/{news}', [NewsController::class, 'show'])->name('news.show');
 
 Route::redirect('/partners/oht', '/partners/ontario-health-teams', 301);
 Route::redirect('/about/board-of-directors', '/about/board', 301);
 
-Route::prefix('admin')->name('admin.')->group(function () {
+    Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest')->group(function () {
         Route::get('login', [AdminAuthController::class, 'showLogin'])->name('login');
-        Route::post('login', [AdminAuthController::class, 'login']);
+        Route::post('login', [AdminAuthController::class, 'login'])->middleware('throttle:5,1');
     });
 
     Route::middleware('auth')->group(function () {
@@ -67,6 +68,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('careers', AdminCareerController::class)->except(['show']);
         Route::resource('board', AdminBoardMemberController::class)->except(['show'])->parameters(['board' => 'boardMember']);
         Route::resource('portfolio', AdminPortfolioItemController::class)->except(['show'])->parameters(['portfolio' => 'portfolioItem']);
+        Route::get('settings', [AdminSiteSettingController::class, 'index'])->name('settings.index');
+        Route::patch('settings', [AdminSiteSettingController::class, 'update'])->name('settings.update');
         Route::resource('users', AdminUserController::class)->except(['show']);
     });
 });

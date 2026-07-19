@@ -9,40 +9,25 @@
 @endif
 
 @section('hero')
-    @include('partials.page-header', ['page' => $page, 'eyebrow' => 'Leadership'])
+    @include('partials.hero-page', ['page' => $page])
 @endsection
 
 @section('content')
-    <section class="home-section section-light">
-        <div class="section-container">
-            <div class="content-shell">
-                @if ($page->body || auth()->check())
-                    @auth
-                        <div class="cms-content" @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'body', 'type' => 'richtext'])>
-                            @include('partials.cms-body', ['html' => $page->body])
-                        </div>
-                    @else
-                        <div class="cms-content">@include('partials.cms-body', ['html' => $page->body])</div>
-                    @endauth
-                @endif
+    {{-- Matches thlin.ca's Board of Directors page structure: photo + name/role
+         + bio per member. The page body field is intentionally not rendered
+         here — it duplicated this same member list (imported legacy HTML), so
+         the loop below is the single source of truth. If the body field
+         still holds that legacy content, clear it via /admin -> Pages ->
+         Board of Directors. --}}
+    <section class="t-prose">
+        <div class="t-container">
+            @include('partials.page-updated', ['page' => $page])
 
-                @include('partials.page-updated', ['page' => $page])
-
-                <div class="board-grid">
-                    @foreach ($members as $member)
-                        <article class="board-card service-card">
-                            @if ($member->photoUrl())
-                                <img src="{{ $member->photoUrl() }}" alt="{{ $member->name }}" class="board-photo">
-                            @endif
-                            <h2 @include('partials.inline-edit-attrs', ['model' => 'board', 'id' => $member->id, 'field' => 'name', 'type' => 'text'])>{{ $member->name }}</h2>
-                            <p class="board-role" @include('partials.inline-edit-attrs', ['model' => 'board', 'id' => $member->id, 'field' => 'role', 'type' => 'text'])>{{ $member->role }}</p>
-                            <p @include('partials.inline-edit-attrs', ['model' => 'board', 'id' => $member->id, 'field' => 'bio', 'type' => 'richtext'])>{!! $member->bio !!}</p>
-                        </article>
-                    @endforeach
-                </div>
+            <div class="t-card-grid">
+                @foreach ($members as $member)
+                    @include('partials.card-board', ['member' => $member])
+                @endforeach
             </div>
         </div>
     </section>
-
-    @include('partials.page-cta')
 @endsection

@@ -1,8 +1,8 @@
-<footer class="site-footer">
-    <div class="container footer-grid">
-        <div class="footer-brand">
-            <a href="{{ route('home') }}" class="footer-logo">
-                <span class="footer-logo-mark">THL</span>
+<footer class="site-footer t-footer">
+    <div class="t-container t-footer-grid">
+        <div class="footer-brand t-footer-brand">
+            <a href="{{ route('home') }}" class="footer-logo t-footer-logo">
+                <span class="footer-logo-mark t-footer-logo-mark">THL</span>
                 <span>thehealthline.ca</span>
             </a>
 
@@ -14,7 +14,7 @@
             ])
         </div>
 
-        <div class="footer-column">
+        <div class="footer-column t-footer-column">
             <h2>@include('partials.site-setting', ['key' => 'footer_quick_links_heading', 'default' => 'Quick Links', 'tag' => 'span'])</h2>
             <ul>
                 <li><a href="{{ route('home') }}">Home</a></li>
@@ -27,7 +27,7 @@
             </ul>
         </div>
 
-        <div class="footer-column">
+        <div class="footer-column t-footer-column">
             <h2>@include('partials.site-setting', ['key' => 'footer_services_heading', 'default' => 'Services', 'tag' => 'span'])</h2>
             <ul>
                 @foreach (config('thlin.navigation.products.items') as $slug => $label)
@@ -36,7 +36,7 @@
             </ul>
         </div>
 
-        <div class="footer-column">
+        <div class="footer-column t-footer-column">
             <h2>@include('partials.site-setting', ['key' => 'footer_connect_heading', 'default' => 'Connect', 'tag' => 'span'])</h2>
             <ul>
                 <li><a href="{{ route('contact') }}">Contact THLIN</a></li>
@@ -47,8 +47,8 @@
         </div>
     </div>
 
-    <div class="footer-bottom">
-        <div class="container footer-bottom-inner">
+    <div class="footer-bottom t-footer-bottom">
+        <div class="t-container t-footer-bottom-inner">
             <p>&copy; {{ date('Y') }} @include('partials.site-setting', ['key' => 'footer_copyright', 'default' => 'thehealthline.ca Information Network. All rights reserved.'])</p>
             <a href="{{ route('contact') }}">@include('partials.site-setting', ['key' => 'footer_cta_link_label', 'default' => 'Get in touch'])</a>
         </div>

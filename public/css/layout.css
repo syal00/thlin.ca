@@ -1,0 +1,28 @@
+/* =========================================================
+   THLIN Layout — shell/grid primitives only.
+   Header/nav/footer live in header.css / navigation.css / footer.css.
+========================================================= */
+
+.t-container {
+    width: 100%;
+    max-width: var(--t-shell-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--t-shell-pad);
+    padding-right: var(--t-shell-pad);
+    box-sizing: border-box;
+}
+
+@media (max-width: 1024px) {
+    .t-container { padding-left: var(--t-shell-pad-tablet); padding-right: var(--t-shell-pad-tablet); }
+}
+@media (max-width: 640px) {
+    .t-container { padding-left: var(--t-shell-pad-mobile); padding-right: var(--t-shell-pad-mobile); }
+}
+
+.t-site {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.t-main { flex: 1; }

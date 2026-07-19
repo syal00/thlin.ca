@@ -1,21 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
     initHomepageReveal();
-
-    initAccessibilityToolbar();
-    initBackToTopButton();
+    initStatCountUp();
+    initNavDropdowns();
 
     const toggle = document.querySelector('[data-nav-toggle]');
     const nav = document.querySelector('[data-main-nav]');
-    const mq = window.matchMedia('(max-width: 1024px)');
+    const mq = window.matchMedia('(max-width: 767px)');
 
     if (toggle && nav) {
         const closeNav = () => {
             nav.classList.remove('is-open');
             toggle.setAttribute('aria-expanded', 'false');
             document.body.classList.remove('nav-open');
-            nav.querySelectorAll('.submenu-open').forEach((item) => {
-                item.classList.remove('submenu-open');
-            });
         };
 
         const openNav = () => {
@@ -32,41 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        nav.querySelectorAll(':scope > ul > li').forEach((item) => {
-            const submenu = item.querySelector(':scope > ul');
-            const trigger = item.querySelector(':scope > a');
-
-            if (!submenu || !trigger) {
-                return;
-            }
-
-            item.classList.add('has-submenu');
-
-            trigger.addEventListener('click', (event) => {
-                if (!mq.matches) {
-                    return;
-                }
-
-                event.preventDefault();
-                const isOpen = item.classList.contains('submenu-open');
-
-                nav.querySelectorAll('.submenu-open').forEach((openItem) => {
-                    if (openItem !== item) {
-                        openItem.classList.remove('submenu-open');
-                    }
-                });
-
-                item.classList.toggle('submenu-open', !isOpen);
-            });
-        });
-
+        // Mobile menu items are plain links (no submenu toggling) — any
+        // link click just navigates, so close the panel behind it.
         nav.querySelectorAll('a').forEach((link) => {
             link.addEventListener('click', () => {
-                if (mq.matches && !link.closest('.has-submenu > a')) {
-                    closeNav();
-                }
-
-                if (mq.matches && link.closest('.has-submenu ul a')) {
+                if (mq.matches) {
                     closeNav();
                 }
             });
@@ -89,94 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
-function initAccessibilityToolbar() {
-    const toolbar = document.querySelector('[data-accessibility-toolbar]');
-
-    if (!toolbar) {
-        return;
-    }
-
-    const scaleKey = 'thlin-text-scale';
-    const contrastKey = 'thlin-high-contrast';
-    const scaleSteps = [100, 110, 120];
-    const root = document.documentElement;
-
-    const readStoredScale = () => {
-        const storedValue = Number.parseInt(window.localStorage.getItem(scaleKey) || '100', 10);
-
-        return scaleSteps.includes(storedValue) ? storedValue : 100;
-    };
-
-    const applyScale = (scale) => {
-        if (scale === 100) {
-            root.style.fontSize = '';
-        } else {
-            root.style.fontSize = `${scale}%`;
-        }
-
-        window.localStorage.setItem(scaleKey, String(scale));
-    };
-
-    const applyContrast = (enabled) => {
-        document.body.classList.toggle('thlin-high-contrast', enabled);
-
-        toolbar.querySelector('[data-accessibility-action="contrast"]')?.setAttribute('aria-pressed', enabled ? 'true' : 'false');
-        window.localStorage.setItem(contrastKey, enabled ? '1' : '0');
-    };
-
-    let currentScale = readStoredScale();
-    applyScale(currentScale);
-    applyContrast(window.localStorage.getItem(contrastKey) === '1');
-
-    toolbar.querySelectorAll('[data-accessibility-action]').forEach((button) => {
-        button.addEventListener('click', () => {
-            const action = button.dataset.accessibilityAction;
-
-            if (action === 'increase') {
-                currentScale = Math.min(scaleSteps[scaleSteps.length - 1], currentScale + 10);
-                applyScale(currentScale);
-                return;
-            }
-
-            if (action === 'decrease') {
-                currentScale = Math.max(scaleSteps[0], currentScale - 10);
-                applyScale(currentScale);
-                return;
-            }
-
-            if (action === 'contrast') {
-                applyContrast(!document.body.classList.contains('thlin-high-contrast'));
-                return;
-            }
-
-            if (action === 'reset') {
-                currentScale = 100;
-                applyScale(currentScale);
-                applyContrast(false);
-            }
-        });
-    });
-}
-
-function initBackToTopButton() {
-    const button = document.querySelector('[data-back-to-top]');
-
-    if (!button) {
-        return;
-    }
-
-    const updateVisibility = () => {
-        button.classList.toggle('is-visible', window.scrollY > 400);
-    };
-
-    button.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    window.addEventListener('scroll', updateVisibility, { passive: true });
-    updateVisibility();
-}
 
 function initHomepageReveal() {
     if (!document.body.classList.contains('is-home-page')) {
@@ -225,4 +103,173 @@ function initHomepageReveal() {
     });
 
     revealTargets.forEach((element) => observer.observe(element));
+}
+
+function initNavDropdowns() {
+    const dropdowns = Array.from(document.querySelectorAll('[data-nav-dropdown]'));
+
+    if (!dropdowns.length) {
+        return;
+    }
+
+    // Desktop hover is an enhancement layered on top of click/keyboard —
+    // touch devices (no real hover) never get stuck relying on it.
+    const hoverCapable = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const closeTimeouts = new WeakMap();
+
+    function closeDropdown(dropdown) {
+        const trigger = dropdown.querySelector('[data-nav-dropdown-trigger]');
+        dropdown.classList.remove('is-open');
+        trigger?.setAttribute('aria-expanded', 'false');
+    }
+
+    function closeAllExcept(except) {
+        dropdowns.forEach((dropdown) => {
+            if (dropdown !== except) {
+                closeDropdown(dropdown);
+            }
+        });
+    }
+
+    function openDropdown(dropdown) {
+        closeAllExcept(dropdown);
+        const trigger = dropdown.querySelector('[data-nav-dropdown-trigger]');
+        dropdown.classList.add('is-open');
+        trigger?.setAttribute('aria-expanded', 'true');
+    }
+
+    dropdowns.forEach((dropdown) => {
+        const trigger = dropdown.querySelector('[data-nav-dropdown-trigger]');
+
+        if (!trigger) {
+            return;
+        }
+
+        trigger.addEventListener('click', () => {
+            const isOpen = dropdown.classList.contains('is-open');
+
+            if (isOpen) {
+                closeDropdown(dropdown);
+            } else {
+                openDropdown(dropdown);
+            }
+        });
+
+        if (hoverCapable) {
+            // The menu box starts flush (top: 100%, see navigation.css) so
+            // there's no dead zone to cross, and this grace timeout absorbs
+            // any residual pointer jitter moving from trigger into menu —
+            // together they stop the dropdown closing before it can be used.
+            dropdown.addEventListener('mouseenter', () => {
+                const pending = closeTimeouts.get(dropdown);
+
+                if (pending) {
+                    window.clearTimeout(pending);
+                    closeTimeouts.delete(dropdown);
+                }
+
+                openDropdown(dropdown);
+            });
+
+            dropdown.addEventListener('mouseleave', () => {
+                const timeoutId = window.setTimeout(() => {
+                    closeDropdown(dropdown);
+                    closeTimeouts.delete(dropdown);
+                }, 250);
+
+                closeTimeouts.set(dropdown, timeoutId);
+            });
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') {
+            return;
+        }
+
+        const openDropdownEl = dropdowns.find((dropdown) => dropdown.classList.contains('is-open'));
+
+        if (!openDropdownEl) {
+            return;
+        }
+
+        const trigger = openDropdownEl.querySelector('[data-nav-dropdown-trigger]');
+        closeDropdown(openDropdownEl);
+        trigger?.focus();
+    });
+
+    document.addEventListener('click', (event) => {
+        dropdowns.forEach((dropdown) => {
+            if (dropdown.classList.contains('is-open') && !dropdown.contains(event.target)) {
+                closeDropdown(dropdown);
+            }
+        });
+    });
+
+    document.addEventListener('focusout', (event) => {
+        dropdowns.forEach((dropdown) => {
+            if (!dropdown.classList.contains('is-open')) {
+                return;
+            }
+
+            const nextFocus = event.relatedTarget;
+
+            if (!nextFocus || !dropdown.contains(nextFocus)) {
+                closeDropdown(dropdown);
+            }
+        });
+    });
+}
+
+function initStatCountUp() {
+    const statNumbers = document.querySelectorAll('.is-home-page .stat-number');
+
+    if (!statNumbers.length) {
+        return;
+    }
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+    }
+
+    const animate = (element) => {
+        const raw = element.textContent.trim();
+        const target = Number.parseInt(raw.replace(/[^0-9]/g, ''), 10);
+
+        if (!Number.isFinite(target) || target <= 0) {
+            return;
+        }
+
+        const duration = 1200;
+        const start = performance.now();
+
+        const step = (now) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - (1 - progress) ** 3;
+            const current = Math.round(target * eased);
+
+            element.textContent = current.toLocaleString('en-US');
+
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            } else {
+                element.textContent = raw;
+            }
+        };
+
+        window.requestAnimationFrame(step);
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) {
+                return;
+            }
+
+            animate(entry.target);
+            observer.unobserve(entry.target);
+        });
+    }, { threshold: 0.4 });
+
+    statNumbers.forEach((element) => observer.observe(element));
 }

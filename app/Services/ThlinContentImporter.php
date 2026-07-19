@@ -7,6 +7,7 @@ use App\Models\Career;
 use App\Models\NewsPost;
 use App\Models\Page;
 use App\Models\PortfolioItem;
+use App\Models\SiteSetting;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
@@ -78,6 +79,12 @@ class ThlinContentImporter
 
         $log('Importing portfolio…');
         $this->importPortfolio($log);
+
+        $log('Importing contact page…');
+        $this->importContact($log);
+
+        $log('Syncing homepage site settings…');
+        $this->importHomeSiteSettings($log);
     }
 
     private function importHome(callable $log): void
@@ -294,6 +301,76 @@ class ThlinContentImporter
         );
 
         $log("  ✓ {$count} career postings");
+    }
+
+    private function importContact(callable $log): void
+    {
+        $html = $this->fetch('/Contact/');
+        if ($html === null) {
+            $log('  ⚠ Could not fetch contact page');
+
+            return;
+        }
+
+        $title = $this->extractPageTitle($html) ?? "Let's Connect";
+        $body = $this->extractContentHtml($html);
+
+        Page::updateOrCreate(
+            ['slug' => 'contact'],
+            [
+                'title' => html_entity_decode($title, ENT_QUOTES | ENT_HTML5, 'UTF-8'),
+                'section' => 'contact',
+                'template' => 'contact',
+                'body' => $body,
+                'page_type' => 'built_in',
+                'status' => 'published',
+                'is_published' => true,
+                'updated_by' => null,
+            ]
+        );
+
+        $log('  ✓ contact');
+    }
+
+    private function importHomeSiteSettings(callable $log): void
+    {
+        $html = $this->fetch('/');
+        if ($html === null) {
+            $log('  ⚠ Could not fetch home page for settings');
+
+            return;
+        }
+
+        $settings = [
+            'home_quick_card_1_title' => 'Products & Services',
+            'home_quick_card_1_text' => $this->matchFirst($html, '/<h3 class="blue-text">Products &amp; Services<\/h3>\s*<p>(.*?)<\/p>/is'),
+            'home_quick_card_2_title' => 'Tools',
+            'home_quick_card_2_text' => $this->matchFirst($html, '/<h3 class="blue-text">Tools<\/h3>\s*<p>(.*?)<\/p>/is'),
+            'home_quick_card_3_title' => 'Portfolio',
+            'home_quick_card_3_text' => $this->matchFirst($html, '/<h3 class="blue-text">Portfolio<\/h3>\s*<p>(.*?)<\/p>/is'),
+            'home_healthline_title' => 'thehealthline.ca',
+            'home_healthline_text' => $this->matchFirst($html, '/<h2>thehealthline\.ca<\/h2>\s*<p>(.*?)<\/p>/is'),
+            'home_portfolio_title' => 'Building Tools to Support our Communities',
+            'home_portfolio_subtitle' => $this->matchFirst($html, '/<h2 class="white-text">Building Tools to Support our Communities<\/h2>\s*<p class="white-text">(.*?)<\/p>/is'),
+            'home_cta_title' => 'Interested in Collaborating?',
+            'home_cta_text' => $this->matchFirst($html, '/<h2>Interested in Collaborating\?<\/h2>\s*<p>(.*?)<\/p>/is'),
+            'cta_title' => 'Interested in Collaborating?',
+            'cta_text' => $this->matchFirst($html, '/<h2>Interested in Collaborating\?<\/h2>\s*<p>(.*?)<\/p>/is'),
+        ];
+
+        foreach ($settings as $key => $value) {
+            if ($value === null || $value === '') {
+                continue;
+            }
+
+            SiteSetting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value, 'type' => str_contains($key, '_text') || str_contains($key, 'subtitle') ? 'textarea' : 'text', 'group' => 'home']
+            );
+        }
+
+        $log('  ✓ Homepage site settings synced');
+        SiteSetting::forgetCache();
     }
 
     private function importPortfolio(callable $log): void

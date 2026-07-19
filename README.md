@@ -7,7 +7,7 @@ Laravel (PHP Blade) redesign of the **thehealthline.ca Information Network** cor
 | Layer | Technology |
 |-------|------------|
 | Backend | PHP 8.4, Laravel 13, Blade |
-| Database | SQLite (default) or SQL Server |
+| Database | SQLite for local development; PostgreSQL for Vercel production/preview |
 | Frontend | HTML, CSS, JavaScript |
 | Local URL | http://thlin.ca.test (Laravel Herd) |
 
@@ -83,7 +83,13 @@ Optional: set `TINYMCE_SELF_HOSTED=false` and `TINYMCE_API_KEY` in `.env` to use
 
 ### Upload storage
 
-**Vercel warning:** Uploaded files are not persistent on Vercel serverless storage. Use Cloudinary, AWS S3, or Supabase Storage for real production uploads.
+**Vercel warning:** Uploaded files are not persistent on Vercel serverless storage. Production/preview uploads should write file bodies to Vercel Blob and store metadata in PostgreSQL. Local development may continue using Laravel's local public disk.
+
+See:
+
+- `docs/phase-0-checklist.md`
+- `docs/admin-managed-vercel-setup.md`
+- `docs/vercel-data-architecture.md`
 
 ## URL map
 
@@ -108,19 +114,21 @@ Optional: set `TINYMCE_SELF_HOSTED=false` and `TINYMCE_API_KEY` in `.env` to use
 - `portfolio_items` — portfolio (featured items show on home)
 - `users` — admin login
 
-## SQL Server
+## Production database
 
-Set in `.env`:
+Local development uses SQLite by default. Vercel Production and Preview should use PostgreSQL with an SSL-enabled connection string configured in Vercel environment variables:
 
 ```env
-DB_CONNECTION=sqlsrv
-DB_HOST=your-server
-DB_DATABASE=thlin
-DB_USERNAME=...
-DB_PASSWORD=...
+DB_CONNECTION=pgsql
+DATABASE_URL=postgresql://USER:PASSWORD@HOST:5432/DATABASE?sslmode=require
+DB_SSLMODE=require
 ```
 
-Requires `pdo_sqlsrv`. Then run `php artisan migrate --seed`.
+Run production migrations from a trusted environment:
+
+```bash
+php artisan migrate --force
+```
 
 ## Project structure
 

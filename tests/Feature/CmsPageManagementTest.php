@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Page;
+use App\Models\SiteSetting;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -314,5 +315,65 @@ class CmsPageManagementTest extends TestCase
             ->get(route('home'))
             ->assertOk()
             ->assertSee('Edit This Page');
+    }
+
+    public function test_admin_can_publish_and_unpublish_custom_page(): void
+    {
+        $admin = User::firstOrFail();
+
+        $page = Page::create([
+            'title' => 'Publish Test Page',
+            'slug' => 'publish-test-page',
+            'section' => 'custom',
+            'template' => 'standard',
+            'page_type' => 'custom',
+            'status' => 'draft',
+            'is_published' => false,
+            'body' => '<p>Draft content</p>',
+        ]);
+
+        $this->actingAs($admin)
+            ->patch(route('admin.pages.publish', $page))
+            ->assertRedirect()
+            ->assertSessionHas('success');
+
+        $page->refresh();
+        $this->assertSame('published', $page->status);
+        $this->assertTrue($page->is_published);
+        $this->assertSame($admin->id, $page->updated_by);
+
+        $this->actingAs($admin)
+            ->patch(route('admin.pages.unpublish', $page))
+            ->assertRedirect()
+            ->assertSessionHas('success');
+
+        $page->refresh();
+        $this->assertSame('draft', $page->status);
+        $this->assertFalse($page->is_published);
+    }
+
+    public function test_admin_can_update_site_settings(): void
+    {
+        $admin = User::firstOrFail();
+
+        $this->actingAs($admin)
+            ->get(route('admin.settings.index'))
+            ->assertOk()
+            ->assertSee('Site settings');
+
+        $this->actingAs($admin)
+            ->patch(route('admin.settings.update'), [
+                'settings' => [
+                    'footer_description' => 'Updated from admin settings screen.',
+                    'unknown_key' => 'ignored',
+                ],
+            ])
+            ->assertRedirect()
+            ->assertSessionHas('success');
+
+        $this->assertSame(
+            'Updated from admin settings screen.',
+            SiteSetting::getValue('footer_description')
+        );
     }
 }

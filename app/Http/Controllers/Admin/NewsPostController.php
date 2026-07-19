@@ -13,7 +13,7 @@ class NewsPostController extends Controller
 {
     public function index(): View
     {
-        return view('admin.news.index', ['posts' => NewsPost::orderByDesc('published_at')->get()]);
+        return view('admin.news.index', ['posts' => NewsPost::orderByDesc('published_at')->paginate(12)]);
     }
 
     public function create(): View

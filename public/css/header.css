@@ -1,0 +1,83 @@
+/* =========================================================
+   THLIN Header — logo, mobile toggle, header shell
+========================================================= */
+
+.t-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: var(--t-header-bg);
+    border-bottom: 1px solid var(--t-border);
+}
+
+.t-header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--t-space-lg);
+    min-height: 76px;
+}
+
+.t-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    color: var(--t-navy);
+    font-weight: 800;
+    flex: 0 0 auto;
+}
+.t-logo img { height: 40px; width: auto; }
+.t-logo-mark {
+    display: inline-grid;
+    place-items: center;
+    width: 40px; height: 40px;
+    border-radius: var(--t-radius-sm);
+    background: var(--t-blue);
+    color: var(--t-white);
+    font-size: 0.85rem;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+}
+.t-logo-text { font-size: 1.1rem; }
+
+.t-logo-text-full {
+    display: none;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+/* Modern text toggle — no hamburger lines, no border box */
+.t-nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--t-white);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+.t-nav-toggle:hover { background-color: rgba(255, 255, 255, 0.1); }
+
+.t-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 0 0 auto;
+}
+
+/* Mobile bar stays corporate blue (see tokens.css), so text flips white */
+@media (max-width: 767px) {
+    .t-nav-toggle { display: block; margin-left: auto; }
+    .t-logo-mark, .t-logo-text { display: none; }
+    .t-logo-text-full { display: inline; }
+    .t-logo { color: var(--t-white); }
+    .t-header-inner { min-height: 0; padding: 18px 0; }
+    .t-header { border-bottom-color: rgba(255, 255, 255, 0.15); }
+}

@@ -55,4 +55,10 @@
             </table>
         </div>
     </div>
+
+    @if ($careers->hasPages())
+        <div class="admin-pagination">
+            {{ $careers->links() }}
+        </div>
+    @endif
 @endsection

@@ -10,118 +10,82 @@
 @endif
 
 @section('hero')
-    @if ($page)
-        @include('partials.page-header', [
-            'page' => $page,
-            'editable' => true,
-            'eyebrow' => 'Contact THLIN',
-            'breadcrumbs' => [
-                ['label' => 'Home', 'url' => route('home')],
-                ['label' => 'Contact', 'current' => true],
-            ],
-            'hideDefaultActions' => true,
-        ])
-    @else
-        @include('partials.page-header', [
-            'editable' => false,
-            'eyebrow' => 'Contact THLIN',
-            'heroTitle' => "Let's Connect",
-            'heroSubtitle' => 'We work with partners to improve information systems and connect people across Ontario to trusted health and community services.',
-            'breadcrumbs' => [
-                ['label' => 'Home', 'url' => route('home')],
-                ['label' => 'Contact', 'current' => true],
-            ],
-            'hideDefaultActions' => true,
-        ])
-    @endif
+    @include('partials.hero-page', [
+        'page' => $page,
+        'editable' => false,
+        'heroTitle' => "Let's Connect",
+        'breadcrumbs' => [
+            ['label' => 'Home', 'url' => route('home')],
+            ['label' => 'Contact', 'current' => true],
+        ],
+    ])
 @endsection
 
 @section('content')
-    <section class="home-section section-light contact-page contact-page-section">
-        <div class="section-container">
-            <div class="contact-grid contact-page-grid">
-                <div class="contact-form-card content-shell">
-                    <div class="section-heading">
-                        <span class="section-kicker blue">Message</span>
-                        @include('partials.site-setting', ['key' => 'contact_form_title', 'tag' => 'h2', 'type' => 'text'])
-                        @include('partials.site-setting', ['key' => 'contact_form_subtitle', 'tag' => 'p', 'type' => 'textarea'])
+    <section class="t-prose">
+        <div class="t-container t-contact-grid">
+            <div class="t-contact-form">
+                <h2>Send us a message</h2>
+                <form method="POST" action="{{ route('contact.send') }}" class="contact-form">
+                    @csrf
+
+                    <div class="t-form-group">
+                        <label for="name">Name <span>*</span></label>
+                        <input id="name" type="text" name="name" value="{{ old('name') }}" placeholder="Enter your full name" required>
+                        @error('name')
+                            <small>{{ $message }}</small>
+                        @enderror
                     </div>
 
-                    @include('partials.page-updated', ['page' => $page])
+                    <div class="t-form-group">
+                        <label for="email">Email Address <span>*</span></label>
+                        <input id="email" type="email" name="email" value="{{ old('email') }}" placeholder="Enter your email address" required>
+                        @error('email')
+                            <small>{{ $message }}</small>
+                        @enderror
+                    </div>
 
-                    @if (session('success'))
-                        <div class="contact-success">
-                            {{ session('success') }}
-                        </div>
-                    @endif
+                    <div class="t-form-group">
+                        <label for="organization">Organization</label>
+                        <input id="organization" type="text" name="organization" value="{{ old('organization') }}" placeholder="Enter your organization name">
+                        @error('organization')
+                            <small>{{ $message }}</small>
+                        @enderror
+                    </div>
 
-                    <form method="POST" action="{{ route('contact.send') }}" class="contact-form">
-                        @csrf
+                    <div class="t-form-group">
+                        <label for="message">Message <span>*</span></label>
+                        <textarea id="message" name="message" rows="6" placeholder="Write your message here..." required>{{ old('message') }}</textarea>
+                        @error('message')
+                            <small>{{ $message }}</small>
+                        @enderror
+                    </div>
 
-                        <div class="form-group">
-                            <label for="name">Name <span>*</span></label>
-                            <input id="name" type="text" name="name" value="{{ old('name') }}" placeholder="Enter your full name" required>
-                            @error('name')
-                                <small>{{ $message }}</small>
-                            @enderror
-                        </div>
+                    <button type="submit" class="contact-submit t-btn t-btn-primary">
+                        Send Message
+                    </button>
+                </form>
+            </div>
 
-                        <div class="form-group">
-                            <label for="email">Email Address <span>*</span></label>
-                            <input id="email" type="email" name="email" value="{{ old('email') }}" placeholder="Enter your email address" required>
-                            @error('email')
-                                <small>{{ $message }}</small>
-                            @enderror
-                        </div>
+            {{-- Head Office: matches the source site exactly — address, phone, email only. --}}
+            <aside class="t-contact-office">
+                <h2>Head Office</h2>
 
-                        <div class="form-group">
-                            <label for="organization">Organization</label>
-                            <input id="organization" type="text" name="organization" value="{{ old('organization') }}" placeholder="Enter your organization name">
-                            @error('organization')
-                                <small>{{ $message }}</small>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <label for="message">Message <span>*</span></label>
-                            <textarea id="message" name="message" rows="6" placeholder="Write your message here..." required>{{ old('message') }}</textarea>
-                            @error('message')
-                                <small>{{ $message }}</small>
-                            @enderror
-                        </div>
-
-                        <button type="submit" class="contact-submit">
-                            Send Message
-                        </button>
-                    </form>
+                <div class="t-contact-info-item">
+                    <span>Address</span>
+                    <p>201 King St, London, ON N6C 1C9</p>
                 </div>
 
-                <aside class="contact-info-panel info-panel contact-info-card">
-                    <div class="contact-info-icon">+</div>
+                <div class="t-contact-info-item">
+                    <span>Phone</span>
+                    <a href="tel:5196605910">519-660-5910</a>
+                </div>
 
-                    @include('partials.site-setting', ['key' => 'contact_office_heading', 'tag' => 'h2', 'type' => 'text'])
-
-                    <div class="contact-info-item">
-                        <span>Address</span>
-                        <p>@include('partials.site-setting', ['key' => 'contact_address', 'tag' => 'span', 'type' => 'text'])</p>
-                    </div>
-
-                    <div class="contact-info-item">
-                        <span>Phone</span>
-                        <a href="tel:{{ preg_replace('/\D+/', '', \App\Models\SiteSetting::getValue('contact_phone', '5196605910')) }}">@include('partials.site-setting', ['key' => 'contact_phone', 'tag' => 'span', 'type' => 'text'])</a>
-                    </div>
-
-                    <div class="contact-info-item">
-                        <span>Email</span>
-                        <a href="mailto:{{ \App\Models\SiteSetting::getValue('contact_email', 'admin@thehealthline.ca') }}">@include('partials.site-setting', ['key' => 'contact_email', 'tag' => 'span', 'type' => 'text'])</a>
-                    </div>
-
-                    <div class="contact-note">
-                        @include('partials.site-setting', ['key' => 'contact_note_title', 'tag' => 'strong', 'type' => 'text'])
-                        @include('partials.site-setting', ['key' => 'contact_note_text', 'tag' => 'p', 'type' => 'textarea'])
-                    </div>
-                </aside>
-            </div>
+                <div class="t-contact-info-item">
+                    <span>Email</span>
+                    <a href="mailto:admin@thehealthline.ca">admin@thehealthline.ca</a>
+                </div>
+            </aside>
         </div>
     </section>
 @endsection
