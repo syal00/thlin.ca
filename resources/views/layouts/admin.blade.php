@@ -3,7 +3,30 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        (function () {
+            var storageKey = 'thlin_admin_theme';
+            var cookieName = 'thlin_admin_theme';
+            var saved = null;
+
+            try {
+                saved = localStorage.getItem(storageKey);
+            } catch (error) {
+                saved = null;
+            }
+
+            if (!saved) {
+                var match = document.cookie.match(/(?:^|;\s*)thlin_admin_theme=([^;]*)/);
+                saved = match ? decodeURIComponent(match[1]) : null;
+            }
+
+            var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <title>@yield('title', 'Admin') - {{ config('thlin.name') }}</title>
+    <link rel="icon" href="{{ asset('favicon.png') }}?v={{ @filemtime(public_path('favicon.png')) ?: '1' }}" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}?v={{ @filemtime(public_path('apple-touch-icon.png')) ?: '1' }}">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}?v={{ @filemtime(public_path('css/admin.css')) ?: '1' }}">
     @stack('head')
@@ -37,17 +60,11 @@
                             </span>
                             Dashboard
                         </a>
-                        <a href="{{ route('admin.inline-editing') }}"
-                           class="admin-nav-link {{ request()->routeIs('admin.inline-editing') ? 'active' : '' }}">
-                            <span class="admin-nav-icon" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-                            </span>
-                            Quick Website Edits
-                        </a>
                         <a href="{{ url('/?edit=1') }}"
                            target="_blank"
                            rel="noopener"
-                           class="admin-nav-link admin-nav-link-featured">
+                           class="admin-nav-link admin-nav-link-featured"
+                           data-admin-open-editor>
                             <span class="admin-nav-icon" aria-hidden="true">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                             </span>
@@ -136,6 +153,18 @@
                 </nav>
 
                 <div class="admin-sidebar-footer">
+                    <button type="button"
+                            class="admin-theme-toggle"
+                            data-admin-theme-toggle
+                            aria-pressed="false"
+                            aria-label="Switch to dark mode">
+                        <span class="admin-theme-toggle-label">Appearance</span>
+                        <span class="admin-theme-toggle-icons" aria-hidden="true">
+                            <svg data-theme-icon="light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                            <svg data-theme-icon="dark" hidden viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        </span>
+                    </button>
+
                     <div class="admin-user-pill">
                         <span class="admin-user-avatar" aria-hidden="true">{{ strtoupper(substr(auth()->user()->name ?? auth()->user()->email, 0, 1)) }}</span>
                         <div>
@@ -222,8 +251,28 @@
         </main>
     @endauth
 
+    @auth
+        <dialog class="admin-help-dialog" id="admin-inline-help-dialog" aria-labelledby="admin-inline-help-title">
+            <div class="admin-help-dialog-inner">
+                <div class="admin-help-dialog-head">
+                    <h2 id="admin-inline-help-title">How inline editing works</h2>
+                    <button type="button" class="admin-help-dialog-close" data-admin-inline-help-close aria-label="Close help dialog">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                </div>
+                @include('partials.admin-inline-editing-help')
+                <div class="admin-help-dialog-actions">
+                    <button type="button" class="btn btn-light" data-admin-inline-help-dismiss>Remind me later</button>
+                    <button type="button" class="btn btn-primary" data-admin-inline-help-open>Open Website Editor</button>
+                </div>
+            </div>
+        </dialog>
+    @endauth
+
     <script src="{{ asset('js/admin-shell.js') }}" defer></script>
     <script src="{{ asset('js/admin-media.js') }}" defer></script>
+    <script src="{{ asset('js/admin-theme.js') }}" defer></script>
+    <script src="{{ asset('js/admin-inline-help.js') }}" defer></script>
     @stack('scripts')
 </body>
 </html>

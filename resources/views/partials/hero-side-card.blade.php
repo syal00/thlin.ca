@@ -1,5 +1,4 @@
 <div class="hero-card">
-    <div class="hero-card-icon" aria-hidden="true">+</div>
     <h2>Find trusted health and community services</h2>
     <p>Search information, tools, news, and partner resources across the THLIN network.</p>
 

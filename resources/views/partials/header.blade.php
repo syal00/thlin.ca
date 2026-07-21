@@ -42,7 +42,13 @@
         <div class="t-container">
             <div class="header-inner nav-shell t-header-inner">
                 <a href="{{ route('home') }}" class="site-logo t-logo" aria-label="THLIN home">
-                    <span class="logo-icon t-logo-mark">THL</span>
+                    <img
+                        src="{{ asset('images/brand/thl-mark.png') }}"
+                        alt="THLIN"
+                        class="t-logo-mark"
+                        width="40"
+                        height="40"
+                    >
                     <span class="logo-text t-logo-text">THLIN</span>
                     <span class="logo-text-full t-logo-text-full">THL Information Network</span>
                 </a>

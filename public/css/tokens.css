@@ -16,7 +16,8 @@
        reserved for sparing use only (badges/alerts), never large fills. */
     --t-blue: #185FA5;
     --t-blue-dark: #124a84;
-    --t-navy: #042C53;
+    --t-healthline-blue: #06325C;
+    --t-navy: #06325C;
     --t-green: #3B6D11;
     --t-orange: #BA7517;
     --t-yellow: #EAB308;

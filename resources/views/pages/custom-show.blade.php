@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', ($page->meta_title ?: $page->title).' - '.$thlin['name'])
-@section('meta_description', $page->meta_description ?: $page->hero_subtitle)
+@section('meta_description', $page->meta_description ?: $page->hero_subtitle ?: '')
 
 @if (! empty($page->meta_keywords))
     @push('head')

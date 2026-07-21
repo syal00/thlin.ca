@@ -5,8 +5,8 @@
    public/js/hero-network.js and public/js/thlin.js — do not
    rename .home-hero, [data-hero-network]/.hero-network-canvas,
    .hero-video-bg video, .is-active, .hero-particle(s),
-   .hero-card, or .reveal-on-scroll/.is-revealed without
-   updating those scripts to match.
+   .hero-card, .home-hero-enter, or .reveal-on-scroll/.is-revealed
+   without updating those scripts to match.
 ========================================================= */
 
 .home-hero {
@@ -89,6 +89,26 @@
     padding: var(--t-space-lg);
     box-shadow: 0 30px 80px rgba(0,0,0,0.22);
 }
+
+/* Entrance animation — public/js/thlin.js adds .home-hero-enter to this
+   exact element on load. Previously this class had no CSS at all, so the
+   intended entrance never played. Guarded by prefers-reduced-motion so the
+   card is always visible by default and only animates in when motion is
+   welcome. */
+@media (prefers-reduced-motion: no-preference) {
+    .hero-card {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    .hero-card.home-hero-enter {
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity var(--t-duration-slow) var(--t-ease-out),
+                    transform var(--t-duration-slow) var(--t-ease-out);
+        transition-delay: 150ms;
+    }
+}
+
 .hero-card-icon {
     display: inline-grid; place-items: center;
     width: 44px; height: 44px;
@@ -103,6 +123,7 @@
 .hero-card ul { list-style: none; margin: var(--t-space-sm) 0; padding: 0; display: grid; gap: 0.4rem; }
 .hero-card li { color: var(--t-text-muted); font-size: 0.9rem; padding-left: 1.2rem; position: relative; }
 .hero-card li::before { content: "\2713"; position: absolute; left: 0; color: var(--t-green); font-weight: 900; }
+
 
 .hero-search { display: flex; margin-top: var(--t-space-md); border-radius: var(--t-radius-sm); overflow: hidden; border: 1px solid var(--t-border); }
 .hero-search input { flex: 1; border: 0; padding: 0.85rem 1rem; font: inherit; }
@@ -140,6 +161,9 @@
 /* ---------- Quick cards / product cards / portfolio intro ---------- */
 .home-section { padding: var(--t-space-2xl) 0; }
 .home-section--alt { background: var(--t-bg); }
+.home-section--healthline { background: var(--t-healthline-blue); color: var(--t-white); }
+.home-section--healthline h2 { color: var(--t-white); }
+.home-section--healthline p { color: rgba(255,255,255,0.9); }
 .home-section--dark { background: linear-gradient(135deg, var(--t-navy), var(--t-blue)); color: var(--t-white); }
 .home-section--dark h2 { color: var(--t-white); }
 .home-section--dark p { color: rgba(255,255,255,0.85); }
@@ -157,7 +181,7 @@
 }
 .home-quick-card:hover { transform: translateY(-4px); box-shadow: var(--t-shadow-md); }
 .home-quick-card img { width: 56px; height: 56px; object-fit: contain; margin-bottom: var(--t-space-sm); }
-.home-quick-card h3 { font-size: 1.15rem; margin-bottom: 0.4rem; }
+.home-quick-card h3 { font-size: 1.15rem; margin-bottom: 0.4rem; color: var(--t-navy); font-weight: 800; }
 .home-quick-card p { color: var(--t-text-muted); font-size: 0.92rem; margin: 0; }
 
 .home-product-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--t-space-md); }

@@ -12,7 +12,7 @@
             <p>Update pages, publish news, review messages, and manage files from one workspace.</p>
         </div>
         <div class="dash-welcome-actions">
-            <a href="{{ url('/?edit=1') }}" target="_blank" rel="noopener" class="btn btn-light">Open live editor</a>
+            <a href="{{ url('/?edit=1') }}" target="_blank" rel="noopener" class="btn btn-light" data-admin-open-editor>Open live editor</a>
             <a href="{{ route('admin.pages.create') }}" class="btn btn-primary">Create custom page</a>
         </div>
     </section>
@@ -126,7 +126,7 @@
                         <span>{{ $careerCount ?? 0 }} active job {{ ($careerCount ?? 0) === 1 ? 'posting' : 'postings' }}.</span>
                     </a>
 
-                    <a href="{{ route('admin.inline-editing') }}" class="quick-action-card">
+                    <a href="#inline-editing-help" class="quick-action-card">
                         <span class="quick-action-icon" aria-hidden="true">06</span>
                         <strong>Inline editing guide</strong>
                         <span>Learn how to edit text directly on the site.</span>
@@ -165,6 +165,11 @@
                     </div>
                 </div>
             @endif
+
+            @isset($publishedPagesList)
+                @php($publishedPages = $publishedPagesList)
+                @include('partials.admin-published-pages-table')
+            @endisset
         </div>
 
         <aside class="dashboard-layout-aside">
@@ -179,9 +184,31 @@
                     <li>Use the page editor for layout, SEO, and rich content.</li>
                     <li>Preview changes before publishing draft pages.</li>
                 </ul>
-                <a href="{{ url('/?edit=1') }}" target="_blank" rel="noopener" class="btn btn-primary">
+                <a href="{{ url('/?edit=1') }}" target="_blank" rel="noopener" class="btn btn-primary" data-admin-open-editor>
                     Open website editor
                 </a>
+            </div>
+
+            <div class="admin-card admin-card--spaced-top" id="inline-editing-help" data-admin-inline-help-card>
+                <div class="admin-card-head">
+                    <div>
+                        <h2>How inline editing works</h2>
+                        <p>Quick reference for live text edits on the public website.</p>
+                    </div>
+                    <button type="button" class="admin-help-dismiss" data-admin-inline-help-card-dismiss aria-label="Dismiss inline editing help">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                </div>
+
+                <details class="admin-help-details" open>
+                    <summary>Editing basics and CMS boundaries</summary>
+                    @include('partials.admin-inline-editing-help')
+                </details>
+
+                <div class="form-actions">
+                    <a href="{{ url('/?edit=1') }}" target="_blank" rel="noopener" class="btn btn-primary" data-admin-open-editor>Open Website Editor</a>
+                    <a href="{{ route('admin.inline-editing') }}" class="btn btn-light">Full guide page</a>
+                </div>
             </div>
 
             <div class="admin-card admin-card--compact">

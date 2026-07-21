@@ -1,10 +1,5 @@
 /* =========================================================
-   THLIN Accessibility — toolbar UI + toggled states
-   -----------------------------------------------------------
-   .t-text-large/.t-text-small/.t-high-contrast toggle on <html>
-   (see public/js/accessibility.js) so text scaling cascades
-   through every rem-based size, and high-contrast recolors via
-   the same design tokens every component uses.
+   THLIN Accessibility — system preference overrides
 ========================================================= */
 
 html.t-text-large { font-size: 112.5%; }
@@ -34,37 +29,4 @@ html.t-high-contrast .t-nav-search-submit { border: 2px solid #000000; }
         --t-text: #000000;
         --t-border: #000000;
     }
-}
-
-.t-a11y-toolbar {
-    position: fixed;
-    left: 1rem; bottom: 1rem;
-    z-index: 60;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.6rem 0.75rem;
-    background: var(--t-navy);
-    color: var(--t-white);
-    border-radius: var(--t-radius-md);
-    box-shadow: var(--t-shadow-lg);
-    max-width: min(420px, calc(100vw - 2rem));
-    box-sizing: border-box;
-}
-.t-a11y-toolbar strong { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; margin-right: 0.2rem; }
-.t-a11y-toolbar button {
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    background: rgba(255, 255, 255, 0.08);
-    color: var(--t-white);
-    border-radius: var(--t-radius-sm);
-    padding: 0.4rem 0.65rem;
-    font-size: 0.8rem;
-    font-weight: 700;
-    cursor: pointer;
-}
-.t-a11y-toolbar button:hover { background: rgba(255, 255, 255, 0.2); }
-
-@media (max-width: 640px) {
-    .t-a11y-toolbar { left: 0.75rem; right: 0.75rem; max-width: none; justify-content: center; }
 }

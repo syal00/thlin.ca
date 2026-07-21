@@ -29,6 +29,7 @@ class DashboardController extends Controller
                 ->orderByDesc('updated_at')
                 ->limit(8)
                 ->get(),
+            'publishedPagesList' => Page::published()->orderBy('title')->get(),
         ]);
     }
 }

@@ -1,57 +1,109 @@
 /* =========================================================
-   THLIN Footer
+   THLIN Footer — compact bar: brand | nav | social
 ========================================================= */
 
 .t-footer {
-    background: var(--t-navy);
-    color: rgba(255, 255, 255, 0.85);
+    background: var(--t-healthline-blue);
+    color: var(--t-white);
     margin-top: auto;
 }
-.t-footer-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.3fr) repeat(3, minmax(0, 1fr));
-    gap: var(--t-space-lg);
-    padding: var(--t-space-2xl) 0 var(--t-space-xl);
-}
-.t-footer-brand { display: flex; flex-direction: column; gap: var(--t-space-sm); }
-.t-footer-logo { display: flex; align-items: center; gap: 0.6rem; color: var(--t-white); text-decoration: none; font-weight: 800; }
-.t-footer-logo-mark {
-    display: inline-grid; place-items: center;
-    width: 36px; height: 36px;
-    border-radius: var(--t-radius-sm);
-    background: var(--t-blue);
-    color: var(--t-white);
-    font-size: 0.78rem; font-weight: 900;
-}
-.t-footer-brand p { color: rgba(255, 255, 255, 0.7); font-size: 0.92rem; line-height: 1.7; margin: 0; }
-.t-footer-column h2 {
-    color: var(--t-white);
-    font-size: 0.82rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: var(--t-space-sm);
-}
-.t-footer-column ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
-.t-footer-column a { color: rgba(255, 255, 255, 0.75); text-decoration: none; font-size: 0.92rem; }
-.t-footer-column a:hover { color: var(--t-white); }
-.t-footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.14); }
-.t-footer-bottom-inner {
+
+.t-footer-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
     gap: var(--t-space-md);
-    padding: var(--t-space-md) 0;
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.65);
+    padding: var(--t-space-xl) 0;
 }
-.t-footer-bottom-inner a { color: rgba(255, 255, 255, 0.85); text-decoration: none; font-weight: 700; }
-.t-footer-bottom-inner a:hover { color: var(--t-white); }
 
-@media (max-width: 1024px) {
-    .t-footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.t-footer-logo {
+    display: flex;
+    align-items: baseline;
+    gap: 0.45rem;
+    color: var(--t-white);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
 }
+.t-footer-logo:hover { opacity: 0.88; }
+
+.t-footer-logo-mark {
+    font-weight: 800;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+}
+
+.t-footer-logo-text {
+    font-weight: 400;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.t-footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--t-space-md);
+    flex: 1 1 auto;
+}
+
+.t-footer-nav a {
+    color: var(--t-white);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-size: 0.95rem;
+    transition: opacity 0.2s ease;
+}
+.t-footer-nav a:hover { opacity: 0.85; }
+
+.t-footer-social {
+    display: flex;
+    align-items: center;
+    gap: var(--t-space-sm);
+    flex: 0 0 auto;
+}
+
+.t-footer-social a {
+    display: inline-grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 6px;
+    color: var(--t-white);
+    transition: opacity 0.2s ease;
+}
+.t-footer-social a:hover { opacity: 0.8; }
+.t-footer-social svg { width: 22px; height: 22px; }
+
+.t-footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.t-footer-bottom-inner {
+    padding: var(--t-space-md) 0;
+    text-align: center;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.88);
+}
+
+.t-footer-bottom-inner p { margin: 0; }
+
+@media (max-width: 900px) {
+    .t-footer-row {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .t-footer-nav { justify-content: center; }
+}
+
 @media (max-width: 640px) {
-    .t-footer-grid { grid-template-columns: 1fr; }
-    .t-footer-bottom-inner { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    .t-footer-nav {
+        flex-direction: column;
+        gap: var(--t-space-sm);
+    }
 }

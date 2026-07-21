@@ -201,6 +201,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const editable = event.target.closest(editableSelector);
         if (editable) {
+            if (editable.closest('a.home-quick-card')) {
+                return;
+            }
+
             event.preventDefault();
             event.stopPropagation();
             if (editMode && editable !== activeElement) startInlineEdit(editable);
@@ -232,6 +236,12 @@ document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('click', function (event) {
         if (!editMode || isSafeControl(event.target)) return;
         if (event.target.closest(editableSelector) || event.target.closest(imageSelector)) return;
+
+        const cardLink = event.target.closest('a.home-quick-card');
+        if (cardLink) {
+            return;
+        }
+
         const interactive = event.target.closest('a, button, input[type="submit"], summary');
         if (interactive) { event.preventDefault(); event.stopPropagation(); }
     }, true);
