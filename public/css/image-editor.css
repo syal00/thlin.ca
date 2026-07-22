@@ -1,0 +1,172 @@
+.thlin-image-editor-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(4, 44, 83, 0.55);
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.thlin-image-editor-overlay.is-open {
+    display: flex;
+}
+
+.thlin-image-editor {
+    background: var(--admin-card, #fff);
+    border-radius: var(--admin-radius, 20px);
+    box-shadow: var(--admin-shadow-lg, 0 24px 60px rgba(4, 44, 83, 0.12));
+    width: min(920px, 100%);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: inherit;
+}
+
+.thlin-image-editor-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--admin-border, #D7E2EE);
+}
+
+.thlin-image-editor-header h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    color: var(--admin-text, #1F2937);
+}
+
+.thlin-image-editor-close {
+    border: none;
+    background: transparent;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--admin-muted, #64748B);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 8px;
+}
+
+.thlin-image-editor-close:hover {
+    background: var(--admin-bg, #EEF3F9);
+}
+
+.thlin-image-editor-body {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    overflow: auto;
+    flex: 1;
+}
+
+.thlin-image-editor-canvas-wrap {
+    flex: 1;
+    min-width: 0;
+    min-height: 360px;
+    background: #111827;
+    border-radius: var(--admin-radius-sm, 14px);
+    overflow: hidden;
+    display: flex;
+}
+
+.thlin-image-editor-source {
+    display: block;
+    max-width: 100%;
+}
+
+.thlin-image-editor-controls {
+    width: 240px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.thlin-image-editor-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.thlin-image-editor-group button {
+    border: 1px solid var(--admin-border, #D7E2EE);
+    background: var(--admin-bg, #EEF3F9);
+    border-radius: 10px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: var(--admin-text, #1F2937);
+}
+
+.thlin-image-editor-group button:hover {
+    background: var(--admin-blue-light, #E6F1FB);
+    border-color: var(--admin-blue, #185FA5);
+}
+
+.thlin-image-editor-aspect-presets {
+    align-items: center;
+}
+
+.thlin-image-editor-aspect-presets span {
+    width: 100%;
+    font-size: 0.8rem;
+    color: var(--admin-muted, #64748B);
+}
+
+.thlin-image-editor-dims {
+    flex-direction: column;
+    gap: 10px;
+}
+
+.thlin-image-editor-dims label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.8rem;
+    color: var(--admin-muted, #64748B);
+}
+
+.thlin-image-editor-dims input[type="number"] {
+    border: 1px solid var(--admin-border, #D7E2EE);
+    border-radius: 8px;
+    padding: 6px 8px;
+    font-size: 0.9rem;
+}
+
+.thlin-image-editor-checkbox {
+    flex-direction: row !important;
+    align-items: center;
+    gap: 6px !important;
+}
+
+.thlin-image-editor-status {
+    min-height: 1.1em;
+    font-size: 0.8rem;
+    color: var(--admin-muted, #64748B);
+    margin: 0;
+}
+
+.thlin-image-editor-status.is-error {
+    color: #B42318;
+}
+
+.thlin-image-editor-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 20px;
+    border-top: 1px solid var(--admin-border, #D7E2EE);
+}
+
+@media (max-width: 720px) {
+    .thlin-image-editor-body {
+        flex-direction: column;
+    }
+
+    .thlin-image-editor-controls {
+        width: 100%;
+    }
+}

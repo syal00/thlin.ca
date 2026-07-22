@@ -5,7 +5,7 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-        "postinstall": "node scripts/copy-tinymce.cjs"
+        "postinstall": "node scripts/copy-tinymce.cjs && node scripts/copy-cropper.cjs"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.0",
@@ -14,5 +14,8 @@
         "tailwindcss": "^4.0.0",
         "tinymce": "^8.6.0",
         "vite": "^8.0.0"
+    },
+    "dependencies": {
+        "cropperjs": "^1.6.2"
     }
 }

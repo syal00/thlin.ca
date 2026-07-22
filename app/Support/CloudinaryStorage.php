@@ -43,7 +43,8 @@ class CloudinaryStorage
             ];
         }
 
-        $fileName = Str::uuid().'.'.$file->getClientOriginalExtension();
+        $extension = $file->getClientOriginalExtension() ?: ($file->guessExtension() ?: 'png');
+        $fileName = Str::uuid().'.'.$extension;
         $path = $file->storeAs(trim($folder, '/'), $fileName, 'public');
 
         return [
