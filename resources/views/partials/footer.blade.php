@@ -10,9 +10,7 @@
             <a href="{{ route('pages.show', ['section' => 'about', 'page' => 'us']) }}">About</a>
             <a href="{{ route('contact') }}">Contact</a>
             <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}">thehealthline.ca</a>
-            @if (app()->environment('local'))
-                <a href="{{ route('admin.login') }}">CMS Login</a>
-            @endif
+            <a href="{{ route('admin.login') }}">CMS Login</a>
         </nav>
 
         <div class="t-footer-social">
