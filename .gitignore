@@ -23,6 +23,7 @@
 /storage/pail
 /vendor
 /database/database.sqlite
+todo.md
 _ide_helper.php
 Homestead.json
 Homestead.yaml

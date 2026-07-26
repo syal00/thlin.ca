@@ -7,7 +7,7 @@ Laravel (PHP Blade) redesign of the **thehealthline.ca Information Network** cor
 | Layer | Technology |
 |-------|------------|
 | Backend | PHP 8.4, Laravel 13, Blade |
-| Database | SQLite for local development; PostgreSQL for Vercel production/preview |
+| Database | SQLite for the current project scope and demo environment |
 | Frontend | HTML, CSS, JavaScript |
 | Local URL | http://thlin.ca.test (Laravel Herd) |
 
@@ -83,11 +83,10 @@ Optional: set `TINYMCE_SELF_HOSTED=false` and `TINYMCE_API_KEY` in `.env` to use
 
 ### Upload storage
 
-**Vercel warning:** Uploaded files are not persistent on Vercel serverless storage. Production/preview uploads should write file bodies to Vercel Blob and store metadata in PostgreSQL. Local development may continue using Laravel's local public disk.
+**Database and hosting warning:** SQLite is the approved database for the current scope. A Vercel serverless filesystem is not durable for database writes, so do not describe CMS changes on that environment as production-grade persistence. Back up SQLite before content or schema changes. A future production database migration will be planned separately with the client’s SQL Server 2016/2019 environment.
 
 See:
 
-- `docs/phase-0-checklist.md`
 - `docs/admin-managed-vercel-setup.md`
 - `docs/vercel-data-architecture.md`
 
@@ -114,21 +113,11 @@ See:
 - `portfolio_items` — portfolio (featured items show on home)
 - `users` — admin login
 
-## Production database
+## Database deployment status
 
-Local development uses SQLite by default. Vercel Production and Preview should use PostgreSQL with an SSL-enabled connection string configured in Vercel environment variables:
+The current project uses SQLite (`DB_CONNECTION=sqlite`). Do not configure PostgreSQL, Neon, `DATABASE_URL`, or remote database migration commands for this scope.
 
-```env
-DB_CONNECTION=pgsql
-DATABASE_URL=postgresql://USER:PASSWORD@HOST:5432/DATABASE?sslmode=require
-DB_SSLMODE=require
-```
-
-Run production migrations from a trusted environment:
-
-```bash
-php artisan migrate --force
-```
+SQLite is appropriate for the current self-contained demo and local development. Before a production deployment that requires durable multi-user CMS editing, the team will run a separate, approved migration to the client’s Microsoft SQL Server 2016/2019 environment. That future phase will include a test database, data backup, schema compatibility review, import validation, and rollback plan.
 
 ## Project structure
 

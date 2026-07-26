@@ -1,201 +1,52 @@
-# Admin-Managed Vercel Production Setup
+# Admin-Managed Deployment and Database Status
 
-This runbook is for the temporary no-upgrade workflow where the Vercel project owner keeps production access and runs the online configuration steps for the development team.
+This document describes the current database scope when the Vercel project owner retains deployment access. It does not authorize a PostgreSQL, Neon, or SQL Server migration.
 
-## Decision
+## Current decision
 
-- Do not upgrade the Vercel plan just to add project members.
-- Do not share a personal Vercel login or password.
-- Developers continue code, migrations, tests, and documentation in GitHub.
-- The Vercel administrator performs production/preview configuration from this checklist.
+- Keep the Vercel plan unchanged and do not share the owner's login or password.
+- Keep SQLite as the current project database.
+- Do not create PostgreSQL or Neon databases.
+- Do not configure `DB_CONNECTION=pgsql`, `DATABASE_URL`, `DATABASE_DIRECT_URL`, or remote database migration commands.
+- Do not run `php artisan migrate --force` against an external database for this scope.
+- Before schema or content changes, create and verify a SQLite backup.
 
-This keeps subscription costs unchanged, but production troubleshooting and deployments require administrator support until project access is granted later.
+## Responsibilities
 
-## Roles
-
-| Role | Owns |
+| Role | Responsibility |
 | --- | --- |
-| Developer | Code changes, migrations, local SQLite testing, migration dry runs, PR notes, deployment checklist updates |
-| Vercel administrator | Vercel project settings, Neon/PostgreSQL creation, Vercel Blob store, environment variables, production migration execution, deployment approval |
+| Developer | Code changes, local SQLite migrations, SQLite backups, automated tests, and database documentation. |
+| Vercel administrator | Deployment access, deployment status, and reporting deployment errors without sharing credentials. |
+| Client | Approves any future production database migration and supplies SQL Server access only for that separate phase. |
 
-## Execution Flow
+## Current deployment checks
 
-1. Developer prepares a branch or PR with the database/storage changes.
-2. Developer confirms local development still uses SQLite.
-3. Developer sends the administrator the required environment variable list and migration commands.
-4. Administrator creates the managed PostgreSQL database.
-5. Administrator creates the Vercel Blob store.
-6. Administrator adds environment variables to Vercel Preview and Production.
-7. Administrator runs database migrations against PostgreSQL.
-8. Administrator deploys the target branch.
-9. Developer verifies the public site and admin CMS behavior from the deployed URL.
+Before asking the Vercel administrator to deploy a branch:
 
-## Developer Checklist
+1. Confirm `.env` uses `DB_CONNECTION=sqlite`.
+2. Back up `database/database.sqlite` outside the Git worktree.
+3. Run the approved SQLite migration and test checks locally.
+4. Confirm no PostgreSQL connection string, migration command, or database credential is included in the branch or deployment request.
+5. Send the administrator the branch name and public verification URLs only.
 
-Complete these before asking the administrator to touch Vercel:
+## SQLite limitation on Vercel
 
-- Confirm `.env` remains local-only and uses SQLite:
+Vercel functions do not provide a durable shared filesystem for SQLite writes. The current demonstration may read bundled SQLite content, but CMS changes made in a serverless instance must not be treated as durable across redeploys, instance changes, or concurrent writes.
 
-  ```env
-  DB_CONNECTION=sqlite
-  FILESYSTEM_DISK=local
-  ```
+For the current scope, do not claim production-grade persistent CMS editing on Vercel. Record important content changes in the verified local SQLite backup until the client approves a production database phase.
 
-- Run local migrations and tests:
+## Future SQL Server phase
 
-  ```bash
-  php artisan migrate --seed
-  php artisan test
-  ```
+The client’s Microsoft SQL Server 2016/2019 environment is the preferred future target. That work must be separately approved and must include:
 
-- Confirm the production env contract matches `.env.production.example`:
+- a dedicated test database and minimal-permission account;
+- network, TLS, VPN, firewall, and PHP `pdo_sqlsrv`/ODBC prerequisites;
+- SQLite backup, data export/import rehearsal, record-count checks, and a rollback plan;
+- a planned content-freeze and deployment window.
 
-  ```env
-  DB_CONNECTION=pgsql
-  DATABASE_URL=postgresql://USER:PASSWORD@HOST:5432/DATABASE?sslmode=require
-  DB_SSLMODE=require
-  BLOB_READ_WRITE_TOKEN=vercel_blob_rw_REPLACE_ME
-  CACHE_STORE=array
-  SESSION_DRIVER=cookie
-  QUEUE_CONNECTION=sync
-  ```
+No SQL Server credentials, connection strings, or migration commands belong in this repository before that approval.
 
-- If content needs to be copied from local SQLite to PostgreSQL, dry-run the import locally first:
+## Related documents
 
-  ```bash
-  php artisan thlin:import-sqlite database/database.sqlite --dry-run
-  ```
-
-- Send the administrator:
-  - target branch or PR link
-  - required env vars
-  - whether migration is schema-only or also imports SQLite content
-  - rollback note
-  - verification URLs to check after deployment
-
-## Administrator Checklist
-
-### 1. Create PostgreSQL
-
-Create a managed PostgreSQL database for the Vercel project. Neon is recommended for this project.
-
-Required output:
-
-- SSL-enabled PostgreSQL connection string
-- database name
-- note whether the database is for Preview, Production, or both
-
-The connection string should look like:
-
-```text
-postgresql://USER:PASSWORD@HOST/DATABASE?sslmode=require
-```
-
-### 2. Create Vercel Blob Store
-
-Create or connect a Vercel Blob store for uploaded files such as PDFs, annual reports, and page images.
-
-Required output:
-
-- `BLOB_READ_WRITE_TOKEN`
-- confirmation that the Blob store is connected to the same Vercel project
-
-Do not send the token in regular chat if avoidable. Add it directly to Vercel environment variables.
-
-### 3. Configure Vercel Environment Variables
-
-In the Vercel project settings, add these variables to both Preview and Production unless the team explicitly asks for only one environment:
-
-```env
-DB_CONNECTION=pgsql
-DATABASE_URL=postgresql://USER:PASSWORD@HOST/DATABASE?sslmode=require
-DB_SSLMODE=require
-BLOB_READ_WRITE_TOKEN=vercel_blob_rw_REPLACE_ME
-CACHE_STORE=array
-SESSION_DRIVER=cookie
-QUEUE_CONNECTION=sync
-```
-
-Keep the existing Vercel runtime variables from `vercel.json`. Do not commit real credentials to GitHub.
-
-### 4. Run Migrations
-
-Use a clean local clone or trusted CI/deployment shell with the target branch checked out.
-
-Install dependencies:
-
-```bash
-composer install --no-dev --optimize-autoloader
-npm install
-npm run build
-```
-
-Create a temporary `.env` from `.env.production.example`, fill in the real PostgreSQL and Blob values, then run:
-
-```bash
-php artisan config:clear
-php artisan migrate --force
-```
-
-If the team approved importing the current SQLite public content into an empty PostgreSQL database, run:
-
-```bash
-php artisan thlin:import-sqlite database/database.sqlite --dry-run
-php artisan thlin:import-sqlite database/database.sqlite --fresh --force
-```
-
-Important:
-
-- Do not run `migrate:fresh` on a database that contains production data.
-- Do not import `users`, `contact_messages`, or `media_files` unless the developer explicitly asks for those flags.
-- The `--include-media` option imports metadata only. PDF/image files still need Blob migration.
-
-### 5. Deploy
-
-Deploy the target branch after environment variables and migrations are complete.
-
-After deployment, confirm:
-
-- the public site loads
-- `/admin/login` loads
-- CMS pages can be read from PostgreSQL
-- file upload actions are not enabled for production until Blob upload implementation is complete
-- Vercel deployment logs do not show database connection errors
-
-## Rollback
-
-If deployment fails:
-
-1. Revert the Vercel deployment to the previous successful deployment.
-2. Keep the PostgreSQL database and Blob store intact for debugging.
-3. Do not delete production data.
-4. Send the deployment error logs to the developer.
-
-If migrations fail:
-
-1. Stop before deploying.
-2. Save the exact migration error.
-3. Confirm whether the database was empty or had existing data.
-4. Ask the developer before retrying with any destructive command.
-
-## Message To Send The Administrator
-
-```text
-It looks like Vercel requires an upgrade to add project members, so let's avoid changing the subscription for now.
-
-Please keep Vercel access under your account/team and run the production setup from our checklist:
-1. Create/connect Neon PostgreSQL for the Vercel project.
-2. Create/connect Vercel Blob for PDFs and images.
-3. Add the required environment variables to Preview and Production.
-4. Run the Laravel migrations against PostgreSQL.
-5. Deploy the target branch.
-
-I will continue code, migrations, tests, and documentation in GitHub. I do not need your personal Vercel login/password.
-```
-
-## Related Docs
-
-- `docs/phase-0-checklist.md`
+- `README.md`
 - `docs/vercel-data-architecture.md`
-- `docs/sqlite-to-postgresql-migration.md`
-- `.env.production.example`
