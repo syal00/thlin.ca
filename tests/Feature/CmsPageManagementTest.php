@@ -187,6 +187,52 @@ class CmsPageManagementTest extends TestCase
         $this->assertSame($admin->id, $page->updated_by);
     }
 
+    public function test_custom_page_creation_rejects_a_negative_sort_order(): void
+    {
+        $admin = User::firstOrFail();
+
+        $this->actingAs($admin)
+            ->from(route('admin.pages.create'))
+            ->post(route('admin.pages.store'), [
+                'title' => 'Negative sort page',
+                'slug' => 'negative-sort-page',
+                'sort_order' => -1,
+                'action' => 'draft',
+            ])
+            ->assertRedirect(route('admin.pages.create'))
+            ->assertSessionHasErrors('sort_order');
+
+        $this->assertDatabaseMissing('pages', ['slug' => 'negative-sort-page']);
+    }
+
+    public function test_custom_page_update_rejects_a_negative_sort_order(): void
+    {
+        $admin = User::firstOrFail();
+        $page = Page::create([
+            'title' => 'Sort order test page',
+            'slug' => 'sort-order-test-page',
+            'section' => 'custom',
+            'template' => 'standard',
+            'page_type' => 'custom',
+            'status' => 'draft',
+            'is_published' => false,
+            'sort_order' => 3,
+        ]);
+
+        $this->actingAs($admin)
+            ->from(route('admin.pages.edit', $page))
+            ->put(route('admin.pages.update', $page), [
+                'title' => $page->title,
+                'slug' => $page->slug,
+                'sort_order' => -1,
+                'action' => 'save',
+            ])
+            ->assertRedirect(route('admin.pages.edit', $page))
+            ->assertSessionHasErrors('sort_order');
+
+        $this->assertSame(3, $page->fresh()->sort_order);
+    }
+
     public function test_custom_page_edit_form_shows_saved_values(): void
     {
         $admin = User::firstOrFail();

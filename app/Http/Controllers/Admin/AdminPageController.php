@@ -65,7 +65,7 @@ class AdminPageController extends Controller
             'meta_keywords' => ['nullable', 'string', 'max:1000'],
             'show_in_navigation' => ['nullable', 'boolean'],
             'navigation_label' => ['nullable', 'string', 'max:255'],
-            'sort_order' => ['nullable', 'integer'],
+            'sort_order' => ['nullable', 'integer', 'min:0'],
             'action' => ['nullable', 'string'],
         ], $this->validationMessages());
 
@@ -133,7 +133,7 @@ class AdminPageController extends Controller
                 'parent_id' => ['nullable', 'exists:pages,id'],
                 'show_in_navigation' => ['nullable', 'boolean'],
                 'navigation_label' => ['nullable', 'string', 'max:255'],
-                'sort_order' => ['nullable', 'integer'],
+                'sort_order' => ['nullable', 'integer', 'min:0'],
                 'action' => ['nullable', 'string'],
             ]);
         } else {

@@ -149,6 +149,54 @@ class DatabaseCheckCommandTest extends TestCase
         $this->assertDatabaseCheckFailsWith('Duplicate administrator email groups: 1');
     }
 
+    public function test_it_creates_indexes_for_foreign_key_lookup_paths(): void
+    {
+        $indexNames = collect(DB::select(
+            "SELECT name FROM sqlite_master WHERE type = 'index' AND name IN (?, ?, ?, ?) ORDER BY name",
+            [
+                'pages_parent_id_status_sort_order_title_index',
+                'pages_created_by_index',
+                'pages_updated_by_index',
+                'media_files_uploaded_by_index',
+            ]
+        ))->pluck('name')->all();
+
+        $this->assertSame([
+            'media_files_uploaded_by_index',
+            'pages_created_by_index',
+            'pages_parent_id_status_sort_order_title_index',
+            'pages_updated_by_index',
+        ], $indexNames);
+    }
+
+    public function test_it_reports_invalid_sort_order_values(): void
+    {
+        DB::table('pages')->where('slug', 'products-services')->update(['sort_order' => -1]);
+
+        $this->assertDatabaseCheckFailsWith('Invalid pages.sort_order values: 1');
+    }
+
+    public function test_it_reports_invalid_boolean_values(): void
+    {
+        DB::table('pages')->where('slug', 'products-services')->update(['show_in_navigation' => 2]);
+
+        $this->assertDatabaseCheckFailsWith('Invalid pages.show_in_navigation boolean values: 1');
+    }
+
+    public function test_it_reports_invalid_date_values(): void
+    {
+        DB::table('careers')->insert([
+            'title' => 'Invalid date role',
+            'slug' => 'invalid-date-role',
+            'posted_at' => 'not-a-date',
+            'is_active' => true,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $this->assertDatabaseCheckFailsWith('Invalid careers.posted_at date values: 1');
+    }
+
     private function assertDatabaseCheckFailsWith(string $diagnostic): void
     {
         $this->artisan('thlin:db-check')

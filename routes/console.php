@@ -183,6 +183,52 @@ Artisan::command('thlin:db-check', function () {
         $failures[] = "Duplicate administrator email groups: {$duplicateEmails}";
     }
 
+    foreach ([
+        ['pages', 'sort_order'],
+        ['board_members', 'sort_order'],
+        ['portfolio_items', 'sort_order'],
+    ] as [$table, $column]) {
+        $invalidCount = $connection->table($table)
+            ->whereRaw("typeof({$column}) != 'integer' OR {$column} < 0")
+            ->count();
+
+        if ($invalidCount > 0) {
+            $failures[] = "Invalid {$table}.{$column} values: {$invalidCount}";
+        }
+    }
+
+    foreach ([
+        ['pages', 'is_published'],
+        ['pages', 'show_in_navigation'],
+        ['news_posts', 'is_published'],
+        ['careers', 'is_active'],
+        ['portfolio_items', 'featured'],
+    ] as [$table, $column]) {
+        $invalidCount = $connection->table($table)
+            ->whereRaw("typeof({$column}) != 'integer' OR {$column} NOT IN (0, 1)")
+            ->count();
+
+        if ($invalidCount > 0) {
+            $failures[] = "Invalid {$table}.{$column} boolean values: {$invalidCount}";
+        }
+    }
+
+    foreach ([
+        ['pages', 'published_at'],
+        ['news_posts', 'published_at'],
+        ['careers', 'posted_at'],
+        ['careers', 'closes_at'],
+    ] as [$table, $column]) {
+        $invalidCount = $connection->table($table)
+            ->whereNotNull($column)
+            ->whereRaw("date({$column}) IS NULL")
+            ->count();
+
+        if ($invalidCount > 0) {
+            $failures[] = "Invalid {$table}.{$column} date values: {$invalidCount}";
+        }
+    }
+
     $pages = $connection->table('pages')
         ->select('id', 'parent_id', 'page_type', 'status', 'slug')
         ->get();
