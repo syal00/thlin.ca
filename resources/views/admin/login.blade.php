@@ -30,7 +30,7 @@
 
                 <div class="admin-login-card-header">
                     <h1>CMS sign in</h1>
-                    <p>Sign in to edit site content. After your password, enter a code from your authenticator app.</p>
+                    <p>Sign in to edit site content. No public registration.</p>
                 </div>
 
                 @if ($errors->any())

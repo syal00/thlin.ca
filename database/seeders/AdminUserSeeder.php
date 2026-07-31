@@ -12,9 +12,9 @@ class AdminUserSeeder extends Seeder
     {
         $admin = config('admin');
 
-        $user = User::where('email', $admin['email'])->first()
-            ?? User::where('email', 'admin@thlin.local')->first()
-            ?? User::orderBy('id')->first();
+        if (User::where('email', $admin['email'])->exists() || User::query()->exists()) {
+            return;
+        }
 
         $attributes = [
             'name' => $admin['name'],
@@ -23,10 +23,6 @@ class AdminUserSeeder extends Seeder
             'email_verified_at' => now(),
         ];
 
-        if ($user) {
-            $user->update($attributes);
-        } else {
-            User::create($attributes);
-        }
+        User::create($attributes);
     }
 }

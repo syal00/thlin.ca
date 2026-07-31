@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
@@ -84,6 +85,8 @@ class UserController extends Controller
                 ->with('status', 'At least one admin user is required.');
         }
 
+        DB::table('sessions')->where('user_id', $user->id)->delete();
+        $user->forceFill(['remember_token' => null])->save();
         $user->delete();
 
         return redirect()->route('admin.users.index')->with('status', 'Admin user deleted.');

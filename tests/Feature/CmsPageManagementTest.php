@@ -264,7 +264,7 @@ class CmsPageManagementTest extends TestCase
             ->assertSee('value="annual-reports-edit-test"', false)
             ->assertSee('value="Reports Hero"', false)
             ->assertSee('Intro text for reports', false)
-            ->assertSee('<p>Existing report content</p>', false)
+            ->assertSee('<p>Existing report content</p>')
             ->assertSee('Reports meta description', false)
             ->assertSee('value="Reports Menu"', false)
             ->assertSee('value="4"', false);
@@ -566,8 +566,8 @@ class CmsPageManagementTest extends TestCase
             ->get(route('admin.pages.edit', $page))
             ->assertOk()
             ->assertSee('id="page-content-editor"', false)
-            ->assertSee('src="/storage/media/chart.png"', false)
-            ->assertSee('<table><tr><td>2024</td></tr></table>', false)
-            ->assertSee('<section class="content-section">', false);
+            ->assertSee('src="/storage/media/chart.png"')
+            ->assertSee('<table><tr><td>2024</td></tr></table>')
+            ->assertSee('<section class="content-section">');
     }
 }

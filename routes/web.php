@@ -38,12 +38,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest')->group(function () {
         Route::get('login', [AdminAuthController::class, 'showLogin'])->name('login');
         Route::post('login', [AdminAuthController::class, 'login'])->middleware('throttle:5,1');
-        Route::get('login/verify', [AdminAuthController::class, 'showVerifyTwoFactor'])->name('login.verify');
-        Route::post('login/verify', [AdminAuthController::class, 'verifyTwoFactor'])->name('login.verify.submit')->middleware('throttle:10,1');
-        Route::get('login/setup-2fa', [AdminAuthController::class, 'showSetupTwoFactor'])->name('login.setup-2fa');
-        Route::post('login/setup-2fa', [AdminAuthController::class, 'confirmSetupTwoFactor'])->name('login.setup-2fa.submit')->middleware('throttle:10,1');
-        Route::post('login/setup-2fa/reset', [AdminAuthController::class, 'resetTwoFactorSetup'])->name('login.setup-2fa.reset')->middleware('throttle:3,1');
-        Route::get('login/verify/cancel', [AdminAuthController::class, 'cancelVerify'])->name('login.verify.cancel');
     });
 
     Route::middleware('auth')->group(function () {
