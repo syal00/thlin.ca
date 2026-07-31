@@ -353,6 +353,104 @@ class CmsPageManagementTest extends TestCase
         $this->assertSame('<p>Important saved content</p>', $page->body);
     }
 
+    public function test_published_custom_page_renders_custom_html(): void
+    {
+        $page = Page::create([
+            'title' => 'HTML Test Page',
+            'slug' => 'html-test-page',
+            'section' => 'custom',
+            'template' => 'standard',
+            'page_type' => 'custom',
+            'status' => 'published',
+            'is_published' => true,
+            'published_at' => now(),
+            'custom_html' => '<section class="report-chart"><h2>Quarterly results</h2><img src="/images/chart.png" alt="Chart"><canvas id="chart"></canvas></section>',
+        ]);
+
+        $this->get(route('custom-pages.show', $page->slug))
+            ->assertOk()
+            ->assertSee('Quarterly results', false)
+            ->assertSee('report-chart', false)
+            ->assertSee('<canvas id="chart"></canvas>', false);
+    }
+
+    public function test_admin_can_save_custom_html_on_custom_page(): void
+    {
+        $admin = User::firstOrFail();
+
+        $page = Page::create([
+            'title' => 'Save HTML Page',
+            'slug' => 'save-html-page',
+            'section' => 'custom',
+            'template' => 'standard',
+            'page_type' => 'custom',
+            'status' => 'draft',
+            'is_published' => false,
+            'body' => '<p>Existing body</p>',
+        ]);
+
+        $html = '<div class="custom-block"><p>Custom HTML block</p></div>';
+
+        $this->actingAs($admin)
+            ->put(route('admin.pages.update', $page), [
+                'title' => $page->title,
+                'slug' => $page->slug,
+                'custom_html' => $html,
+                'action' => 'save',
+            ])
+            ->assertRedirect(route('admin.pages.index'));
+
+        $this->assertSame($html, $page->fresh()->custom_html);
+    }
+
+    public function test_published_custom_child_page_appears_in_section_navigation(): void
+    {
+        $about = Page::published()->where('slug', 'about')->firstOrFail();
+
+        $page = Page::create([
+            'title' => 'Nav Menu Test',
+            'slug' => 'nav-menu-test',
+            'parent_id' => $about->id,
+            'section' => 'custom',
+            'template' => 'standard',
+            'page_type' => 'custom',
+            'status' => 'published',
+            'is_published' => true,
+            'published_at' => now(),
+            'show_in_navigation' => true,
+            'body' => '<p>Navigation test page</p>',
+        ]);
+
+        $this->get(route('home'))
+            ->assertOk()
+            ->assertSee('Nav Menu Test');
+    }
+
+    public function test_published_nested_custom_page_appears_in_parent_dropdown(): void
+    {
+        $admin = User::firstOrFail();
+        $about = Page::published()->where('slug', 'about')->firstOrFail();
+
+        $nested = Page::create([
+            'title' => 'Dropdown Parent Test',
+            'slug' => 'dropdown-parent-test',
+            'parent_id' => $about->id,
+            'section' => 'custom',
+            'template' => 'standard',
+            'page_type' => 'custom',
+            'status' => 'published',
+            'is_published' => true,
+            'published_at' => now(),
+            'body' => '<p>Nested custom page</p>',
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.pages.create'))
+            ->assertOk()
+            ->assertSee('Dropdown Parent Test')
+            ->assertSee('/about/dropdown-parent-test', false);
+    }
+
     public function test_public_home_shares_cms_page_for_admin_edit_link(): void
     {
         $admin = User::firstOrFail();
@@ -361,6 +459,36 @@ class CmsPageManagementTest extends TestCase
             ->get(route('home'))
             ->assertOk()
             ->assertSee('Edit This Page');
+    }
+
+    public function test_public_preview_hides_admin_inline_edit_bar(): void
+    {
+        $admin = User::firstOrFail();
+
+        $this->actingAs($admin)
+            ->get(route('home', ['preview' => 1]))
+            ->assertOk()
+            ->assertDontSee('Enable Inline Editing', false)
+            ->assertDontSee('data-inline-edit-bar', false);
+
+        $this->actingAs($admin)
+            ->get(route('home'))
+            ->assertOk()
+            ->assertDontSee('Enable Inline Editing', false);
+    }
+
+    public function test_edit_mode_clears_public_preview_session(): void
+    {
+        $admin = User::firstOrFail();
+
+        $this->actingAs($admin)
+            ->get(route('home', ['preview' => 1]))
+            ->assertOk();
+
+        $this->actingAs($admin)
+            ->get(route('home', ['edit' => 1]))
+            ->assertOk()
+            ->assertSee('Enable Inline Editing', false);
     }
 
     public function test_admin_can_publish_and_unpublish_custom_page(): void
@@ -421,5 +549,25 @@ class CmsPageManagementTest extends TestCase
             'Updated from admin settings screen.',
             SiteSetting::getValue('footer_description')
         );
+    }
+
+    public function test_edit_page_loads_existing_content_for_visual_editor(): void
+    {
+        $admin = User::firstOrFail();
+        $page = Page::published()->where('slug', 'healthline')->firstOrFail();
+
+        $page->update([
+            'body' => '<section class="content-section"><p>Annual data</p></section>'
+                .'<img src="http://thlin.test/storage/media/chart.png" alt="Chart">'
+                .'<table><tr><td>2024</td></tr></table>',
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.pages.edit', $page))
+            ->assertOk()
+            ->assertSee('id="page-content-editor"', false)
+            ->assertSee('src="/storage/media/chart.png"', false)
+            ->assertSee('<table><tr><td>2024</td></tr></table>', false)
+            ->assertSee('<section class="content-section">', false);
     }
 }

@@ -68,6 +68,43 @@
     color: var(--t-navy);
     font-weight: 600;
 }
+
+/* Raw HTML pasted in the CMS custom HTML field */
+.custom-html-content {
+    max-width: 100%;
+    color: var(--t-text);
+    font-size: 1.05rem;
+    line-height: 1.8;
+}
+
+.custom-html-content img,
+.custom-html-content svg,
+.custom-html-content canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+.custom-html-content iframe,
+.custom-html-content embed,
+.custom-html-content object,
+.custom-html-content video {
+    display: block;
+    max-width: 100%;
+    border: 0;
+    margin: var(--t-space-md) 0;
+}
+
+.custom-html-content table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+}
+
+.custom-html-content + .t-prose-content,
+.custom-html-content + div {
+    margin-top: var(--t-space-xl);
+}
 .t-prose-meta,
 .content-updated,
 .simple-updated { margin-top: var(--t-space-lg); color: var(--t-text-muted); font-size: 0.9rem; text-align: right; }

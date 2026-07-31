@@ -33,6 +33,7 @@
             'publishedPages' => $publishedPages,
             'parentPages' => $parentPages,
             'parentPageGroups' => $parentPageGroups,
+            'boardMembers' => $boardMembers ?? collect(),
             'action' => route('admin.pages.update', $page),
             'method' => 'PUT',
         ])

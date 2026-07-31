@@ -12,13 +12,21 @@ class AdminUserSeeder extends Seeder
     {
         $admin = config('admin');
 
-        User::updateOrCreate(
-            ['email' => $admin['email']],
-            [
-                'name' => $admin['name'],
-                'password' => Hash::make($admin['password']),
-                'email_verified_at' => now(),
-            ]
-        );
+        $user = User::where('email', $admin['email'])->first()
+            ?? User::where('email', 'admin@thlin.local')->first()
+            ?? User::orderBy('id')->first();
+
+        $attributes = [
+            'name' => $admin['name'],
+            'email' => $admin['email'],
+            'password' => Hash::make($admin['password']),
+            'email_verified_at' => now(),
+        ];
+
+        if ($user) {
+            $user->update($attributes);
+        } else {
+            User::create($attributes);
+        }
     }
 }

@@ -4,8 +4,9 @@
      .hero-card without updating those scripts. --}}
 <section class="home-hero">
     <div class="hero-video-bg" aria-hidden="true">
+        <div class="hero-image-bg" aria-hidden="true"></div>
         <canvas class="hero-network-canvas" data-hero-network aria-hidden="true"></canvas>
-        <video autoplay muted loop playsinline preload="auto" poster="{{ asset('images/hero-doctors.jpg') }}">
+        <video autoplay muted loop playsinline preload="auto" poster="{{ asset('images/home/healthline-bg.png') }}">
             <source src="{{ asset('videos/background.mp4') }}" type="video/mp4">
         </video>
         <div class="hero-video-overlay"></div>

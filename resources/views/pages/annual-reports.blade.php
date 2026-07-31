@@ -15,6 +15,7 @@
 @section('content')
     <section class="t-prose annual-reports-section">
         <div class="t-container">
+            @include('partials.page-custom-html', ['html' => $page->custom_html])
             @if ($page->body || auth()->check())
                 @auth
                     <div class="t-prose-content annual-report-content" @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'body', 'type' => 'richtext'])>

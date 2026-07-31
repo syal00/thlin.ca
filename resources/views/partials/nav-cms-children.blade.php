@@ -12,7 +12,6 @@
 @endphp
 
 @if ($children->count())
-    <li class="nav-cms-divider" aria-hidden="true"><span>CMS Pages</span></li>
     @foreach ($children as $childPage)
         <li>
             <a href="{{ $childPage->full_url }}">

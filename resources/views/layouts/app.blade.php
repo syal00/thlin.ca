@@ -33,19 +33,16 @@
     $builtInSections = ['products', 'partners', 'about'];
     $isCustomPageRoute = request()->routeIs('custom-pages.show')
         || (request()->routeIs('custom-pages.child.show') && ! in_array(request()->segment(1), $builtInSections, true));
+    $publicPreview = session('public_preview', false) || request()->boolean('preview');
 @endphp
 <body @class([
-    'has-inline-edit-bar' => auth()->check(),
+    'has-inline-edit-bar' => auth()->check() && ! $publicPreview,
     'is-home-page' => request()->routeIs('home'),
     'is-custom-page' => $isCustomPageRoute,
-    'has-page-hero' => ! request()->routeIs('home') && ! $isCustomPageRoute,
+    'has-page-hero' => ! request()->routeIs('home'),
 ])>
 
     <div class="site-wrapper t-site">
-    @auth
-        @include('partials.admin-edit-bar')
-    @endauth
-
     <a href="#main-content" class="skip-link t-skip-link">Skip to main content</a>
 
     @include('partials.header')
@@ -63,11 +60,18 @@
     <button type="button" id="backToTop" class="t-back-to-top" aria-label="Back to top">
         ↑
     </button>
+
+    @auth
+        @unless ($publicPreview)
+            @include('partials.admin-edit-bar')
+        @endunless
+    @endauth
     </div>
 
     <script src="{{ asset('js/thlin.js') }}" defer></script>
 
     @auth
+        @unless ($publicPreview)
         <script>
             window.inlineEditRoutes = {
                 update: @json(route('admin.inline-update')),
@@ -79,6 +83,7 @@
         </script>
         <script src="{{ asset('vendor/tinymce/tinymce.min.js') }}?v={{ @filemtime(public_path('vendor/tinymce/tinymce.min.js')) ?: '1' }}"></script>
         <script src="{{ asset('js/inline-edit.js') }}?v={{ @filemtime(public_path('js/inline-edit.js')) ?: '1' }}" defer></script>
+        @endunless
     @endauth
     @stack('scripts')
 </body>

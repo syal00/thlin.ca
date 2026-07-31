@@ -15,6 +15,7 @@
 @section('content')
     <section class="t-prose">
         <div class="t-container">
+            @include('partials.page-custom-html', ['html' => $page->custom_html])
             @auth
                 <div class="t-prose-content" @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'body', 'type' => 'richtext'])>
                     @include('partials.cms-body', ['html' => $page->body])

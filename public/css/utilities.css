@@ -65,11 +65,13 @@
 /* ---------- Inline editing (public site, logged-in admins only) ---------- */
 .inline-edit-bar {
     position: fixed;
-    top: 0; left: 0; right: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     z-index: 10050;
     background: var(--t-white);
-    border-bottom: 1px solid var(--t-border);
-    box-shadow: var(--t-shadow-sm);
+    border-top: 1px solid var(--t-border);
+    box-shadow: 0 -4px 18px rgba(15, 23, 42, 0.08);
 }
 .inline-edit-bar__inner {
     max-width: min(100% - 24px, 1280px);
@@ -99,7 +101,8 @@
 .inline-edit-bar__btn--link { background: transparent; color: var(--t-blue); }
 .inline-edit-bar__btn--cms { background: var(--t-blue); color: var(--t-white); font-weight: 800; }
 .inline-edit-bar__logout { display: inline; margin: 0; }
-body.has-inline-edit-bar .site-wrapper { padding-top: 58px; }
+body.has-inline-edit-bar .site-wrapper { padding-bottom: 64px; }
+body.has-inline-edit-bar .t-back-to-top { bottom: calc(64px + 1.25rem); }
 
 .inline-edit-enabled [data-inline-edit="true"],
 .inline-edit-enabled [data-editable="true"] {
@@ -135,7 +138,8 @@ body.has-inline-edit-bar .site-wrapper { padding-top: 58px; }
 
 .inline-edit-toast {
     position: fixed;
-    top: 68px; right: 16px;
+    bottom: 74px;
+    right: 16px;
     z-index: 10070;
     padding: 10px 14px;
     border-radius: var(--t-radius-sm);

@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (toggle && nav) {
         const closeNav = () => {
             nav.classList.remove('is-open');
+            nav.querySelectorAll('.t-nav-dropdown.is-open, .nav-dropdown.is-open').forEach((dropdown) => {
+                dropdown.classList.remove('is-open');
+            });
             toggle.setAttribute('aria-expanded', 'false');
             document.body.classList.remove('nav-open');
         };
@@ -28,13 +31,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Mobile menu items are plain links (no submenu toggling) — any
-        // link click just navigates, so close the panel behind it.
+        // Close the mobile menu when a submenu or plain link is chosen —
+        // not when tapping a section heading that expands inline.
         nav.querySelectorAll('a').forEach((link) => {
-            link.addEventListener('click', () => {
-                if (mq.matches) {
-                    closeNav();
+            link.addEventListener('click', (event) => {
+                if (!mq.matches) {
+                    return;
                 }
+
+                const dropdown = link.closest('.t-nav-dropdown, .nav-dropdown');
+                const menu = dropdown?.querySelector(':scope > .t-nav-dropdown-menu, :scope > .nav-dropdown-menu');
+
+                if (menu && link === dropdown?.querySelector(':scope > a.t-nav-link, :scope > a.nav-link, :scope > button.t-nav-link, :scope > button.nav-link')) {
+                    return;
+                }
+
+                closeNav();
             });
         });
 
@@ -106,80 +118,121 @@ function initHomepageReveal() {
 }
 
 function initNavDropdowns() {
-    const dropdowns = Array.from(document.querySelectorAll('[data-nav-dropdown]'));
+    const dropdowns = Array.from(document.querySelectorAll('.t-nav-dropdown, .nav-dropdown'));
+    const mobileMq = window.matchMedia('(max-width: 767px)');
 
     if (!dropdowns.length) {
         return;
     }
 
-    // Desktop hover is an enhancement layered on top of click/keyboard —
-    // touch devices (no real hover) never get stuck relying on it.
-    const hoverCapable = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    const closeTimeouts = new WeakMap();
+    function menuFor(dropdown) {
+        return dropdown.querySelector(':scope > .t-nav-dropdown-menu, :scope > .nav-dropdown-menu');
+    }
+
+    function triggerFor(dropdown) {
+        return dropdown.querySelector('[data-nav-dropdown-trigger]')
+            || dropdown.querySelector(':scope > a.t-nav-link, :scope > a.nav-link, :scope > button.t-nav-link, :scope > button.nav-link');
+    }
 
     function closeDropdown(dropdown) {
-        const trigger = dropdown.querySelector('[data-nav-dropdown-trigger]');
+        const trigger = triggerFor(dropdown);
         dropdown.classList.remove('is-open');
         trigger?.setAttribute('aria-expanded', 'false');
     }
 
-    function closeAllExcept(except) {
-        dropdowns.forEach((dropdown) => {
-            if (dropdown !== except) {
-                closeDropdown(dropdown);
-            }
-        });
+    function closeAllDropdowns() {
+        dropdowns.forEach((dropdown) => closeDropdown(dropdown));
     }
 
     function openDropdown(dropdown) {
-        closeAllExcept(dropdown);
-        const trigger = dropdown.querySelector('[data-nav-dropdown-trigger]');
+        dropdowns.forEach((item) => {
+            if (item !== dropdown) {
+                closeDropdown(item);
+            }
+        });
+
+        const trigger = triggerFor(dropdown);
         dropdown.classList.add('is-open');
         trigger?.setAttribute('aria-expanded', 'true');
     }
 
-    dropdowns.forEach((dropdown) => {
-        const trigger = dropdown.querySelector('[data-nav-dropdown-trigger]');
+    function toggleDropdown(dropdown) {
+        const isOpen = dropdown.classList.contains('is-open');
 
-        if (!trigger) {
-            return;
-        }
-
-        trigger.addEventListener('click', () => {
-            const isOpen = dropdown.classList.contains('is-open');
-
-            if (isOpen) {
-                closeDropdown(dropdown);
-            } else {
-                openDropdown(dropdown);
+        dropdowns.forEach((item) => {
+            if (item !== dropdown) {
+                closeDropdown(item);
             }
         });
 
-        if (hoverCapable) {
-            // The menu box starts flush (top: 100%, see navigation.css) so
-            // there's no dead zone to cross, and this grace timeout absorbs
-            // any residual pointer jitter moving from trigger into menu —
-            // together they stop the dropdown closing before it can be used.
-            dropdown.addEventListener('mouseenter', () => {
-                const pending = closeTimeouts.get(dropdown);
-
-                if (pending) {
-                    window.clearTimeout(pending);
-                    closeTimeouts.delete(dropdown);
-                }
-
-                openDropdown(dropdown);
-            });
-
-            dropdown.addEventListener('mouseleave', () => {
-                const timeoutId = window.setTimeout(() => {
-                    closeDropdown(dropdown);
-                    closeTimeouts.delete(dropdown);
-                }, 250);
-
-                closeTimeouts.set(dropdown, timeoutId);
-            });
+        if (isOpen) {
+            closeDropdown(dropdown);
+        } else {
+            openDropdown(dropdown);
         }
+    }
+
+    dropdowns.forEach((dropdown) => {
+        const trigger = triggerFor(dropdown);
+        const menu = menuFor(dropdown);
+        let desktopLeaveTimer = null;
+
+        if (!trigger || !menu) {
+            return;
+        }
+
+        if (!trigger.hasAttribute('aria-haspopup')) {
+            trigger.setAttribute('aria-haspopup', 'true');
+        }
+
+        if (!trigger.hasAttribute('aria-expanded')) {
+            trigger.setAttribute('aria-expanded', 'false');
+        }
+
+        trigger.addEventListener('click', (event) => {
+            if (!mobileMq.matches) {
+                return;
+            }
+
+            event.preventDefault();
+            toggleDropdown(dropdown);
+        });
+
+        dropdown.addEventListener('mouseenter', () => {
+            if (mobileMq.matches) {
+                return;
+            }
+
+            if (desktopLeaveTimer) {
+                clearTimeout(desktopLeaveTimer);
+                desktopLeaveTimer = null;
+            }
+
+            openDropdown(dropdown);
+        });
+
+        dropdown.addEventListener('mouseleave', () => {
+            if (mobileMq.matches) {
+                return;
+            }
+
+            desktopLeaveTimer = window.setTimeout(() => {
+                closeDropdown(dropdown);
+                desktopLeaveTimer = null;
+            }, 120);
+        });
+
+        trigger.addEventListener('focus', () => {
+            if (mobileMq.matches) {
+                return;
+            }
+
+            openDropdown(dropdown);
+        });
+    });
+
+    mobileMq.addEventListener('change', () => {
+        closeAllDropdowns();
     });
 
     document.addEventListener('keydown', (event) => {
@@ -187,37 +240,24 @@ function initNavDropdowns() {
             return;
         }
 
-        const openDropdownEl = dropdowns.find((dropdown) => dropdown.classList.contains('is-open'));
-
-        if (!openDropdownEl) {
-            return;
-        }
-
-        const trigger = openDropdownEl.querySelector('[data-nav-dropdown-trigger]');
-        closeDropdown(openDropdownEl);
-        trigger?.focus();
+        closeAllDropdowns();
     });
 
     document.addEventListener('click', (event) => {
-        dropdowns.forEach((dropdown) => {
-            if (dropdown.classList.contains('is-open') && !dropdown.contains(event.target)) {
-                closeDropdown(dropdown);
-            }
-        });
-    });
+        if (mobileMq.matches) {
+            dropdowns.forEach((dropdown) => {
+                if (dropdown.classList.contains('is-open') && !dropdown.contains(event.target)) {
+                    closeDropdown(dropdown);
+                }
+            });
+            return;
+        }
 
-    document.addEventListener('focusout', (event) => {
-        dropdowns.forEach((dropdown) => {
-            if (!dropdown.classList.contains('is-open')) {
-                return;
-            }
+        const clickedInsideNav = event.target.closest('.t-nav-dropdown, .nav-dropdown');
 
-            const nextFocus = event.relatedTarget;
-
-            if (!nextFocus || !dropdown.contains(nextFocus)) {
-                closeDropdown(dropdown);
-            }
-        });
+        if (!clickedInsideNav) {
+            closeAllDropdowns();
+        }
     });
 }
 

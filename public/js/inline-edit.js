@@ -568,7 +568,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('edit') === '1' || localStorage.getItem('inlineEditMode') === 'enabled') {
+    if (urlParams.get('preview') === '1' || urlParams.get('edit') === '0') {
+        localStorage.setItem('inlineEditMode', 'disabled');
+        toggleButtonVisibility(false);
+    } else if (urlParams.get('edit') === '1' || localStorage.getItem('inlineEditMode') === 'enabled') {
         enableInlineEditing();
     } else {
         toggleButtonVisibility(false);

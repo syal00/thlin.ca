@@ -10,6 +10,7 @@ use App\Models\Page;
 use App\Models\PortfolioItem;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
@@ -41,6 +42,7 @@ class AdminPageController extends Controller
             'status' => 'draft',
             'section' => 'custom',
             'template' => 'standard',
+            'show_in_navigation' => true,
         ]);
 
         return view('admin.pages.create', [
@@ -60,6 +62,7 @@ class AdminPageController extends Controller
             'hero_title' => ['nullable', 'string', 'max:255'],
             'hero_subtitle' => ['nullable', 'string', 'max:500'],
             'body' => ['nullable', 'string'],
+            'custom_html' => ['nullable', 'string'],
             'meta_title' => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string', 'max:500'],
             'meta_keywords' => ['nullable', 'string', 'max:1000'],
@@ -99,6 +102,9 @@ class AdminPageController extends Controller
             'publishedPages' => $this->publishedPagesForLinks($page),
             'parentPages' => $this->parentPageOptions($page),
             'parentPageGroups' => $this->parentPageGroups($page, $page),
+            'boardMembers' => $page->slug === 'board'
+                ? BoardMember::ordered()->get()
+                : collect(),
         ]);
     }
 
@@ -117,6 +123,7 @@ class AdminPageController extends Controller
             'hero_title' => ['nullable', 'string', 'max:255'],
             'hero_subtitle' => ['nullable', 'string', 'max:500'],
             'body' => ['nullable', 'string'],
+            'custom_html' => ['nullable', 'string'],
             'meta_title' => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string', 'max:500'],
             'meta_keywords' => ['nullable', 'string', 'max:1000'],
@@ -182,6 +189,10 @@ class AdminPageController extends Controller
 
         if (array_key_exists('body', $validated) && blank($validated['body']) && filled($page->body)) {
             unset($validated['body']);
+        }
+
+        if (array_key_exists('custom_html', $validated) && blank($validated['custom_html']) && filled($page->custom_html)) {
+            unset($validated['custom_html']);
         }
 
         $validated['updated_by'] = $request->user()->id;
@@ -302,7 +313,7 @@ class AdminPageController extends Controller
             ->get();
     }
 
-    /** @return array{main: \Illuminate\Support\Collection, other: \Illuminate\Support\Collection, custom: \Illuminate\Support\Collection, current: \Illuminate\Support\Collection} */
+    /** @return array{main: Collection, other: Collection, custom: Collection, current: Collection} */
     private function parentPageGroups(?Page $exclude = null, ?Page $editing = null): array
     {
         $pages = $this->parentPageOptions($exclude);

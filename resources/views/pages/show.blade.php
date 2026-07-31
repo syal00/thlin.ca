@@ -4,15 +4,14 @@
 @section('meta_description', $page->excerpt)
 
 @php
-    $heroImage = match (true) {
-        $page->section === 'about' && $page->slug === 'us' => asset('images/about-hero.jpg'),
-        in_array($page->section, ['products', 'partners'], true) => asset('images/health-service-hero.jpg'),
+    $heroImageVariant = match (true) {
+        $page->section === 'about' && $page->slug === 'us' => 'about',
         default => null,
     };
 @endphp
 
 @section('hero')
-    @include('partials.hero-page', ['page' => $page, 'heroImage' => $heroImage])
+    @include('partials.hero-page', ['page' => $page, 'heroImageVariant' => $heroImageVariant])
 @endsection
 
 @section('content')
@@ -21,6 +20,7 @@
 
     <section class="t-prose">
         <div class="t-container">
+            @include('partials.page-custom-html', ['html' => $page->custom_html])
             <div class="t-prose-content about-rich-content" @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'body', 'type' => 'richtext'])>
                 {!! \App\Support\AboutBodyFormatter::render($page->body) !!}
             </div>
@@ -31,12 +31,14 @@
 
 @elseif (in_array($page->section, ['products', 'partners'], true))
 
+    @include('partials.page-custom-html', ['html' => $page->custom_html])
     @include('partials.capability-page', ['page' => $page, 'section' => $page->section])
 
 @else
 
     <section class="t-prose">
         <div class="t-container">
+            @include('partials.page-custom-html', ['html' => $page->custom_html])
             @if ($page->excerpt)
                 <p class="page-excerpt" @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'excerpt', 'type' => 'text'])>{{ $page->excerpt }}</p>
             @endif

@@ -25,12 +25,32 @@
 }
 .t-nav-link:hover, .t-nav-link.is-active { color: var(--t-blue); }
 
+/* Hero header — white nav labels (must follow base .t-nav-link rules) */
+.is-home-page .t-nav-link,
+.has-page-hero .t-nav-link,
+.is-home-page .t-nav-dropdown > button.t-nav-link,
+.has-page-hero .t-nav-dropdown > button.t-nav-link {
+    color: var(--t-white);
+}
+.is-home-page .t-nav-link:hover,
+.is-home-page .t-nav-link.is-active,
+.has-page-hero .t-nav-link:hover,
+.has-page-hero .t-nav-link.is-active,
+.is-home-page .t-nav-dropdown > button.t-nav-link:hover,
+.has-page-hero .t-nav-dropdown > button.t-nav-link:hover,
+.is-home-page .t-nav-dropdown.is-open > button.t-nav-link,
+.has-page-hero .t-nav-dropdown.is-open > button.t-nav-link {
+    color: rgba(255, 255, 255, 0.9);
+}
+
 .t-nav-dropdown { position: relative; }
 .t-nav-dropdown > button.t-nav-link {
     background: transparent;
     border: 0;
     cursor: pointer;
     font: inherit;
+    padding: 0;
+    text-align: left;
 }
 .t-nav-dropdown > button.t-nav-link::after {
     content: "";
@@ -56,7 +76,7 @@
     left: 0;
     min-width: 260px;
     margin: 0;
-    padding: 1.35rem 0.6rem 0.6rem;
+    padding: 0.85rem 0.6rem 0.6rem;
     list-style: none;
     background: var(--t-white);
     border: 1px solid var(--t-border);
@@ -64,18 +84,31 @@
     box-shadow: var(--t-shadow-lg);
     z-index: 30;
 }
-.t-nav-dropdown.is-open > .t-nav-dropdown-menu,
-.t-nav-dropdown:focus-within > .t-nav-dropdown-menu,
-.t-nav-dropdown:hover > .t-nav-dropdown-menu { display: block; }
+
 .t-nav-dropdown-menu a {
     display: block;
     padding: 0.7rem 0.85rem;
     border-radius: var(--t-radius-sm);
-    color: var(--t-blue-dark);
+    color: var(--t-navy);
     font-weight: 700;
     text-decoration: none;
 }
-.t-nav-dropdown-menu a:hover { background: var(--t-light-blue); color: var(--t-blue); }
+
+.t-nav-dropdown-menu a:hover {
+    background: var(--t-light-blue);
+    color: var(--t-blue);
+}
+
+/* Desktop — JS toggles .is-open so only one menu is visible at a time. */
+@media (min-width: 768px) {
+    .t-nav-dropdown-menu {
+        padding-top: 1.1rem;
+    }
+
+    .t-nav-dropdown.is-open > .t-nav-dropdown-menu {
+        display: block;
+    }
+}
 .t-nav-cms-divider {
     padding: 0.4rem 0.85rem 0.2rem;
     font-size: 0.7rem;
@@ -118,39 +151,64 @@
         background-color: rgba(255, 255, 255, 0.08);
     }
 
-    /* Top-level links navigate directly on mobile — hide flyout menus
-       and the dropdown arrow so items render as plain links. */
+    /* Mobile — tap to expand; hover must not open submenus. */
     .t-nav-dropdown-menu,
-    .t-nav-dropdown.is-open > .t-nav-dropdown-menu,
-    .t-nav-dropdown:focus-within > .t-nav-dropdown-menu,
-    .t-nav-dropdown:hover > .t-nav-dropdown-menu { display: none; }
-    .t-nav-dropdown > button.t-nav-link::after { display: none; }
+    .t-nav-dropdown:hover > .t-nav-dropdown-menu {
+        display: none;
+    }
 
-    /* Exception: button-triggered dropdowns (Resources) have no page of
-       their own, so tapping must still expand an inline list. */
-    [data-nav-dropdown].is-open > .t-nav-dropdown-menu {
+    .t-nav-dropdown.is-open > .t-nav-dropdown-menu {
         display: block;
         position: static;
         min-width: 0;
         padding: 0 0 8px;
-        background: transparent;
+        background: rgba(0, 0, 0, 0.14);
         border: 0;
         border-radius: 0;
         box-shadow: none;
     }
-    [data-nav-dropdown] .t-nav-dropdown-menu a {
+
+    .t-nav-dropdown-menu a {
         padding: 12px 24px 12px 40px;
         border-radius: 0;
         color: rgba(255, 255, 255, 0.9);
         font-weight: 400;
         font-size: 15px;
     }
-    [data-nav-dropdown] .t-nav-dropdown-menu a:hover {
+
+    .t-nav-dropdown-menu a:hover {
         background-color: rgba(255, 255, 255, 0.08);
         color: var(--t-white);
     }
-    [data-nav-dropdown] .t-nav-cms-divider { padding-left: 40px; color: rgba(255, 255, 255, 0.6); }
-    .t-nav-dropdown > button.t-nav-link { width: 100%; text-align: left; }
+
+    .t-nav-dropdown:has(> .t-nav-dropdown-menu) > .t-nav-link {
+        position: relative;
+        padding-right: 44px;
+    }
+
+    .t-nav-dropdown:has(> .t-nav-dropdown-menu) > .t-nav-link::after {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        top: 50%;
+        right: 24px;
+        width: 0.45em;
+        height: 0.45em;
+        margin: 0;
+        border-right: 2px solid currentColor;
+        border-bottom: 2px solid currentColor;
+        transform: translateY(-65%) rotate(45deg);
+        transition: transform 0.15s ease;
+    }
+
+    .t-nav-dropdown.is-open > .t-nav-link::after {
+        transform: translateY(-35%) rotate(225deg);
+    }
+
+    .t-nav-dropdown > button.t-nav-link {
+        width: 100%;
+        text-align: left;
+    }
 
     .t-nav-item-contact { display: block; }
     .t-header-actions .nav-cta { display: none; }

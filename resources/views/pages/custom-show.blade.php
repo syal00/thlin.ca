@@ -22,15 +22,29 @@
         <div class="t-container">
             <div class="custom-page-layout">
                 <main class="custom-page-main">
-                    @if (trim(strip_tags($page->body ?? '')) !== '' || auth()->check())
+                    @php
+                        $hasBody = trim(strip_tags($page->body ?? '')) !== '';
+                        $hasCustomHtml = filled(trim($page->custom_html ?? ''));
+                        $hasContent = $hasBody || $hasCustomHtml;
+                    @endphp
+
+                    @if ($hasContent || auth()->check())
                         <article class="t-prose-content">
-                            @auth
-                                <div @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'body', 'type' => 'richtext'])>
-                                    @include('partials.cms-body', ['html' => $page->body])
+                            @if ($hasCustomHtml)
+                                <div class="custom-html-content">
+                                    {!! $page->custom_html !!}
                                 </div>
-                            @else
-                                @include('partials.cms-body', ['html' => $page->body])
-                            @endauth
+                            @endif
+
+                            @if ($hasBody)
+                                @auth
+                                    <div @include('partials.inline-edit-attrs', ['model' => 'page', 'id' => $page->id, 'field' => 'body', 'type' => 'richtext'])>
+                                        @include('partials.cms-body', ['html' => $page->body])
+                                    </div>
+                                @else
+                                    @include('partials.cms-body', ['html' => $page->body])
+                                @endauth
+                            @endif
 
                             @include('partials.page-updated', ['page' => $page])
                         </article>

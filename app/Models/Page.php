@@ -16,6 +16,7 @@ class Page extends Model
         'hero_title',
         'hero_subtitle',
         'body',
+        'custom_html',
         'meta_title',
         'meta_description',
         'meta_keywords',
@@ -95,18 +96,20 @@ class Page extends Model
     public function scopeParentCandidates(Builder $query): Builder
     {
         return $query->published()
-            ->whereNull('parent_id')
             ->where(function (Builder $q) {
-                $q->whereIn('slug', [
-                    'products-services',
-                    'partners',
-                    'about',
-                    'contact',
-                    'careers',
-                    'board',
-                    'news',
-                    'portfolio',
-                ])->orWhere(function (Builder $custom) {
+                $q->where(function (Builder $builtIn) {
+                    $builtIn->whereNull('parent_id')
+                        ->whereIn('slug', [
+                            'products-services',
+                            'partners',
+                            'about',
+                            'contact',
+                            'careers',
+                            'board',
+                            'news',
+                            'portfolio',
+                        ]);
+                })->orWhere(function (Builder $custom) {
                     $custom->custom();
                 });
             })
@@ -129,7 +132,7 @@ class Page extends Model
         return FullTextSearch::apply(
             $query->published(),
             $term,
-            ['title', 'excerpt', 'body', 'meta_title', 'meta_description', 'hero_title', 'hero_subtitle', 'meta_keywords']
+            ['title', 'excerpt', 'body', 'custom_html', 'meta_title', 'meta_description', 'hero_title', 'hero_subtitle', 'meta_keywords']
         );
     }
 

@@ -165,6 +165,42 @@ class InlineEditingTest extends TestCase
         ])->assertRedirect();
     }
 
+    public function test_admin_can_inline_upload_board_member_photo(): void
+    {
+        $admin = User::firstOrFail();
+        $member = \App\Models\BoardMember::ordered()->firstOrFail();
+
+        $this->actingAs($admin)
+            ->postJson(route('admin.inline-upload-image'), [
+                'model' => 'board',
+                'id' => $member->id,
+                'field' => 'photo',
+                'image' => \Illuminate\Http\UploadedFile::fake()->image('director.jpg', 400, 400),
+            ])
+            ->assertOk()
+            ->assertJson(['success' => true]);
+
+        $this->assertNotNull($member->fresh()->photo);
+        $this->assertStringStartsWith('uploads/board/', $member->fresh()->photo);
+    }
+
+    public function test_admin_can_save_custom_html_on_built_in_page(): void
+    {
+        $admin = User::firstOrFail();
+        $page = Page::published()->where('slug', 'board')->firstOrFail();
+        $html = '<section class="board-note"><p>Updated HTML block</p></section>';
+
+        $this->actingAs($admin)
+            ->put(route('admin.pages.update', $page), [
+                'title' => $page->title,
+                'body' => $page->body,
+                'custom_html' => $html,
+            ])
+            ->assertRedirect(route('admin.pages.index'));
+
+        $this->assertSame($html, $page->fresh()->custom_html);
+    }
+
     public function test_inline_update_rejects_unknown_site_setting_key(): void
     {
         $admin = User::firstOrFail();

@@ -46,11 +46,12 @@ class CloudinaryStorage
         $extension = $file->getClientOriginalExtension() ?: ($file->guessExtension() ?: 'png');
         $fileName = Str::uuid().'.'.$extension;
         $path = $file->storeAs(trim($folder, '/'), $fileName, 'public');
+        $normalizedPath = str_replace('\\', '/', $path);
 
         return [
-            'url' => Storage::disk('public')->url($path),
+            'url' => '/storage/'.$normalizedPath,
             'public_id' => null,
-            'file_path' => $path,
+            'file_path' => $normalizedPath,
         ];
     }
 

@@ -6,6 +6,7 @@
 @include('admin.partials.image-editor')
 @push('scripts')
 @include('admin.partials.tinymce-script')
+@include('admin.partials.tinymce-upload')
 <script>
     tinymce.init({
         selector: @json($selector),
@@ -14,19 +15,26 @@
         suffix: '.min',
         height: {{ (int) $height }},
         menubar: false,
-        plugins: 'lists link image table code preview autoresize quickbars',
-        toolbar: 'undo redo | blocks | bold italic | bullist numlist | link image imageedit table | removeformat | code preview',
-        quickbars_image_toolbar: 'imageedit alignleft aligncenter alignright',
+        plugins: 'lists link image media table code preview autoresize quickbars charmap emoticons searchreplace fullscreen help',
+        toolbar: 'undo redo | blocks | bold italic | bullist numlist | link image imageedit media table | removeformat | code preview',
+        quickbars_image_toolbar: 'thlinImgLeft thlinImgCenter thlinImgRight thlinImgFull | thlinMoveUp thlinMoveDown | thlinReplaceImg imageedit thlinRemoveImg',
         quickbars_selection_toolbar: false,
+        object_resizing: true,
+        resize_img_proportional: true,
         contextmenu: 'link image table',
         branding: false,
         promotion: false,
         automatic_uploads: true,
         paste_data_images: true,
-        relative_urls: false,
-        convert_urls: true,
+        document_base_url: @json(rtrim(url('/'), '/').'/'),
+        relative_urls: true,
+        remove_script_host: true,
+        convert_urls: false,
+        verify_html: false,
         image_advtab: true,
         image_caption: true,
+        emoticons_database: 'emojis',
+        emoticons_database_url: @json(asset('vendor/tinymce/plugins/emoticons/js/emojis.min.js')),
         image_class_list: [
             { title: 'None', value: '' },
             { title: 'Align left', value: 'thlin-img-left' },
@@ -42,33 +50,7 @@
         setup: function (editor) {
             ThlinImageEditor.attach(editor);
         },
-        images_upload_handler: function (blobInfo) {
-            return new Promise(function (resolve, reject) {
-                const formData = new FormData();
-                formData.append('file', blobInfo.blob(), blobInfo.filename());
-
-                fetch(@json(route('admin.editor.upload-image')), {
-                    method: 'POST',
-                    headers: { 'X-CSRF-TOKEN': @json(csrf_token()) },
-                    body: formData,
-                })
-                .then(function (response) {
-                    return response.json().then(function (result) {
-                        return { ok: response.ok, result: result };
-                    });
-                })
-                .then(function (payload) {
-                    if (payload.ok && payload.result.location) {
-                        resolve(payload.result.location);
-                    } else {
-                        reject(payload.result.message || 'Image upload failed. Please try a JPG, PNG, or WEBP file under 5MB.');
-                    }
-                })
-                .catch(function () {
-                    reject('Image upload failed. Check your connection and try again.');
-                });
-            });
-        },
+        images_upload_handler: ThlinEditorUpload,
     });
 
     document.addEventListener('DOMContentLoaded', function () {

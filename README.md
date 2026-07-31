@@ -25,7 +25,10 @@ php artisan migrate --seed
 ## Admin
 
 - URL: http://thlin.ca.test/admin/login
-- Credentials: `config/admin.php` or `.env` (`THLIN_ADMIN_EMAIL`, `THLIN_ADMIN_PASSWORD`)
+- Credentials: `THLIN_ADMIN_EMAIL` and `THLIN_ADMIN_PASSWORD` in `.env`
+- **Two-factor authentication (2FA):** after password, enter a 6-digit code from an authenticator app (Google Authenticator, Authy, Microsoft Authenticator, etc.)
+- First sign-in shows a QR code to set up 2FA; scan it once, then use codes on every login
+- Apply admin email changes: `php artisan db:seed --class=AdminUserSeeder`
 
 Manage **pages**, **news**, **careers**, **board members**, and **portfolio items** without editing code.
 

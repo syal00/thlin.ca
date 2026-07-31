@@ -275,7 +275,237 @@ window.ThlinImageEditor = (function () {
         }, 'image/png');
     }
 
+    var ALIGN_CLASSES = ['thlin-img-left', 'thlin-img-center', 'thlin-img-right', 'thlin-img-full'];
+
+    function getSelectedImg(editor) {
+        var node = editor.selection.getNode();
+
+        if (node && node.nodeName === 'IMG') {
+            return node;
+        }
+
+        return editor.dom.getParent(node, 'img');
+    }
+
+    function getMovableBlock(editor, img) {
+        if (!img) {
+            return null;
+        }
+
+        var selectors = [
+            'section.content-section',
+            'figure',
+            '.media-frame-wrap',
+            '.media-frame',
+            'p',
+        ];
+
+        for (var i = 0; i < selectors.length; i++) {
+            var match = editor.dom.getParent(img, selectors[i]);
+
+            if (match && match !== editor.getBody()) {
+                return match;
+            }
+        }
+
+        return img;
+    }
+
+    function moveImageBlock(editor, direction) {
+        var img = getSelectedImg(editor);
+
+        if (!img) {
+            return;
+        }
+
+        var block = getMovableBlock(editor, img);
+        var parent = block && block.parentNode;
+
+        if (!parent) {
+            return;
+        }
+
+        if (direction === 'up') {
+            var previous = block.previousElementSibling;
+
+            if (!previous) {
+                editor.notificationManager.open({
+                    text: 'Image is already at the top of this section.',
+                    type: 'info',
+                    timeout: 2500,
+                });
+                return;
+            }
+
+            parent.insertBefore(block, previous);
+        } else {
+            var next = block.nextElementSibling;
+
+            if (!next) {
+                editor.notificationManager.open({
+                    text: 'Image is already at the bottom of this section.',
+                    type: 'info',
+                    timeout: 2500,
+                });
+                return;
+            }
+
+            parent.insertBefore(next, block);
+        }
+
+        editor.selection.select(img);
+        editor.nodeChanged();
+        editor.undoManager.add();
+    }
+
+    function setImageAlignment(editor, className) {
+        var img = getSelectedImg(editor);
+
+        if (!img) {
+            return;
+        }
+
+        ALIGN_CLASSES.forEach(function (name) {
+            editor.dom.removeClass(img, name);
+        });
+
+        if (className) {
+            editor.dom.addClass(img, className);
+        }
+
+        editor.dom.setStyles(img, {
+            float: '',
+            display: '',
+            margin: '',
+            width: '',
+        });
+
+        editor.selection.select(img);
+        editor.nodeChanged();
+        editor.undoManager.add();
+    }
+
+    function replaceSelectedImage(editor) {
+        var img = getSelectedImg(editor);
+
+        if (!img) {
+            return;
+        }
+
+        var input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/jpeg,image/png,image/webp,image/gif';
+        input.onchange = function () {
+            var file = input.files && input.files[0];
+
+            if (!file || typeof ThlinEditorUpload !== 'function') {
+                return;
+            }
+
+            var reader = new FileReader();
+            reader.onload = function () {
+                var base64 = reader.result.split(',')[1];
+                var id = 'thlinreplace' + Date.now();
+                var blobInfo = editor.editorUpload.blobCache.create(id, file, base64);
+                editor.editorUpload.blobCache.add(blobInfo);
+
+                ThlinEditorUpload(blobInfo)
+                    .then(function (url) {
+                        editor.dom.setAttrib(img, 'src', url);
+                        img.removeAttribute('data-mce-src');
+                        img.removeAttribute('width');
+                        img.removeAttribute('height');
+                        editor.selection.select(img);
+                        editor.nodeChanged();
+                        editor.undoManager.add();
+                    })
+                    .catch(function (message) {
+                        editor.notificationManager.open({
+                            text: message || 'Image upload failed.',
+                            type: 'error',
+                            timeout: 4000,
+                        });
+                    });
+            };
+            reader.readAsDataURL(file);
+        };
+        input.click();
+    }
+
+    function removeSelectedImage(editor) {
+        var img = getSelectedImg(editor);
+
+        if (!img) {
+            return;
+        }
+
+        var block = getMovableBlock(editor, img);
+
+        if (block && block !== img && block.querySelectorAll('img').length === 1 && block.textContent.trim() === '') {
+            editor.dom.remove(block);
+        } else {
+            editor.dom.remove(img);
+        }
+
+        editor.nodeChanged();
+        editor.undoManager.add();
+    }
+
+    function registerImagePlacementButtons(editor) {
+        editor.ui.registry.addButton('thlinImgLeft', {
+            icon: 'align-left',
+            tooltip: 'Align image left',
+            onAction: function () { setImageAlignment(editor, 'thlin-img-left'); },
+        });
+        editor.ui.registry.addButton('thlinImgCenter', {
+            icon: 'align-center',
+            tooltip: 'Center image',
+            onAction: function () { setImageAlignment(editor, 'thlin-img-center'); },
+        });
+        editor.ui.registry.addButton('thlinImgRight', {
+            icon: 'align-right',
+            tooltip: 'Align image right',
+            onAction: function () { setImageAlignment(editor, 'thlin-img-right'); },
+        });
+        editor.ui.registry.addButton('thlinImgFull', {
+            text: 'Full',
+            tooltip: 'Full width image',
+            onAction: function () { setImageAlignment(editor, 'thlin-img-full'); },
+        });
+        editor.ui.registry.addButton('thlinMoveUp', {
+            text: '↑',
+            tooltip: 'Move image up',
+            onAction: function () { moveImageBlock(editor, 'up'); },
+        });
+        editor.ui.registry.addButton('thlinMoveDown', {
+            text: '↓',
+            tooltip: 'Move image down',
+            onAction: function () { moveImageBlock(editor, 'down'); },
+        });
+        editor.ui.registry.addButton('thlinReplaceImg', {
+            icon: 'image',
+            tooltip: 'Replace image',
+            onAction: function () { replaceSelectedImage(editor); },
+        });
+        editor.ui.registry.addButton('thlinRemoveImg', {
+            icon: 'remove',
+            tooltip: 'Remove image',
+            onAction: function () { removeSelectedImage(editor); },
+        });
+    }
+
     function attach(editor) {
+        registerImagePlacementButtons(editor);
+
+        editor.ui.registry.addContextToolbar('thlinImagePlacementToolbar', {
+            predicate: function (node) {
+                return node.nodeName === 'IMG' || Boolean(editor.dom.getParent(node, 'img'));
+            },
+            items: 'thlinImgLeft thlinImgCenter thlinImgRight thlinImgFull | thlinMoveUp thlinMoveDown | thlinReplaceImg imageedit thlinRemoveImg',
+            position: 'node',
+            scope: 'node',
+        });
+
         editor.ui.registry.addButton('imageedit', {
             icon: 'edit-image',
             tooltip: 'Edit / crop image',
@@ -307,6 +537,12 @@ window.ThlinImageEditor = (function () {
         editor.on('dblclick', function (event) {
             if (event.target && event.target.nodeName === 'IMG') {
                 open(editor, event.target);
+            }
+        });
+
+        editor.on('click', function (event) {
+            if (event.target && event.target.nodeName === 'IMG') {
+                editor.selection.select(event.target);
             }
         });
     }

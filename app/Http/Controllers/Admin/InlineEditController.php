@@ -46,7 +46,10 @@ class InlineEditController extends Controller
         'board' => ['bio'],
     ];
 
-    private const IMAGE_FIELDS = ['portfolio' => ['image']];
+    private const IMAGE_FIELDS = [
+        'portfolio' => ['image'],
+        'board' => ['photo'],
+    ];
 
     /** @var array<string, string> */
     private const FIELD_ALIASES = [
@@ -148,13 +151,21 @@ class InlineEditController extends Controller
             return response()->json(['success' => false, 'message' => 'Record not found.'], 404);
         }
 
-        $path = $request->file('image')->store('uploads', 'public');
+        $path = $request->file('image')->store($this->imageStorageFolder($modelKey), 'public');
         $record->update([$validated['field'] => $path]);
 
         /** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
         $disk = Storage::disk('public');
 
         return response()->json(['success' => true, 'url' => $disk->url($path)]);
+    }
+
+    private function imageStorageFolder(string $modelKey): string
+    {
+        return match ($modelKey) {
+            'board' => 'uploads/board',
+            default => 'uploads',
+        };
     }
 
     /** @param array<string, mixed> $validated */

@@ -38,7 +38,7 @@
     $breadcrumbs = $breadcrumbs ?? null;
 @endphp
 
-<section class="t-hero-page @if(!empty($heroImage)) t-hero-page--image @endif" @if(!empty($heroImage)) style="background-image: url('{{ $heroImage }}')" @endif>
+<section class="t-hero-page t-hero-page--image @if(!empty($heroImageVariant)) t-hero-page--{{ $heroImageVariant }} @endif" @if(!empty($heroImage)) style="background-image: url('{{ $heroImage }}')" @endif>
     <div class="t-container t-hero-page-inner">
         @include('partials.breadcrumb', ['breadcrumbs' => $breadcrumbs])
 

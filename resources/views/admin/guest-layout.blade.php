@@ -11,5 +11,15 @@
 <body class="admin-login-page">
     @yield('content')
     @stack('scripts')
+    <script>
+        document.querySelectorAll('form.admin-login-form').forEach(function (form) {
+            form.addEventListener('submit', function () {
+                form.querySelectorAll('button[type="submit"]').forEach(function (button) {
+                    button.disabled = true;
+                    button.setAttribute('aria-busy', 'true');
+                });
+            }, { once: true });
+        });
+    </script>
 </body>
 </html>

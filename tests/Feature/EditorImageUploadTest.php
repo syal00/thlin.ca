@@ -45,6 +45,7 @@ class EditorImageUploadTest extends TestCase
             ->post(route('admin.editor.upload-image'), ['file' => $file]);
 
         $response->assertOk()->assertJsonStructure(['location']);
+        $this->assertStringStartsWith('/storage/', $response->json('location'));
     }
 
     public function test_upload_rejects_non_image_files_with_a_json_error(): void

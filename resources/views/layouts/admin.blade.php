@@ -25,6 +25,7 @@
         })();
     </script>
     <title>@yield('title', 'Admin') - {{ config('thlin.name') }}</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ asset('favicon.png') }}?v={{ @filemtime(public_path('favicon.png')) ?: '1' }}" type="image/png" sizes="32x32">
     <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}?v={{ @filemtime(public_path('apple-touch-icon.png')) ?: '1' }}">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -173,7 +174,7 @@
                         </div>
                     </div>
 
-                    <a href="{{ route('home') }}" target="_blank" rel="noopener" class="admin-view-site">
+                    <a href="{{ url('/?preview=1') }}" target="_blank" rel="noopener" class="admin-view-site">
                         View Website
                     </a>
 
@@ -210,7 +211,7 @@
 
                     <div class="admin-topbar-actions">
                         <a href="{{ route('admin.pages.create') }}" class="btn btn-light admin-topbar-btn">New page</a>
-                        <a href="{{ route('home') }}" target="_blank" rel="noopener" class="btn btn-primary admin-topbar-action">
+                        <a href="{{ url('/?preview=1') }}" target="_blank" rel="noopener" class="btn btn-primary admin-topbar-action">
                             View Website
                         </a>
                     </div>

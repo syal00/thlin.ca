@@ -1,6 +1,6 @@
 @extends('admin.guest-layout')
 
-@section('title', 'Login')
+@section('title', 'Verify sign-in')
 
 @section('content')
     <div class="admin-login-shell">
@@ -14,9 +14,9 @@
                 <p class="admin-login-tagline">{{ config('thlin.tagline') }}</p>
 
                 <ul class="admin-login-features">
-                    <li>Edit pages and navigation content</li>
-                    <li>Manage news, careers, and portfolio</li>
-                    <li>Upload files and media assets</li>
+                    <li>Open Google Authenticator, Authy, or Microsoft Authenticator</li>
+                    <li>Codes refresh every 30 seconds</li>
+                    <li>Required for every CMS sign-in</li>
                 </ul>
             </div>
         </aside>
@@ -29,9 +29,13 @@
                 </a>
 
                 <div class="admin-login-card-header">
-                    <h1>CMS sign in</h1>
-                    <p>Sign in to edit site content. After your password, enter a code from your authenticator app.</p>
+                    <h1>Two-factor authentication</h1>
+                    <p>Enter the 6-digit code from your authenticator app.</p>
                 </div>
+
+                @if (session('status'))
+                    <div class="admin-login-alert" role="status">{{ session('status') }}</div>
+                @endif
 
                 @if ($errors->any())
                     <div class="admin-login-alert admin-login-alert--error" role="alert">
@@ -41,44 +45,35 @@
                     </div>
                 @endif
 
-                <form method="post" action="{{ route('admin.login') }}" class="admin-login-form">
+                <form method="post" action="{{ route('admin.login.verify.submit') }}" class="admin-login-form">
                     @csrf
 
                     <div class="admin-login-field">
-                        <label for="email">Email address</label>
+                        <label for="code">Authenticator code</label>
                         <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            value="{{ old('email') }}"
-                            placeholder="you@example.com"
+                            type="text"
+                            id="code"
+                            name="code"
+                            value="{{ old('code') }}"
+                            inputmode="numeric"
+                            maxlength="6"
+                            placeholder="123456"
                             required
                             autofocus
-                            autocomplete="username"
+                            autocomplete="one-time-code"
                         >
                     </div>
 
-                    <div class="admin-login-field">
-                        <label for="password">Password</label>
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            required
-                            autocomplete="current-password"
-                        >
-                    </div>
+                    <button type="submit" class="admin-login-submit">Verify and sign in</button>
+                </form>
 
-                    <label class="admin-login-remember">
-                        <input type="checkbox" name="remember" value="1" @checked(old('remember'))>
-                        <span>Remember me on this device</span>
-                    </label>
-
-                    <button type="submit" class="admin-login-submit">Sign in</button>
+                <form method="post" action="{{ route('admin.login.setup-2fa.reset') }}" class="admin-login-form" style="margin-top: 1rem;">
+                    @csrf
+                    <button type="submit" class="admin-login-submit admin-login-submit--secondary">Codes not working? Set up again</button>
                 </form>
 
                 <p class="admin-login-footer">
-                    <a href="{{ route('home') }}">&larr; Back to {{ parse_url(config('app.url'), PHP_URL_HOST) ?: 'site' }}</a>
+                    <a href="{{ route('admin.login.verify.cancel') }}">&larr; Back to sign in</a>
                 </p>
             </div>
         </main>

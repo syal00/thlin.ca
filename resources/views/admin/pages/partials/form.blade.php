@@ -1,4 +1,6 @@
 @php
+    use App\Support\CmsEditorContent;
+
     $isCustomForm = $page->isCustom() || ! $page->exists;
     $parentPageGroups = $parentPageGroups ?? [
         'main' => collect(),
@@ -7,6 +9,8 @@
         'current' => collect(),
     ];
     $selectedParentId = old('parent_id', $page->parent_id);
+    $editorBody = CmsEditorContent::prepareForEditor(old('body', $page->body));
+    $editorCustomHtml = CmsEditorContent::prepareForEditor(old('custom_html', $page->custom_html));
     $step = 0;
 @endphp
 
@@ -86,7 +90,7 @@
                         </optgroup>
                     @endif
                 </select>
-                <small>Choose a website section for this page. Leave it blank if this should be a main page.</small>
+                <small>Choose a website section for this page. Published custom pages also appear here so you can nest pages inside them. Leave blank for a main page.</small>
                 @error('parent_id')
                     <small class="form-error">{{ $message }}</small>
                 @enderror
@@ -168,24 +172,44 @@
         @endif
     </div>
 
+    @if ($page->exists)
+        @include('admin.pages.partials.structured-content', [
+            'page' => $page,
+            'boardMembers' => $boardMembers ?? collect(),
+            'step' => ++$step,
+        ])
+    @endif
+
     {{-- Step 3: Main Page Content --}}
     <div class="cms-step-card">
         <div class="cms-step-header">
             <span class="cms-step-number">{{ ++$step }}</span>
             <div>
                 <h2>Main Page Content</h2>
-                <p>Add the main text, headings, links, images, and PDF links for this page.</p>
+                @if ($page->slug === 'board')
+                    <p>Intro text shown above the board member cards. Photos and bios are managed in the panel above.</p>
+                @else
+                    <p>Add the main text, headings, links, images, and PDF links for this page.</p>
+                @endif
             </div>
         </div>
 
         <p class="cms-editor-note admin-help">
             The editor runs locally on your site — no Tiny Cloud account or domain registration required.
+            <strong>Click any image</strong> to show the image toolbar: align left/center/right, move up/down, replace, crop, or remove.
+            Drag the corner handles to resize. Double-click an image to crop.
         </p>
 
         <div class="form-group">
             <label for="page-content-editor">Main Page Content</label>
-            <textarea id="page-content-editor" name="body" rows="12">{!! old('body', $page->body ?? '') !!}</textarea>
-            <small>Add the main text, headings, links, images, and PDF links for this page.</small>
+            <textarea id="page-content-editor" name="body" rows="12">{{ $editorBody }}</textarea>
+            <small>
+                @if ($page->slug === 'board')
+                    Use this for the page introduction only. To change director photos, use the board member panel above or click photos on the live site.
+                @else
+                    Add the main text, headings, links, images, and PDF links for this page. Use the <strong>code</strong> button in the toolbar to edit HTML directly.
+                @endif
+            </small>
             @error('body')
                 <small class="form-error">{{ $message }}</small>
             @enderror
@@ -196,6 +220,40 @@
                 Open PDF/File Library
             </a>
         </p>
+    </div>
+
+    {{-- Custom HTML Code (all pages) --}}
+    <div class="cms-step-card">
+        <div class="cms-step-header">
+            <span class="cms-step-number">{{ ++$step }}</span>
+            <div>
+                <h2>Custom HTML Code</h2>
+                <p>Paste full HTML blocks here for charts, embeds, tables, and advanced layouts. Rendered exactly as written on the public page.</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="custom_html">
+                Custom HTML
+                <span class="optional-label">Optional</span>
+            </label>
+            <textarea
+                id="custom_html"
+                name="custom_html"
+                rows="16"
+                class="cms-html-editor"
+                spellcheck="false"
+                placeholder="<section>&#10;  <h2>Section heading</h2>&#10;  <img src=&quot;/storage/media/chart.png&quot; alt=&quot;Chart&quot;>&#10;  <table>...</table>&#10;</section>"
+            >{{ $editorCustomHtml }}</textarea>
+            <small>
+                Paste complete HTML including images, tables, iframes, and chart code.
+                Use image paths from the <a href="{{ route('admin.media.index') }}" target="_blank" rel="noopener">Media library</a>
+                or paths like <code>/images/pages/photo.png</code>. Works on built-in and custom pages.
+            </small>
+            @error('custom_html')
+                <small class="form-error">{{ $message }}</small>
+            @enderror
+        </div>
     </div>
 
     {{-- Step 4: SEO Settings --}}
@@ -265,10 +323,10 @@
 
             <div class="form-group">
                 <label class="checkbox-label">
-                    <input type="checkbox" name="show_in_navigation" value="1" @checked((bool) old('show_in_navigation', $page->show_in_navigation))>
+                    <input type="checkbox" name="show_in_navigation" value="1" @checked((bool) old('show_in_navigation', $page->exists ? $page->show_in_navigation : true))>
                     Show this page in the website menu
                 </label>
-                <small>Turn this on if visitors should see this page in the menu.</small>
+                <small>When checked, this page appears in the menu dropdown for its section (for example, under About or Products &amp; Services). Leave unchecked to hide it from the menu while keeping the page live.</small>
             </div>
 
             <div class="form-group">
@@ -362,106 +420,14 @@
     </div>
 </form>
 
-@include('admin.partials.image-editor')
+@include('admin.partials.tinymce-page', [
+    'selector' => '#page-content-editor',
+    'height' => 520,
+    'formSelector' => '.cms-form',
+])
 @push('scripts')
-@include('admin.partials.tinymce-script')
 <script>
-    tinymce.init({
-        selector: '#page-content-editor',
-        license_key: 'gpl',
-        base_url: @json(asset('vendor/tinymce')),
-        suffix: '.min',
-        height: 520,
-        menubar: 'edit view insert format tools table help',
-        plugins: [
-            'accordion', 'advlist', 'anchor', 'autolink', 'autoresize',
-            'charmap', 'code', 'codesample', 'directionality', 'emoticons', 'fullscreen',
-            'help', 'image', 'importcss', 'insertdatetime', 'link', 'lists', 'media',
-            'nonbreaking', 'pagebreak', 'preview', 'quickbars', 'searchreplace',
-            'table', 'visualblocks', 'visualchars', 'wordcount',
-        ],
-        toolbar: [
-            'undo redo | blocks | bold italic underline | bullist numlist',
-            'link image imageedit media table | anchor charmap emoticons',
-            'searchreplace | outdent indent | removeformat',
-            'code preview fullscreen | help',
-        ].join(' | '),
-        quickbars_image_toolbar: 'imageedit alignleft aligncenter alignright',
-        quickbars_selection_toolbar: false,
-        branding: false,
-        promotion: false,
-        automatic_uploads: true,
-        paste_data_images: true,
-        relative_urls: false,
-        remove_script_host: false,
-        convert_urls: true,
-        image_advtab: true,
-        image_caption: true,
-        image_class_list: [
-            { title: 'None', value: '' },
-            { title: 'Align left', value: 'thlin-img-left' },
-            { title: 'Align center', value: 'thlin-img-center' },
-            { title: 'Align right', value: 'thlin-img-right' },
-            { title: 'Full width', value: 'thlin-img-full' },
-        ],
-        content_style: 'body { font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 1.7; color: #2C2C2A; } '
-            + '.thlin-img-left { float: left; margin: 4px 16px 12px 0; } '
-            + '.thlin-img-right { float: right; margin: 4px 0 12px 16px; } '
-            + '.thlin-img-center { display: block; margin: 12px auto; } '
-            + '.thlin-img-full { display: block; width: 100%; height: auto; margin: 12px 0; }',
-        setup: function (editor) {
-            ThlinImageEditor.attach(editor);
-        },
-        images_upload_handler: function (blobInfo) {
-            return new Promise(function (resolve, reject) {
-                const formData = new FormData();
-                formData.append('file', blobInfo.blob(), blobInfo.filename());
-
-                fetch('{{ route('admin.editor.upload-image') }}', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: formData
-                })
-                .then(function (response) {
-                    return response.json().then(function (result) {
-                        return { ok: response.ok, result: result };
-                    });
-                })
-                .then(function (payload) {
-                    if (payload.ok && payload.result.location) {
-                        resolve(payload.result.location);
-                    } else {
-                        reject(payload.result.message || 'Image upload failed. Please try a JPG, PNG, or WEBP file under 5MB.');
-                    }
-                })
-                .catch(function () {
-                    reject('Image upload failed. Check your connection and try again.');
-                });
-            });
-        }
-    });
-
     document.addEventListener('DOMContentLoaded', function () {
-        const cmsForm = document.querySelector('.cms-form');
-        let cmsFormSubmitting = false;
-
-        if (cmsForm) {
-            cmsForm.addEventListener('submit', function (event) {
-                if (cmsFormSubmitting) {
-                    return;
-                }
-
-                if (typeof tinymce !== 'undefined') {
-                    event.preventDefault();
-                    tinymce.triggerSave();
-                    cmsFormSubmitting = true;
-                    cmsForm.submit();
-                }
-            });
-        }
-
         const parentSelect = document.querySelector('select[name="parent_id"]');
         const slugInput = document.querySelector('input[name="slug"]');
         const preview = document.getElementById('final-url-preview');

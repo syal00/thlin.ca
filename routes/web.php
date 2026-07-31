@@ -1,15 +1,15 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\BoardMemberController as AdminBoardMemberController;
 use App\Http\Controllers\Admin\CareerController as AdminCareerController;
+use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EditorUploadController;
 use App\Http\Controllers\Admin\InlineEditController;
 use App\Http\Controllers\Admin\MediaController;
-use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
 use App\Http\Controllers\Admin\NewsPostController as AdminNewsPostController;
-use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\PortfolioItemController as AdminPortfolioItemController;
 use App\Http\Controllers\Admin\SiteSettingController as AdminSiteSettingController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
@@ -34,10 +34,16 @@ Route::get('/about/news/{news}', [NewsController::class, 'show'])->name('news.sh
 Route::redirect('/partners/oht', '/partners/ontario-health-teams', 301);
 Route::redirect('/about/board-of-directors', '/about/board', 301);
 
-    Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest')->group(function () {
         Route::get('login', [AdminAuthController::class, 'showLogin'])->name('login');
         Route::post('login', [AdminAuthController::class, 'login'])->middleware('throttle:5,1');
+        Route::get('login/verify', [AdminAuthController::class, 'showVerifyTwoFactor'])->name('login.verify');
+        Route::post('login/verify', [AdminAuthController::class, 'verifyTwoFactor'])->name('login.verify.submit')->middleware('throttle:10,1');
+        Route::get('login/setup-2fa', [AdminAuthController::class, 'showSetupTwoFactor'])->name('login.setup-2fa');
+        Route::post('login/setup-2fa', [AdminAuthController::class, 'confirmSetupTwoFactor'])->name('login.setup-2fa.submit')->middleware('throttle:10,1');
+        Route::post('login/setup-2fa/reset', [AdminAuthController::class, 'resetTwoFactorSetup'])->name('login.setup-2fa.reset')->middleware('throttle:3,1');
+        Route::get('login/verify/cancel', [AdminAuthController::class, 'cancelVerify'])->name('login.verify.cancel');
     });
 
     Route::middleware('auth')->group(function () {

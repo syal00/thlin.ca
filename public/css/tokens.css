@@ -33,13 +33,12 @@
 
     /* Header — clean white nav bar */
     --t-header-bg: #FFFFFF;
+    --t-nav-dropdown-bg: #0B3156;
 }
 
-/* Mobile nav bar uses the corporate blue mock-up instead of charcoal;
-   redefining the token re-colors .t-header and its mobile flyout panel
-   (.t-nav, see navigation.css) without duplicating rules. */
+/* Mobile nav bar + flyout menu use the dark navy brand colour. */
 @media (max-width: 767px) {
-    :root { --t-header-bg: #2b70c9; }
+    :root { --t-header-bg: #0B3156; }
 }
 
 :root {

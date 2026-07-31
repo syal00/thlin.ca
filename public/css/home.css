@@ -12,15 +12,23 @@
 .home-hero {
     position: relative;
     overflow: hidden;
-    min-height: 640px;
+    min-height: clamp(640px, 72vh, 760px);
     display: flex;
     align-items: center;
-    padding: var(--t-space-2xl) 0;
+    padding: calc(76px + var(--t-space-2xl)) 0 var(--t-space-2xl);
     background: linear-gradient(135deg, var(--t-navy) 0%, var(--t-blue) 65%, #0B4F86 100%);
     color: var(--t-white);
 }
 
 .hero-video-bg { position: absolute; inset: 0; z-index: 0; }
+.hero-image-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('/images/home/healthline-bg.png');
+    background-size: cover;
+    background-position: 68% center;
+    background-repeat: no-repeat;
+}
 .hero-video-bg video {
     display: none;
     position: absolute; inset: 0;
@@ -31,7 +39,7 @@
 .hero-video-bg video.is-active { display: block; }
 .hero-video-overlay {
     position: absolute; inset: 0;
-    background: linear-gradient(100deg, rgba(4,44,83,0.85) 0%, rgba(24,95,165,0.55) 100%);
+    background: linear-gradient(105deg, rgba(6, 50, 92, 0.9) 0%, rgba(11, 49, 86, 0.78) 45%, rgba(24, 95, 165, 0.62) 100%);
 }
 
 .hero-network-canvas {
@@ -134,7 +142,10 @@
     .hero-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {
-    .home-hero { min-height: auto; padding: var(--t-space-xl) 0; }
+    .home-hero {
+        min-height: auto;
+        padding: calc(68px + var(--t-space-lg)) 0 var(--t-space-xl);
+    }
     .hero-actions { flex-direction: column; }
     .hero-actions .t-btn { width: 100%; }
 }
@@ -162,8 +173,67 @@
 .home-section { padding: var(--t-space-2xl) 0; }
 .home-section--alt { background: var(--t-bg); }
 .home-section--healthline { background: var(--t-healthline-blue); color: var(--t-white); }
-.home-section--healthline h2 { color: var(--t-white); }
-.home-section--healthline p { color: rgba(255,255,255,0.9); }
+.home-section--healthline h2 { color: var(--t-white); margin-bottom: var(--t-space-sm); }
+.home-section--healthline p {
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 38rem;
+    line-height: 1.7;
+    margin-bottom: var(--t-space-md);
+}
+
+.home-healthline-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.9fr);
+    align-items: center;
+    gap: var(--t-space-xl);
+}
+
+.home-healthline-copy {
+    min-width: 0;
+}
+
+.home-healthline-media {
+    min-width: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.home-healthline-media img {
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+    border-radius: var(--t-radius-md);
+}
+
+@media (max-width: 900px) {
+    .home-healthline-grid {
+        grid-template-columns: 1fr;
+        gap: var(--t-space-lg);
+    }
+
+    .home-section--healthline p {
+        max-width: none;
+    }
+
+    .home-healthline-copy {
+        order: 1;
+    }
+
+    .home-healthline-media {
+        order: 2;
+    }
+}
+
+@media (max-width: 560px) {
+    .home-section--healthline {
+        padding: var(--t-space-xl) 0;
+    }
+
+    .home-healthline-media img {
+        max-width: 100%;
+    }
+}
+
 .home-section--dark { background: linear-gradient(135deg, var(--t-navy), var(--t-blue)); color: var(--t-white); }
 .home-section--dark h2 { color: var(--t-white); }
 .home-section--dark p { color: rgba(255,255,255,0.85); }

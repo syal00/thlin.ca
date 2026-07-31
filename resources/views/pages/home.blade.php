@@ -51,14 +51,14 @@
 
     <section class="home-section home-section--healthline">
         <div class="t-container">
-            <div class="home-quick-grid" style="grid-template-columns: minmax(0, 1fr) minmax(300px, 0.9fr); align-items: center; gap: var(--t-space-xl);">
-                <div class="reveal-on-scroll">
+            <div class="home-healthline-grid">
+                <div class="home-healthline-copy reveal-on-scroll">
                     @include('partials.site-setting', ['key' => 'home_healthline_title', 'default' => 'thehealthline.ca', 'tag' => 'h2', 'type' => 'text'])
                     @include('partials.site-setting', ['key' => 'home_healthline_text', 'default' => 'An authoritative health service directory that makes navigating the health care system easier. With 47,000 detailed records for home, community, primary, acute and long-term care services, Our online service directory is the most widely used, online system navigation tool in Ontario.', 'tag' => 'p', 'type' => 'textarea'])
                     <a href="{{ route('pages.show', ['section' => 'products', 'page' => 'healthline']) }}" class="t-btn t-btn-light">Learn More</a>
                 </div>
-                <div class="reveal-on-scroll" data-reveal-delay="120ms">
-                    <img src="{{ asset('images/home/laptop-image.png') }}" alt="thehealthline.ca directory on laptop" style="width:100%; max-width:480px; margin:0 auto; border-radius: var(--t-radius-md);">
+                <div class="home-healthline-media reveal-on-scroll" data-reveal-delay="120ms">
+                    <img src="{{ asset('images/home/laptop-image.png') }}" alt="thehealthline.ca directory on laptop">
                 </div>
             </div>
         </div>
