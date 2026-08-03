@@ -25,6 +25,7 @@
 /database/database.sqlite
 todo.md
 /storage/app/local-plans/day*.md
+/storage/app/local-plans/day*.docx
 /storage/app/backups/
 _ide_helper.php
 Homestead.json
