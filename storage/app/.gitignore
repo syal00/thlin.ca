@@ -2,3 +2,6 @@
 !private/
 !public/
 !.gitignore
+!local-plans/
+!local-plans/day9-schema-and-migrations.md
+!local-plans/day9-data-dictionary.md

@@ -25,6 +25,8 @@
 /database/database.sqlite
 todo.md
 /storage/app/local-plans/day*.md
+!/storage/app/local-plans/day9-schema-and-migrations.md
+!/storage/app/local-plans/day9-data-dictionary.md
 /storage/app/backups/
 _ide_helper.php
 Homestead.json
