@@ -5,6 +5,13 @@
 @section('page_subtitle', 'Upload and manage PDF files such as Annual Reports.')
 
 @section('content')
+    @if ($hasUnavailableFiles ?? false)
+        <div class="admin-alert admin-alert-warning">
+            <strong>Some files are missing on this server.</strong>
+            They were uploaded elsewhere (for example on Vercel) and are not on this computer. Delete the old entry or upload the PDF again here to fix Preview/Download.
+        </div>
+    @endif
+
     @if ($isServerlessDeploy && ! $persistentStorageConfigured)
         <div class="admin-alert admin-alert-warning">
             <strong>Cloud storage is not configured on this server.</strong>
@@ -48,16 +55,24 @@
                             <td>{{ $mediaFile->created_at?->format('M j, Y') }}</td>
                             <td>
                                 <code>{{ $mediaFile->url }}</code><br>
-                                <button type="button" class="admin-btn admin-btn-secondary copy-link-btn" data-copy="{{ $mediaFile->url }}">Copy Link</button>
+                                @if ($mediaFile->fileIsAvailable())
+                                    <button type="button" class="admin-btn admin-btn-secondary copy-link-btn" data-copy="{{ $mediaFile->url }}">Copy Link</button>
+                                @else
+                                    <small class="form-error">File missing on this server — re-upload required</small>
+                                @endif
                             </td>
                             <td>
                                 <div class="admin-row-actions">
-                                    @if (strtolower(pathinfo($mediaFile->file_name ?? $mediaFile->file_path ?? '', PATHINFO_EXTENSION)) === 'pdf')
-                                        <a href="{{ $mediaFile->url }}" target="_blank" rel="noopener" class="admin-btn admin-btn-secondary">Preview PDF</a>
-                                        <a href="{{ $mediaFile->url }}" download class="admin-btn admin-btn-secondary">Download</a>
+                                    @if ($mediaFile->fileIsAvailable())
+                                        @if (strtolower(pathinfo($mediaFile->file_name ?? $mediaFile->file_path ?? '', PATHINFO_EXTENSION)) === 'pdf')
+                                            <a href="{{ $mediaFile->url }}" target="_blank" rel="noopener" class="admin-btn admin-btn-secondary">Preview PDF</a>
+                                            <a href="{{ $mediaFile->url }}" download class="admin-btn admin-btn-secondary">Download</a>
+                                        @else
+                                            <a href="{{ $mediaFile->url }}" target="_blank" rel="noopener" class="admin-btn admin-btn-secondary">Open</a>
+                                            <a href="{{ $mediaFile->url }}" download class="admin-btn admin-btn-secondary">Download</a>
+                                        @endif
                                     @else
-                                        <a href="{{ $mediaFile->url }}" target="_blank" rel="noopener" class="admin-btn admin-btn-secondary">Open</a>
-                                        <a href="{{ $mediaFile->url }}" download class="admin-btn admin-btn-secondary">Download</a>
+                                        <span class="admin-btn admin-btn-secondary" aria-disabled="true">Unavailable</span>
                                     @endif
                                     <form method="post" action="{{ route('admin.media.destroy', $mediaFile) }}" class="admin-inline-form" onsubmit="return confirm('Delete this file?')">
                                         @csrf

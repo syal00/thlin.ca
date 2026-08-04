@@ -20,6 +20,7 @@ class MediaController extends Controller
             'mediaFiles' => $mediaFiles,
             'persistentStorageConfigured' => CloudinaryStorage::isConfigured(),
             'isServerlessDeploy' => filled(env('VERCEL')) || filled(env('VERCEL_ENV')),
+            'hasUnavailableFiles' => $mediaFiles->contains(fn (MediaFile $file) => ! $file->fileIsAvailable()),
         ]);
     }
 

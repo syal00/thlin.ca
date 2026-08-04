@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 
 class MediaFile extends Model
 {
@@ -32,6 +33,15 @@ class MediaFile extends Model
         }
 
         return route('media.public', $this);
+    }
+
+    public function fileIsAvailable(): bool
+    {
+        if (str_starts_with($this->file_path, 'http://') || str_starts_with($this->file_path, 'https://')) {
+            return true;
+        }
+
+        return Storage::disk('public')->exists($this->file_path);
     }
 
     public function getFormattedSizeAttribute(): string

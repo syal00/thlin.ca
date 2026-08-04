@@ -52,7 +52,10 @@ class MediaDownloadTest extends TestCase
             'uploaded_by' => $admin->id,
         ]);
 
-        $this->get(route('media.public', $mediaFile))->assertNotFound();
+        $this->get(route('media.public', $mediaFile))
+            ->assertNotFound()
+            ->assertSee('PDF not available on this server')
+            ->assertSee('Uploaded Files');
     }
 
     public function test_public_storage_route_serves_editor_uploads(): void
