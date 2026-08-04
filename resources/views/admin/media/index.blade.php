@@ -5,6 +5,13 @@
 @section('page_subtitle', 'Upload and manage PDF files such as Annual Reports.')
 
 @section('content')
+    @if ($isServerlessDeploy && ! $persistentStorageConfigured)
+        <div class="admin-alert admin-alert-warning">
+            <strong>Cloud storage is not configured on this server.</strong>
+            PDF preview links may stop working after a redeploy. Add <code>CLOUDINARY_URL</code> to the Vercel environment variables for durable file hosting, then re-upload your PDFs.
+        </div>
+    @endif
+
     <div class="admin-page-actions">
         <a href="{{ route('admin.media.create') }}" class="btn btn-primary">Upload PDF</a>
     </div>

@@ -5,6 +5,13 @@
 @section('page_subtitle', 'Add Annual Reports or other PDF documents for use on website pages.')
 
 @section('content')
+    @if ($isServerlessDeploy && ! $persistentStorageConfigured)
+        <div class="admin-alert admin-alert-warning">
+            <strong>Cloud storage is not configured on this server.</strong>
+            Uploaded PDFs are stored temporarily. Add <code>CLOUDINARY_URL</code> in Vercel for files that stay available after redeploys.
+        </div>
+    @endif
+
     <div class="admin-page-actions">
         <a href="{{ route('admin.media.index') }}" class="btn btn-light">Back to files</a>
     </div>

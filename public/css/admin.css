@@ -447,6 +447,12 @@
     border: 1px solid rgba(153, 27, 27, 0.2);
 }
 
+.admin-alert-warning {
+    background: var(--admin-warning-bg);
+    color: var(--admin-warning-text);
+    border: 1px solid rgba(186, 117, 23, 0.25);
+}
+
 /* ─── Buttons ─── */
 .btn {
     display: inline-flex;

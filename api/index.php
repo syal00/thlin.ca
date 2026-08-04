@@ -18,7 +18,7 @@ if (getenv('VERCEL') || getenv('VERCEL_ENV')) {
     $storagePath = '/tmp/storage';
     $app->useStoragePath($storagePath);
 
-    foreach (['framework/cache/data', 'framework/sessions', 'framework/views', 'logs'] as $directory) {
+    foreach (['framework/cache/data', 'framework/sessions', 'framework/views', 'logs', 'app/public'] as $directory) {
         $path = $storagePath.'/'.$directory;
         if (! is_dir($path)) {
             mkdir($path, 0755, true);

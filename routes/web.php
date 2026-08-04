@@ -17,6 +17,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CustomPageController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\MediaDownloadController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +31,9 @@ Route::get('/about', [CustomPageController::class, 'show'])
     ->name('about');
 
 Route::get('/about/news/{news}', [NewsController::class, 'show'])->name('news.show');
+
+Route::get('/media-files/{mediaFile}', [MediaDownloadController::class, 'show'])
+    ->name('media.public');
 
 Route::redirect('/partners/oht', '/partners/ontario-health-teams', 301);
 Route::redirect('/about/board-of-directors', '/about/board', 301);

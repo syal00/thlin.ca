@@ -16,12 +16,19 @@ class MediaController extends Controller
     {
         $mediaFiles = MediaFile::latest()->paginate(12);
 
-        return view('admin.media.index', compact('mediaFiles'));
+        return view('admin.media.index', [
+            'mediaFiles' => $mediaFiles,
+            'persistentStorageConfigured' => CloudinaryStorage::isConfigured(),
+            'isServerlessDeploy' => filled(env('VERCEL')) || filled(env('VERCEL_ENV')),
+        ]);
     }
 
     public function create(): View
     {
-        return view('admin.media.create');
+        return view('admin.media.create', [
+            'persistentStorageConfigured' => CloudinaryStorage::isConfigured(),
+            'isServerlessDeploy' => filled(env('VERCEL')) || filled(env('VERCEL_ENV')),
+        ]);
     }
 
     public function store(Request $request): RedirectResponse

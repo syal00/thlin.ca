@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Facades\Storage;
 
 class MediaFile extends Model
 {
@@ -32,7 +31,7 @@ class MediaFile extends Model
             return $this->file_path;
         }
 
-        return Storage::url($this->file_path);
+        return route('media.public', $this);
     }
 
     public function getFormattedSizeAttribute(): string
