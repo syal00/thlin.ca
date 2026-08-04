@@ -233,10 +233,15 @@
         </div>
 
         <div class="form-group">
-            <label for="custom_html">
-                Custom HTML
-                <span class="optional-label">Optional</span>
-            </label>
+            <div class="cms-html-editor-toolbar">
+                <label for="custom_html">
+                    Custom HTML
+                    <span class="optional-label">Optional</span>
+                </label>
+                <button type="button" id="custom-html-preview-toggle" class="btn btn-sm btn-light">
+                    Preview changes
+                </button>
+            </div>
             <textarea
                 id="custom_html"
                 name="custom_html"
@@ -245,6 +250,18 @@
                 spellcheck="false"
                 placeholder="<section>&#10;  <h2>Section heading</h2>&#10;  <img src=&quot;/storage/media/chart.png&quot; alt=&quot;Chart&quot;>&#10;  <table>...</table>&#10;</section>"
             >{{ $editorCustomHtml }}</textarea>
+            <div id="custom-html-preview-panel" class="cms-html-preview-panel hidden" hidden>
+                <div class="cms-html-preview-header">
+                    <span class="cms-html-preview-label">Live preview</span>
+                    <small>Rendered like the public page. Save the form to publish changes.</small>
+                </div>
+                <iframe
+                    id="custom-html-preview-frame"
+                    class="cms-html-preview-frame"
+                    title="Custom HTML preview"
+                    sandbox="allow-same-origin allow-scripts"
+                ></iframe>
+            </div>
             <small>
                 Paste complete HTML including images, tables, iframes, and chart code.
                 Use image paths from the <a href="{{ route('admin.media.index') }}" target="_blank" rel="noopener">Media library</a>
@@ -439,6 +456,74 @@
         const linkSearch = document.getElementById('link-search');
         const linkGrid = document.getElementById('cms-link-grid');
         const noLinks = document.getElementById('cms-no-links');
+        const customHtmlTextarea = document.getElementById('custom_html');
+        const customHtmlPreviewToggle = document.getElementById('custom-html-preview-toggle');
+        const customHtmlPreviewPanel = document.getElementById('custom-html-preview-panel');
+        const customHtmlPreviewFrame = document.getElementById('custom-html-preview-frame');
+        let customHtmlPreviewTimer = null;
+
+        function renderCustomHtmlPreview() {
+            if (!customHtmlTextarea || !customHtmlPreviewFrame) {
+                return;
+            }
+
+            const html = customHtmlTextarea.value.trim();
+            const doc = customHtmlPreviewFrame.contentDocument;
+
+            if (!doc) {
+                return;
+            }
+
+            doc.open();
+            doc.write('<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">');
+            doc.write('<link rel="stylesheet" href="' + @json(asset('css/tokens.css')) + '">');
+            doc.write('<link rel="stylesheet" href="' + @json(asset('css/pages.css')) + '">');
+            doc.write('<style>body{margin:0;padding:24px;background:#fff;font-family:Inter,system-ui,sans-serif;}</style>');
+            doc.write('</head><body></body></html>');
+            doc.close();
+
+            const container = doc.createElement('div');
+
+            if (html !== '') {
+                container.className = 'custom-html-content';
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = '<p style="color:#64748b;">Paste HTML above, then preview it here before saving.</p>';
+            }
+
+            doc.body.appendChild(container);
+        }
+
+        function setCustomHtmlPreviewOpen(isOpen) {
+            if (!customHtmlPreviewPanel || !customHtmlPreviewToggle) {
+                return;
+            }
+
+            customHtmlPreviewPanel.hidden = !isOpen;
+            customHtmlPreviewPanel.classList.toggle('hidden', !isOpen);
+            customHtmlPreviewToggle.textContent = isOpen ? 'Hide preview' : 'Preview changes';
+
+            if (isOpen) {
+                renderCustomHtmlPreview();
+            }
+        }
+
+        if (customHtmlPreviewToggle) {
+            customHtmlPreviewToggle.addEventListener('click', function () {
+                setCustomHtmlPreviewOpen(customHtmlPreviewPanel.hidden);
+            });
+        }
+
+        if (customHtmlTextarea) {
+            customHtmlTextarea.addEventListener('input', function () {
+                if (customHtmlPreviewPanel && customHtmlPreviewPanel.hidden) {
+                    return;
+                }
+
+                clearTimeout(customHtmlPreviewTimer);
+                customHtmlPreviewTimer = window.setTimeout(renderCustomHtmlPreview, 250);
+            });
+        }
 
         function cleanSlug(value) {
             return value

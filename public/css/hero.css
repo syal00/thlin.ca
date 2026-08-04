@@ -7,8 +7,8 @@
     position: relative;
     min-height: clamp(460px, 55vh, 580px);
     display: flex;
-    align-items: center;
-    padding: calc(76px + var(--t-space-2xl)) 0 calc(var(--t-space-2xl) + 1.5rem);
+    align-items: flex-start;
+    padding: calc(76px + var(--t-space-lg)) 0 var(--t-space-2xl);
     background: linear-gradient(135deg, var(--t-navy) 0%, var(--t-blue) 100%);
     color: var(--t-white);
     overflow: hidden;
@@ -29,15 +29,26 @@
     inset: 0;
     background: linear-gradient(105deg, rgba(6, 50, 92, 0.9) 0%, rgba(11, 49, 86, 0.78) 45%, rgba(24, 95, 165, 0.62) 100%);
 }
-.t-hero-page-inner { position: relative; z-index: 1; width: 100%; }
+.t-hero-page-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding-left: calc(var(--t-shell-pad) - 1rem);
+    padding-top: var(--t-space-xs);
+}
 .t-hero-page h1 { color: var(--t-white); font-size: clamp(2.1rem, 4vw, 3rem); margin: 0; }
 .t-hero-page p { color: rgba(255, 255, 255, 0.88); font-size: 1.05rem; margin: var(--t-space-sm) 0 0; max-width: 640px; }
+
+@media (max-width: 1024px) {
+    .t-hero-page-inner { padding-left: calc(var(--t-shell-pad-tablet) - 0.75rem); }
+}
 
 @media (max-width: 640px) {
     .t-hero-page {
         min-height: clamp(380px, 52vh, 480px);
-        padding: calc(68px + var(--t-space-lg)) 0 var(--t-space-2xl);
+        padding: calc(68px + var(--t-space-md)) 0 var(--t-space-2xl);
     }
+    .t-hero-page-inner { padding-left: calc(var(--t-shell-pad-mobile) - 0.5rem); }
     .t-hero-page--image {
         background-position: 70% 24%;
     }

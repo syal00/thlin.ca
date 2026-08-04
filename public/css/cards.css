@@ -63,7 +63,14 @@
     background: var(--t-light-blue);
     overflow: hidden;
 }
-.portfolio-card-media img { width: 100%; height: 100%; object-fit: cover; }
+.portfolio-card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: var(--t-space-md);
+    background: var(--t-white);
+    box-sizing: border-box;
+}
 .portfolio-placeholder { display: flex; align-items: center; justify-content: center; color: var(--t-text-muted); font-weight: 700; font-size: 0.85rem; }
 .portfolio-card-body { padding: var(--t-space-md) var(--t-space-lg) var(--t-space-lg); }
 .portfolio-card-body h3 { font-size: 1.15rem; margin-bottom: 0.5rem; }
@@ -109,7 +116,20 @@
 }
 .news-item .t-card-media {
     margin: calc(var(--t-space-lg) * -1) calc(var(--t-space-lg) * -1) var(--t-space-lg);
-    aspect-ratio: 21 / 8;
+    aspect-ratio: auto;
+    background: var(--t-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--t-space-md);
+}
+.news-item .t-card-media img {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 220px;
+    object-fit: contain;
+    object-position: center;
 }
 .job-card h2, .news-item h2 { font-size: 1.3rem; margin-bottom: 0.35rem; }
 .news-item h2 a { color: var(--t-navy); text-decoration: none; }

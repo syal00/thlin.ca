@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    initHomepageReveal();
+    initHomepageHero();
+    initScrollReveal();
     initStatCountUp();
     initNavDropdowns();
 
@@ -68,27 +69,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-function initHomepageReveal() {
+function initHomepageHero() {
     if (!document.body.classList.contains('is-home-page')) {
         return;
     }
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        document.querySelectorAll('.reveal-on-scroll').forEach((element) => {
-            element.classList.add('is-revealed');
-        });
-        return;
-    }
-
-    const heroCard = document.querySelector('.is-home-page .hero-card');
+    const heroCard = document.querySelector('.hero-card');
 
     if (heroCard) {
         heroCard.classList.add('home-hero-enter');
     }
+}
 
-    const revealTargets = document.querySelectorAll('.is-home-page .reveal-on-scroll');
+function initScrollReveal() {
+    const revealTargets = document.querySelectorAll('.reveal-on-scroll');
 
     if (!revealTargets.length) {
+        return;
+    }
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        revealTargets.forEach((element) => {
+            element.classList.add('is-revealed');
+        });
         return;
     }
 

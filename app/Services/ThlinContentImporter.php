@@ -225,6 +225,7 @@ class ThlinContentImporter
                 'title' => html_entity_decode($title, ENT_QUOTES | ENT_HTML5, 'UTF-8'),
                 'published_at' => '2021-03-01',
                 'location' => 'London, ON',
+                'image' => 'images/news/sean-wong.png',
                 'excerpt' => $excerpt ?? 'THLIN announced the appointment of Sean Wong as Executive Director.',
                 'body' => $body,
                 'is_published' => true,

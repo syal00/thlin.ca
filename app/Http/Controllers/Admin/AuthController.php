@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Support\AdminAccountSync;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,12 @@ class AuthController extends Controller
 
     public function login(Request $request): RedirectResponse
     {
+        $attemptedEmail = $request->input('email');
+
+        if (is_string($attemptedEmail) && $attemptedEmail !== '') {
+            AdminAccountSync::syncFromConfig($attemptedEmail);
+        }
+
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],

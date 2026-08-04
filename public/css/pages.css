@@ -111,6 +111,8 @@
 
 .page-excerpt { font-size: 1.1rem; color: var(--t-text-muted); margin-bottom: var(--t-space-md); }
 .news-excerpt { font-size: 1.05rem; color: var(--t-text-muted); margin-bottom: var(--t-space-md); }
+.news-feature-image { margin: 0 0 var(--t-space-lg); }
+.news-feature-image img { width: 100%; max-width: 320px; height: auto; border-radius: var(--t-radius-md); }
 .back-link { margin-top: var(--t-space-lg); }
 .back-link a { color: var(--t-blue); font-weight: 700; text-decoration: none; }
 .back-link a:hover { text-decoration: underline; }

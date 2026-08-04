@@ -1,15 +1,11 @@
 @php
     /** @var \App\Models\NewsPost $post */
-    $newsImageUrl = $post->image
-        ? (str_starts_with($post->image, 'http://') || str_starts_with($post->image, 'https://')
-            ? $post->image
-            : asset('storage/'.$post->image))
-        : null;
+    $newsImageUrl = $post->imageUrl();
 @endphp
 <li class="news-item">
     <div class="t-card-media">
         @if ($newsImageUrl)
-            <img src="{{ $newsImageUrl }}" alt="">
+            <img src="{{ $newsImageUrl }}" alt="{{ $post->title }}">
         @else
             <div class="t-card-placeholder">News photo</div>
         @endif

@@ -22,6 +22,12 @@
     <section class="t-prose">
         <div class="t-container">
             <article class="t-prose-content">
+                @if ($post->imageUrl())
+                    <figure class="news-feature-image">
+                        <img src="{{ $post->imageUrl() }}" alt="{{ $post->title }}">
+                    </figure>
+                @endif
+
                 @if ($post->excerpt || auth()->check())
                     <p class="news-excerpt" @include('partials.inline-edit-attrs', ['model' => 'news', 'id' => $post->id, 'field' => 'excerpt', 'type' => 'richtext'])>{!! $post->excerpt !!}</p>
                 @endif
