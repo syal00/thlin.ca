@@ -79,10 +79,48 @@
 
     document.addEventListener('DOMContentLoaded', function () {
         var cmsForm = document.querySelector(@json($formSelector));
+        var editorId = @json(ltrim($selector, '#.'));
         var cmsFormSubmitting = false;
 
         if (! cmsForm) {
             return;
+        }
+
+        function persistActionInput(submitter) {
+            if (! submitter || submitter.name !== 'action') {
+                return;
+            }
+
+            var actionInput = cmsForm.querySelector('input[type="hidden"][name="action"]');
+
+            if (! actionInput) {
+                actionInput = document.createElement('input');
+                actionInput.type = 'hidden';
+                actionInput.name = 'action';
+                cmsForm.appendChild(actionInput);
+            }
+
+            actionInput.value = submitter.value;
+        }
+
+        function finalizeSubmit(submitter) {
+            var editor = typeof tinymce !== 'undefined' ? tinymce.get(editorId) : null;
+
+            if (editor) {
+                editor.save();
+            } else if (typeof tinymce !== 'undefined') {
+                tinymce.triggerSave();
+            }
+
+            persistActionInput(submitter);
+            cmsFormSubmitting = true;
+
+            if (typeof cmsForm.requestSubmit === 'function') {
+                cmsForm.requestSubmit(submitter || undefined);
+                return;
+            }
+
+            cmsForm.submit();
         }
 
         cmsForm.addEventListener('submit', function (event) {
@@ -90,31 +128,38 @@
                 return;
             }
 
-            if (typeof tinymce === 'undefined') {
+            var editor = typeof tinymce !== 'undefined' ? tinymce.get(editorId) : null;
+
+            if (typeof tinymce === 'undefined' || ! editor) {
                 return;
             }
 
             event.preventDefault();
 
-            var editor = tinymce.get(@json(ltrim($selector, '#.')));
+            var submitter = event.submitter;
+            var uploadSettled = false;
 
-            function submitForm() {
-                if (editor) {
-                    editor.save();
-                } else {
-                    tinymce.triggerSave();
+            function submitOnce() {
+                if (uploadSettled) {
+                    return;
                 }
 
-                cmsFormSubmitting = true;
-                cmsForm.submit();
+                uploadSettled = true;
+                finalizeSubmit(submitter);
             }
 
-            if (editor && typeof editor.uploadImages === 'function') {
-                editor.uploadImages(submitForm).catch(submitForm);
+            if (typeof editor.uploadImages === 'function') {
+                var uploadPromise = editor.uploadImages(submitOnce);
+
+                if (uploadPromise && typeof uploadPromise.catch === 'function') {
+                    uploadPromise.catch(submitOnce);
+                }
+
+                window.setTimeout(submitOnce, 8000);
                 return;
             }
 
-            submitForm();
+            submitOnce();
         });
     });
 </script>
