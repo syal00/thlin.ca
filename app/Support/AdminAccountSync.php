@@ -25,17 +25,11 @@ class AdminAccountSync
             return;
         }
 
-        if ($attemptedEmail === null) {
-            $user = User::where('email', $admin['email'])->first()
-                ?? User::where('email', 'admin@thlin.local')->first()
-                ?? User::orderBy('id')->first();
-        } else {
-            $user = User::where('email', $admin['email'])->first()
-                ?? User::where('email', 'admin@thlin.local')->first();
+        $user = User::where('email', $admin['email'])->first()
+            ?? User::where('email', 'admin@thlin.local')->first();
 
-            if (! $user && User::exists()) {
-                return;
-            }
+        if (! $user && User::exists()) {
+            return;
         }
 
         $attributes = [

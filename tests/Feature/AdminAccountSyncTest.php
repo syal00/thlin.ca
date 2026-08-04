@@ -25,7 +25,7 @@ class AdminAccountSyncTest extends TestCase
             'password' => 'VercelPassword1!',
         ]);
 
-        $response->assertRedirect(route('admin.login.setup-2fa'));
+        $response->assertRedirect(route('admin.dashboard'));
 
         $this->assertDatabaseHas('users', [
             'email' => 'vercel-admin@example.test',
@@ -66,6 +66,6 @@ class AdminAccountSyncTest extends TestCase
             'password' => 'UpdatedPassword1!',
         ]);
 
-        $response->assertRedirect(route('admin.login.setup-2fa'));
+        $response->assertRedirect(route('admin.dashboard'));
     }
 }

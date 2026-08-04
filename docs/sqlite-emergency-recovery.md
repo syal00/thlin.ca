@@ -1,73 +1,81 @@
-# SQLite 紧急恢复与失败回退
+# SQLite Emergency Recovery and Rollback
 
-本文适用于当前默认数据库连接为文件型 SQLite 的部署。恢复会替换该连接配置指向的数据库文件；请只在确认业务需要回退时执行。
+This procedure applies to a local or controlled single-instance environment whose default database connection is file-backed SQLite. A restore replaces the database file configured for that connection; run it only when a confirmed operational rollback is necessary.
 
-## 恢复前准备
+Platforms such as Vercel, which have no durable shared filesystem or may run multiple instances, are not suitable for this recovery process. CMS writes on those platforms must not be treated as durable. Any production requirement for durable CMS data must move to SQL Server after client approval; do not run these commands on a remote function instance, PostgreSQL, Neon, or SQL Server.
 
-1. 记录故障时间、症状和准备恢复的备份文件路径。
-2. 暂停会写入数据库的 Web 请求、队列 Worker 和计划任务。必要时先执行 `php artisan down`。
-3. 确认候选备份是由 `thlin:db-backup` 创建，且同目录存在同名 `.json` manifest。
-4. 不要手工复制、重命名或覆盖 `database.sqlite`；使用下述命令保留预检、备份和校验保护。
+## Prepare for Recovery
 
-备份默认位于 `storage/app/backups/sqlite/`，该目录已被 Git 忽略。
+1. Record the incident time, symptoms, and path to the backup that you intend to restore.
+2. Pause web requests, queue workers, and scheduled tasks that can write to the database. Run `php artisan down` first if necessary.
+3. Confirm that the candidate backup was created by `thlin:db-backup` and that the matching `.json` manifest is in the same directory.
+4. Do not manually copy, rename, or overwrite `database.sqlite`; use the commands below to preserve the built-in preflight, backup, and validation safeguards.
 
-## 先执行预检
+Backups are stored by default in `storage/app/backups/sqlite/`, which is Git-ignored.
 
-将路径替换为候选 `.sqlite` 备份的绝对路径：
+## Run the Preflight First
+
+Replace the path below with the absolute path to the candidate `.sqlite` backup:
 
 ```bash
 php artisan thlin:db-restore /absolute/path/to/sqlite-backup-YYYYMMDD_HHMMSS_microseconds.sqlite --dry-run
 ```
 
-预检会确认以下内容，且不会修改当前数据库：
+The preflight validates the following without modifying the configured database:
 
-- 备份文件与同名 manifest 存在并可读；
-- 文件具有 SQLite 格式，且 SHA-256、文件大小与 manifest 一致；
-- manifest 中记录了 migration 状态；
-- 未提供 `--force` 时，命令只会预检，不会覆盖数据库。
+- The backup file and matching manifest exist and are readable.
+- The file has the SQLite format, and its SHA-256 checksum and size match the manifest.
+- The manifest includes the recorded migration state.
+- Without `--force`, the command performs preflight only and does not replace the database.
 
-只有看到 `Restore preflight passed.` 并确认 migration 状态符合预期，才继续下一节。
+Continue only after `Restore preflight passed.` is displayed and the reported migration state is expected.
 
-## 正式恢复
+## Perform the Restore
 
 ```bash
 php artisan thlin:db-restore /absolute/path/to/sqlite-backup-YYYYMMDD_HHMMSS_microseconds.sqlite --force
 ```
 
-`--force` 是覆盖当前数据库的显式确认。命令会按固定顺序执行：
+`--force` is the explicit confirmation that the configured database may be replaced. The command performs these steps in order:
 
-1. 再次运行预检。
-2. 使用 `thlin:db-backup` 为当前数据库创建新的安全备份及 manifest。
-3. 将候选备份复制到受控临时文件，执行 `PRAGMA integrity_check`、`PRAGMA foreign_key_check`，并核对其 migration 状态与 manifest。
-4. 仅在所有检查通过后，替换当前 SQLite 数据库文件。
+1. Runs the preflight again.
+2. Creates a fresh safeguard backup and manifest of the current database with `thlin:db-backup`.
+3. Copies the candidate backup to a controlled temporary file, runs `PRAGMA integrity_check` and `PRAGMA foreign_key_check`, and compares its migration state with the manifest.
+4. Replaces the configured SQLite database file only after every check passes.
 
-成功时会显示 `SQLite database restored.`。随后重新启动已暂停的服务；如使用维护模式，执行：
+On success, the command displays `SQLite database restored.`. Restart paused services afterwards; if maintenance mode was enabled, run:
 
 ```bash
 php artisan up
 ```
 
-## 恢复后验证
+## Verify After Recovery
 
-1. 运行关键页面和 CMS 登录检查，确认可读取预期内容。
-2. 检查关键表的记录数、父子页面关系及管理员访问是否与备份基线一致。
-3. 运行 migration 状态检查，确认没有意外的待执行或未知 migration：
+1. Check key pages and CMS login to confirm that expected content can be read.
+2. Confirm that key table counts, parent/child page relationships, and administrator access match the backup baseline.
+3. Check migration status for unexpected pending or unknown migrations:
 
 ```bash
 php artisan migrate:status
 ```
 
-4. 在维护记录中保留使用的候选备份路径、自动生成的恢复前备份路径、执行时间和验证结果。
+4. Run the read-only SQLite health check:
 
-## 失败与回退
+```bash
+php artisan thlin:db-check
+```
 
-恢复会在下列任一情况停止，不会覆盖当前数据库：缺失或无效 manifest、SHA-256/大小不匹配、非 SQLite 文件、数据库完整性错误、外键违规、migration 状态不匹配，或恢复前备份失败。
+5. Keep the candidate backup path, the automatically created pre-restore backup path, execution time, and verification results in the maintenance record.
 
-如果正式恢复后发现结果不符合预期：
+## Failure and Rollback
 
-1. 保持写入暂停，不要手工修改或覆盖数据库文件。
-2. 找到本次恢复命令自动生成的最新恢复前备份及其 manifest（位于 `storage/app/backups/sqlite/`）。
-3. 对该恢复前备份先运行 `--dry-run`；预检通过后，再以 `--force` 恢复它。
-4. 重复“恢复后验证”步骤，记录回退原因和结果。
+The restore stops without replacing the configured database if any of the following occurs: a missing or invalid manifest, SHA-256 or size mismatch, non-SQLite file, database-integrity error, foreign-key violation, migration-state mismatch, or pre-restore backup failure.
 
-若预检或恢复命令本身失败，保留命令输出和候选备份，不要跳过检查强制复制文件；先排查 manifest、磁盘权限、SQLite 文件完整性及当前数据库路径配置。
+If a completed restore does not produce the expected result:
+
+1. Keep writes paused; do not manually modify or overwrite the database file.
+2. Locate the newest pre-restore backup and manifest automatically created by the restore command in `storage/app/backups/sqlite/`.
+3. Run `--dry-run` against that pre-restore backup first. After a successful preflight, restore it with `--force`.
+4. Repeat the post-recovery verification steps and record the rollback reason and outcome.
+
+If the preflight or restore command fails, retain the command output and candidate backup. Do not bypass the safeguards with a forced file copy; investigate the manifest, disk permissions, SQLite integrity, and configured database path first.

@@ -2191,41 +2191,6 @@
     background: var(--admin-blue-light, #E6F1FB);
 }
 
-.admin-2fa-qr {
-    display: flex;
-    justify-content: center;
-    margin: 1.25rem 0;
-    padding: 1rem;
-    background: #fff;
-    border: 1px solid var(--admin-border, #D7E2EE);
-    border-radius: 0.75rem;
-}
-
-.admin-2fa-secret {
-    margin: 0 0 1.25rem;
-    text-align: center;
-    font-size: 0.92rem;
-    line-height: 1.5;
-}
-
-.admin-2fa-secret-label {
-    display: block;
-    margin-bottom: 0.35rem;
-    color: var(--admin-muted, #5b7086);
-    font-weight: 600;
-}
-
-.admin-2fa-secret code {
-    display: inline-block;
-    padding: 0.35rem 0.6rem;
-    border-radius: 0.45rem;
-    background: var(--admin-bg, #EEF3F9);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.88rem;
-    letter-spacing: 0.04em;
-    word-break: break-all;
-}
-
 .admin-login-footer {
     margin: 1.35rem 0 0;
     text-align: center;
@@ -2261,4 +2226,3 @@
         display: none;
     }
 }
-

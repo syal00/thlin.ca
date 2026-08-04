@@ -18,7 +18,7 @@ Laravel (PHP Blade) redesign of the **thehealthline.ca Information Network** cor
 | Database | SQLite for the current project scope and demo environment |
 | Frontend | HTML, CSS, JavaScript |
 | CMS editor | Self-hosted TinyMCE (GPL) + Cropper.js for image editing |
-| Auth | Admin login + TOTP two-factor authentication (2FA) |
+| Auth | Admin email/password login |
 | Hosting | Vercel (demo), Laravel Herd (local) |
 
 **Brand colours only:** `#185FA5` (blue), `#3B6D11` (green), `#BA7517` (orange)
@@ -29,8 +29,8 @@ Work completed across CMS, security, design, and content editing:
 
 ### Security & admin access
 
-- **Two-factor authentication (2FA)** for admin login — TOTP codes via Google Authenticator, Authy, Microsoft Authenticator, etc.
-- First sign-in QR setup flow; verify step on every login after password
+- **Admin email/password login** with request throttling and protected CMS routes
+- Login regenerates the session; logout invalidates the session and CSRF token
 - Admin credentials via `THLIN_ADMIN_EMAIL` and `THLIN_ADMIN_PASSWORD` in `.env`
 
 ### Public site design
@@ -97,7 +97,6 @@ Open http://thlin.ca.test (Herd) or https://thlin-ca.vercel.app/ (demo).
 - **Local:** http://thlin.ca.test/admin/login
 - **Demo:** https://thlin-ca.vercel.app/admin/login
 - Credentials: `THLIN_ADMIN_EMAIL` and `THLIN_ADMIN_PASSWORD` in `.env`
-- **2FA:** after password, enter a 6-digit code from your authenticator app
 - Apply admin email changes: `php artisan db:seed --class=AdminUserSeeder`
 
 Manage **pages**, **news**, **careers**, **board members**, **portfolio items**, and **uploaded files** without editing code.
@@ -158,13 +157,41 @@ See:
 - `careers` — job postings
 - `board_members` — board of directors (photos & bios)
 - `portfolio_items` — portfolio (featured items show on home)
-- `users` — admin login (+ `two_factor_secret` for 2FA)
+- `users` — administrator name, email, password hash, and remember token
 
 ## Database deployment status
 
 The current project uses SQLite (`DB_CONNECTION=sqlite`). Do not configure PostgreSQL, Neon, `DATABASE_URL`, or remote database migration commands for this scope.
 
-SQLite is appropriate for the current self-contained demo and local development. Before a production deployment that requires durable multi-user CMS editing, the team will run a separate, approved migration to the client’s Microsoft SQL Server 2016/2019 environment.
+SQLite is appropriate for the current self-contained demo and local development. It is a file-backed database: platforms without a durable shared filesystem, or with multiple application instances, cannot provide durable or safe concurrent CMS writes. Vercel functions may read the bundled demo content, but CMS writes must not be treated as durable across redeploys, instances, or concurrent requests.
+
+### SQLite checks, backup, and recovery
+
+Before schema changes, imports, or deployment-sensitive content work, run:
+
+```bash
+php artisan thlin:db-check
+php artisan thlin:db-backup
+```
+
+`thlin:db-backup` writes a timestamped SQLite backup and matching SHA-256 manifest to `storage/app/backups/sqlite/`; this directory is Git-ignored. To inspect a backup without changing the configured database, run:
+
+```bash
+php artisan thlin:db-restore /absolute/path/to/sqlite-backup-YYYYMMDD_HHMMSS_microseconds.sqlite --dry-run
+```
+
+Only after a successful preflight and a confirmed maintenance window may an operator add `--force`. The restore command first creates a pre-restore backup and validates a temporary copy. See [SQLite emergency recovery](docs/sqlite-emergency-recovery.md) for the complete procedure.
+
+### Future SQL Server migration checklist
+
+A production database change requires a separate client approval and must target the client’s Microsoft SQL Server 2016/2019 environment. Before implementation, prepare:
+
+1. A dedicated test instance/database, least-privilege account, network path, TLS requirements, VPN/firewall rules, and approved credential handoff.
+2. PHP compatibility verification for Microsoft ODBC Driver plus `pdo_sqlsrv` and `sqlsrv`.
+3. SQLite schema/data dictionary, type mapping, export/import rehearsal, identity correction, record-count and foreign-key validation, and rollback plan.
+4. A content freeze, validated cutover window, and post-cutover CMS verification.
+
+No SQL Server credentials, connection strings, imports, or migration commands belong in this repository before that approval.
 
 ## Project structure
 
@@ -172,7 +199,7 @@ SQLite is appropriate for the current self-contained demo and local development.
 app/Http/Controllers/       Public + Admin controllers
 app/Http/Middleware/        Public preview mode (?preview=1)
 app/Models/                 Page, MediaFile, NewsPost, Career, BoardMember, PortfolioItem, User
-app/Support/                AdminTwoFactor, CmsEditorContent, CmsBodyFormatter, CloudinaryStorage
+app/Support/                AdminAccountSync, CmsEditorContent, CmsBodyFormatter, CloudinaryStorage
 config/thlin.php            Site settings & navigation
 config/admin.php            Default admin credentials
 database/seeders/           Full content from thlin.ca spec

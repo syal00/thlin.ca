@@ -39,9 +39,10 @@ If the client requires durable multi-user editing, long-term CMS persistence, or
 
 Before that migration, the team must prepare:
 
-1. SQL Server test-instance, network, TLS, firewall, VPN, and least-privilege account requirements.
-2. Laravel/PHP compatibility checks for Microsoft ODBC Driver, `pdo_sqlsrv`, and `sqlsrv`.
-3. SQLite schema and data dictionary, type mapping, backup, import rehearsal, validation, and rollback plan.
-4. Content freeze and verified cutover window.
+1. A dedicated SQL Server 2016/2019 test instance and database, network path, TLS, firewall/VPN rules, and a least-privilege account delivered through an approved channel.
+2. Laravel/PHP compatibility checks for Microsoft ODBC Driver, `pdo_sqlsrv`, and `sqlsrv` on the target runtime.
+3. The SQLite schema/data dictionary and a reviewed SQLite-to-SQL Server type map, including primary keys, foreign keys, unique constraints, indexes, timestamps, booleans, JSON/text fields, and full-text-search alternatives.
+4. A rehearsed export/import procedure with identity-value correction, record-count and referential-integrity checks, application/CMS smoke tests, a verified SQLite backup, and a rollback plan.
+5. A content freeze, approved cutover window, and post-cutover owner acceptance.
 
-No external database migration is part of the current delivery.
+No external database migration, credential, connection string, import, or remote migration command is part of the current delivery.
