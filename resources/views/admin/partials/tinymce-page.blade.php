@@ -9,7 +9,7 @@
 @include('admin.partials.tinymce-script')
 @include('admin.partials.tinymce-upload')
 <script>
-    tinymce.init({
+    window.thlinInitTinyMce({
         selector: @json($selector),
         license_key: 'gpl',
         base_url: @json(asset('vendor/tinymce')),
