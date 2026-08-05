@@ -141,16 +141,18 @@
                         </a>
                     </div>
 
-                    <div class="admin-nav-group">
-                        <span class="admin-nav-label">Settings</span>
-                        <a href="{{ route('admin.users.index') }}"
-                           class="admin-nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
-                            <span class="admin-nav-icon" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                            </span>
-                            Users
-                        </a>
-                    </div>
+                    @if (auth()->user()->isPrimaryAdmin())
+                        <div class="admin-nav-group">
+                            <span class="admin-nav-label">CMS Manager</span>
+                            <a href="{{ route('admin.users.index') }}"
+                               class="admin-nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                                <span class="admin-nav-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15v7m-6-4 6-6 6 6"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                </span>
+                                Admin Users
+                            </a>
+                        </div>
+                    @endif
                 </nav>
 
                 <div class="admin-sidebar-footer">
@@ -176,6 +178,10 @@
 
                     <a href="{{ url('/?preview=1') }}" target="_blank" rel="noopener" class="admin-view-site">
                         View Website
+                    </a>
+
+                    <a href="{{ route('admin.password.change') }}" class="admin-view-site">
+                        Change password
                     </a>
 
                     <form method="POST" action="{{ route('admin.logout') }}">

@@ -27,7 +27,7 @@
             'searchreplace | outdent indent | removeformat',
             'code preview fullscreen | help',
         ].join(' | '),
-        quickbars_image_toolbar: 'thlinImgLeft thlinImgCenter thlinImgRight thlinImgFull | thlinMoveUp thlinMoveDown | thlinReplaceImg imageedit thlinRemoveImg',
+        quickbars_image_toolbar: 'thlinImgLeft thlinImgCenter thlinImgRight thlinImgFull | thlinDragMove | thlinMoveLeft thlinMoveUp thlinMoveDown thlinMoveRight | thlinReplaceImg imageedit thlinRemoveImg',
         quickbars_selection_toolbar: false,
         object_resizing: true,
         resize_img_proportional: true,
@@ -70,6 +70,9 @@
             + 'table td, table th { border: 1px solid #cbd5e1; padding: 8px; vertical-align: top; } '
             + 'iframe, video { display: block; max-width: 100%; margin: 1rem 0; } '
             + 'img { max-width: 100%; height: auto; cursor: pointer; } '
+            + 'img.thlin-img-draggable { cursor: grab; outline: 2px dashed #185FA5; outline-offset: 3px; user-select: none; -webkit-user-drag: none; } '
+            + 'img.thlin-img-dragging { opacity: 0.55; cursor: grabbing; } '
+            + '.thlin-img-drop-marker { height: 4px; margin: 8px 0; border-radius: 999px; background: #185FA5; box-shadow: 0 0 0 2px rgba(24, 95, 165, 0.15); pointer-events: none; } '
             + 'img.mce-selected, img[data-mce-selected] { outline: 3px solid #185FA5; outline-offset: 3px; }',
         setup: function (editor) {
             ThlinImageEditor.attach(editor);

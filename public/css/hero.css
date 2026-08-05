@@ -16,7 +16,7 @@
 .t-hero-page--image {
     background-image: url('/images/home/healthline-bg.png');
     background-size: cover;
-    background-position: 72% 28%;
+    background-position: 72% 32%;
     background-repeat: no-repeat;
 }
 .t-hero-page--about {
@@ -45,11 +45,21 @@
 
 @media (max-width: 640px) {
     .t-hero-page {
-        min-height: clamp(380px, 52vh, 480px);
+        min-height: clamp(400px, 58vh, 480px);
         padding: calc(68px + var(--t-space-md)) 0 var(--t-space-2xl);
     }
     .t-hero-page-inner { padding-left: calc(var(--t-shell-pad-mobile) - 0.5rem); }
-    .t-hero-page--image {
-        background-position: 70% 24%;
+    .hero-image-bg,
+    .t-hero-page--image:not(.t-hero-page--about) {
+        background-color: var(--t-navy);
+        background-position: 62% 22%;
+        background-size: cover;
+        transform: scale(1.12);
+        transform-origin: 62% 22%;
+    }
+    .t-hero-page--about {
+        background-position: center 32%;
+        background-size: cover;
+        transform: none;
     }
 }

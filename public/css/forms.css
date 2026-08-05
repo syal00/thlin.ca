@@ -31,4 +31,7 @@
     border: 1px solid var(--t-border);
     border-radius: var(--t-radius-sm);
     font: inherit;
+    background: var(--t-white);
+    color: var(--t-text);
 }
+.t-search-form input::placeholder { color: var(--t-text-muted); }

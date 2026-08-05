@@ -1,9 +1,6 @@
 <footer class="site-footer t-footer">
     <div class="t-container t-footer-row">
-        <a href="{{ route('home') }}" class="t-footer-logo">
-            <span class="t-footer-logo-mark">THL</span>
-            <span class="t-footer-logo-text">Information Network</span>
-        </a>
+        @include('partials.thlin-corporate-logo', ['class' => 't-footer-logo'])
 
         <nav class="t-footer-nav" aria-label="Footer">
             <a href="{{ route('home') }}">Home</a>

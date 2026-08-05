@@ -19,32 +19,33 @@
 }
 
 .t-logo {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
+    flex: 0 0 auto;
+}
+
+.t-thlin-corporate-logo {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.45rem;
     text-decoration: none;
     color: var(--t-navy);
-    font-weight: 800;
-    flex: 0 0 auto;
-}
-.t-logo-mark {
-    display: block;
-    width: 40px;
-    height: 40px;
-    border-radius: var(--t-radius-sm);
-    object-fit: contain;
-    flex: 0 0 auto;
-}
-.t-logo-text {
-    font-size: 1.1rem;
-    letter-spacing: 0.02em;
-}
-.t-logo-text-full {
-    display: none;
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
     white-space: nowrap;
+    transition: opacity 0.2s ease;
+}
+.t-thlin-corporate-logo:hover { opacity: 0.88; }
+
+.t-thlin-logo-mark {
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+}
+
+.t-thlin-logo-text {
+    font-weight: 400;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: inherit;
+    opacity: 0.92;
 }
 
 .t-nav-toggle {
@@ -85,9 +86,9 @@
     border-top: 1px solid rgba(255, 255, 255, 0.2);
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
-.is-home-page .t-logo,
+.is-home-page .t-thlin-corporate-logo,
 .is-home-page .t-nav-link,
-.has-page-hero .t-logo,
+.has-page-hero .t-thlin-corporate-logo,
 .has-page-hero .t-nav-link {
     color: var(--t-white);
 }
@@ -121,10 +122,9 @@
     }
 
     .t-nav-toggle { display: block; margin-left: auto; }
-    .t-logo-text { display: none; }
-    .t-logo-text-full { display: inline; }
-    .t-logo-mark { width: 32px; height: 32px; }
-    .t-logo { color: var(--t-white); }
+    .t-thlin-logo-mark { font-size: 0.95rem; }
+    .t-thlin-logo-text { font-size: 0.72rem; }
+    .t-thlin-corporate-logo { color: var(--t-white); }
     .t-header-inner { min-height: 0; padding: 18px 0; }
     .t-header { border-bottom-color: rgba(255, 255, 255, 0.15); }
 }

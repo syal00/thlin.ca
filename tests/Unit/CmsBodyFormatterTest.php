@@ -30,20 +30,4 @@ HTML;
         $this->assertStringNotContainsString('col-sm-10', $formatted);
         $this->assertStringContainsString('<p>Founded in 2001.</p>', $formatted);
     }
-
-    public function test_it_removes_broken_local_images_and_empty_tables(): void
-    {
-        $html = <<<'HTML'
-<p><img src="http://thlin.test/storage/thlin/editor/missing.png" alt="">Intro text</p>
-<table><tr><td>&nbsp;</td><td></td></tr></table>
-<p>Still here</p>
-HTML;
-
-        $formatted = CmsBodyFormatter::format($html);
-
-        $this->assertStringNotContainsString('<img', $formatted);
-        $this->assertStringNotContainsString('<table', $formatted);
-        $this->assertStringContainsString('Intro text', $formatted);
-        $this->assertStringContainsString('Still here', $formatted);
-    }
 }

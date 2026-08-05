@@ -17,7 +17,7 @@
         menubar: false,
         plugins: 'lists link image media table code preview autoresize quickbars charmap emoticons searchreplace fullscreen help',
         toolbar: 'undo redo | blocks | bold italic | bullist numlist | link image imageedit media table | removeformat | code preview',
-        quickbars_image_toolbar: 'thlinImgLeft thlinImgCenter thlinImgRight thlinImgFull | thlinMoveUp thlinMoveDown | thlinReplaceImg imageedit thlinRemoveImg',
+        quickbars_image_toolbar: 'thlinImgLeft thlinImgCenter thlinImgRight thlinImgFull | thlinDragMove | thlinMoveLeft thlinMoveUp thlinMoveDown thlinMoveRight | thlinReplaceImg imageedit thlinRemoveImg',
         quickbars_selection_toolbar: false,
         object_resizing: true,
         resize_img_proportional: true,
@@ -46,7 +46,10 @@
             + '.thlin-img-left { float: left; margin: 4px 16px 12px 0; } '
             + '.thlin-img-right { float: right; margin: 4px 0 12px 16px; } '
             + '.thlin-img-center { display: block; margin: 12px auto; } '
-            + '.thlin-img-full { display: block; width: 100%; height: auto; margin: 12px 0; }',
+            + '.thlin-img-full { display: block; width: 100%; height: auto; margin: 12px 0; } '
+            + 'img.thlin-img-draggable { cursor: grab; outline: 2px dashed #185FA5; outline-offset: 3px; user-select: none; -webkit-user-drag: none; } '
+            + 'img.thlin-img-dragging { opacity: 0.55; cursor: grabbing; } '
+            + '.thlin-img-drop-marker { height: 4px; margin: 8px 0; border-radius: 999px; background: #185FA5; box-shadow: 0 0 0 2px rgba(24, 95, 165, 0.15); pointer-events: none; }',
         setup: function (editor) {
             ThlinImageEditor.attach(editor);
         },

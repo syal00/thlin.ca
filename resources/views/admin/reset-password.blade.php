@@ -1,6 +1,6 @@
 @extends('admin.guest-layout')
 
-@section('title', 'Login')
+@section('title', 'Reset password')
 
 @section('content')
     <div class="admin-login-shell">
@@ -14,23 +14,18 @@
                 <p class="admin-login-tagline">{{ config('thlin.tagline') }}</p>
 
                 <ul class="admin-login-features">
-                    <li>Edit pages and navigation content</li>
-                    <li>Manage news, careers, and portfolio</li>
-                    <li>Upload files and media assets</li>
+                    <li>Create a new CMS password</li>
+                    <li>At least 12 characters required</li>
+                    <li>Uppercase, lowercase, and a number</li>
                 </ul>
             </div>
         </aside>
 
         <main class="admin-login-main">
             <div class="admin-login-card">
-                <a href="{{ route('home') }}" class="admin-login-mobile-logo" aria-label="THLIN home">
-                    <span class="admin-login-logo-mark">THL</span>
-                    <span class="admin-login-logo-text">THLIN</span>
-                </a>
-
                 <div class="admin-login-card-header">
-                    <h1>CMS sign in</h1>
-                    <p>Sign in to edit site content. No public registration.</p>
+                    <h1>Choose a new password</h1>
+                    <p>Enter your new password below to finish resetting your account.</p>
                 </div>
 
                 @if ($errors->any())
@@ -41,14 +36,10 @@
                     </div>
                 @endif
 
-                @if (session('status'))
-                    <div class="admin-login-alert admin-login-alert--success" role="status">
-                        <p>{{ session('status') }}</p>
-                    </div>
-                @endif
-
-                <form method="post" action="{{ route('admin.login') }}" class="admin-login-form">
+                <form method="post" action="{{ route('admin.password.store') }}" class="admin-login-form">
                     @csrf
+
+                    <input type="hidden" name="token" value="{{ $token }}">
 
                     <div class="admin-login-field">
                         <label for="email">Email address</label>
@@ -56,8 +47,7 @@
                             type="email"
                             id="email"
                             name="email"
-                            value="{{ old('email') }}"
-                            placeholder="you@example.com"
+                            value="{{ old('email', $email) }}"
                             required
                             autofocus
                             autocomplete="username"
@@ -65,29 +55,34 @@
                     </div>
 
                     <div class="admin-login-field">
-                        <div class="admin-login-field-header">
-                            <label for="password">Password</label>
-                            <a href="{{ route('admin.password.request') }}" class="admin-login-forgot">Forgot password?</a>
-                        </div>
+                        <label for="password">New password</label>
                         <input
                             type="password"
                             id="password"
                             name="password"
                             required
-                            autocomplete="current-password"
+                            autocomplete="new-password"
                         >
                     </div>
 
-                    <label class="admin-login-remember">
-                        <input type="checkbox" name="remember" value="1" @checked(old('remember'))>
-                        <span>Remember me on this device</span>
-                    </label>
+                    <div class="admin-login-field">
+                        <label for="password_confirmation">Confirm new password</label>
+                        <input
+                            type="password"
+                            id="password_confirmation"
+                            name="password_confirmation"
+                            required
+                            autocomplete="new-password"
+                        >
+                    </div>
 
-                    <button type="submit" class="admin-login-submit">Sign in</button>
+                    <p class="form-helper" style="margin: 0 0 1rem;">Use at least 12 characters with uppercase, lowercase, and a number.</p>
+
+                    <button type="submit" class="admin-login-submit">Reset password</button>
                 </form>
 
                 <p class="admin-login-footer">
-                    <a href="{{ route('home') }}">&larr; Back to {{ parse_url(config('app.url'), PHP_URL_HOST) ?: 'site' }}</a>
+                    <a href="{{ route('admin.login') }}">&larr; Back to sign in</a>
                 </p>
             </div>
         </main>

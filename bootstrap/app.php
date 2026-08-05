@@ -15,9 +15,19 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->trustProxies(at: '*');
         $middleware->redirectGuestsTo(fn () => route('admin.login'));
-        $middleware->redirectUsersTo(fn () => route('admin.dashboard'));
+        $middleware->redirectUsersTo(function () {
+            if (auth()->user()?->must_change_password) {
+                return route('admin.password.change');
+            }
+
+            return route('admin.dashboard');
+        });
         $middleware->web(append: [
             \App\Http\Middleware\HandlePublicPreview::class,
+        ]);
+        $middleware->alias([
+            'password.changed' => \App\Http\Middleware\EnsurePasswordChanged::class,
+            'primary.admin' => \App\Http\Middleware\EnsurePrimaryAdmin::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

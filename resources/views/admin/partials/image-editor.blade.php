@@ -277,14 +277,142 @@ window.ThlinImageEditor = (function () {
 
     var ALIGN_CLASSES = ['thlin-img-left', 'thlin-img-center', 'thlin-img-right', 'thlin-img-full'];
 
-    function getSelectedImg(editor) {
-        var node = editor.selection.getNode();
+    function isImgInEditor(editor, img) {
+        return Boolean(img && editor.getBody && editor.getBody().contains(img));
+    }
 
-        if (node && node.nodeName === 'IMG') {
+    function getSelectedImgFromNode(editor, node) {
+        if (!node) {
+            return null;
+        }
+
+        if (node.nodeName === 'IMG') {
             return node;
         }
 
         return editor.dom.getParent(node, 'img');
+    }
+
+    function rememberImage(editor, img) {
+        if (isImgInEditor(editor, img)) {
+            editor._thlinActiveImage = img;
+        }
+    }
+
+    function getSelectedImg(editor) {
+        if (isImgInEditor(editor, editor._thlinActiveImage)) {
+            return editor._thlinActiveImage;
+        }
+
+        var fromSelection = getSelectedImgFromNode(editor, editor.selection.getNode());
+
+        if (fromSelection) {
+            rememberImage(editor, fromSelection);
+            return fromSelection;
+        }
+
+        var marked = editor.getBody().querySelector('img[data-mce-selected="1"]');
+
+        if (marked) {
+            rememberImage(editor, marked);
+            return marked;
+        }
+
+        return null;
+    }
+
+    function rememberActiveImage(editor) {
+        editor._thlinActiveImage = null;
+
+        editor.on('ObjectSelected', function (event) {
+            if (event.target && event.target.nodeName === 'IMG') {
+                rememberImage(editor, event.target);
+            }
+        });
+
+        editor.on('click', function (event) {
+            if (event.target && event.target.nodeName === 'IMG') {
+                rememberImage(editor, event.target);
+            }
+        });
+
+        editor.on('NodeChange', function () {
+            var img = getSelectedImgFromNode(editor, editor.selection.getNode());
+
+            if (img) {
+                rememberImage(editor, img);
+            }
+        });
+    }
+
+    function finishImageMove(editor, img) {
+        if (!isImgInEditor(editor, img)) {
+            return;
+        }
+
+        editor.focus();
+        editor.selection.select(img);
+        rememberImage(editor, img);
+        editor.nodeChanged();
+        editor.fire('change');
+    }
+
+    function notifyImageMoveLimit(editor, message) {
+        editor.notificationManager.open({
+            text: message,
+            type: 'info',
+            timeout: 2500,
+        });
+    }
+
+    function isIgnorableElement(element) {
+        if (!element || element.nodeType !== 1) {
+            return true;
+        }
+
+        if (element.getAttribute('data-mce-bogus') === 'all') {
+            return true;
+        }
+
+        if (element.tagName === 'P') {
+            var text = (element.textContent || '').replace(/\u00a0/g, ' ').trim();
+
+            return text === '' && element.querySelectorAll('img').length === 0;
+        }
+
+        return false;
+    }
+
+    function getElementSibling(element, direction) {
+        var sibling = direction === 'prev'
+            ? element.previousElementSibling
+            : element.nextElementSibling;
+
+        while (isIgnorableElement(sibling)) {
+            sibling = direction === 'prev'
+                ? sibling.previousElementSibling
+                : sibling.nextElementSibling;
+        }
+
+        return sibling || null;
+    }
+
+    function getMeaningfulSibling(node, direction) {
+        var sibling = direction === 'prev' ? node.previousSibling : node.nextSibling;
+
+        while (sibling) {
+            if (sibling.nodeType === 3) {
+                if (sibling.textContent.trim() !== '') {
+                    return sibling;
+                }
+            } else if (sibling.nodeType === 1 && !isIgnorableElement(sibling)) {
+                return sibling;
+            }
+
+            sibling = direction === 'prev' ? sibling.previousSibling : sibling.nextSibling;
+        }
+
+        return null;
     }
 
     function getMovableBlock(editor, img) {
@@ -311,51 +439,308 @@ window.ThlinImageEditor = (function () {
         return img;
     }
 
-    function moveImageBlock(editor, direction) {
+    var draggingBlock = null;
+    var dropMarker = null;
+
+    function getDropCandidates(block) {
+        if (!block || !block.parentNode) {
+            return [];
+        }
+
+        return Array.from(block.parentNode.children).filter(function (child) {
+            return child !== block
+                && !(child.classList && child.classList.contains('thlin-img-drop-marker'))
+                && child.getAttribute('data-mce-bogus') !== 'all';
+        });
+    }
+
+    function findDropTarget(editor, clientY, block) {
+        var candidates = getDropCandidates(block);
+        var container = block.parentNode;
+        var body = editor.getBody();
+
+        while (candidates.length === 0 && container && container !== body) {
+            block = container;
+            container = block.parentNode;
+            candidates = getDropCandidates(block);
+        }
+
+        if (candidates.length === 0) {
+            candidates = Array.from(body.children).filter(function (child) {
+                return child !== block
+                    && !(child.classList && child.classList.contains('thlin-img-drop-marker'))
+                    && child.getAttribute('data-mce-bogus') !== 'all';
+            });
+        }
+
+        var best = null;
+        var bestDistance = Infinity;
+
+        candidates.forEach(function (element) {
+            var rect = element.getBoundingClientRect();
+
+            if (!rect.height && !rect.width) {
+                return;
+            }
+
+            var beforeDistance = Math.abs(clientY - rect.top);
+            var afterDistance = Math.abs(clientY - rect.bottom);
+
+            if (beforeDistance < bestDistance) {
+                bestDistance = beforeDistance;
+                best = { element: element, position: 'before' };
+            }
+
+            if (afterDistance < bestDistance) {
+                bestDistance = afterDistance;
+                best = { element: element, position: 'after' };
+            }
+        });
+
+        return best;
+    }
+
+    function placeDropMarker(doc, target) {
+        if (!target || !target.element || !target.element.parentNode) {
+            return;
+        }
+
+        var marker = ensureDropMarker(doc);
+        clearDropMarker();
+
+        if (target.position === 'before') {
+            target.element.parentNode.insertBefore(marker, target.element);
+        } else if (target.element.nextSibling) {
+            target.element.parentNode.insertBefore(marker, target.element.nextSibling);
+        } else {
+            target.element.parentNode.appendChild(marker);
+        }
+    }
+
+    function ensureDropMarker(doc) {
+        if (!dropMarker) {
+            dropMarker = doc.createElement('div');
+            dropMarker.className = 'thlin-img-drop-marker';
+            dropMarker.setAttribute('contenteditable', 'false');
+            dropMarker.setAttribute('data-mce-bogus', 'all');
+        }
+
+        return dropMarker;
+    }
+
+    function clearDropMarker() {
+        if (dropMarker && dropMarker.parentNode) {
+            dropMarker.parentNode.removeChild(dropMarker);
+        }
+    }
+
+    function setImageDragMode(editor, enabled) {
         var img = getSelectedImg(editor);
 
         if (!img) {
             return;
         }
 
-        var block = getMovableBlock(editor, img);
-        var parent = block && block.parentNode;
+        if (enabled) {
+            img.setAttribute('data-thlin-drag-active', '1');
+            img.classList.add('thlin-img-draggable');
+            editor.notificationManager.open({
+                text: 'Click and drag the image to move it to another spot in the content.',
+                type: 'info',
+                timeout: 3500,
+            });
+        } else {
+            img.removeAttribute('data-thlin-drag-active');
+            img.classList.remove('thlin-img-draggable', 'thlin-img-dragging');
+        }
 
-        if (!parent) {
+        editor.nodeChanged();
+    }
+
+    function attachImageDragDrop(editor) {
+        editor.on('init', function () {
+            var body = editor.getBody();
+            var doc = editor.getDoc();
+            var dragState = {
+                active: false,
+                block: null,
+                img: null,
+                startY: 0,
+                moved: false,
+            };
+
+            function finishDrag(commit) {
+                doc.removeEventListener('mousemove', onPointerMove, true);
+                doc.removeEventListener('mouseup', onPointerUp, true);
+
+                if (commit && dragState.moved && dragState.block && dropMarker && dropMarker.parentNode) {
+                    dropMarker.parentNode.insertBefore(dragState.block, dropMarker);
+
+                    if (dragState.img) {
+                        editor.selection.select(dragState.img);
+                    }
+
+                    editor.undoManager.add();
+                    editor.nodeChanged();
+                }
+
+                if (dragState.img) {
+                    dragState.img.classList.remove('thlin-img-dragging');
+                }
+
+                clearDropMarker();
+                draggingBlock = null;
+                dragState.active = false;
+                dragState.block = null;
+                dragState.img = null;
+                dragState.moved = false;
+            }
+
+            function onPointerMove(event) {
+                if (!dragState.active || !dragState.block) {
+                    return;
+                }
+
+                if (Math.abs(event.clientY - dragState.startY) > 4) {
+                    dragState.moved = true;
+                }
+
+                if (!dragState.moved) {
+                    return;
+                }
+
+                event.preventDefault();
+                draggingBlock = dragState.block;
+
+                var target = findDropTarget(editor, event.clientY, dragState.block);
+                placeDropMarker(doc, target);
+            }
+
+            function onPointerUp(event) {
+                if (!dragState.active) {
+                    return;
+                }
+
+                event.preventDefault();
+                finishDrag(true);
+            }
+
+            body.addEventListener('mousedown', function (event) {
+                var img = event.target;
+
+                if (!img || img.nodeName !== 'IMG' || !img.hasAttribute('data-thlin-drag-active')) {
+                    return;
+                }
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                dragState.active = true;
+                dragState.img = img;
+                dragState.block = getMovableBlock(editor, img);
+                dragState.startY = event.clientY;
+                dragState.moved = false;
+                draggingBlock = dragState.block;
+
+                img.classList.add('thlin-img-dragging');
+
+                doc.addEventListener('mousemove', onPointerMove, true);
+                doc.addEventListener('mouseup', onPointerUp, true);
+            });
+
+            editor.on('remove', function () {
+                finishDrag(false);
+            });
+        });
+    }
+
+    function moveImageBlock(editor, direction) {
+        var img = getSelectedImg(editor);
+
+        if (!img) {
+            notifyImageMoveLimit(editor, 'Select an image first.');
             return;
         }
 
-        if (direction === 'up') {
-            var previous = block.previousElementSibling;
+        var moveEarlier = direction === 'up' || direction === 'left';
+        var moved = false;
 
-            if (!previous) {
-                editor.notificationManager.open({
-                    text: 'Image is already at the top of this section.',
-                    type: 'info',
-                    timeout: 2500,
-                });
-                return;
+        editor.focus();
+
+        editor.undoManager.transact(function () {
+            var block = getMovableBlock(editor, img);
+            var body = editor.getBody();
+
+            while (block && block.parentNode) {
+                var parent = block.parentNode;
+                var sibling = getElementSibling(block, moveEarlier ? 'prev' : 'next');
+
+                if (sibling) {
+                    if (moveEarlier) {
+                        parent.insertBefore(block, sibling);
+                    } else {
+                        parent.insertBefore(sibling, block);
+                    }
+
+                    moved = true;
+                    break;
+                }
+
+                if (parent === body) {
+                    break;
+                }
+
+                block = parent;
             }
+        });
 
-            parent.insertBefore(block, previous);
-        } else {
-            var next = block.nextElementSibling;
-
-            if (!next) {
-                editor.notificationManager.open({
-                    text: 'Image is already at the bottom of this section.',
-                    type: 'info',
-                    timeout: 2500,
-                });
-                return;
-            }
-
-            parent.insertBefore(next, block);
+        if (!moved) {
+            notifyImageMoveLimit(editor, moveEarlier
+                ? 'Image is already at the top.'
+                : 'Image is already at the bottom.');
+            return;
         }
 
-        editor.selection.select(img);
-        editor.nodeChanged();
-        editor.undoManager.add();
+        finishImageMove(editor, img);
+    }
+
+    function moveImageInline(editor, direction) {
+        var img = getSelectedImg(editor);
+
+        if (!img) {
+            notifyImageMoveLimit(editor, 'Select an image first.');
+            return;
+        }
+
+        var moveEarlier = direction === 'left';
+        var parent = img.parentNode;
+        var body = editor.getBody();
+        var moved = false;
+
+        editor.focus();
+
+        if (parent && parent !== body) {
+            editor.undoManager.transact(function () {
+                var sibling = getMeaningfulSibling(img, moveEarlier ? 'prev' : 'next');
+
+                if (sibling) {
+                    if (moveEarlier) {
+                        parent.insertBefore(img, sibling);
+                    } else {
+                        parent.insertBefore(sibling, img);
+                    }
+
+                    moved = true;
+                }
+            });
+        }
+
+        if (moved) {
+            finishImageMove(editor, img);
+            return;
+        }
+
+        moveImageBlock(editor, moveEarlier ? 'up' : 'down');
     }
 
     function setImageAlignment(editor, className) {
@@ -472,15 +857,64 @@ window.ThlinImageEditor = (function () {
             tooltip: 'Full width image',
             onAction: function () { setImageAlignment(editor, 'thlin-img-full'); },
         });
+        editor.ui.registry.addToggleButton('thlinDragMove', {
+            icon: 'drag',
+            tooltip: 'Drag to reposition',
+            onAction: function () {
+                var img = getSelectedImg(editor);
+
+                if (!img) {
+                    return;
+                }
+
+                setImageDragMode(editor, !img.hasAttribute('data-thlin-drag-active'));
+            },
+            onSetup: function (api) {
+                var handler = function () {
+                    var img = getSelectedImg(editor);
+                    api.setEnabled(Boolean(img));
+                    api.setActive(Boolean(img && img.hasAttribute('data-thlin-drag-active')));
+                };
+
+                editor.on('NodeChange', handler);
+                handler();
+
+                return function () {
+                    editor.off('NodeChange', handler);
+                };
+            },
+        });
+        editor.ui.registry.addButton('thlinMoveLeft', {
+            icon: 'chevron-left',
+            tooltip: 'Move left',
+            onAction: function () {
+                editor.focus();
+                moveImageInline(editor, 'left');
+            },
+        });
         editor.ui.registry.addButton('thlinMoveUp', {
-            text: '↑',
-            tooltip: 'Move image up',
-            onAction: function () { moveImageBlock(editor, 'up'); },
+            icon: 'chevron-up',
+            tooltip: 'Move up',
+            onAction: function () {
+                editor.focus();
+                moveImageBlock(editor, 'up');
+            },
         });
         editor.ui.registry.addButton('thlinMoveDown', {
-            text: '↓',
-            tooltip: 'Move image down',
-            onAction: function () { moveImageBlock(editor, 'down'); },
+            icon: 'chevron-down',
+            tooltip: 'Move down',
+            onAction: function () {
+                editor.focus();
+                moveImageBlock(editor, 'down');
+            },
+        });
+        editor.ui.registry.addButton('thlinMoveRight', {
+            icon: 'chevron-right',
+            tooltip: 'Move right',
+            onAction: function () {
+                editor.focus();
+                moveImageInline(editor, 'right');
+            },
         });
         editor.ui.registry.addButton('thlinReplaceImg', {
             icon: 'image',
@@ -495,44 +929,28 @@ window.ThlinImageEditor = (function () {
     }
 
     function attach(editor) {
-        registerImagePlacementButtons(editor);
-
-        editor.ui.registry.addContextToolbar('thlinImagePlacementToolbar', {
-            predicate: function (node) {
-                return node.nodeName === 'IMG' || Boolean(editor.dom.getParent(node, 'img'));
-            },
-            items: 'thlinImgLeft thlinImgCenter thlinImgRight thlinImgFull | thlinMoveUp thlinMoveDown | thlinReplaceImg imageedit thlinRemoveImg',
-            position: 'node',
-            scope: 'node',
-        });
-
         editor.ui.registry.addButton('imageedit', {
             icon: 'edit-image',
             tooltip: 'Edit / crop image',
             onAction: function () {
-                var node = editor.selection.getNode();
-                if (node && node.nodeName === 'IMG') {
-                    open(editor, node);
-                } else {
-                    editor.notificationManager.open({
-                        text: 'Select an image first.',
-                        type: 'info',
-                        timeout: 3000,
-                    });
+                var img = getSelectedImg(editor);
+
+                if (img) {
+                    open(editor, img);
+                    return;
                 }
-            },
-            onSetup: function (api) {
-                var handler = function () {
-                    var node = editor.selection.getNode();
-                    api.setEnabled(Boolean(node && node.nodeName === 'IMG'));
-                };
-                editor.on('NodeChange', handler);
-                handler();
-                return function () {
-                    editor.off('NodeChange', handler);
-                };
+
+                editor.notificationManager.open({
+                    text: 'Select an image first.',
+                    type: 'info',
+                    timeout: 3000,
+                });
             },
         });
+
+        registerImagePlacementButtons(editor);
+        rememberActiveImage(editor);
+        attachImageDragDrop(editor);
 
         editor.on('dblclick', function (event) {
             if (event.target && event.target.nodeName === 'IMG') {
@@ -543,6 +961,7 @@ window.ThlinImageEditor = (function () {
         editor.on('click', function (event) {
             if (event.target && event.target.nodeName === 'IMG') {
                 editor.selection.select(event.target);
+                rememberImage(editor, event.target);
             }
         });
     }

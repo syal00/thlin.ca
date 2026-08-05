@@ -848,6 +848,14 @@
     font-size: 0.88rem;
 }
 
+.admin-users-summary {
+    margin-bottom: 1.25rem;
+}
+
+.admin-table tbody tr.is-current-user {
+    background: rgba(24, 95, 165, 0.06);
+}
+
 .admin-table-wrap {
     overflow-x: auto;
 }
@@ -2121,6 +2129,40 @@
     color: var(--admin-error-text);
 }
 
+.admin-login-alert--success {
+    background: rgba(22, 163, 74, 0.08);
+    border: 1px solid rgba(22, 163, 74, 0.18);
+    color: #166534;
+}
+
+.admin-login-field-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.admin-login-forgot {
+    color: var(--admin-blue);
+    font-size: 0.86rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.admin-login-forgot:hover {
+    text-decoration: underline;
+}
+
+.admin-reset-dev-link {
+    margin: 0.75rem 0 0;
+    word-break: break-all;
+}
+
+.admin-reset-dev-link a {
+    color: var(--admin-blue-dark);
+    font-weight: 700;
+}
+
 .admin-login-form {
     display: grid;
     gap: 1.15rem;
@@ -2201,6 +2243,16 @@
     color: var(--admin-blue);
     font-weight: 700;
     text-decoration: none;
+}
+
+.admin-login-link-button {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--admin-blue);
+    font-weight: 700;
+    cursor: pointer;
+    font: inherit;
 }
 
 .admin-login-mobile-logo {

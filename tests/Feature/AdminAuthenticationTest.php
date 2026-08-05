@@ -97,7 +97,8 @@ class AdminAuthenticationTest extends TestCase
     {
         $protectedRoutes = collect(app('router')->getRoutes()->getRoutes())
             ->filter(fn (Route $route): bool => str_starts_with($route->uri(), 'admin')
-                && $route->uri() !== 'admin/login');
+                && $route->uri() !== 'admin/login'
+                && ! in_array('guest', $route->gatherMiddleware(), true));
 
         $this->assertNotEmpty($protectedRoutes);
 

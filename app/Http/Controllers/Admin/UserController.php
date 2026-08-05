@@ -13,19 +13,37 @@ use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    private const MAX_ADMIN_USERS = 2;
+    private function maxAdminUsers(): int
+    {
+        return max(1, (int) config('admin.max_users', 10));
+    }
+
+    private function defaultPassword(): string
+    {
+        return (string) config('admin.password', 'Security123!');
+    }
 
     public function index(): View
     {
+        $users = User::orderByDesc('is_primary')->orderBy('name')->orderBy('email')->get();
+
         return view('admin.users.index', [
-            'users' => User::orderBy('name')->orderBy('email')->get(),
-            'maxUsers' => self::MAX_ADMIN_USERS,
+            'users' => $users,
+            'maxUsers' => $this->maxAdminUsers(),
+            'defaultPassword' => $this->defaultPassword(),
+            'accountStats' => [
+                'total' => $users->count(),
+                'mainAdmins' => $users->where('is_primary', true)->count(),
+                'secondaryAdmins' => $users->where('is_primary', false)->count(),
+                'pendingPasswordChange' => $users->where('must_change_password', true)->count(),
+                'remainingSlots' => max(0, $this->maxAdminUsers() - $users->count()),
+            ],
         ]);
     }
 
     public function create(): View|RedirectResponse
     {
-        if (User::count() >= self::MAX_ADMIN_USERS) {
+        if (User::count() >= $this->maxAdminUsers()) {
             return redirect()
                 ->route('admin.users.index')
                 ->with('status', 'The admin user limit has been reached.');
@@ -33,38 +51,69 @@ class UserController extends Controller
 
         return view('admin.users.form', [
             'user' => new User,
-            'maxUsers' => self::MAX_ADMIN_USERS,
+            'maxUsers' => $this->maxAdminUsers(),
+            'defaultPassword' => $this->defaultPassword(),
         ]);
     }
 
     public function store(Request $request): RedirectResponse
     {
-        if (User::count() >= self::MAX_ADMIN_USERS) {
+        if (User::count() >= $this->maxAdminUsers()) {
             return redirect()
                 ->route('admin.users.index')
                 ->with('status', 'The admin user limit has been reached.');
         }
 
-        User::create($this->validated($request));
+        $data = $this->validated($request);
 
-        return redirect()->route('admin.users.index')->with('status', 'Admin user created.');
+        User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => $this->defaultPassword(),
+            'must_change_password' => true,
+            'is_primary' => false,
+            'email_verified_at' => now(),
+        ]);
+
+        return redirect()
+            ->route('admin.users.index')
+            ->with('status', 'Admin user created with the default password. They must choose a new password at first sign-in.');
     }
 
     public function edit(User $user): View
     {
         return view('admin.users.form', [
             'user' => $user,
-            'maxUsers' => self::MAX_ADMIN_USERS,
+            'maxUsers' => $this->maxAdminUsers(),
+            'defaultPassword' => $this->defaultPassword(),
         ]);
     }
 
     public function update(Request $request, User $user): RedirectResponse
     {
+        if ($user->is_primary) {
+            $data = $this->validated($request, $user, primaryOnly: true);
+            unset($data['password'], $data['reset_to_default_password']);
+
+            $user->update($data);
+
+            return redirect()
+                ->route('admin.users.index')
+                ->with('status', 'CMS manager profile updated.');
+        }
+
         $data = $this->validated($request, $user);
 
-        if (! isset($data['password'])) {
+        if ($request->boolean('reset_to_default_password')) {
+            $data['password'] = $this->defaultPassword();
+            $data['must_change_password'] = true;
+        } elseif (! isset($data['password'])) {
             unset($data['password']);
+        } else {
+            $data['must_change_password'] = false;
         }
+
+        unset($data['reset_to_default_password']);
 
         $user->update($data);
 
@@ -73,6 +122,12 @@ class UserController extends Controller
 
     public function destroy(Request $request, User $user): RedirectResponse
     {
+        if ($user->is_primary) {
+            return redirect()
+                ->route('admin.users.index')
+                ->with('status', 'The CMS manager account cannot be deleted.');
+        }
+
         if ($request->user()?->is($user)) {
             return redirect()
                 ->route('admin.users.index')
@@ -92,17 +147,9 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('status', 'Admin user deleted.');
     }
 
-    private function validated(Request $request, ?User $user = null): array
+    private function validated(Request $request, ?User $user = null, bool $primaryOnly = false): array
     {
-        $passwordRules = ['string', Password::min(12)->mixedCase()->numbers()];
-
-        if ($user === null) {
-            array_unshift($passwordRules, 'required');
-        } else {
-            array_unshift($passwordRules, 'nullable');
-        }
-
-        return $request->validate([
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => [
                 'required',
@@ -110,7 +157,14 @@ class UserController extends Controller
                 'max:255',
                 Rule::unique('users')->ignore($user),
             ],
-            'password' => $passwordRules,
-        ]);
+        ];
+
+        if (! $primaryOnly && $user !== null) {
+            $passwordRules = ['nullable', 'string', Password::min(12)->mixedCase()->numbers()];
+            $rules['password'] = $passwordRules;
+            $rules['reset_to_default_password'] = ['sometimes', 'boolean'];
+        }
+
+        return $request->validate($rules);
     }
 }

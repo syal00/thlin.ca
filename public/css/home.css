@@ -26,7 +26,7 @@
     inset: 0;
     background-image: url('/images/home/healthline-bg.png');
     background-size: cover;
-    background-position: 68% center;
+    background-position: 72% 32%;
     background-repeat: no-repeat;
 }
 .hero-video-bg video {
@@ -133,8 +133,17 @@
 .hero-card li::before { content: "\2713"; position: absolute; left: 0; color: var(--t-green); font-weight: 900; }
 
 
-.hero-search { display: flex; margin-top: var(--t-space-md); border-radius: var(--t-radius-sm); overflow: hidden; border: 1px solid var(--t-border); }
-.hero-search input { flex: 1; border: 0; padding: 0.85rem 1rem; font: inherit; }
+.hero-search { display: flex; margin-top: var(--t-space-md); border-radius: var(--t-radius-sm); overflow: hidden; border: 1px solid var(--t-border); background: var(--t-white); }
+.hero-search input {
+    flex: 1;
+    border: 0;
+    padding: 0.85rem 1rem;
+    font: inherit;
+    background: var(--t-white);
+    color: var(--t-text);
+}
+.hero-search input::placeholder { color: var(--t-text-muted); }
+.hero-search input:focus { outline: 2px solid var(--t-blue); outline-offset: -2px; }
 .hero-search-button { border: 0; padding: 0 1.2rem; background: var(--t-orange); color: var(--t-white); font-weight: 800; cursor: pointer; }
 .hero-search-button:hover { background: #9f6011; }
 
@@ -143,8 +152,14 @@
 }
 @media (max-width: 640px) {
     .home-hero {
-        min-height: auto;
+        min-height: clamp(440px, 62vh, 540px);
         padding: calc(68px + var(--t-space-lg)) 0 var(--t-space-xl);
+    }
+    .hero-content h1 {
+        font-size: clamp(2rem, 8.8vw, 2.55rem);
+    }
+    .hero-network-canvas.is-active {
+        opacity: 0.42;
     }
     .hero-actions { flex-direction: column; }
     .hero-actions .t-btn { width: 100%; }

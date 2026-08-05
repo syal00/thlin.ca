@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -52,6 +53,13 @@ class AppServiceProvider extends ServiceProvider
                 URL::forceRootUrl($scheme.'://'.trim(explode(',', $forwardedHost)[0]));
             }
         }
+
+        ResetPassword::createUrlUsing(function (object $notifiable, string $token): string {
+            return route('admin.password.reset', [
+                'token' => $token,
+                'email' => $notifiable->getEmailForPasswordReset(),
+            ]);
+        });
 
         View::share('thlin', config('thlin'));
         View::share('navigation', config('thlin.navigation'));

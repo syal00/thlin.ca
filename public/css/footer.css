@@ -18,28 +18,13 @@
 }
 
 .t-footer-logo {
-    display: flex;
-    align-items: baseline;
-    gap: 0.45rem;
-    color: var(--t-white);
-    text-decoration: none;
     white-space: nowrap;
     transition: opacity 0.2s ease;
 }
 .t-footer-logo:hover { opacity: 0.88; }
 
-.t-footer-logo-mark {
-    font-weight: 800;
-    font-size: 0.95rem;
-    letter-spacing: 0.04em;
-}
-
-.t-footer-logo-text {
-    font-weight: 400;
-    font-size: 0.85rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.92);
+.t-footer-logo.t-thlin-corporate-logo {
+    color: var(--t-white);
 }
 
 .t-footer-nav {
